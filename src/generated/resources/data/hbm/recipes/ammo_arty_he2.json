@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "S": {
+      "item": "hbm:ammo/ammo_arty_standard"
+    },
+    "T": {
+      "item": "hbm:ball_tnt"
+    }
+  },
+  "pattern": [
+    "TTT",
+    "TST",
+    "TTT"
+  ],
+  "result": {
+    "item": "hbm:ammo/ammo_arty_he2"
+  },
+  "show_notification": true
+}

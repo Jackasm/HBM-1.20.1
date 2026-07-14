@@ -1,0 +1,4 @@
+{
+  "loader": "hbm:hfr_obj",
+  "model": "models/block/machines/radar_screen.obj"
+}

@@ -1,0 +1,39 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "tag": "hbm:any_bismoid_bronze_light_barrel"
+    },
+    "C": {
+      "item": "hbm:circuit_bismoid"
+    },
+    "D": {
+      "item": "hbm:crystal_redstone"
+    },
+    "G": {
+      "tag": "hbm:any_hardplastic_grip"
+    },
+    "L": {
+      "item": "hbm:weapon_mod_scope"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_saturnite"
+    },
+    "R": {
+      "tag": "hbm:any_bismoid_bronze_light_receiver"
+    },
+    "S": {
+      "tag": "hbm:any_hardplastic_stock"
+    }
+  },
+  "pattern": [
+    "DLC",
+    "BRS",
+    "MG "
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_lasrifle"
+  },
+  "show_notification": true
+}

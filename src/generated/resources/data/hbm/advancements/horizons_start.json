@@ -1,0 +1,30 @@
+{
+  "parent": "hbm:root",
+  "criteria": {
+    "horizons_start": {
+      "conditions": {},
+      "trigger": "hbm:horizons_start"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.horizonsStart.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "hbm:sat_gerald"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.horizonsStart"
+    }
+  },
+  "requirements": [
+    [
+      "horizons_start"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

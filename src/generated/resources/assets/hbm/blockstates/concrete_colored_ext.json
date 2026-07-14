@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "type=bronze": {
+      "model": "hbm:block/concrete_colored_ext_bronze"
+    },
+    "type=hazard": {
+      "model": "hbm:block/concrete_colored_ext_hazard"
+    },
+    "type=indigo": {
+      "model": "hbm:block/concrete_colored_ext_indigo"
+    },
+    "type=machine": {
+      "model": "hbm:block/concrete_colored_ext_machine"
+    },
+    "type=machine_stripe": {
+      "model": "hbm:block/concrete_colored_ext_machine_stripe"
+    },
+    "type=pink": {
+      "model": "hbm:block/concrete_colored_ext_pink"
+    },
+    "type=purple": {
+      "model": "hbm:block/concrete_colored_ext_purple"
+    },
+    "type=sand": {
+      "model": "hbm:block/concrete_colored_ext_sand"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": {
+      "item": "minecraft:pumpkin_seeds"
+    },
+    "R": {
+      "item": "minecraft:sugar_cane"
+    },
+    "W": {
+      "item": "hbm:nuclear_waste"
+    }
+  },
+  "pattern": [
+    "RWR",
+    "WPW",
+    "RWR"
+  ],
+  "result": {
+    "count": 3,
+    "item": "hbm:schnitzel_vegan"
+  },
+  "show_notification": true
+}

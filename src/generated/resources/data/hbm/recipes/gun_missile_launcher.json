@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "tag": "hbm:any_resistantalloy_heavy_barrel"
+    },
+    "C": {
+      "item": "hbm:circuit_advanced"
+    },
+    "G": {
+      "tag": "hbm:any_plastic_grip"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_weapon_steel"
+    }
+  },
+  "pattern": [
+    " CM",
+    "BBB",
+    "G  "
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_missile_launcher"
+  },
+  "show_notification": true
+}

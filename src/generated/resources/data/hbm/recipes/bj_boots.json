@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:block_starmetal"
+    },
+    "N": {
+      "item": "hbm:plate_armor_lunar"
+    },
+    "S": {
+      "item": "hbm:armor/starmetal_boots"
+    }
+  },
+  "pattern": [
+    "N N",
+    "BSB"
+  ],
+  "result": {
+    "item": "hbm:armor/bj_boots"
+  },
+  "show_notification": true
+}

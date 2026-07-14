@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:light_barrel_desh"
+    },
+    "G": {
+      "item": "hbm:part_grip_wood"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_gunmetal"
+    },
+    "R": {
+      "item": "hbm:light_receiver_desh"
+    },
+    "S": {
+      "item": "hbm:part_stock_wood"
+    }
+  },
+  "pattern": [
+    "BRM",
+    "G S"
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_carbine"
+  },
+  "show_notification": true
+}

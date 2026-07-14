@@ -1,0 +1,4 @@
+{
+  "loader": "hbm:hfr_obj",
+  "model": "models/item/weapon/gun_laser_pistol.obj"
+}

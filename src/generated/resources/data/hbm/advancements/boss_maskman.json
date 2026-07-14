@@ -1,0 +1,30 @@
+{
+  "parent": "hbm:root",
+  "criteria": {
+    "kill_maskman": {
+      "conditions": {},
+      "trigger": "hbm:kill_maskman"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.bossMaskman.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "hbm:coin_maskman"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.bossMaskman"
+    }
+  },
+  "requirements": [
+    [
+      "kill_maskman"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

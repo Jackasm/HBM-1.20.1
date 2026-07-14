@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "hbm:ingot_silicon"
+    }
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "item": "hbm:billet_silicon"
+  },
+  "show_notification": true
+}

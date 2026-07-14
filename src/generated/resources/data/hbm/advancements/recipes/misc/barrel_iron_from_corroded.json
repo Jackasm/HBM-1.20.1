@@ -1,0 +1,46 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_corroded_barrel": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:storage/barrel_corroded"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_tar": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "hbm:any_tar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:barrel_iron_from_corroded"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_corroded_barrel",
+      "has_tar",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:barrel_iron_from_corroded"
+    ]
+  },
+  "sends_telemetry_event": false
+}

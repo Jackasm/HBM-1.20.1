@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "hbm:duct_tape"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "P": {
+      "item": "hbm:plate_steel"
+    }
+  },
+  "pattern": [
+    "OOO",
+    "PDP",
+    "OOO"
+  ],
+  "result": {
+    "item": "hbm:cladding_obsidian"
+  },
+  "show_notification": true
+}

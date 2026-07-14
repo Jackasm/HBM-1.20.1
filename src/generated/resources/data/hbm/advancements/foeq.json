@@ -1,0 +1,30 @@
+{
+  "parent": "hbm:root",
+  "criteria": {
+    "foeq": {
+      "conditions": {},
+      "trigger": "hbm:foeq"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.FOEQ.desc"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "hbm:sat_foeq"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.FOEQ"
+    }
+  },
+  "requirements": [
+    [
+      "foeq"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,26 @@
+{
+  "parent": "item/generated",
+  "overrides": [
+    {
+      "model": "hbm:item/block_coke_coal",
+      "predicate": {
+        "custom_model_data": 0
+      }
+    },
+    {
+      "model": "hbm:item/block_coke_lignite",
+      "predicate": {
+        "custom_model_data": 1
+      }
+    },
+    {
+      "model": "hbm:item/block_coke_petroleum",
+      "predicate": {
+        "custom_model_data": 2
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "hbm:block/block_coke_coal"
+  }
+}

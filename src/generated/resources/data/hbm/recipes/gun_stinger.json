@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:heavy_barrel_weapon_steel"
+    },
+    "G": {
+      "item": "hbm:part_grip_weapon_steel"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_weapon_steel"
+    },
+    "P": {
+      "item": "hbm:circuit_advanced"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "PGM"
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_stinger"
+  },
+  "show_notification": true
+}

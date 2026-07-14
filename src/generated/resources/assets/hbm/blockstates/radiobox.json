@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "hbm:block/radiobox",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "hbm:block/radiobox"
+    },
+    "facing=south": {
+      "model": "hbm:block/radiobox",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "hbm:block/radiobox",
+      "y": 270
+    }
+  }
+}

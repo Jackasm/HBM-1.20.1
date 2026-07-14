@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "E": {
+      "item": "hbm:fabric_hazmat3"
+    },
+    "F": {
+      "item": "hbm:plate_iron"
+    },
+    "I": {
+      "tag": "forge:glass_panes"
+    }
+  },
+  "pattern": [
+    "EEE",
+    "IEI",
+    "EFE"
+  ],
+  "result": {
+    "item": "hbm:armor/hazmat_helmet_grey"
+  },
+  "show_notification": true
+}

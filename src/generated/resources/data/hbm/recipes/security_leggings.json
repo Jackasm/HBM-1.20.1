@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "tag": "hbm:any_plastic"
+    },
+    "K": {
+      "item": "hbm:plate_kevlar"
+    },
+    "W": {
+      "tag": "minecraft:wool"
+    }
+  },
+  "pattern": [
+    "IWI",
+    "K K",
+    "W W"
+  ],
+  "result": {
+    "item": "hbm:armor/security_leggings"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "item": "hbm:gem_volcanic"
+    },
+    "I": {
+      "item": "hbm:ink"
+    },
+    "N": {
+      "item": "hbm:nugget_au198"
+    }
+  },
+  "pattern": [
+    "NIN",
+    "IGI",
+    "NIN"
+  ],
+  "result": {
+    "item": "hbm:black_diamond"
+  },
+  "show_notification": true
+}

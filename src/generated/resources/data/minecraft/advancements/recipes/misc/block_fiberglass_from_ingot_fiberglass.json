@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_ingot_fiberglass": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:ingot_fiberglass"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:block_fiberglass_from_ingot_fiberglass"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_ingot_fiberglass",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:block_fiberglass_from_ingot_fiberglass"
+    ]
+  },
+  "sends_telemetry_event": false
+}

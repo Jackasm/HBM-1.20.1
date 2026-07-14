@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "hbm:block/block_weapon_crate"
+    }
+  }
+}

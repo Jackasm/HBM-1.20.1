@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_bismoid_chip": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:circuit_chip_bismoid"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:weapon_mod_special_las_auto"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_bismoid_chip",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:weapon_mod_special_las_auto"
+    ]
+  },
+  "sends_telemetry_event": false
+}

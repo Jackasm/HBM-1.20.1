@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "hbm:casing_large"
+    },
+    "P": {
+      "item": "hbm:plate_gunmetal"
+    }
+  },
+  "pattern": [
+    "P",
+    "C"
+  ],
+  "result": {
+    "count": 2,
+    "item": "hbm:casing_shotshell"
+  },
+  "show_notification": true
+}

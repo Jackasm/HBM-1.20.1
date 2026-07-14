@@ -1,0 +1,6 @@
+{
+  "type": "hbm:broadcaster",
+  "config": {
+    "broadcaster_block": "hbm:broadcaster_pc"
+  }
+}

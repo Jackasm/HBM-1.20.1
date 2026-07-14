@@ -1,0 +1,11 @@
+{
+  "type": "hbm:add_bonus_powder",
+  "conditions": [
+    {
+      "condition": "minecraft:block_state_property",
+      "block": "hbm:ore_copper"
+    }
+  ],
+  "bonusItem": "hbm:powder_copper",
+  "chance": 0.5
+}

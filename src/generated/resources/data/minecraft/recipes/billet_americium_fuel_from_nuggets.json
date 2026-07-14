@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "hbm:nugget_am_mix"
+    },
+    {
+      "item": "hbm:nugget_am_mix"
+    },
+    {
+      "item": "hbm:nugget_u238"
+    },
+    {
+      "item": "hbm:nugget_u238"
+    },
+    {
+      "item": "hbm:nugget_u238"
+    },
+    {
+      "item": "hbm:nugget_u238"
+    }
+  ],
+  "result": {
+    "item": "hbm:billet_americium_fuel"
+  }
+}

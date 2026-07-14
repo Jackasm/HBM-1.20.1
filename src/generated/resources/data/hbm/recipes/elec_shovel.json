@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:battery_lithium"
+    },
+    "M": {
+      "item": "hbm:motor"
+    },
+    "P": {
+      "tag": "hbm:any_plastic"
+    },
+    "R": {
+      "item": "hbm:bolt_dura_steel"
+    }
+  },
+  "pattern": [
+    "  P",
+    "RRM",
+    "  B"
+  ],
+  "result": {
+    "item": "hbm:elec_shovel"
+  },
+  "show_notification": true
+}

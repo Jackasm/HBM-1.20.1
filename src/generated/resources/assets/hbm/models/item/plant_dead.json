@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "hbm:item/plant_dead_generic",
+      "predicate": {
+        "custom_model_data": 0
+      }
+    },
+    {
+      "model": "hbm:item/plant_dead_grass",
+      "predicate": {
+        "custom_model_data": 1
+      }
+    },
+    {
+      "model": "hbm:item/plant_dead_flower",
+      "predicate": {
+        "custom_model_data": 2
+      }
+    },
+    {
+      "model": "hbm:item/plant_dead_bigflower",
+      "predicate": {
+        "custom_model_data": 3
+      }
+    },
+    {
+      "model": "hbm:item/plant_dead_fern",
+      "predicate": {
+        "custom_model_data": 4
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "hbm:block/plant_dead_generic"
+  }
+}

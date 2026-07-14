@@ -1,0 +1,30 @@
+{
+  "parent": "hbm:root",
+  "criteria": {
+    "boss_meltdown": {
+      "conditions": {},
+      "trigger": "hbm:boss_meltdown"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.bossMeltdown.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "hbm:coin_radiation"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.bossMeltdown"
+    }
+  },
+  "requirements": [
+    [
+      "boss_meltdown"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

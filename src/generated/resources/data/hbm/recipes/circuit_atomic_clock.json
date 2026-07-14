@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "hbm:circuit_chip"
+    },
+    "I": {
+      "item": "hbm:plate_polymer"
+    },
+    "S": {
+      "item": "hbm:powder_strontium"
+    }
+  },
+  "pattern": [
+    "ICI",
+    "CSC",
+    "ICI"
+  ],
+  "result": {
+    "item": "hbm:circuit_atomic_clock"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:light_barrel_weapon_steel"
+    },
+    "G": {
+      "tag": "hbm:any_plastic_grip"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_weapon_steel"
+    },
+    "P": {
+      "item": "hbm:plate_dura_steel"
+    },
+    "R": {
+      "item": "hbm:light_receiver_weapon_steel"
+    }
+  },
+  "pattern": [
+    "BRM",
+    "P G"
+  ],
+  "result": {
+    "item": "hbm:weapon_mod_greasegun"
+  },
+  "show_notification": true
+}

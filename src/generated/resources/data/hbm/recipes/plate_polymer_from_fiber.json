@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "hbm:ingot_fiberglass"
+    }
+  },
+  "pattern": [
+    "DD"
+  ],
+  "result": {
+    "count": 16,
+    "item": "hbm:plate_polymer"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "hbm:ammo/ammo_g40_he"
+    },
+    {
+      "item": "hbm:nitra"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "item": "hbm:ammo/ammo_g40_he"
+  }
+}

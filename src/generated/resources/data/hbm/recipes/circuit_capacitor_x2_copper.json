@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "hbm:powder_aluminium"
+    },
+    "I": {
+      "item": "hbm:plate_polymer"
+    },
+    "W": {
+      "item": "hbm:wire_copper"
+    }
+  },
+  "pattern": [
+    "IAI",
+    "W W"
+  ],
+  "result": {
+    "count": 2,
+    "item": "hbm:circuit_capacitor"
+  },
+  "show_notification": true
+}

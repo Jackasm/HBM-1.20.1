@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "I": {
+      "item": "hbm:ingot_weapon_steel"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_weapon_steel"
+    }
+  },
+  "pattern": [
+    " I ",
+    " M ",
+    "I I"
+  ],
+  "result": {
+    "item": "hbm:weapon_mod_slowdown"
+  },
+  "show_notification": true
+}

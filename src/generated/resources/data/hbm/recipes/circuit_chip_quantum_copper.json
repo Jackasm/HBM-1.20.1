@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "H": {
+      "tag": "hbm:any_hard_plastic"
+    },
+    "I": {
+      "item": "hbm:pellet_charged"
+    },
+    "S": {
+      "item": "hbm:wire_dense_bscco"
+    },
+    "W": {
+      "item": "hbm:wire_copper"
+    }
+  },
+  "pattern": [
+    "HHH",
+    "SIS",
+    "WWW"
+  ],
+  "result": {
+    "item": "hbm:circuit_chip_quantum"
+  },
+  "show_notification": true
+}

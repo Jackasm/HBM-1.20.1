@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:ammo_arty_wp"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_white_phosphorus": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:ingot_phosphorus"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_white_phosphorus",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:ammo_arty_wp"
+    ]
+  },
+  "sends_telemetry_event": false
+}

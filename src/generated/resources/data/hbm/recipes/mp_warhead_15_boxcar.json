@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:boxcar"
+    },
+    "C": {
+      "item": "hbm:circuit_advanced"
+    },
+    "F": {
+      "item": "hbm:tritium_deuterium_cake"
+    },
+    "N": {
+      "item": "hbm:det_nuke"
+    },
+    "S": {
+      "item": "hbm:ingot_starmetal"
+    }
+  },
+  "pattern": [
+    "SNS",
+    "CBC",
+    "SFS"
+  ],
+  "result": {
+    "item": "hbm:mp_warhead_15_boxcar"
+  },
+  "show_notification": true
+}

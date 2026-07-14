@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "hbm:laser_crystal_bismuth"
+    },
+    "F": {
+      "item": "hbm:rag"
+    },
+    "P": {
+      "item": "hbm:plate_bismuth"
+    },
+    "R": {
+      "item": "hbm:crystal_rare"
+    },
+    "S": {
+      "item": "hbm:ring_starmetal"
+    },
+    "W": {
+      "item": "hbm:wire_gold"
+    }
+  },
+  "pattern": [
+    "RWR",
+    "PCP",
+    "SFS"
+  ],
+  "result": {
+    "item": "hbm:armor/bismuth_chestplate"
+  },
+  "show_notification": true
+}

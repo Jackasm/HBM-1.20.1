@@ -1,0 +1,6 @@
+{
+  "type": "hbm:antenna",
+  "config": {
+    "frequency": 1000
+  }
+}

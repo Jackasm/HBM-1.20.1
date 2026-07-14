@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "R": {
+      "item": "hbm:rangefinder"
+    },
+    "T": {
+      "item": "hbm:weapon/grenade/grenade_cloud"
+    }
+  },
+  "pattern": [
+    "T",
+    "R",
+    "T"
+  ],
+  "result": {
+    "item": "hbm:bomb_caller_orange"
+  },
+  "show_notification": true
+}

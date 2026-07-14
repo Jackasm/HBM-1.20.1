@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "hbm:circuit_vacuum_tube"
+    },
+    "P": {
+      "tag": "hbm:rubber_ingots"
+    },
+    "S": {
+      "item": "hbm:deco/steel_scaffold"
+    }
+  },
+  "pattern": [
+    "P",
+    "C",
+    "S"
+  ],
+  "result": {
+    "item": "hbm:mp_c_1"
+  },
+  "show_notification": true
+}

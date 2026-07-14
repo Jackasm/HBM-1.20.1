@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "hbm:nugget_pu239"
+    },
+    {
+      "item": "hbm:nugget_pu239"
+    },
+    {
+      "item": "hbm:nugget_pu239"
+    },
+    {
+      "item": "hbm:nugget_pu239"
+    },
+    {
+      "item": "hbm:nugget_pu239"
+    },
+    {
+      "item": "hbm:nugget_pu239"
+    },
+    {
+      "item": "hbm:nugget_pu240"
+    },
+    {
+      "item": "hbm:nugget_pu240"
+    },
+    {
+      "item": "hbm:nugget_pu240"
+    }
+  ],
+  "result": {
+    "item": "hbm:ingot_pu_mix"
+  }
+}

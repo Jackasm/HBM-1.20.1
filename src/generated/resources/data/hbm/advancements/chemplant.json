@@ -1,0 +1,30 @@
+{
+  "parent": "hbm:assembly",
+  "criteria": {
+    "chemplant": {
+      "conditions": {},
+      "trigger": "hbm:chemplant"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.chemplant.desc"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "hbm:nothing"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.chemplant"
+    }
+  },
+  "requirements": [
+    [
+      "chemplant"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "E": {
+      "item": "hbm:plate_euphemium"
+    },
+    "W": {
+      "item": "hbm:watch"
+    }
+  },
+  "pattern": [
+    "EWE",
+    "EEE",
+    "EEE"
+  ],
+  "result": {
+    "item": "hbm:armor/euphemium_chestplate"
+  },
+  "show_notification": true
+}

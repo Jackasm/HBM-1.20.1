@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:bolt_steel"
+    },
+    "H": {
+      "item": "hbm:plate_dura_steel"
+    },
+    "S": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    "BBS",
+    "BHS"
+  ],
+  "result": {
+    "item": "hbm:weapon_mod_saw"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "item": "hbm:gun_mechanism_saturnite"
+    },
+    "P": {
+      "item": "hbm:weapon/gun_laser_pistol"
+    }
+  },
+  "pattern": [
+    " M ",
+    "MPM",
+    " M "
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_laser_pistol_pew_pew"
+  },
+  "show_notification": true
+}

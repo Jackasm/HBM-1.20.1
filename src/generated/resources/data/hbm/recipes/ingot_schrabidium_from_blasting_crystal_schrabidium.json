@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.5,
+  "group": "schrabidium_ingot",
+  "ingredient": {
+    "item": "hbm:crystal_schrabidium"
+  },
+  "result": "hbm:ingot_schrabidium"
+}

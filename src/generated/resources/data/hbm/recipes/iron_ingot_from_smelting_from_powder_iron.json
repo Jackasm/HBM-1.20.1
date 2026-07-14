@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.5,
+  "group": "ingot_steel",
+  "ingredient": {
+    "item": "hbm:powder_iron"
+  },
+  "result": "minecraft:iron_ingot"
+}

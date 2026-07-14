@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "hbm:storage/barrel_corroded"
+    },
+    {
+      "tag": "hbm:any_tar"
+    }
+  ],
+  "result": {
+    "item": "hbm:storage/barrel_iron"
+  }
+}

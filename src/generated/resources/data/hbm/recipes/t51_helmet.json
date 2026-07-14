@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:armor/titanium_helmet"
+    },
+    "C": {
+      "item": "hbm:circuit_basic"
+    },
+    "I": {
+      "tag": "hbm:rubber_ingots"
+    },
+    "P": {
+      "item": "hbm:plate_armor_titanium"
+    },
+    "X": {
+      "item": "hbm:armor/gas_mask_m65"
+    }
+  },
+  "pattern": [
+    "PPC",
+    "PBP",
+    "IXI"
+  ],
+  "result": {
+    "item": "hbm:armor/t51_helmet"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:light_barrel_desh"
+    },
+    "G": {
+      "tag": "hbm:any_plastic_grip"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_gunmetal"
+    },
+    "R": {
+      "item": "hbm:light_receiver_desh"
+    },
+    "S": {
+      "item": "hbm:part_stock_desh"
+    }
+  },
+  "pattern": [
+    "BRM",
+    "BGS"
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_spas12"
+  },
+  "show_notification": true
+}

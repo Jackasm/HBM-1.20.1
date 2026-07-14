@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "hbm:block/bomb/mine/mine_shrap",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "hbm:block/bomb/mine/mine_shrap"
+    },
+    "facing=south": {
+      "model": "hbm:block/bomb/mine/mine_shrap",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "hbm:block/bomb/mine/mine_shrap",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "hbm:plate_copper"
+    },
+    "I": {
+      "item": "hbm:plate_iron"
+    },
+    "T": {
+      "tag": "hbm:any_highexplosive"
+    }
+  },
+  "pattern": [
+    " C ",
+    "TIT",
+    "TIT"
+  ],
+  "result": {
+    "item": "hbm:custom_tnt"
+  },
+  "show_notification": true
+}

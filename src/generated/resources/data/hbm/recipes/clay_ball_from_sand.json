@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "forge:sand"
+    },
+    {
+      "item": "hbm:powder_dust"
+    },
+    {
+      "item": "hbm:powder_dust"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "minecraft:clay_ball"
+  }
+}

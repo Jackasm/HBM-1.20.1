@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "D": {
+      "item": "hbm:ball_dynamite"
+    },
+    "S": {
+      "item": "hbm:ammo/ammo_arty_standard"
+    }
+  },
+  "pattern": [
+    " D ",
+    "DSD",
+    " D "
+  ],
+  "result": {
+    "item": "hbm:ammo/ammo_arty_he"
+  },
+  "show_notification": true
+}

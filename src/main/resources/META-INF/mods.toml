@@ -1,0 +1,27 @@
+modLoader = "javafml"
+loaderVersion = "[47,)"
+license = "All rights reserved"
+issueTrackerURL = "https://github.com/Jackasm/HbmNuclearTech1201/issues"
+
+[[mods]]
+modId = "hbm"
+version = "${mod_version}"
+displayName = "HBM's Nuclear Tech Mod (1.20.1 Port)"
+authors = "Jackasm, original by Dr. Hbm"
+description = '''
+A port of the legendary HBM's Nuclear Tech Mod to Minecraft 1.20.1.
+'''
+
+[[dependencies.hbm]]
+modId = "forge"
+mandatory = true
+versionRange = "[47,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.hbm]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.1]"
+ordering = "NONE"
+side = "BOTH"

@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:tools/starmetal_pickaxe"
+    },
+    "C": {
+      "item": "hbm:ingot_cobalt"
+    },
+    "D": {
+      "item": "hbm:ingot_desh"
+    },
+    "F": {
+      "item": "hbm:fusion_core"
+    },
+    "M": {
+      "item": "hbm:motor_desh"
+    },
+    "S": {
+      "item": "hbm:tools/starmetal_shovel"
+    }
+  },
+  "pattern": [
+    "BDS",
+    "CDC",
+    "FMF"
+  ],
+  "result": {
+    "item": "hbm:drax"
+  },
+  "show_notification": true
+}

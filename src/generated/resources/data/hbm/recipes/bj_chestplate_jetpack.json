@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "hbm:crystal_phosphorus"
+    },
+    "F": {
+      "item": "hbm:fins_quad_titanium"
+    },
+    "I": {
+      "item": "hbm:mp_thruster_10_xenon"
+    },
+    "N": {
+      "item": "hbm:plate_armor_lunar"
+    },
+    "P": {
+      "item": "hbm:armor/bj_chestplate"
+    },
+    "T": {
+      "item": "hbm:fluid_tank"
+    }
+  },
+  "pattern": [
+    "NFN",
+    "TPT",
+    "ICI"
+  ],
+  "result": {
+    "item": "hbm:armor/bj_chestplate_jetpack"
+  },
+  "show_notification": true
+}

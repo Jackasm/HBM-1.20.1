@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "K": {
+      "item": "hbm:plate_kevlar"
+    },
+    "L": {
+      "item": "hbm:parts_legendary_t2"
+    },
+    "M": {
+      "item": "hbm:motor_desh"
+    },
+    "P": {
+      "item": "hbm:plate_armor_ajr"
+    }
+  },
+  "pattern": [
+    "P P",
+    "MLM",
+    "PKP"
+  ],
+  "result": {
+    "item": "hbm:armor/rpa_chestplate"
+  },
+  "show_notification": true
+}

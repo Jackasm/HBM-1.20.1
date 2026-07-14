@@ -1,0 +1,48 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_double_barrel": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:weapon/gun_double_barrel"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_selenium_steel": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:secret_selenium_steel"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:gun_sacred_dragon"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_double_barrel",
+      "has_selenium_steel",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:gun_sacred_dragon"
+    ]
+  },
+  "sends_telemetry_event": false
+}

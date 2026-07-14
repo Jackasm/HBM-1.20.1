@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:battery_sc_technetium"
+    },
+    "I": {
+      "item": "hbm:plate_saturnite"
+    },
+    "P": {
+      "item": "hbm:coil_advanced_alloy_torus"
+    }
+  },
+  "pattern": [
+    "IPI",
+    "IBI",
+    "IPI"
+  ],
+  "result": {
+    "item": "hbm:storage/barrel_antimatter"
+  },
+  "show_notification": true
+}

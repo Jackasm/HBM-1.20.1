@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "hbm:capacitor_tantalium"
+    },
+    "P": {
+      "item": "hbm:plate_gold"
+    }
+  },
+  "pattern": [
+    "PCP",
+    "PCP",
+    "PCP"
+  ],
+  "result": {
+    "item": "hbm:armor_battery_mk3"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "N": {
+      "item": "hbm:neutron_reflector"
+    },
+    "P": {
+      "item": "hbm:nugget_pu239"
+    },
+    "S": {
+      "item": "hbm:ammo/ammo_arty_standard"
+    }
+  },
+  "pattern": [
+    " P ",
+    "NSN",
+    " P "
+  ],
+  "result": {
+    "item": "hbm:ammo/ammo_arty_nuke"
+  },
+  "show_notification": true
+}

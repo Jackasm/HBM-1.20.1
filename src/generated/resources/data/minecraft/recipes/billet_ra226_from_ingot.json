@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "hbm:ingot_ra226"
+    }
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "item": "hbm:billet_ra226"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_egg_balefire_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:egg_balefire_shard"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:egg_balefire_shard_to_cell_balefire"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_egg_balefire_shard",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:egg_balefire_shard_to_cell_balefire"
+    ]
+  },
+  "sends_telemetry_event": false
+}

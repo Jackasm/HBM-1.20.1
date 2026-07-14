@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:bolt_tungsten"
+    },
+    "I": {
+      "item": "hbm:ingot_tungsten"
+    },
+    "P": {
+      "tag": "hbm:rubber_ingots"
+    }
+  },
+  "pattern": [
+    "BIB",
+    "P P",
+    "B B"
+  ],
+  "result": {
+    "item": "hbm:reacher"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "builtin/entity",
+  "textures": {
+    "layer0": "hbm:item/weapon/big_sword"
+  }
+}

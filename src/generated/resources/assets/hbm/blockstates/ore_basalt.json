@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "type=asbestos": {
+      "model": "hbm:block/ore_basalt_asbestos"
+    },
+    "type=fluorite": {
+      "model": "hbm:block/ore_basalt_fluorite"
+    },
+    "type=gem": {
+      "model": "hbm:block/ore_basalt_gem"
+    },
+    "type=molysite": {
+      "model": "hbm:block/ore_basalt_molysite"
+    },
+    "type=sulfur": {
+      "model": "hbm:block/ore_basalt_sulfur"
+    }
+  }
+}

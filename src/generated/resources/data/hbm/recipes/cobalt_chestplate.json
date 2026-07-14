@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "hbm:armor/steel_chestplate"
+    },
+    "E": {
+      "item": "hbm:billet_cobalt"
+    }
+  },
+  "pattern": [
+    " E ",
+    "ECE",
+    " E "
+  ],
+  "result": {
+    "item": "hbm:armor/cobalt_chestplate"
+  },
+  "show_notification": true
+}

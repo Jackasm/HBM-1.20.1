@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_billet_uranium_fuel": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:billet_uranium_fuel"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:billet_mox_fuel_from_uranium_pu_mix"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_billet_uranium_fuel",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:billet_mox_fuel_from_uranium_pu_mix"
+    ]
+  },
+  "sends_telemetry_event": false
+}

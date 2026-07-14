@@ -1,0 +1,7 @@
+{
+  "values": [
+    "hbm:raw_zinc",
+    "hbm:ore_zinc",
+    "hbm:ore_zinc_deepslate"
+  ]
+}

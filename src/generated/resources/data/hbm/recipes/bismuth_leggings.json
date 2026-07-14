@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "F": {
+      "item": "hbm:rag"
+    },
+    "S": {
+      "item": "hbm:ring_starmetal"
+    }
+  },
+  "pattern": [
+    "FSF",
+    "   ",
+    "FSF"
+  ],
+  "result": {
+    "item": "hbm:armor/bismuth_leggings"
+  },
+  "show_notification": true
+}

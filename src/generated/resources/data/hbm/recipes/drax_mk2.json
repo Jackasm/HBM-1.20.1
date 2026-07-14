@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "item": "hbm:crystal_trixite"
+    },
+    "D": {
+      "item": "hbm:drax"
+    },
+    "E": {
+      "item": "hbm:circuit_advanced"
+    },
+    "F": {
+      "item": "hbm:fusion_core"
+    },
+    "I": {
+      "item": "hbm:ingot_saturnite"
+    },
+    "S": {
+      "item": "hbm:ingot_starmetal"
+    }
+  },
+  "pattern": [
+    "SCS",
+    "IDI",
+    "FEF"
+  ],
+  "result": {
+    "item": "hbm:drax_mk2"
+  },
+  "show_notification": true
+}

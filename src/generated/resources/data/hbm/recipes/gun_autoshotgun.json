@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:heavy_barrel_ferrouranium"
+    },
+    "G": {
+      "tag": "hbm:any_plastic_grip"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_weapon_steel"
+    },
+    "R": {
+      "item": "hbm:heavy_receiver_ferrouranium"
+    }
+  },
+  "pattern": [
+    "BRM",
+    "G G"
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_autoshotgun"
+  },
+  "show_notification": true
+}

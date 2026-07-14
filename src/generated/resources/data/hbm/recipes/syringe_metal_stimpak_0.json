@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "N": {
+      "item": "minecraft:nether_wart"
+    },
+    "S": {
+      "item": "hbm:syringe_metal_empty"
+    }
+  },
+  "pattern": [
+    " N ",
+    "NSN",
+    " N "
+  ],
+  "result": {
+    "item": "hbm:syringe_metal_stimpak"
+  },
+  "show_notification": true
+}

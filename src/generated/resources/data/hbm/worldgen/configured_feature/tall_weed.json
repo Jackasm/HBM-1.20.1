@@ -1,0 +1,15 @@
+{
+  "type": "hbm:plant",
+  "config": {
+    "to_place": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "hbm:plant_tall",
+        "Properties": {
+          "type": "weed",
+          "half": "lower"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "W": {
+      "item": "hbm:ingot_polymer"
+    }
+  },
+  "pattern": [
+    "WWW",
+    "  W"
+  ],
+  "result": {
+    "item": "hbm:part_stock_polymer"
+  },
+  "show_notification": true
+}

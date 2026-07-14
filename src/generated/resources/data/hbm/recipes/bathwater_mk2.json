@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:bathwater"
+    },
+    "M": {
+      "item": "hbm:bottle_mercury"
+    },
+    "W": {
+      "item": "hbm:nuclear_waste"
+    }
+  },
+  "pattern": [
+    "MWM",
+    "WBW",
+    "MWM"
+  ],
+  "result": {
+    "item": "hbm:bathwater_mk2"
+  },
+  "show_notification": true
+}

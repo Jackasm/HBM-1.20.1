@@ -1,0 +1,35 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.press.press_down": {
+      "animation_length": 1.0,
+      "bones": {
+        "moving_part": {
+          "position": {
+            "0.0": [0, 0, 0],
+            "1.0": [0, -14, 0]
+          }
+        }
+      }
+    },
+    "animation.press.lift_up": {
+      "animation_length": 1.0,
+      "bones": {
+        "moving_part": {
+          "position": {
+            "0.0": [0, -14, 0],
+            "1.0": [0, 0, 0]
+          }
+        }
+      }
+    },
+    "animation.press.idle": {
+      "animation_length": 1.0,
+      "bones": {
+        "moving_part": {
+          "position": [0, 0, 0]
+        }
+      }
+    }
+  }
+}

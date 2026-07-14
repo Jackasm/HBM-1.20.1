@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "X": {
+      "item": "hbm:ingot_cmb_steel"
+    }
+  },
+  "pattern": [
+    "X X",
+    "X X",
+    "   "
+  ],
+  "result": {
+    "item": "hbm:armor/cmb_steel_boots"
+  },
+  "show_notification": true
+}

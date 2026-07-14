@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "G": {
+      "item": "hbm:ballistite"
+    },
+    "I": {
+      "item": "hbm:ingot_u238"
+    }
+  },
+  "pattern": [
+    " I ",
+    "GIG",
+    "CCC"
+  ],
+  "result": {
+    "count": 4,
+    "item": "hbm:ammo/ammo_shell_apfsds_du"
+  },
+  "show_notification": true
+}

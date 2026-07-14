@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "layer=0": {
+      "model": "hbm:block/deco/steel_grate_wide"
+    },
+    "layer=1": {
+      "model": "hbm:block/deco/steel_grate_wide"
+    },
+    "layer=2": {
+      "model": "hbm:block/deco/steel_grate_wide"
+    },
+    "layer=3": {
+      "model": "hbm:block/deco/steel_grate_wide"
+    },
+    "layer=4": {
+      "model": "hbm:block/deco/steel_grate_wide"
+    },
+    "layer=5": {
+      "model": "hbm:block/deco/steel_grate_wide"
+    },
+    "layer=6": {
+      "model": "hbm:block/deco/steel_grate_wide"
+    },
+    "layer=7": {
+      "model": "hbm:block/deco/steel_grate_wide"
+    }
+  }
+}

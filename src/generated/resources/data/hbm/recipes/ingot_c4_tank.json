@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "type": "hbm:fluid_tank",
+      "fluid": "unsaturateds"
+    },
+    {
+      "item": "hbm:powder_niter"
+    },
+    {
+      "tag": "hbm:ntmchemistryset"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "hbm:ingot_c4"
+  }
+}

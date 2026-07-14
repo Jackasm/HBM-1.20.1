@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "hbm:armor/steel_helmet"
+    },
+    "E": {
+      "item": "hbm:billet_cobalt"
+    }
+  },
+  "pattern": [
+    "ECE"
+  ],
+  "result": {
+    "item": "hbm:armor/cobalt_helmet"
+  },
+  "show_notification": true
+}

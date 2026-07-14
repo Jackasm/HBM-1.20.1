@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:battery_spark"
+    },
+    "C": {
+      "item": "hbm:crystal_schrabidium"
+    },
+    "D": {
+      "item": "hbm:drax_mk2"
+    },
+    "E": {
+      "item": "hbm:block_euphemium_cluster"
+    },
+    "S": {
+      "item": "hbm:circuit_bismoid"
+    }
+  },
+  "pattern": [
+    "ECE",
+    "CDC",
+    "SBS"
+  ],
+  "result": {
+    "item": "hbm:drax_mk3"
+  },
+  "show_notification": true
+}

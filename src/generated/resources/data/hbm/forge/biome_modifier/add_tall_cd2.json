@@ -1,0 +1,9 @@
+{
+  "type": "forge:add_features",
+  "biomes": [
+    "minecraft:river",
+    "minecraft:beach"
+  ],
+  "features": "hbm:tall_cd2_placed",
+  "step": "vegetal_decoration"
+}

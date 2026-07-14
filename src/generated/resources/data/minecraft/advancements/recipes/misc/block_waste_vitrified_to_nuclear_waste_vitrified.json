@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_block_waste_vitrified": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:block_waste_vitrified"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:block_waste_vitrified_to_nuclear_waste_vitrified"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_block_waste_vitrified",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:block_waste_vitrified_to_nuclear_waste_vitrified"
+    ]
+  },
+  "sends_telemetry_event": false
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "item/generated",
+  "overrides": [
+    {
+      "model": "hbm:item/bomb/crashed_balefire_balefire",
+      "predicate": {
+        "custom_model_data": 0
+      }
+    },
+    {
+      "model": "hbm:item/bomb/crashed_balefire_conventional",
+      "predicate": {
+        "custom_model_data": 1
+      }
+    },
+    {
+      "model": "hbm:item/bomb/crashed_balefire_nuke",
+      "predicate": {
+        "custom_model_data": 2
+      }
+    },
+    {
+      "model": "hbm:item/bomb/crashed_balefire_salted",
+      "predicate": {
+        "custom_model_data": 3
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "hbm:block/bomb/dud_balefire"
+  }
+}

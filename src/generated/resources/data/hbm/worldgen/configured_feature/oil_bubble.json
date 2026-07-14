@@ -1,0 +1,15 @@
+{
+  "type": "hbm:oil_bubble",
+  "config": {
+    "fuzzy": false,
+    "maxRadius": 16,
+    "minRadius": 8,
+    "target": {
+      "predicate_type": "minecraft:tag_match",
+      "tag": "minecraft:stone_ore_replaceables"
+    },
+    "toPlace": {
+      "Name": "hbm:ore_oil"
+    }
+  }
+}

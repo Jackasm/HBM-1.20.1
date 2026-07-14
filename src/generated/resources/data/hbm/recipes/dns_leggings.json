@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:armor/bj_leggings"
+    },
+    "C": {
+      "item": "hbm:coin_worm"
+    },
+    "P": {
+      "item": "hbm:plate_armor_dnt"
+    },
+    "S": {
+      "item": "hbm:ingot_chainsteel"
+    }
+  },
+  "pattern": [
+    "PCP",
+    "PBP",
+    "PSP"
+  ],
+  "result": {
+    "item": "hbm:armor/dnt_leggings"
+  },
+  "show_notification": true
+}

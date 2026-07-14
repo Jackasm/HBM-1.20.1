@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:bolt_steel"
+    },
+    "H": {
+      "item": "hbm:pipe_steel"
+    },
+    "T": {
+      "item": "hbm:tank_steel"
+    }
+  },
+  "pattern": [
+    "HB",
+    " T"
+  ],
+  "result": {
+    "item": "hbm:weapon/fireext"
+  },
+  "show_notification": true
+}

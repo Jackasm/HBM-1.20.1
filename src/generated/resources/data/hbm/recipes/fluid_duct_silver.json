@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "hbm:plate_aluminium"
+    },
+    "I": {
+      "item": "hbm:plate_iron"
+    }
+  },
+  "pattern": [
+    "IAI",
+    "   ",
+    "IAI"
+  ],
+  "result": {
+    "count": 8,
+    "item": "hbm:storage/fluid_duct_silver"
+  },
+  "show_notification": true
+}

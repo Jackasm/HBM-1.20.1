@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "hbm:duct_tape"
+    },
+    "F": {
+      "item": "hbm:plate_iron"
+    },
+    "G": {
+      "tag": "forge:glass_panes"
+    },
+    "I": {
+      "tag": "hbm:rubber_ingots"
+    }
+  },
+  "pattern": [
+    "DID",
+    "IGI",
+    " F "
+  ],
+  "result": {
+    "item": "hbm:armor/attachment_mask"
+  },
+  "show_notification": true
+}

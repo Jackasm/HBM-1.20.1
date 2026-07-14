@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "hbm:billet_neptunium"
+    },
+    {
+      "item": "hbm:billet_neptunium"
+    },
+    {
+      "item": "hbm:billet_neptunium"
+    }
+  ],
+  "result": {
+    "item": "hbm:ingot_neptunium"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "hbm:ingot_zirconium"
+    }
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "item": "hbm:billet_zirconium"
+  },
+  "show_notification": true
+}

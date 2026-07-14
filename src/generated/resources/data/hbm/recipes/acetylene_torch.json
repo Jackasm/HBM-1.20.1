@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "P": {
+      "tag": "hbm:any_plastic"
+    },
+    "S": {
+      "item": "hbm:plate_cast_steel"
+    },
+    "T": {
+      "item": "hbm:tank_steel"
+    }
+  },
+  "pattern": [
+    "SS ",
+    " PS",
+    " T "
+  ],
+  "result": {
+    "item": "hbm:acetylene_torch"
+  },
+  "show_notification": true
+}

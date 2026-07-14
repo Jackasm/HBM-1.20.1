@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "D": {
+      "item": "hbm:ingot_phosphorus"
+    },
+    "S": {
+      "item": "hbm:ammo/ammo_arty_standard"
+    }
+  },
+  "pattern": [
+    "D",
+    "S",
+    "D"
+  ],
+  "result": {
+    "item": "hbm:ammo/ammo_arty_wp"
+  },
+  "show_notification": true
+}

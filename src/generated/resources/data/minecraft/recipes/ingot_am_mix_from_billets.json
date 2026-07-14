@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "hbm:billet_am_mix"
+    },
+    {
+      "item": "hbm:billet_am_mix"
+    },
+    {
+      "item": "hbm:billet_am_mix"
+    }
+  ],
+  "result": {
+    "item": "hbm:ingot_am_mix"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "hbm:ingot_australium"
+    },
+    "P": {
+      "tag": "hbm:any_plastic"
+    },
+    "S": {
+      "item": "hbm:plate_welded_steel"
+    },
+    "W": {
+      "item": "hbm:wire_dense_gold"
+    }
+  },
+  "pattern": [
+    "WSW",
+    "PAP",
+    "SPS"
+  ],
+  "result": {
+    "item": "hbm:australium_iii"
+  },
+  "show_notification": true
+}

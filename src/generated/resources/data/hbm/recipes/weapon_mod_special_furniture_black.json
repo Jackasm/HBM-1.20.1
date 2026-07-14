@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "D": {
+      "item": "minecraft:black_dye"
+    },
+    "G": {
+      "tag": "hbm:any_plastic_grip"
+    },
+    "P": {
+      "tag": "hbm:any_plastic"
+    },
+    "S": {
+      "tag": "hbm:any_plastic_stock"
+    }
+  },
+  "pattern": [
+    "PDS",
+    "  G"
+  ],
+  "result": {
+    "item": "hbm:weapon_mod_furniture_black"
+  },
+  "show_notification": true
+}

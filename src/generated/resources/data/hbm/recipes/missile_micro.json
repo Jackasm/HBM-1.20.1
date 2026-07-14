@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "hbm:missile_assembly"
+    },
+    {
+      "item": "hbm:duct_tape"
+    },
+    {
+      "item": "hbm:ammo/ammo_nuke_high"
+    }
+  ],
+  "result": {
+    "item": "hbm:missile_micro"
+  }
+}

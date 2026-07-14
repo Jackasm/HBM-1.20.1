@@ -1,0 +1,9 @@
+{
+  "values": [
+    "hbm:ingot_uranium",
+    "hbm:ingot_plutonium",
+    "hbm:ingot_thorium",
+    "hbm:ingot_cobalt",
+    "hbm:ingot_beryllium"
+  ]
+}

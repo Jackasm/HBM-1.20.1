@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "R": {
+      "item": "hbm:plant_rope"
+    },
+    "S": {
+      "item": "hbm:ingot_steel"
+    }
+  },
+  "pattern": [
+    "LLL",
+    "LRL",
+    " S "
+  ],
+  "result": {
+    "item": "minecraft:saddle"
+  },
+  "show_notification": true
+}

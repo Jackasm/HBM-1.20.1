@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "hbm:sat_chip"
+    },
+    {
+      "item": "hbm:duct_tape"
+    },
+    {
+      "item": "hbm:radar_linker"
+    }
+  ],
+  "result": {
+    "item": "hbm:sat_relay"
+  }
+}

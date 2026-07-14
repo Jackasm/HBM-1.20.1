@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=coal": {
+      "model": "hbm:block/block_coke_coal"
+    },
+    "type=lignite": {
+      "model": "hbm:block/block_coke_lignite"
+    },
+    "type=petroleum": {
+      "model": "hbm:block/block_coke_petroleum"
+    }
+  }
+}

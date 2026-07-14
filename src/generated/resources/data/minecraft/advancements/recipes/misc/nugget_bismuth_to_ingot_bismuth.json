@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_nugget_bismuth": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:nugget_bismuth"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:nugget_bismuth_to_ingot_bismuth"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_nugget_bismuth",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:nugget_bismuth_to_ingot_bismuth"
+    ]
+  },
+  "sends_telemetry_event": false
+}

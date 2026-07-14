@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "hbm:missile_assembly"
+    },
+    {
+      "type": "hbm:fluid_bucket",
+      "fluid": "redmud"
+    },
+    {
+      "item": "hbm:powder_spark_mix"
+    },
+    {
+      "item": "hbm:powder_magic"
+    }
+  ],
+  "result": {
+    "item": "hbm:missile_taint"
+  }
+}

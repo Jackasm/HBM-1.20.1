@@ -1,0 +1,6 @@
+{
+  "type": "hbm:landmine",
+  "config": {
+    "mine_block": "hbm:bomb/mine/mine_ap"
+  }
+}

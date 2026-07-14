@@ -1,0 +1,46 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_desh_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:ingot_desh"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_plastic": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "hbm:any_plastic"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:motor_desh"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_plastic",
+      "has_desh_ingot",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:motor_desh"
+    ]
+  },
+  "sends_telemetry_event": false
+}

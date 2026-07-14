@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "half=lower,type=cd2": {
+      "model": "hbm:block/plant_tall_cd2_lower"
+    },
+    "half=lower,type=cd3": {
+      "model": "hbm:block/plant_tall_cd3_lower"
+    },
+    "half=lower,type=cd4": {
+      "model": "hbm:block/plant_tall_cd4_lower"
+    },
+    "half=lower,type=weed": {
+      "model": "hbm:block/plant_tall_weed_lower"
+    },
+    "half=upper,type=cd2": {
+      "model": "hbm:block/plant_tall_cd2_upper"
+    },
+    "half=upper,type=cd3": {
+      "model": "hbm:block/plant_tall_cd3_upper"
+    },
+    "half=upper,type=cd4": {
+      "model": "hbm:block/plant_tall_cd4_upper"
+    },
+    "half=upper,type=weed": {
+      "model": "hbm:block/plant_tall_weed_upper"
+    }
+  }
+}

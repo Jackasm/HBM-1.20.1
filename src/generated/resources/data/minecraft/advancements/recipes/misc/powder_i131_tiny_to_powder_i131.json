@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_powder_i131_tiny": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:powder_i131_tiny"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:powder_i131_tiny_to_powder_i131"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_powder_i131_tiny",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:powder_i131_tiny_to_powder_i131"
+    ]
+  },
+  "sends_telemetry_event": false
+}

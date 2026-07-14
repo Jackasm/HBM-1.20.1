@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "hbm:plate_iron"
+    },
+    "S": {
+      "tag": "hbm:rubber_ingots"
+    }
+  },
+  "pattern": [
+    "S",
+    "I",
+    "S"
+  ],
+  "result": {
+    "count": 4,
+    "item": "hbm:iv_empty"
+  },
+  "show_notification": true
+}

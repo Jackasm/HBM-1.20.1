@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "hbm:block/deco/steel_scaffold",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "hbm:block/deco/steel_scaffold"
+    },
+    "facing=south": {
+      "model": "hbm:block/deco/steel_scaffold",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "hbm:block/deco/steel_scaffold",
+      "y": 270
+    }
+  }
+}

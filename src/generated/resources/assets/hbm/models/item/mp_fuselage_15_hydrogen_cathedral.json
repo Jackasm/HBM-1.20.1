@@ -1,0 +1,4 @@
+{
+  "loader": "hbm:hfr_obj",
+  "model": "models/item/missile_parts/mp_f_15_hydrogen.obj"
+}

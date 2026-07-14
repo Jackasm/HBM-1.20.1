@@ -1,0 +1,6 @@
+{
+  "values": [
+    "hbm:part_stock_pvc",
+    "hbm:part_stock_polycarbonate"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "H": {
+      "item": "minecraft:stick"
+    },
+    "P": {
+      "item": "hbm:nugget_pu239"
+    },
+    "S": {
+      "item": "minecraft:sugar"
+    }
+  },
+  "pattern": [
+    " S ",
+    "SPS",
+    " H "
+  ],
+  "result": {
+    "count": 2,
+    "item": "hbm:cotton_candy"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "hbm:rangefinder"
+    },
+    {
+      "item": "hbm:circuit_advanced"
+    },
+    {
+      "tag": "hbm:any_plastic"
+    }
+  ],
+  "result": {
+    "item": "hbm:designator_arty_range"
+  }
+}

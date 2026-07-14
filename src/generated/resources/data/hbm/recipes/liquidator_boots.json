@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:armor/hazmat_boots_grey"
+    },
+    "C": {
+      "item": "hbm:cladding_iron"
+    },
+    "I": {
+      "tag": "hbm:rubber_ingots"
+    }
+  },
+  "pattern": [
+    "ICI",
+    "IBI"
+  ],
+  "result": {
+    "item": "hbm:armor/liquidator_boots"
+  },
+  "show_notification": true
+}

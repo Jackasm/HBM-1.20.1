@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "hbm:block/machines/anvil_lead",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "hbm:block/machines/anvil_lead"
+    },
+    "facing=south": {
+      "model": "hbm:block/machines/anvil_lead",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "hbm:block/machines/anvil_lead",
+      "y": 270
+    }
+  }
+}

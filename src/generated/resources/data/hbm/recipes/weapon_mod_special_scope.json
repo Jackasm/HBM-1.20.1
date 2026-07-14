@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "G": {
+      "tag": "forge:glass_panes"
+    },
+    "P": {
+      "tag": "hbm:any_plastic"
+    },
+    "S": {
+      "item": "hbm:plate_steel"
+    }
+  },
+  "pattern": [
+    "SPS",
+    "G G",
+    "SPS"
+  ],
+  "result": {
+    "item": "hbm:weapon_mod_scope"
+  },
+  "show_notification": true
+}

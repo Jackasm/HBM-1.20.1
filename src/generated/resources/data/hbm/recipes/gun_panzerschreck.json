@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:heavy_barrel_desh"
+    },
+    "G": {
+      "item": "hbm:part_grip_desh"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_gunmetal"
+    },
+    "P": {
+      "item": "hbm:plate_cast_steel"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "PGM"
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_panzerschreck"
+  },
+  "show_notification": true
+}

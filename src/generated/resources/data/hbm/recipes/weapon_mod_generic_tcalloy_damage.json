@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "hbm:gun_mechanism_weapon_steel"
+    },
+    {
+      "tag": "hbm:any_resistantalloy_plate_cast"
+    },
+    {
+      "tag": "hbm:any_resistantalloy_plate_cast"
+    },
+    {
+      "tag": "hbm:any_resistantalloy_plate_cast"
+    },
+    {
+      "item": "hbm:duct_tape"
+    }
+  ],
+  "result": {
+    "item": "hbm:weapon_mod_tcalloy_damage"
+  }
+}

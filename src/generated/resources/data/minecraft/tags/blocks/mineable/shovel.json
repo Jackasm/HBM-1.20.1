@@ -1,0 +1,29 @@
+{
+  "values": [
+    "hbm:waste_earth",
+    "hbm:waste_mycelium",
+    "hbm:frozen_grass",
+    "hbm:burning_earth",
+    "hbm:impact_dirt",
+    "hbm:sand_dirty",
+    "hbm:sand_dirty_red",
+    "hbm:fallout",
+    "hbm:frozen_dirt",
+    "hbm:gravel_obsidian",
+    "hbm:gravel_diamond",
+    "hbm:moon_turf",
+    "hbm:block_scrap",
+    "hbm:dirt_dead",
+    "hbm:dirt_oily",
+    "hbm:foam_layer",
+    "hbm:sand_boron_layer",
+    "hbm:sand_boron",
+    "hbm:machine_transformer",
+    "hbm:machine_transformer_dnt",
+    "hbm:block_fallout",
+    "hbm:tektite",
+    "hbm:ore_tektite_osmiridium",
+    "hbm:ntm_dirt",
+    "hbm:fallout"
+  ]
+}

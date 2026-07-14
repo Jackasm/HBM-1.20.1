@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:fusion_conductor"
+    },
+    "M": {
+      "item": "hbm:horseshoe_magnet"
+    },
+    "S": {
+      "item": "hbm:ingot_steel"
+    }
+  },
+  "pattern": [
+    "SMS",
+    " B ",
+    "SMS"
+  ],
+  "result": {
+    "item": "hbm:industrial_magnet"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "hbm:ingot_thorium_fuel"
+    }
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "item": "hbm:billet_thorium_fuel"
+  },
+  "show_notification": true
+}

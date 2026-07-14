@@ -1,0 +1,104 @@
+{
+  "parent": "item/generated",
+  "overrides": [
+    {
+      "model": "hbm:item/concrete_colored_white",
+      "predicate": {
+        "custom_model_data": 0
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_orange",
+      "predicate": {
+        "custom_model_data": 1
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_magenta",
+      "predicate": {
+        "custom_model_data": 2
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_light_blue",
+      "predicate": {
+        "custom_model_data": 3
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_yellow",
+      "predicate": {
+        "custom_model_data": 4
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_lime",
+      "predicate": {
+        "custom_model_data": 5
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_pink",
+      "predicate": {
+        "custom_model_data": 6
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_gray",
+      "predicate": {
+        "custom_model_data": 7
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_light_gray",
+      "predicate": {
+        "custom_model_data": 8
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_cyan",
+      "predicate": {
+        "custom_model_data": 9
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_purple",
+      "predicate": {
+        "custom_model_data": 10
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_blue",
+      "predicate": {
+        "custom_model_data": 11
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_brown",
+      "predicate": {
+        "custom_model_data": 12
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_green",
+      "predicate": {
+        "custom_model_data": 13
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_red",
+      "predicate": {
+        "custom_model_data": 14
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_black",
+      "predicate": {
+        "custom_model_data": 15
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "hbm:block/concrete_colored_white"
+  }
+}

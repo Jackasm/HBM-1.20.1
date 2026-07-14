@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "item": "hbm:circuit_basic"
+    },
+    "P": {
+      "item": "hbm:plate_steel"
+    },
+    "T": {
+      "tag": "hbm:any_highexplosive"
+    }
+  },
+  "pattern": [
+    " C ",
+    "PTP"
+  ],
+  "result": {
+    "item": "hbm:bomb/mine/mine_he"
+  },
+  "show_notification": true
+}

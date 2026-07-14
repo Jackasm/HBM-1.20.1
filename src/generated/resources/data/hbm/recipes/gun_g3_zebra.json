@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "item": "hbm:gun_mechanism_weapon_steel"
+    },
+    "P": {
+      "item": "hbm:weapon/gun_g3"
+    }
+  },
+  "pattern": [
+    " M ",
+    "MPM",
+    " M "
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_g3_zebra"
+  },
+  "show_notification": true
+}

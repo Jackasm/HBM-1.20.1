@@ -1,0 +1,30 @@
+{
+  "parent": "hbm:root",
+  "criteria": {
+    "some_wounds": {
+      "conditions": {},
+      "trigger": "hbm:some_wounds"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.someWounds.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "hbm:injector_knife"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.someWounds"
+    }
+  },
+  "requirements": [
+    [
+      "some_wounds"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

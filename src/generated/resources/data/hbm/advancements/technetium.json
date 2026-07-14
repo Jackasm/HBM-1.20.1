@@ -1,0 +1,30 @@
+{
+  "parent": "hbm:desh",
+  "criteria": {
+    "technetium": {
+      "conditions": {},
+      "trigger": "hbm:technetium"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.technetium.desc"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "hbm:ingot_tcalloy"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.technetium"
+    }
+  },
+  "requirements": [
+    [
+      "technetium"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

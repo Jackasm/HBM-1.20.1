@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_ingot_pu_mix": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:ingot_pu_mix"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:ingot_pu_mix_to_block.minecraft.air"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_ingot_pu_mix",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:ingot_pu_mix_to_block.minecraft.air"
+    ]
+  },
+  "sends_telemetry_event": false
+}

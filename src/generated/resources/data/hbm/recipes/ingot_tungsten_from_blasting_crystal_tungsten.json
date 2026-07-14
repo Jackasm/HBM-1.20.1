@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.5,
+  "group": "tungsten_ingot",
+  "ingredient": {
+    "item": "hbm:crystal_tungsten"
+  },
+  "result": "hbm:ingot_tungsten"
+}

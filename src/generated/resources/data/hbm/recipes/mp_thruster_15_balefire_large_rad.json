@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "hbm:plate_cast_copper"
+    },
+    "T": {
+      "item": "hbm:mp_thruster_15_balefire_large"
+    }
+  },
+  "pattern": [
+    "CCC",
+    "CTC",
+    "CCC"
+  ],
+  "result": {
+    "item": "hbm:mp_thruster_15_balefire_large_rad"
+  },
+  "show_notification": true
+}

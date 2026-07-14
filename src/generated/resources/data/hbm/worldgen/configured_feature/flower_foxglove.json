@@ -1,0 +1,14 @@
+{
+  "type": "hbm:plant",
+  "config": {
+    "to_place": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "hbm:plant_flower",
+        "Properties": {
+          "meta": "0"
+        }
+      }
+    }
+  }
+}

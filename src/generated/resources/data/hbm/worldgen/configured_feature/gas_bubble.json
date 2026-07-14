@@ -1,0 +1,19 @@
+{
+  "type": "hbm:gas_bubble",
+  "config": {
+    "fuzzy": false,
+    "maxRadius": 16,
+    "minRadius": 8,
+    "target": {
+      "predicate_type": "minecraft:tag_match",
+      "tag": "minecraft:stone_ore_replaceables"
+    },
+    "toPlace": {
+      "Name": "hbm:gas_flammable",
+      "Properties": {
+        "glowing": "false",
+        "replaceable": "true"
+      }
+    }
+  }
+}

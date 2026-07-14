@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_nugget_tantalium": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:nugget_tantalium"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:nugget_tantalium_to_ingot_tantalium"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_nugget_tantalium",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:nugget_tantalium_to_ingot_tantalium"
+    ]
+  },
+  "sends_telemetry_event": false
+}

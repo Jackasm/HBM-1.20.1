@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "hbm:plate_steel"
+    },
+    "P": {
+      "item": "hbm:ingot_steel"
+    },
+    "T": {
+      "tag": "hbm:any_tar"
+    }
+  },
+  "pattern": [
+    "IPI",
+    "ITI",
+    "IPI"
+  ],
+  "result": {
+    "item": "hbm:storage/barrel_steel"
+  },
+  "show_notification": true
+}

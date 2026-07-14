@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:light_barrel_steel"
+    },
+    "P": {
+      "tag": "hbm:any_plastic"
+    }
+  },
+  "pattern": [
+    "P",
+    "B",
+    "P"
+  ],
+  "result": {
+    "item": "hbm:weapon_mod_silencer"
+  },
+  "show_notification": true
+}

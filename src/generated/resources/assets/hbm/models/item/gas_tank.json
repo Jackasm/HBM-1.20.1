@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "hbm:item/gas_tank_base",
+    "layer1": "hbm:item/gas_tank_overlay"
+  }
+}

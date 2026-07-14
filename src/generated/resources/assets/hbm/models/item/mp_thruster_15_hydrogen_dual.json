@@ -1,0 +1,4 @@
+{
+  "loader": "hbm:hfr_obj",
+  "model": "models/item/missile_parts/mp_t_15_kerosene_dual.obj"
+}

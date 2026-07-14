@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:armor/advanced_alloy_helmet"
+    },
+    "C": {
+      "item": "hbm:circuit_basic"
+    },
+    "I": {
+      "tag": "hbm:any_plastic"
+    },
+    "P": {
+      "item": "hbm:plate_armor_ajr"
+    },
+    "X": {
+      "item": "hbm:armor/gas_mask_m65"
+    }
+  },
+  "pattern": [
+    "PPC",
+    "PBP",
+    "IXI"
+  ],
+  "result": {
+    "item": "hbm:armor/ajr_helmet"
+  },
+  "show_notification": true
+}

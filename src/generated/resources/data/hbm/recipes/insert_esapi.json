@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "hbm:duct_tape"
+    },
+    "K": {
+      "item": "hbm:insert_sapi"
+    },
+    "P": {
+      "tag": "hbm:any_plastic"
+    },
+    "S": {
+      "item": "hbm:plate_weapon_steel"
+    }
+  },
+  "pattern": [
+    "PKP",
+    "DSD",
+    "PKP"
+  ],
+  "result": {
+    "item": "hbm:insert_esapi"
+  },
+  "show_notification": true
+}

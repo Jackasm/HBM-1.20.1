@@ -1,0 +1,26 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "hbm:item/briquette_coal",
+      "predicate": {
+        "custom_model_data": 0
+      }
+    },
+    {
+      "model": "hbm:item/briquette_lignite",
+      "predicate": {
+        "custom_model_data": 1
+      }
+    },
+    {
+      "model": "hbm:item/briquette_wood",
+      "predicate": {
+        "custom_model_data": 2
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "hbm:item/briquette_coal"
+  }
+}

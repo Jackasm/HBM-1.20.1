@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "hbm:nuclear_waste"
+    }
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "item": "hbm:billet_nuclear_waste"
+  },
+  "show_notification": true
+}

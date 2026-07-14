@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:heavy_barrel_dura_steel"
+    },
+    "G": {
+      "item": "hbm:part_grip_dura_steel"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_gunmetal"
+    },
+    "R": {
+      "item": "hbm:heavy_receiver_dura_steel"
+    }
+  },
+  "pattern": [
+    " MG",
+    "BBR",
+    " GM"
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_flamer"
+  },
+  "show_notification": true
+}

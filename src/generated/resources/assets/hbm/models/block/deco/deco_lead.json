@@ -1,0 +1,7 @@
+{
+  "loader": "hbm:deco_ct_geometry",
+  "textures": {
+    "particle": "hbm:block/deco/deco_lead",
+    "texture": "hbm:block/deco/deco_lead"
+  }
+}

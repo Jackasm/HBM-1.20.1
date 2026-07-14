@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "hbm:plate_cast_copper"
+    },
+    "C": {
+      "item": "hbm:circuit_advanced"
+    },
+    "D": {
+      "item": "hbm:ingot_desh"
+    },
+    "J": {
+      "item": "hbm:armor/jetpack_vector"
+    },
+    "P": {
+      "item": "hbm:plate_saturnite"
+    }
+  },
+  "pattern": [
+    "PCP",
+    "DJD",
+    "PAP"
+  ],
+  "result": {
+    "item": "hbm:armor/jetpack_boost"
+  },
+  "show_notification": true
+}

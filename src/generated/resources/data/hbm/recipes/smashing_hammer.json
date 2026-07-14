@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "P": {
+      "tag": "hbm:any_plastic"
+    },
+    "S": {
+      "item": "hbm:block_steel"
+    },
+    "T": {
+      "item": "hbm:block_tungsten"
+    }
+  },
+  "pattern": [
+    "STS",
+    "SPS",
+    " P "
+  ],
+  "result": {
+    "item": "hbm:smashing_hammer"
+  },
+  "show_notification": true
+}

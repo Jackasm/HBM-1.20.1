@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "hbm:plate_copper"
+    },
+    "D": {
+      "item": "hbm:ingot_desh"
+    },
+    "F": {
+      "item": "hbm:gas_mask_filter"
+    },
+    "X": {
+      "item": "hbm:armor/steel_helmet"
+    }
+  },
+  "pattern": [
+    "DCD",
+    "CXC",
+    " F "
+  ],
+  "result": {
+    "item": "hbm:armor/steamsuit_helmet"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "tag": "hbm:any_resistantalloy_heavy_barrel"
+    },
+    "C": {
+      "item": "hbm:coil_advanced_alloy"
+    },
+    "E": {
+      "item": "hbm:circuit_advanced"
+    },
+    "G": {
+      "tag": "hbm:any_plastic_grip"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_weapon_steel"
+    },
+    "R": {
+      "tag": "hbm:any_resistantalloy_heavy_receiver"
+    }
+  },
+  "pattern": [
+    "CCC",
+    "BRB",
+    "MGE"
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_tesla_cannon"
+  },
+  "show_notification": true
+}

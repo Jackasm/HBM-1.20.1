@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_powder_beryllium": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:powder_beryllium"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:ingot_beryllium_from_smelting_from_powder_beryllium"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_powder_beryllium",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:ingot_beryllium_from_smelting_from_powder_beryllium"
+    ]
+  },
+  "sends_telemetry_event": false
+}

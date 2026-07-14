@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "particle": "hbm:block/machines/anvil_bismuth_bronze"
+  }
+}

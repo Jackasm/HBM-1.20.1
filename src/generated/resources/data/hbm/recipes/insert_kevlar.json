@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "hbm:duct_tape"
+    },
+    "I": {
+      "tag": "hbm:rubber_ingots"
+    },
+    "K": {
+      "item": "hbm:plate_kevlar"
+    }
+  },
+  "pattern": [
+    "KIK",
+    "IDI",
+    "KIK"
+  ],
+  "result": {
+    "item": "hbm:insert_kevlar"
+  },
+  "show_notification": true
+}

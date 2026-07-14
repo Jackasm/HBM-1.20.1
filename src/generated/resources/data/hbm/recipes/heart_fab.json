@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "hbm:coin_worm"
+    },
+    "G": {
+      "item": "hbm:billet_polonium"
+    },
+    "H": {
+      "item": "hbm:heart_booster"
+    },
+    "M": {
+      "item": "hbm:coke"
+    }
+  },
+  "pattern": [
+    "GHG",
+    "MCM",
+    "GHG"
+  ],
+  "result": {
+    "item": "hbm:heart_fab"
+  },
+  "show_notification": true
+}

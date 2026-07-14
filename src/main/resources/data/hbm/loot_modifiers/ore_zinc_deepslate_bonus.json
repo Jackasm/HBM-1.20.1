@@ -1,0 +1,11 @@
+{
+  "type": "hbm:add_bonus_powder",
+  "conditions": [
+    {
+      "condition": "minecraft:block_state_property",
+      "block": "hbm:ore_zinc_deepslate"
+    }
+  ],
+  "bonusItem": "hbm:powder_zinc",
+  "chance": 0.5
+}

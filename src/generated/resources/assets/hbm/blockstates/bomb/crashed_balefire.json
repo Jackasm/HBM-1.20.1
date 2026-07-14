@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "type=balefire": {
+      "model": "hbm:block/bomb/crashed_balefire_balefire"
+    },
+    "type=conventional": {
+      "model": "hbm:block/bomb/crashed_balefire_conventional"
+    },
+    "type=nuke": {
+      "model": "hbm:block/bomb/crashed_balefire_nuke"
+    },
+    "type=salted": {
+      "model": "hbm:block/bomb/crashed_balefire_salted"
+    }
+  }
+}

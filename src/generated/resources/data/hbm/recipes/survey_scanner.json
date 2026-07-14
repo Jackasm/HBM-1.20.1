@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "item": "hbm:circuit_advanced"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "P": {
+      "tag": "hbm:any_plastic"
+    },
+    "S": {
+      "item": "hbm:plate_cast_steel"
+    },
+    "W": {
+      "item": "hbm:wire_gold"
+    }
+  },
+  "pattern": [
+    "SWS",
+    " G ",
+    "PCP"
+  ],
+  "result": {
+    "item": "hbm:survey_scanner"
+  },
+  "show_notification": true
+}

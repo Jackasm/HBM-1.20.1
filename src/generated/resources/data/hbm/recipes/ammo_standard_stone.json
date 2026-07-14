@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "item": "minecraft:cobblestone"
+    },
+    "G": {
+      "item": "minecraft:gunpowder"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "C",
+    "P",
+    "G"
+  ],
+  "result": {
+    "count": 6,
+    "item": "hbm:ammo/ammo_stone"
+  },
+  "show_notification": true
+}

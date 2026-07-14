@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "minecraft:yellow_dye"
+    },
+    "I": {
+      "item": "hbm:nuclear_waste"
+    },
+    "W": {
+      "item": "minecraft:yellow_wool"
+    }
+  },
+  "pattern": [
+    "W W",
+    "WIW",
+    "WDW"
+  ],
+  "result": {
+    "item": "hbm:armor/cape_radiation"
+  },
+  "show_notification": true
+}

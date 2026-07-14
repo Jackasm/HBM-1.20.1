@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "hbm:catalyst_clay"
+    },
+    "Z": {
+      "item": "hbm:nugget_zirconium"
+    }
+  },
+  "pattern": [
+    "ZZZ",
+    "ZCZ",
+    "ZZZ"
+  ],
+  "result": {
+    "item": "hbm:gas_mask_filter_mono"
+  },
+  "show_notification": true
+}

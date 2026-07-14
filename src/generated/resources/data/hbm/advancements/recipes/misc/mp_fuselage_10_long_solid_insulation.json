@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_long_solid_fuselage": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:mp_fuselage_10_long_solid"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:mp_fuselage_10_long_solid_insulation"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_long_solid_fuselage",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:mp_fuselage_10_long_solid_insulation"
+    ]
+  },
+  "sends_telemetry_event": false
+}

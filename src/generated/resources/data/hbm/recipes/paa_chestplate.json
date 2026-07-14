@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "E": {
+      "item": "hbm:plate_paa"
+    },
+    "N": {
+      "item": "hbm:neutron_reflector"
+    }
+  },
+  "pattern": [
+    "E E",
+    "NEN",
+    "ENE"
+  ],
+  "result": {
+    "item": "hbm:armor/paa_chestplate"
+  },
+  "show_notification": true
+}

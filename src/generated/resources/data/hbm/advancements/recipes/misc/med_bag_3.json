@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_syringe_metal_stimpak": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:syringe_metal_stimpak"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:med_bag_3"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_syringe_metal_stimpak",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:med_bag_3"
+    ]
+  },
+  "sends_telemetry_event": false
+}

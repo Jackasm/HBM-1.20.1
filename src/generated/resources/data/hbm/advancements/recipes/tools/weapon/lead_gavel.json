@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:weapon/lead_gavel"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_wood_gavel": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:weapon/wood_gavel"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_wood_gavel",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:weapon/lead_gavel"
+    ]
+  },
+  "sends_telemetry_event": false
+}

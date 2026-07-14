@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:ammo_shell_apfsds_du_gunpowder"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_u238_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:ingot_u238"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_u238_ingot",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:ammo_shell_apfsds_du_gunpowder"
+    ]
+  },
+  "sends_telemetry_event": false
+}

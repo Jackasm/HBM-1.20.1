@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "hbm:duct_tape"
+    },
+    "K": {
+      "item": "hbm:insert_kevlar"
+    },
+    "P": {
+      "tag": "hbm:any_plastic"
+    }
+  },
+  "pattern": [
+    "PKP",
+    "DPD",
+    "PKP"
+  ],
+  "result": {
+    "item": "hbm:insert_sapi"
+  },
+  "show_notification": true
+}

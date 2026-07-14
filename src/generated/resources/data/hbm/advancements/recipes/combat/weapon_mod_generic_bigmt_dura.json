@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_ducttape": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:duct_tape"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:weapon_mod_generic_bigmt_dura"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_ducttape",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:weapon_mod_generic_bigmt_dura"
+    ]
+  },
+  "sends_telemetry_event": false
+}

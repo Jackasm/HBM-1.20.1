@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "hbm:block/storage/crate_can_bottom",
+    "side": "hbm:block/storage/crate_can_side",
+    "top": "hbm:block/storage/crate_can_top"
+  }
+}

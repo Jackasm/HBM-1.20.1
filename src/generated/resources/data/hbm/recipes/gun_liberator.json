@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:light_barrel_dura_steel"
+    },
+    "G": {
+      "item": "hbm:part_grip_wood"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_gunmetal"
+    }
+  },
+  "pattern": [
+    "BB ",
+    "BBM",
+    "G G"
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_liberator"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.5,
+  "group": "beryllium_ingot",
+  "ingredient": {
+    "item": "hbm:crystal_beryllium"
+  },
+  "result": "hbm:ingot_beryllium"
+}

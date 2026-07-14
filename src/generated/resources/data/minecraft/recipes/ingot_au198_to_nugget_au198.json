@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "hbm:ingot_au198"
+    }
+  ],
+  "result": {
+    "item": "hbm:nugget_au198"
+  }
+}

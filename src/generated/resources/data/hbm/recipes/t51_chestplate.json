@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:armor/titanium_chestplate"
+    },
+    "M": {
+      "item": "hbm:motor"
+    },
+    "P": {
+      "item": "hbm:plate_armor_titanium"
+    },
+    "T": {
+      "item": "hbm:gas_tank"
+    }
+  },
+  "pattern": [
+    "MPM",
+    "TBT",
+    "PPP"
+  ],
+  "result": {
+    "item": "hbm:armor/t51_chestplate"
+  },
+  "show_notification": true
+}

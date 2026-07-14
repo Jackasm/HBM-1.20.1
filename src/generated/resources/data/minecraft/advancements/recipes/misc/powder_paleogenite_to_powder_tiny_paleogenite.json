@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_powder_paleogenite": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:powder_paleogenite"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:powder_paleogenite_to_powder_tiny_paleogenite"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_powder_paleogenite",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:powder_paleogenite_to_powder_tiny_paleogenite"
+    ]
+  },
+  "sends_telemetry_event": false
+}

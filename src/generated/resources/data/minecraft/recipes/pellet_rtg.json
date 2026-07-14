@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "hbm:billet_pu238"
+    },
+    {
+      "item": "hbm:billet_pu238"
+    },
+    {
+      "item": "hbm:billet_pu238"
+    },
+    {
+      "item": "hbm:plate_iron"
+    }
+  ],
+  "result": {
+    "item": "hbm:pellet_rtg"
+  }
+}

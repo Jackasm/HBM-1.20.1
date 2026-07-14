@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "item": "minecraft:iron_ingot"
+    },
+    "G": {
+      "item": "minecraft:gunpowder"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "C",
+    "P",
+    "G"
+  ],
+  "result": {
+    "count": 6,
+    "item": "hbm:ammo/ammo_stone_iron"
+  },
+  "show_notification": true
+}

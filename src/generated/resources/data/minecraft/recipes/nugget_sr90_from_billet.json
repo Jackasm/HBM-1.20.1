@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "hbm:billet_sr90"
+    }
+  ],
+  "result": {
+    "item": "hbm:nugget_sr90"
+  }
+}

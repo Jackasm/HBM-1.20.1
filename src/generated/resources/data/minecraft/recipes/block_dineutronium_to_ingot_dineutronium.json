@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "hbm:block_dineutronium"
+    }
+  ],
+  "result": {
+    "item": "hbm:ingot_dineutronium"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "forge:glass_panes"
+    },
+    {
+      "item": "minecraft:cocoa_beans"
+    },
+    {
+      "item": "minecraft:milk_bucket"
+    },
+    {
+      "type": "hbm:fluid_bucket",
+      "fluid": "nitroglycerin"
+    }
+  ],
+  "result": {
+    "item": "hbm:chocolate_milk"
+  }
+}

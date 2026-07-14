@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "hbm:plate_aluminium"
+    },
+    "C": {
+      "item": "hbm:plate_copper"
+    },
+    "M": {
+      "item": "hbm:cell_antimatter"
+    }
+  },
+  "pattern": [
+    " C ",
+    "MMM",
+    "AAA"
+  ],
+  "result": {
+    "item": "hbm:custom_amat"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:blade_meteorite"
+    },
+    "G": {
+      "item": "hbm:plate_gold"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "  B",
+    "GB ",
+    "SG "
+  ],
+  "result": {
+    "item": "hbm:meteorite_sword"
+  },
+  "show_notification": true
+}

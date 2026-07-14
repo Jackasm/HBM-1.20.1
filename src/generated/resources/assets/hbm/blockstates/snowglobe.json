@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "hbm:block/snowglobe",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "hbm:block/snowglobe"
+    },
+    "facing=south": {
+      "model": "hbm:block/snowglobe",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "hbm:block/snowglobe",
+      "y": 270
+    }
+  }
+}

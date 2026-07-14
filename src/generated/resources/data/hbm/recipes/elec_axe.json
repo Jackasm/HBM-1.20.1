@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:battery_lithium"
+    },
+    "D": {
+      "item": "hbm:ingot_dura_steel"
+    },
+    "M": {
+      "item": "hbm:motor"
+    },
+    "P": {
+      "tag": "hbm:any_plastic"
+    },
+    "R": {
+      "item": "hbm:bolt_dura_steel"
+    }
+  },
+  "pattern": [
+    " DP",
+    "RRM",
+    " PB"
+  ],
+  "result": {
+    "item": "hbm:elec_axe"
+  },
+  "show_notification": true
+}

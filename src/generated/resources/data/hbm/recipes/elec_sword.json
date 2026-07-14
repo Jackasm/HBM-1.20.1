@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:battery_lithium"
+    },
+    "P": {
+      "tag": "hbm:any_plastic"
+    },
+    "R": {
+      "item": "hbm:bolt_dura_steel"
+    }
+  },
+  "pattern": [
+    "RPR",
+    "RPR",
+    " B "
+  ],
+  "result": {
+    "item": "hbm:elec_sword"
+  },
+  "show_notification": true
+}

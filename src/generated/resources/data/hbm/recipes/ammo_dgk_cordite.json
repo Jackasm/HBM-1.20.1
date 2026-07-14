@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "G": {
+      "item": "hbm:cordite"
+    },
+    "L": {
+      "item": "hbm:plate_lead"
+    }
+  },
+  "pattern": [
+    "LLL",
+    "GGG",
+    "CCC"
+  ],
+  "result": {
+    "item": "hbm:ammo/ammo_dgk"
+  },
+  "show_notification": true
+}

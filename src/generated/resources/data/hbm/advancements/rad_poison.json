@@ -1,0 +1,30 @@
+{
+  "parent": "hbm:root",
+  "criteria": {
+    "rad_poison": {
+      "conditions": {},
+      "trigger": "hbm:rad_poison"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.radPoison.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "hbm:geiger_counter"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.radPoison"
+    }
+  },
+  "requirements": [
+    [
+      "rad_poison"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

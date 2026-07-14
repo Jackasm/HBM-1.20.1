@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "hbm:block/capacitor_schrabidate",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "hbm:block/capacitor_schrabidate",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "hbm:block/capacitor_schrabidate"
+    },
+    "facing=south": {
+      "model": "hbm:block/capacitor_schrabidate",
+      "y": 180
+    },
+    "facing=up": {
+      "model": "hbm:block/capacitor_schrabidate",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "hbm:block/capacitor_schrabidate",
+      "y": 270
+    }
+  }
+}

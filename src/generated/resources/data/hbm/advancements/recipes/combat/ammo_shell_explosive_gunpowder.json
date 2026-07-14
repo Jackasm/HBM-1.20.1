@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_plastic_explosive": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "hbm:any_plasticexplosive_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:ammo_shell_explosive_gunpowder"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_plastic_explosive",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:ammo_shell_explosive_gunpowder"
+    ]
+  },
+  "sends_telemetry_event": false
+}

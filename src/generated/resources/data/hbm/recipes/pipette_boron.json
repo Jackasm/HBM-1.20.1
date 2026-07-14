@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:glass_boron"
+    },
+    "P": {
+      "item": "hbm:ingot_rubber"
+    }
+  },
+  "pattern": [
+    "  P",
+    " B ",
+    "B  "
+  ],
+  "result": {
+    "item": "hbm:pipette_boron"
+  },
+  "show_notification": true
+}

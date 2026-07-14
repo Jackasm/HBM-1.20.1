@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "item": "hbm:ingot_red_copper"
+    },
+    "G": {
+      "tag": "forge:glass_blocks"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "GIG",
+    "GCG"
+  ],
+  "result": {
+    "item": "hbm:chemistry_set"
+  },
+  "show_notification": true
+}

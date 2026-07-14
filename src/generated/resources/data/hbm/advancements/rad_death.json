@@ -1,0 +1,30 @@
+{
+  "parent": "hbm:root",
+  "criteria": {
+    "rad_death": {
+      "conditions": {},
+      "trigger": "hbm:rad_death"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.radDeath.desc"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:skeleton_skull"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.radDeath"
+    }
+  },
+  "requirements": [
+    [
+      "rad_death"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

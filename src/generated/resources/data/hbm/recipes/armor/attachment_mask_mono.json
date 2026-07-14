@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "hbm:duct_tape"
+    },
+    "F": {
+      "item": "hbm:plate_iron"
+    },
+    "I": {
+      "tag": "hbm:rubber_ingots"
+    }
+  },
+  "pattern": [
+    " D ",
+    "DID",
+    " F "
+  ],
+  "result": {
+    "item": "hbm:armor/attachment_mask_mono"
+  },
+  "show_notification": true
+}

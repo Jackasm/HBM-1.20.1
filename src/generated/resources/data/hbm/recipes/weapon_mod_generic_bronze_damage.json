@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "hbm:gun_mechanism_saturnite"
+    },
+    {
+      "tag": "hbm:any_bismoid_plate_cast"
+    },
+    {
+      "tag": "hbm:any_bismoid_plate_cast"
+    },
+    {
+      "tag": "hbm:any_bismoid_plate_cast"
+    },
+    {
+      "item": "hbm:duct_tape"
+    }
+  ],
+  "result": {
+    "item": "hbm:weapon_mod_bronze_damage"
+  }
+}

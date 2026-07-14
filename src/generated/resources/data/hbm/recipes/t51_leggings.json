@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:armor/titanium_leggings"
+    },
+    "M": {
+      "item": "hbm:motor"
+    },
+    "P": {
+      "item": "hbm:plate_armor_titanium"
+    }
+  },
+  "pattern": [
+    "MPM",
+    "PBP",
+    "P P"
+  ],
+  "result": {
+    "item": "hbm:armor/t51_leggings"
+  },
+  "show_notification": true
+}

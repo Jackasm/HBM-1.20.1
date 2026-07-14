@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:light_barrel_saturnite"
+    },
+    "D": {
+      "item": "hbm:weapon_mod_scope"
+    },
+    "G": {
+      "tag": "hbm:any_hardplastic_grip"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_saturnite"
+    },
+    "R": {
+      "item": "hbm:light_receiver_saturnite"
+    },
+    "S": {
+      "tag": "hbm:any_hardplastic_stock"
+    }
+  },
+  "pattern": [
+    " D ",
+    "BRS",
+    "GGM"
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_stg77"
+  },
+  "show_notification": true
+}

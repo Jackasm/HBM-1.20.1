@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "L": {
+      "tag": "hbm:rubber_ingots"
+    }
+  },
+  "pattern": [
+    "  L",
+    " G ",
+    "G  "
+  ],
+  "result": {
+    "item": "hbm:pipette"
+  },
+  "show_notification": true
+}

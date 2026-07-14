@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "hbm:gun_mechanism_gunmetal"
+    },
+    {
+      "item": "hbm:plate_cast_desh"
+    },
+    {
+      "item": "hbm:plate_cast_desh"
+    },
+    {
+      "item": "hbm:plate_cast_desh"
+    },
+    {
+      "item": "hbm:duct_tape"
+    }
+  ],
+  "result": {
+    "item": "hbm:weapon_mod_desh_damage"
+  }
+}

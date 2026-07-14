@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "hbm:block/storage/fluid_duct_silver"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.barrel.connections": {
+			"animation_length": 1.0,
+			"bones": {
+				"connection_north": {
+					"position": [0, 0, 0]
+				},
+				"connection_south": {
+					"position": [0, 0, 0]
+				},
+				"connection_west": {
+					"position": [0, 0, 0]
+				},
+				"connection_east": {
+					"position": [0, 0, 0]
+				},
+				"connection_up": {
+					"position": [0, 0, 0]
+				},
+				"connection_down": {
+					"position": [0, 0, 0]
+				}
+			}
+		}
+	}
+}

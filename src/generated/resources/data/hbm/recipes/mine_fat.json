@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "item": "hbm:circuit_analog"
+    },
+    "D": {
+      "item": "hbm:duct_tape"
+    },
+    "N": {
+      "item": "hbm:ammo/ammo_nuke_demo"
+    }
+  },
+  "pattern": [
+    "CDN"
+  ],
+  "result": {
+    "item": "hbm:bomb/mine/mine_fat"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "hbm:ingot_asbestos"
+    },
+    {
+      "tag": "hbm:any_tar"
+    },
+    {
+      "item": "hbm:nugget_polonium"
+    },
+    {
+      "item": "hbm:plant_tobacco"
+    }
+  ],
+  "result": {
+    "count": 16,
+    "item": "hbm:cigarette"
+  }
+}

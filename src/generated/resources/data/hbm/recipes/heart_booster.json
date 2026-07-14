@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "hbm:coin_maskman"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "H": {
+      "item": "hbm:heart_container"
+    },
+    "M": {
+      "item": "hbm:morning_glory"
+    }
+  },
+  "pattern": [
+    "GHG",
+    "MCM",
+    "GHG"
+  ],
+  "result": {
+    "item": "hbm:heart_booster"
+  },
+  "show_notification": true
+}

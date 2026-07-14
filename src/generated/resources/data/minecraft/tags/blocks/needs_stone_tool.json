@@ -1,0 +1,23 @@
+{
+  "values": [
+    "hbm:ore_sulfur",
+    "hbm:ore_sulfur_deepslate",
+    "hbm:ore_asbestos",
+    "hbm:ore_asbestos_deepslate",
+    "hbm:ore_gneiss_asbestos",
+    "hbm:ore_meteor_iron",
+    "hbm:ore_meteor_copper",
+    "hbm:ore_meteor_aluminium",
+    "hbm:ore_meteor_rare_earth",
+    "hbm:ore_meteor_cobalt",
+    "hbm:ore_niter",
+    "hbm:ore_niter_deepslate",
+    "hbm:ore_lignite",
+    "hbm:ore_lignite_deepslate",
+    "hbm:block_supply_crate",
+    "hbm:block_weapon_crate",
+    "hbm:ore_nether_sulfur",
+    "hbm:fallout",
+    "hbm:block_fallout"
+  ]
+}

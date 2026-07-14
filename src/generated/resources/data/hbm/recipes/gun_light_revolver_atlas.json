@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "hbm:weapon/gun_light_revolver"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_weapon_steel"
+    }
+  },
+  "pattern": [
+    " M ",
+    "MAM",
+    " M "
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_light_revolver_atlas"
+  },
+  "show_notification": true
+}

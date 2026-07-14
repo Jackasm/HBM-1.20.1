@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.5,
+  "group": "ingot_lead",
+  "ingredient": {
+    "item": "hbm:ore_lead"
+  },
+  "result": "hbm:ingot_lead"
+}

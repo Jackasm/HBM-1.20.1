@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:ammo_arty_he2"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_tnt_ball": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:ball_tnt"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_tnt_ball",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:ammo_arty_he2"
+    ]
+  },
+  "sends_telemetry_event": false
+}

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:envsuit_boots"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_titanium": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:plate_titanium"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_titanium",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:envsuit_boots"
+    ]
+  },
+  "sends_telemetry_event": false
+}

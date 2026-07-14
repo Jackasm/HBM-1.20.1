@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:light_barrel_steel"
+    },
+    "G": {
+      "item": "hbm:part_grip_steel"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_gunmetal"
+    },
+    "R": {
+      "item": "hbm:light_receiver_steel"
+    },
+    "S": {
+      "item": "hbm:bolt_steel"
+    }
+  },
+  "pattern": [
+    "BRS",
+    "SMG"
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_greasegun"
+  },
+  "show_notification": true
+}

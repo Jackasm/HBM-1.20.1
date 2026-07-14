@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:heavy_barrel_saturnite"
+    },
+    "G": {
+      "tag": "hbm:any_hardplastic_grip"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_saturnite"
+    },
+    "P": {
+      "item": "hbm:plate_saturnite"
+    },
+    "R": {
+      "item": "hbm:heavy_receiver_saturnite"
+    },
+    "S": {
+      "item": "hbm:shell_saturnite"
+    }
+  },
+  "pattern": [
+    "PPP",
+    "BSR",
+    "G M"
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_fatman"
+  },
+  "show_notification": true
+}

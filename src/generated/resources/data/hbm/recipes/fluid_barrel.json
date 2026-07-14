@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "1": {
+      "item": "hbm:plate_steel"
+    },
+    "2": {
+      "item": "hbm:plate_aluminium"
+    },
+    "G": {
+      "tag": "forge:glass_panes"
+    }
+  },
+  "pattern": [
+    "121",
+    "1G1",
+    "121"
+  ],
+  "result": {
+    "count": 2,
+    "item": "hbm:fluid_barrel"
+  },
+  "show_notification": true
+}

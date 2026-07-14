@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:light_barrel_saturnite"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_saturnite"
+    },
+    "P": {
+      "item": "hbm:plate_saturnite"
+    },
+    "R": {
+      "item": "hbm:light_receiver_saturnite"
+    }
+  },
+  "pattern": [
+    "BRM",
+    " P "
+  ],
+  "result": {
+    "item": "hbm:weapon_mod_skin_saturnite"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "hbm:weapon/gun_double_barrel"
+    },
+    {
+      "item": "hbm:secret_selenium_steel"
+    }
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_double_barrel_sacred_dragon"
+  }
+}

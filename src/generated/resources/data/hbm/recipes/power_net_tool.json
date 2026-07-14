@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:battery_generic"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "W": {
+      "item": "hbm:wire_red_copper"
+    }
+  },
+  "pattern": [
+    "WRW",
+    " I ",
+    " B "
+  ],
+  "result": {
+    "item": "hbm:power_net_tool"
+  },
+  "show_notification": true
+}

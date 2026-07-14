@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:armor/advanced_alloy_chestplate"
+    },
+    "M": {
+      "item": "hbm:motor_desh"
+    },
+    "P": {
+      "item": "hbm:plate_armor_ajr"
+    },
+    "T": {
+      "item": "hbm:gas_tank"
+    }
+  },
+  "pattern": [
+    "MPM",
+    "TBT",
+    "PPP"
+  ],
+  "result": {
+    "item": "hbm:armor/ajr_chestplate"
+  },
+  "show_notification": true
+}

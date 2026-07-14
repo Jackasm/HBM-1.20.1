@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "tag": "forge:glass_panes"
+    },
+    "P": {
+      "item": "hbm:plate_steel"
+    }
+  },
+  "pattern": [
+    "P P",
+    "GPG"
+  ],
+  "result": {
+    "item": "hbm:armor/goggles"
+  },
+  "show_notification": true
+}

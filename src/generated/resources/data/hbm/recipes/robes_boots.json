@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": {
+      "tag": "hbm:rubber_ingots"
+    },
+    "R": {
+      "item": "hbm:rag"
+    }
+  },
+  "pattern": [
+    "R R",
+    "P P"
+  ],
+  "result": {
+    "item": "hbm:armor/robes_boots"
+  },
+  "show_notification": true
+}

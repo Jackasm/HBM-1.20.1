@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "hbm:circuit_chip"
+    },
+    "G": {
+      "tag": "forge:glass_panes"
+    },
+    "R": {
+      "item": "hbm:ingot_rubber"
+    },
+    "T": {
+      "item": "hbm:plate_titanium"
+    }
+  },
+  "pattern": [
+    "TCT",
+    "TGT",
+    "RRR"
+  ],
+  "result": {
+    "item": "hbm:armor/envsuit_helmet"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "type=black": {
+      "model": "hbm:block/concrete_colored_black"
+    },
+    "type=blue": {
+      "model": "hbm:block/concrete_colored_blue"
+    },
+    "type=brown": {
+      "model": "hbm:block/concrete_colored_brown"
+    },
+    "type=cyan": {
+      "model": "hbm:block/concrete_colored_cyan"
+    },
+    "type=gray": {
+      "model": "hbm:block/concrete_colored_gray"
+    },
+    "type=green": {
+      "model": "hbm:block/concrete_colored_green"
+    },
+    "type=light_blue": {
+      "model": "hbm:block/concrete_colored_light_blue"
+    },
+    "type=light_gray": {
+      "model": "hbm:block/concrete_colored_light_gray"
+    },
+    "type=lime": {
+      "model": "hbm:block/concrete_colored_lime"
+    },
+    "type=magenta": {
+      "model": "hbm:block/concrete_colored_magenta"
+    },
+    "type=orange": {
+      "model": "hbm:block/concrete_colored_orange"
+    },
+    "type=pink": {
+      "model": "hbm:block/concrete_colored_pink"
+    },
+    "type=purple": {
+      "model": "hbm:block/concrete_colored_purple"
+    },
+    "type=red": {
+      "model": "hbm:block/concrete_colored_red"
+    },
+    "type=white": {
+      "model": "hbm:block/concrete_colored_white"
+    },
+    "type=yellow": {
+      "model": "hbm:block/concrete_colored_yellow"
+    }
+  }
+}

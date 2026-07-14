@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:block_lead"
+    },
+    "I": {
+      "item": "hbm:ingot_lead"
+    }
+  },
+  "pattern": [
+    "III",
+    " B ",
+    "III"
+  ],
+  "result": {
+    "item": "hbm:machines/anvil_lead"
+  },
+  "show_notification": true
+}

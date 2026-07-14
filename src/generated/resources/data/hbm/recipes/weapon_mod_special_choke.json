@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:light_barrel_dura_steel"
+    },
+    "P": {
+      "item": "hbm:plate_weapon_steel"
+    }
+  },
+  "pattern": [
+    "P",
+    "B",
+    "P"
+  ],
+  "result": {
+    "item": "hbm:weapon_mod_choke"
+  },
+  "show_notification": true
+}

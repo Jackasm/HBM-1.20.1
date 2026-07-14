@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "hbm:item/plant_tall_weed",
+      "predicate": {
+        "custom_model_data": 0
+      }
+    },
+    {
+      "model": "hbm:item/plant_tall_cd2",
+      "predicate": {
+        "custom_model_data": 1
+      }
+    },
+    {
+      "model": "hbm:item/plant_tall_cd3",
+      "predicate": {
+        "custom_model_data": 2
+      }
+    },
+    {
+      "model": "hbm:item/plant_tall_cd4",
+      "predicate": {
+        "custom_model_data": 3
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "hbm:block/plant_tall_weed_lower"
+  }
+}

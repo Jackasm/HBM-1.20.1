@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:armor/titanium_leggings"
+    },
+    "I": {
+      "tag": "hbm:any_plastic"
+    },
+    "M": {
+      "item": "hbm:motor_desh"
+    },
+    "P": {
+      "item": "hbm:plate_armor_hev"
+    }
+  },
+  "pattern": [
+    "MPM",
+    "IBI",
+    "P P"
+  ],
+  "result": {
+    "item": "hbm:armor/hev_leggings"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,30 @@
+{
+  "parent": "hbm:blast_furnace",
+  "criteria": {
+    "assembly": {
+      "conditions": {},
+      "trigger": "hbm:assembly"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.assembly.desc"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "hbm:nothing"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.assembly"
+    }
+  },
+  "requirements": [
+    [
+      "assembly"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

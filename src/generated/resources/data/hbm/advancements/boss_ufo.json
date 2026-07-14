@@ -1,0 +1,30 @@
+{
+  "parent": "hbm:root",
+  "criteria": {
+    "boss_ufo": {
+      "conditions": {},
+      "trigger": "hbm:boss_ufo"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.bossUFO.desc"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "hbm:coin_ufo"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.bossUFO"
+    }
+  },
+  "requirements": [
+    [
+      "boss_ufo"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

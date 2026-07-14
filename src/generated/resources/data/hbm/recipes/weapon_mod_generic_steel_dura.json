@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "hbm:plate_gunmetal"
+    },
+    {
+      "item": "hbm:plate_cast_steel"
+    },
+    {
+      "item": "hbm:duct_tape"
+    }
+  ],
+  "result": {
+    "item": "hbm:weapon_mod_steel_dura"
+  }
+}

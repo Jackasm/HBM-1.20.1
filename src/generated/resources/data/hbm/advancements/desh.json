@@ -1,0 +1,30 @@
+{
+  "parent": "hbm:chemplant",
+  "criteria": {
+    "desh": {
+      "conditions": {},
+      "trigger": "hbm:desh"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.desh.desc"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "hbm:ingot_desh"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.desh"
+    }
+  },
+  "requirements": [
+    [
+      "desh"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

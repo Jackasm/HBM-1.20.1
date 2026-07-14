@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "hbm:plate_paa"
+    },
+    "D": {
+      "item": "hbm:powder_dineutronium"
+    },
+    "F": {
+      "item": "hbm:shimmer_handle"
+    },
+    "P": {
+      "item": "hbm:chlorophyte_pickaxe"
+    },
+    "S": {
+      "item": "hbm:blades_desh"
+    }
+  },
+  "pattern": [
+    " SD",
+    "APS",
+    "FA "
+  ],
+  "result": {
+    "item": "hbm:mese_pickaxe"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "hbm:five_htp"
+    },
+    {
+      "item": "hbm:circuit_basic"
+    },
+    {
+      "item": "hbm:plate_saturnite"
+    }
+  ],
+  "result": {
+    "item": "hbm:injector_5htp"
+  }
+}

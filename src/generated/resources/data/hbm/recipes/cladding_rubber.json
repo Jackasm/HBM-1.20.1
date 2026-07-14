@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "hbm:powder_coal"
+    },
+    "D": {
+      "item": "hbm:duct_tape"
+    },
+    "R": {
+      "tag": "hbm:rubber_ingots"
+    }
+  },
+  "pattern": [
+    "RCR",
+    "CDC",
+    "RCR"
+  ],
+  "result": {
+    "item": "hbm:cladding_rubber"
+  },
+  "show_notification": true
+}

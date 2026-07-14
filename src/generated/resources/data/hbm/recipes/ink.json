@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "F": {
+      "item": "minecraft:red_tulip"
+    },
+    "I": {
+      "item": "minecraft:black_dye"
+    },
+    "P": {
+      "item": "hbm:armor_polish"
+    }
+  },
+  "pattern": [
+    "FPF",
+    "PIP",
+    "FPF"
+  ],
+  "result": {
+    "item": "hbm:ink"
+  },
+  "show_notification": true
+}

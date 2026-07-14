@@ -1,0 +1,30 @@
+{
+  "parent": "hbm:fiend",
+  "criteria": {
+    "fiend2": {
+      "conditions": {},
+      "trigger": "hbm:fiend2"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.fiend2.desc"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "hbm:weapon/shimmer_axe"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.fiend2"
+    }
+  },
+  "requirements": [
+    [
+      "fiend2"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

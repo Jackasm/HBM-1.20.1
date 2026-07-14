@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "hbm:duct_tape"
+    },
+    "O": {
+      "item": "hbm:plate_iron"
+    },
+    "P": {
+      "item": "hbm:plate_polymer"
+    }
+  },
+  "pattern": [
+    "OOO",
+    "PDP",
+    "OOO"
+  ],
+  "result": {
+    "item": "hbm:cladding_iron"
+  },
+  "show_notification": true
+}

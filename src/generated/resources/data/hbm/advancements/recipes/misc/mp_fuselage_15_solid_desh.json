@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_desh_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:ingot_desh"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:mp_fuselage_15_solid_desh"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_desh_ingot",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:mp_fuselage_15_solid_desh"
+    ]
+  },
+  "sends_telemetry_event": false
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "tag": "hbm:any_smokeless_dust"
+    },
+    "I": {
+      "item": "hbm:plate_polymer"
+    },
+    "S": {
+      "item": "hbm:ingot_steel"
+    }
+  },
+  "pattern": [
+    "I",
+    "C",
+    "S"
+  ],
+  "result": {
+    "count": 4,
+    "item": "hbm:bomb/mine/mine_ap"
+  },
+  "show_notification": true
+}

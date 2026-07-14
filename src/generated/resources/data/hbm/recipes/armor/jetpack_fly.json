@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "hbm:plate_aluminium"
+    },
+    "C": {
+      "item": "hbm:circuit_basic"
+    },
+    "D": {
+      "item": "hbm:thruster_small"
+    },
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "T": {
+      "item": "hbm:tank_steel"
+    }
+  },
+  "pattern": [
+    "ACA",
+    "TLT",
+    "D D"
+  ],
+  "result": {
+    "item": "hbm:armor/jetpack_fly"
+  },
+  "show_notification": true
+}

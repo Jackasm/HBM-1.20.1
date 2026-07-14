@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "tag": "hbm:any_resistantalloy_light_barrel"
+    },
+    "G": {
+      "tag": "hbm:any_plastic_grip"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_weapon_steel"
+    },
+    "R": {
+      "tag": "hbm:any_resistantalloy_light_receiver"
+    }
+  },
+  "pattern": [
+    "BRM",
+    "  G"
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_lag"
+  },
+  "show_notification": true
+}

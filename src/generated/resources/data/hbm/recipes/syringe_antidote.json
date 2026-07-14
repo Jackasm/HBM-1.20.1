@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "M": {
+      "item": "minecraft:milk_bucket"
+    },
+    "P": {
+      "item": "minecraft:pumpkin_seeds"
+    },
+    "S": {
+      "item": "hbm:syringe_empty"
+    }
+  },
+  "pattern": [
+    "SSS",
+    "PMP",
+    "SSS"
+  ],
+  "result": {
+    "count": 6,
+    "item": "hbm:syringe_antidote"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,12 @@
+{
+  "type": "hbm:add_bonus_powder",
+  "conditions": [
+    {
+      "condition": "minecraft:block_state_property",
+      "block": "hbm:ore_coal"
+    }
+  ],
+  "bonusItem": "hbm:powder_coal",
+  "baseChance": 0.05,
+  "maxChance": 0.33
+}

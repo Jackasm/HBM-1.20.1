@@ -1,0 +1,67 @@
+{
+  "variants": {
+    "dummy_state=0,facing=down": {
+      "model": "hbm:block/machines/heat_boiler"
+    },
+    "dummy_state=0,facing=east": {
+      "model": "hbm:block/machines/heat_boiler"
+    },
+    "dummy_state=0,facing=north": {
+      "model": "hbm:block/machines/heat_boiler",
+      "y": 90
+    },
+    "dummy_state=0,facing=south": {
+      "model": "hbm:block/machines/heat_boiler",
+      "y": 270
+    },
+    "dummy_state=0,facing=up": {
+      "model": "hbm:block/machines/heat_boiler"
+    },
+    "dummy_state=0,facing=west": {
+      "model": "hbm:block/machines/heat_boiler",
+      "y": 180
+    },
+    "dummy_state=1,facing=down": {
+      "model": "hbm:block/machines/heat_boiler"
+    },
+    "dummy_state=1,facing=east": {
+      "model": "hbm:block/machines/heat_boiler"
+    },
+    "dummy_state=1,facing=north": {
+      "model": "hbm:block/machines/heat_boiler",
+      "y": 90
+    },
+    "dummy_state=1,facing=south": {
+      "model": "hbm:block/machines/heat_boiler",
+      "y": 270
+    },
+    "dummy_state=1,facing=up": {
+      "model": "hbm:block/machines/heat_boiler"
+    },
+    "dummy_state=1,facing=west": {
+      "model": "hbm:block/machines/heat_boiler",
+      "y": 180
+    },
+    "dummy_state=2,facing=down": {
+      "model": "hbm:block/machines/heat_boiler"
+    },
+    "dummy_state=2,facing=east": {
+      "model": "hbm:block/machines/heat_boiler"
+    },
+    "dummy_state=2,facing=north": {
+      "model": "hbm:block/machines/heat_boiler",
+      "y": 90
+    },
+    "dummy_state=2,facing=south": {
+      "model": "hbm:block/machines/heat_boiler",
+      "y": 270
+    },
+    "dummy_state=2,facing=up": {
+      "model": "hbm:block/machines/heat_boiler"
+    },
+    "dummy_state=2,facing=west": {
+      "model": "hbm:block/machines/heat_boiler",
+      "y": 180
+    }
+  }
+}

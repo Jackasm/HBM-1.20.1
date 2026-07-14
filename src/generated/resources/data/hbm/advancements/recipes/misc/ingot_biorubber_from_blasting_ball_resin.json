@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_ball_resin": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:ball_resin"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:ingot_biorubber_from_blasting_ball_resin"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_ball_resin",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:ingot_biorubber_from_blasting_ball_resin"
+    ]
+  },
+  "sends_telemetry_event": false
+}

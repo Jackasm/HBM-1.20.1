@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "item": "hbm:circuit_advanced"
+    },
+    "P": {
+      "tag": "hbm:any_plastic"
+    },
+    "W": {
+      "item": "hbm:wire_gold"
+    }
+  },
+  "pattern": [
+    "WWW",
+    "CPC",
+    "WWW"
+  ],
+  "result": {
+    "item": "hbm:turret_chip"
+  },
+  "show_notification": true
+}

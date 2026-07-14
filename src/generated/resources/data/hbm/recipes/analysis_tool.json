@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "G": {
+      "tag": "forge:glass_panes"
+    },
+    "S": {
+      "item": "hbm:ingot_steel"
+    }
+  },
+  "pattern": [
+    "  G",
+    " S ",
+    "S  "
+  ],
+  "result": {
+    "item": "hbm:analysis_tool"
+  },
+  "show_notification": true
+}

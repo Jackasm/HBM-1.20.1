@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:gun_henry_lincoln"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_weapon_steel_mechanism": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:gun_mechanism_weapon_steel"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_weapon_steel_mechanism",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:gun_henry_lincoln"
+    ]
+  },
+  "sends_telemetry_event": false
+}

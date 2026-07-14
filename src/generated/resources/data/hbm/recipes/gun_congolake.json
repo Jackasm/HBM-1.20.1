@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:heavy_barrel_dura_steel"
+    },
+    "G": {
+      "item": "hbm:part_grip_wood"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_gunmetal"
+    },
+    "R": {
+      "item": "hbm:light_receiver_dura_steel"
+    },
+    "S": {
+      "item": "hbm:part_stock_wood"
+    }
+  },
+  "pattern": [
+    "BM ",
+    "BRS",
+    "G  "
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_congolake"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,11 @@
+{
+  "type": "hbm:crater",
+  "config": {
+    "frequency": 5000,
+    "maxSize": 64,
+    "minSize": 8,
+    "regolith": "hbm:sellafield_slaked",
+    "rock": "hbm:sellafield_slaked",
+    "targetBiome": "hbm:desert"
+  }
+}

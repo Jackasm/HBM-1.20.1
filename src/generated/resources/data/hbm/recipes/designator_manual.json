@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "tag": "hbm:any_plastic"
+    },
+    "A": {
+      "item": "hbm:plate_lead"
+    },
+    "B": {
+      "item": "hbm:circuit_advanced"
+    },
+    "C": {
+      "item": "hbm:designator"
+    }
+  },
+  "pattern": [
+    "  A",
+    "#C#",
+    "#B#"
+  ],
+  "result": {
+    "item": "hbm:designator_manual"
+  },
+  "show_notification": true
+}

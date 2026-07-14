@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_tantalium_nugget": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:nugget_tantalium"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:circuit_capacitor_tantalium_copper"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_tantalium_nugget",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:circuit_capacitor_tantalium_copper"
+    ]
+  },
+  "sends_telemetry_event": false
+}

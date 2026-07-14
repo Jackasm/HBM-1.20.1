@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "G": {
+      "item": "hbm:weapon/wood_gavel"
+    },
+    "I": {
+      "item": "hbm:ingot_lead"
+    },
+    "P": {
+      "item": "hbm:pellet_buckshot"
+    }
+  },
+  "pattern": [
+    "PIP",
+    "IGI",
+    "PIP"
+  ],
+  "result": {
+    "item": "hbm:weapon/lead_gavel"
+  },
+  "show_notification": true
+}

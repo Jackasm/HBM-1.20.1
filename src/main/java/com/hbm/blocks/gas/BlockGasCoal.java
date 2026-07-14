@@ -1,0 +1,64 @@
+package com.hbm.blocks.gas;
+
+import com.hbm.extprop.HbmLivingProps;
+import com.hbm.util.ArmorRegistry;
+import com.hbm.util.ArmorRegistry.HazardClass;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
+
+public class BlockGasCoal extends BlockGasBase {
+
+    public BlockGasCoal(Properties properties) {
+        super(properties,0.2F, 0.2F, 0.2F);
+    }
+
+    @Override
+    public Direction getFirstDirection(Level level, BlockPos pos) {
+        if (level.random.nextInt(5) == 0)
+            return Direction.DOWN;
+
+        return Direction.values()[level.random.nextInt(6)];
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void animateTick(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+        super.animateTick(state, level, pos, random);
+        double x = pos.getX() + random.nextFloat();
+        double y = pos.getY() + random.nextFloat();
+        double z = pos.getZ() + random.nextFloat();
+        level.addParticle(net.minecraft.core.particles.ParticleTypes.SMOKE, x, y, z, 0.0D, 0.0D, 0.0D);
+    }
+
+    @Override
+    public void entityInside(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Entity entity) {
+        if (entity instanceof LivingEntity living) {
+            if (!ArmorRegistry.hasProtection(living, 3, HazardClass.PARTICLE_COARSE)) {
+                HbmLivingProps.incrementBlackLung(living, 10);
+            }
+        }
+    }
+
+    @Override
+    public Direction getSecondDirection(Level level, BlockPos pos) {
+        return randomHorizontal(level.random);
+    }
+
+    @Override
+    public void tick(@NotNull BlockState state, ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+        if (!level.isClientSide && random.nextInt(20) == 0) {
+            level.removeBlock(pos, false);
+            return;
+        }
+        super.tick(state, level, pos, random);
+    }
+}

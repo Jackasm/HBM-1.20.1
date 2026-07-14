@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "hbm:plate_polymer"
+    },
+    "S": {
+      "item": "hbm:circuit_silicon"
+    },
+    "W": {
+      "item": "hbm:wire_gold"
+    }
+  },
+  "pattern": [
+    "I",
+    "S",
+    "W"
+  ],
+  "result": {
+    "item": "hbm:circuit_chip"
+  },
+  "show_notification": true
+}

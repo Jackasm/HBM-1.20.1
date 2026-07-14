@@ -1,0 +1,8 @@
+{
+  "values": [
+    "hbm:arc_electrode_graphite",
+    "hbm:arc_electrode_lanthanium",
+    "hbm:arc_electrode_desh",
+    "hbm:arc_electrode_saturnite"
+  ]
+}

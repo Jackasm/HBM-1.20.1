@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "hbm:ammo/ammo_rocket_he"
+    },
+    {
+      "item": "hbm:nitra"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "item": "hbm:ammo/ammo_rocket_he"
+  }
+}

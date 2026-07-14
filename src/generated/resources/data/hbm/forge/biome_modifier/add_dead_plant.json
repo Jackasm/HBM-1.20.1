@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "hbm:dead_plant_generic_placed",
+  "step": "vegetal_decoration"
+}

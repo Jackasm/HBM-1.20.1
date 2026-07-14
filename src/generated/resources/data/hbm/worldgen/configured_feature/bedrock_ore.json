@@ -1,0 +1,6 @@
+{
+  "type": "hbm:bedrock_ore",
+  "config": {
+    "chance": 10
+  }
+}

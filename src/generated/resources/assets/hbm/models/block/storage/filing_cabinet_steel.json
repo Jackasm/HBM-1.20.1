@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "particle": "hbm:block/storage/filing_cabinet_steel"
+  }
+}

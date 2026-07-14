@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "hbm:plate_copper"
+    },
+    "D": {
+      "item": "hbm:ingot_desh"
+    },
+    "X": {
+      "item": "hbm:armor/steel_leggings"
+    }
+  },
+  "pattern": [
+    "CCC",
+    "DXD",
+    "C C"
+  ],
+  "result": {
+    "item": "hbm:armor/steamsuit_leggings"
+  },
+  "show_notification": true
+}

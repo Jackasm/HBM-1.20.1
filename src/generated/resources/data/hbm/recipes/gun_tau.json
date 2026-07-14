@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "item": "hbm:pipe_copper"
+    },
+    "D": {
+      "item": "hbm:circuit_bismoid"
+    },
+    "G": {
+      "tag": "hbm:any_hardplastic_grip"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_saturnite"
+    },
+    "R": {
+      "item": "hbm:light_receiver_saturnite"
+    },
+    "S": {
+      "tag": "hbm:any_hardplastic_stock"
+    },
+    "T": {
+      "item": "hbm:coil_advanced_alloy_torus"
+    }
+  },
+  "pattern": [
+    " RD",
+    "CTT",
+    "GMS"
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_tau"
+  },
+  "show_notification": true
+}

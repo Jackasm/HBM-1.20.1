@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:armor/hazmat_chestplate_grey"
+    },
+    "C": {
+      "item": "hbm:cladding_iron"
+    },
+    "I": {
+      "tag": "hbm:rubber_ingots"
+    },
+    "T": {
+      "item": "hbm:gas_tank"
+    }
+  },
+  "pattern": [
+    "ICI",
+    "TBT",
+    "ICI"
+  ],
+  "result": {
+    "item": "hbm:armor/liquidator_chestplate"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_fragment_coltan": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:fragment_coltan"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:fragment_coltan_to_block_coltan"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_fragment_coltan",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:fragment_coltan_to_block_coltan"
+    ]
+  },
+  "sends_telemetry_event": false
+}

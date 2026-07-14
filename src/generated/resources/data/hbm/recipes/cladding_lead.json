@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "hbm:duct_tape"
+    },
+    "P": {
+      "item": "hbm:plate_lead"
+    },
+    "R": {
+      "item": "hbm:cladding_rubber"
+    }
+  },
+  "pattern": [
+    "DPD",
+    "PRP",
+    "DPD"
+  ],
+  "result": {
+    "item": "hbm:cladding_lead"
+  },
+  "show_notification": true
+}

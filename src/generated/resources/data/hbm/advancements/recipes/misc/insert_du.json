@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:insert_du"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_u238": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:block_u238"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_u238",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:insert_du"
+    ]
+  },
+  "sends_telemetry_event": false
+}

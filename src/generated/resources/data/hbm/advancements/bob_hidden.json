@@ -1,0 +1,30 @@
+{
+  "parent": "hbm:root",
+  "criteria": {
+    "bob_hidden": {
+      "conditions": {},
+      "trigger": "hbm:bob_hidden"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.bobHidden.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "hbm:boxcar"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.bobHidden"
+    }
+  },
+  "requirements": [
+    [
+      "bob_hidden"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

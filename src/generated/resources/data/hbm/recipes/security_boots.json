@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "tag": "hbm:rubber_ingots"
+    },
+    "P": {
+      "item": "hbm:plate_steel"
+    }
+  },
+  "pattern": [
+    "P P",
+    "I I"
+  ],
+  "result": {
+    "item": "hbm:armor/security_boots"
+  },
+  "show_notification": true
+}

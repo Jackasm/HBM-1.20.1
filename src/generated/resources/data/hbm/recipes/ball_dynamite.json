@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "hbm:powder_niter"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:sand"
+    },
+    {
+      "tag": "hbm:ntmchemistryset"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "item": "hbm:ball_dynamite"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "hbm:demon_core_closed"
+    },
+    "S": {
+      "item": "hbm:ingot_steel"
+    }
+  },
+  "pattern": [
+    " D ",
+    "S S"
+  ],
+  "result": {
+    "item": "hbm:machines/lamp_demon"
+  },
+  "show_notification": true
+}

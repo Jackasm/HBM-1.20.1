@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "hbm:capacitor_niobium"
+    },
+    "P": {
+      "tag": "hbm:any_plastic"
+    }
+  },
+  "pattern": [
+    "PCP",
+    "PCP",
+    "PCP"
+  ],
+  "result": {
+    "item": "hbm:armor_battery_mk2"
+  },
+  "show_notification": true
+}

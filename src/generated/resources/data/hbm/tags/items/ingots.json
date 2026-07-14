@@ -1,0 +1,14 @@
+{
+  "values": [
+    "hbm:ingot_aluminium",
+    "hbm:ingot_titanium",
+    "hbm:ingot_tungsten",
+    "hbm:ingot_lead",
+    "hbm:ingot_zinc",
+    "hbm:ingot_uranium",
+    "hbm:ingot_plutonium",
+    "hbm:ingot_thorium",
+    "hbm:ingot_cobalt",
+    "hbm:ingot_beryllium"
+  ]
+}

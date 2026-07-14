@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:armor/starmetal_leggings"
+    },
+    "D": {
+      "item": "hbm:billet_polonium"
+    },
+    "M": {
+      "item": "hbm:motor_desh"
+    },
+    "P": {
+      "item": "hbm:plate_armor_fau"
+    }
+  },
+  "pattern": [
+    "MPM",
+    "PBP",
+    "PDP"
+  ],
+  "result": {
+    "item": "hbm:armor/fau_leggings"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "G": {
+      "item": "hbm:cordite"
+    },
+    "H": {
+      "item": "hbm:shell_steel"
+    },
+    "T": {
+      "item": "minecraft:tnt"
+    }
+  },
+  "pattern": [
+    " T ",
+    "GHG",
+    "CCC"
+  ],
+  "result": {
+    "count": 6,
+    "item": "hbm:ammo/ammo_shell"
+  },
+  "show_notification": true
+}

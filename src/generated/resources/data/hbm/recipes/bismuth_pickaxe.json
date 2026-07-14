@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:ingot_bismuth"
+    },
+    "M": {
+      "item": "hbm:ingot_meteorite"
+    },
+    "P": {
+      "item": "hbm:tools/starmetal_pickaxe"
+    },
+    "T": {
+      "item": "hbm:bolt_tungsten"
+    }
+  },
+  "pattern": [
+    " BM",
+    "BPB",
+    "TB "
+  ],
+  "result": {
+    "item": "hbm:bismuth_pickaxe"
+  },
+  "show_notification": true
+}

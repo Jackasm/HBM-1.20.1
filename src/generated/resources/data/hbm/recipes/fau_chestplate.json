@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:armor/starmetal_chestplate"
+    },
+    "C": {
+      "item": "hbm:demon_core_closed"
+    },
+    "M": {
+      "item": "hbm:motor_desh"
+    },
+    "P": {
+      "item": "hbm:plate_armor_fau"
+    },
+    "S": {
+      "item": "hbm:ancient_scrap"
+    }
+  },
+  "pattern": [
+    "MCM",
+    "PBP",
+    "PSP"
+  ],
+  "result": {
+    "item": "hbm:armor/fau_chestplate"
+  },
+  "show_notification": true
+}

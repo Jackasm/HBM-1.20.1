@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "hbm:weapon/gun_autoshotgun"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_gunmetal"
+    }
+  },
+  "pattern": [
+    " M ",
+    "MAM",
+    " M "
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_autoshotgun_shredder"
+  },
+  "show_notification": true
+}

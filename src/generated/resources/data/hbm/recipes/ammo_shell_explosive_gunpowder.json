@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "G": {
+      "item": "minecraft:gunpowder"
+    },
+    "H": {
+      "item": "hbm:shell_steel"
+    },
+    "T": {
+      "tag": "hbm:any_plasticexplosive_ingot"
+    }
+  },
+  "pattern": [
+    " T ",
+    "GHG",
+    "CCC"
+  ],
+  "result": {
+    "count": 4,
+    "item": "hbm:ammo/ammo_shell_explosive"
+  },
+  "show_notification": true
+}

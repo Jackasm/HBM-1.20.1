@@ -1,0 +1,40 @@
+{
+  "parent": "hbm:root",
+  "criteria": {
+    "kill_nuclear_creeper": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "hbm:creeper_nuclear"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.bossCreeper.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "hbm:coin_creeper"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.bossCreeper"
+    }
+  },
+  "requirements": [
+    [
+      "kill_nuclear_creeper"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

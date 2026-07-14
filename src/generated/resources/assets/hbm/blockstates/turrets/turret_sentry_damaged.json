@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "hbm:block/turrets/turret_sentry_damaged",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "hbm:block/turrets/turret_sentry_damaged"
+    },
+    "facing=south": {
+      "model": "hbm:block/turrets/turret_sentry_damaged",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "hbm:block/turrets/turret_sentry_damaged",
+      "y": 270
+    }
+  }
+}

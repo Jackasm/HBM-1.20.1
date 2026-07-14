@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "R": {
+      "tag": "hbm:rubber_ingots"
+    }
+  },
+  "pattern": [
+    " GR",
+    " GR",
+    " G "
+  ],
+  "result": {
+    "item": "hbm:siphon"
+  },
+  "show_notification": true
+}

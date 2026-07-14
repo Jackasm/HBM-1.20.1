@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "hbm:ingot_fiberglass"
+    },
+    "D": {
+      "item": "hbm:powder_chlorophyte"
+    },
+    "F": {
+      "item": "hbm:bolt_dura_steel"
+    },
+    "P": {
+      "item": "hbm:bismuth_axe"
+    },
+    "S": {
+      "item": "hbm:blades_steel"
+    }
+  },
+  "pattern": [
+    " SD",
+    "APS",
+    "FA "
+  ],
+  "result": {
+    "item": "hbm:chlorophyte_axe"
+  },
+  "show_notification": true
+}

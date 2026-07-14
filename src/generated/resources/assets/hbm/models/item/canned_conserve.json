@@ -1,0 +1,170 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "hbm:item/canned_conserve_beef",
+      "predicate": {
+        "custom_model_data": 0
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_tuna",
+      "predicate": {
+        "custom_model_data": 1
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_mystery",
+      "predicate": {
+        "custom_model_data": 2
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_pashtet",
+      "predicate": {
+        "custom_model_data": 3
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_cheese",
+      "predicate": {
+        "custom_model_data": 4
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_jizz",
+      "predicate": {
+        "custom_model_data": 5
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_milk",
+      "predicate": {
+        "custom_model_data": 6
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_ass",
+      "predicate": {
+        "custom_model_data": 7
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_pizza",
+      "predicate": {
+        "custom_model_data": 8
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_tube",
+      "predicate": {
+        "custom_model_data": 9
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_tomato",
+      "predicate": {
+        "custom_model_data": 10
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_asbestos",
+      "predicate": {
+        "custom_model_data": 11
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_bhole",
+      "predicate": {
+        "custom_model_data": 12
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_hotdogs",
+      "predicate": {
+        "custom_model_data": 13
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_leftovers",
+      "predicate": {
+        "custom_model_data": 14
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_yogurt",
+      "predicate": {
+        "custom_model_data": 15
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_stew",
+      "predicate": {
+        "custom_model_data": 16
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_chinese",
+      "predicate": {
+        "custom_model_data": 17
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_oil",
+      "predicate": {
+        "custom_model_data": 18
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_fist",
+      "predicate": {
+        "custom_model_data": 19
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_spam",
+      "predicate": {
+        "custom_model_data": 20
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_fried",
+      "predicate": {
+        "custom_model_data": 21
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_napalm",
+      "predicate": {
+        "custom_model_data": 22
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_diesel",
+      "predicate": {
+        "custom_model_data": 23
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_kerosene",
+      "predicate": {
+        "custom_model_data": 24
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_recursion",
+      "predicate": {
+        "custom_model_data": 25
+      }
+    },
+    {
+      "model": "hbm:item/canned_conserve_bark",
+      "predicate": {
+        "custom_model_data": 26
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "hbm:item/canned_conserve_beef"
+  }
+}

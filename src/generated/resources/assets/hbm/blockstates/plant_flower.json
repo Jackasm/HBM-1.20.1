@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "meta=0": {
+      "model": "hbm:block/plant_flower_foxglove"
+    },
+    "meta=1": {
+      "model": "hbm:block/plant_flower_tobacco"
+    },
+    "meta=2": {
+      "model": "hbm:block/plant_flower_nightshade"
+    },
+    "meta=3": {
+      "model": "hbm:block/plant_flower_weed"
+    },
+    "meta=4": {
+      "model": "hbm:block/plant_flower_cd0"
+    },
+    "meta=5": {
+      "model": "hbm:block/plant_flower_cd1"
+    }
+  }
+}

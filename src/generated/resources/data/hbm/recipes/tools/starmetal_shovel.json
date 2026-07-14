@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:tools/cobalt_decorated_shovel"
+    },
+    "I": {
+      "item": "hbm:ingot_starmetal"
+    }
+  },
+  "pattern": [
+    "I",
+    "B",
+    "I"
+  ],
+  "result": {
+    "item": "hbm:tools/starmetal_shovel"
+  },
+  "show_notification": true
+}

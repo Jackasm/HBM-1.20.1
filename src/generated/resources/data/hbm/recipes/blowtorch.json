@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "item": "hbm:plate_cast_steel"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "CC ",
+    " I ",
+    "CCC"
+  ],
+  "result": {
+    "item": "hbm:blowtorch"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:light_barrel_desh"
+    },
+    "G": {
+      "item": "hbm:part_grip_wood"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_gunmetal"
+    },
+    "R": {
+      "item": "hbm:light_receiver_desh"
+    }
+  },
+  "pattern": [
+    "BRM",
+    "  G"
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_heavy_revolver"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:armor/advanced_alloy_leggings"
+    },
+    "M": {
+      "item": "hbm:motor_desh"
+    },
+    "P": {
+      "item": "hbm:plate_armor_ajr"
+    }
+  },
+  "pattern": [
+    "MPM",
+    "PBP",
+    "P P"
+  ],
+  "result": {
+    "item": "hbm:armor/ajr_leggings"
+  },
+  "show_notification": true
+}

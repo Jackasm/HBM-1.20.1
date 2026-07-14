@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "hbm:concrete"
+    },
+    {
+      "item": "hbm:concrete"
+    },
+    {
+      "item": "hbm:concrete"
+    },
+    {
+      "item": "hbm:concrete"
+    },
+    {
+      "item": "hbm:concrete"
+    },
+    {
+      "item": "hbm:concrete"
+    },
+    {
+      "item": "hbm:concrete"
+    },
+    {
+      "item": "hbm:concrete"
+    },
+    {
+      "item": "minecraft:blue_dye"
+    }
+  ],
+  "result": {
+    "count": 8,
+    "item": "hbm:concrete_colored"
+  }
+}

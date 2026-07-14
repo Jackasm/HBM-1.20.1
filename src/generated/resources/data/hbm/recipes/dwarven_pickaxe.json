@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "item": "hbm:ingot_red_copper"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "CIC",
+    " S ",
+    " S "
+  ],
+  "result": {
+    "item": "hbm:dwarven_pickaxe"
+  },
+  "show_notification": true
+}

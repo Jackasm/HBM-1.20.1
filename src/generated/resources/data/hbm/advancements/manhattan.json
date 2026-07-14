@@ -1,0 +1,30 @@
+{
+  "parent": "hbm:root",
+  "criteria": {
+    "nuclear_explosion": {
+      "conditions": {},
+      "trigger": "hbm:nuclear_explosion"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.manhattan.desc"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "hbm:nuclear_waste"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.manhattan"
+    }
+  },
+  "requirements": [
+    [
+      "nuclear_explosion"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

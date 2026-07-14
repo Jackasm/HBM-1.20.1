@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "hbm:billet_actinium"
+    },
+    {
+      "item": "hbm:billet_actinium"
+    },
+    {
+      "item": "hbm:billet_actinium"
+    }
+  ],
+  "result": {
+    "item": "hbm:ingot_actinium"
+  }
+}

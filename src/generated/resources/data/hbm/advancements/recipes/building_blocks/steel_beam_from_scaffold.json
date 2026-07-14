@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_steel_scaffold": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:deco/steel_scaffold"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:steel_beam_from_scaffold"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_steel_scaffold",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:steel_beam_from_scaffold"
+    ]
+  },
+  "sends_telemetry_event": false
+}

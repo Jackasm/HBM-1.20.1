@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "hbm:block/machines/machine_shredder_bottom",
+    "side": "hbm:block/machines/machine_shredder_side",
+    "top": "hbm:block/machines/machine_shredder_top"
+  }
+}

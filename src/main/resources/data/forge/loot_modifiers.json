@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "entries": [
+    "hbm:ore_uranium_bonus",
+    "hbm:ore_plutonium_bonus",
+    "hbm:ore_thorium_bonus",
+    "hbm:ore_iron_bonus",
+    "hbm:ore_gold_bonus",
+    "hbm:ore_copper_bonus",
+    "hbm:ore_aluminium_bonus",
+    "hbm:ore_asbestos_bonus",
+    "hbm:ore_beryllium_bonus",
+    "hbm:ore_coal_bonus",
+    "hbm:ore_cobalt_bonus",
+    "hbm:ore_lead_bonus",
+    "hbm:ore_lignite_bonus",
+    "hbm:ore_titanium_bonus",
+    "hbm:ore_tungsten_bonus",
+    "hbm:ore_zinc_bonus"
+  ]
+}

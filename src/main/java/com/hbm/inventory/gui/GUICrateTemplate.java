@@ -1,0 +1,46 @@
+package com.hbm.inventory.gui;
+
+import com.hbm.inventory.container.ContainerCrateTemplate;
+import com.hbm.tileentity.storage.TileEntityCrateTemplate;
+import com.hbm.util.RefStrings;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
+
+import static com.hbm.util.ResLocation.ResLocation;
+
+public class GUICrateTemplate extends AbstractContainerScreen<ContainerCrateTemplate> {
+
+    private static final ResourceLocation TEXTURE = ResLocation(RefStrings.MODID, "textures/gui/storage/gui_crate_template.png");
+    private final TileEntityCrateTemplate crate;
+
+    public GUICrateTemplate(ContainerCrateTemplate container, Inventory inv, Component title) {
+        super(container, inv, title);
+        this.crate = container.crate;
+        this.imageWidth = 176;
+        this.imageHeight = 166; // 84 + 3*18 + 28 = 166
+    }
+
+    @Override
+    protected void renderBg(@NotNull GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        graphics.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+    }
+
+    @Override
+    protected void renderLabels(@NotNull GuiGraphics graphics, int mouseX, int mouseY) {
+        graphics.drawString(font, title, imageWidth / 2 - font.width(title) / 2, 6, 0x404040, false);
+        graphics.drawString(font, playerInventoryTitle, 8, imageHeight - 94, 0x404040, false);
+    }
+
+    @Override
+    public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+        renderBackground(graphics);
+        super.render(graphics, mouseX, mouseY, partialTick);
+        renderTooltip(graphics, mouseX, mouseY);
+    }
+}

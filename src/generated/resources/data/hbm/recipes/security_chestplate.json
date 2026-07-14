@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "tag": "hbm:any_plastic"
+    },
+    "K": {
+      "item": "hbm:plate_kevlar"
+    },
+    "W": {
+      "tag": "minecraft:wool"
+    }
+  },
+  "pattern": [
+    "KWK",
+    "IKI",
+    "WKW"
+  ],
+  "result": {
+    "item": "hbm:armor/security_chestplate"
+  },
+  "show_notification": true
+}

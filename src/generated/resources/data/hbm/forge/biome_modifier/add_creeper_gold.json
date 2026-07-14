@@ -1,0 +1,9 @@
+{
+  "type": "hbm:mob_spawn_biome_modifier",
+  "biomes": "#minecraft:is_overworld",
+  "category": "monster",
+  "entity_type": "hbm:creeper_gold",
+  "max_count": 1,
+  "min_count": 1,
+  "weight": 1
+}

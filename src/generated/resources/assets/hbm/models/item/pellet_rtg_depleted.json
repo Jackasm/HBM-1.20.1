@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "hbm:item/pellet_rtg_depleted_bismuth",
+      "predicate": {
+        "custom_model_data": 0
+      }
+    },
+    {
+      "model": "hbm:item/pellet_rtg_depleted_mercury",
+      "predicate": {
+        "custom_model_data": 1
+      }
+    },
+    {
+      "model": "hbm:item/pellet_rtg_depleted_neptunium",
+      "predicate": {
+        "custom_model_data": 2
+      }
+    },
+    {
+      "model": "hbm:item/pellet_rtg_depleted_lead",
+      "predicate": {
+        "custom_model_data": 3
+      }
+    },
+    {
+      "model": "hbm:item/pellet_rtg_depleted_zirconium",
+      "predicate": {
+        "custom_model_data": 4
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "hbm:item/pellet_rtg_depleted_bismuth"
+  }
+}

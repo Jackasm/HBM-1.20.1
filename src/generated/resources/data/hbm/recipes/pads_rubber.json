@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "hbm:duct_tape"
+    },
+    "I": {
+      "item": "hbm:plate_iron"
+    },
+    "P": {
+      "tag": "hbm:rubber_ingots"
+    }
+  },
+  "pattern": [
+    "P P",
+    "IDI",
+    "P P"
+  ],
+  "result": {
+    "item": "hbm:pads_rubber"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,30 @@
+{
+  "parent": "hbm:root",
+  "criteria": {
+    "go_fish": {
+      "conditions": {},
+      "trigger": "hbm:go_fish"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.goFish.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:cod"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.goFish"
+    }
+  },
+  "requirements": [
+    [
+      "go_fish"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

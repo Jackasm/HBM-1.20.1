@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:heavy_barrel_ferrouranium"
+    },
+    "C": {
+      "item": "hbm:circuit_advanced"
+    },
+    "G": {
+      "tag": "hbm:any_plastic_grip"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_weapon_steel"
+    }
+  },
+  "pattern": [
+    "BCB",
+    "BMB",
+    "GG "
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_quadro"
+  },
+  "show_notification": true
+}

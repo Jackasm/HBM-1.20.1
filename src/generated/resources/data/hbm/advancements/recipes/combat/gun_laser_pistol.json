@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_saturnite_light_receiver": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:light_receiver_saturnite"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:gun_laser_pistol"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_saturnite_light_receiver",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:gun_laser_pistol"
+    ]
+  },
+  "sends_telemetry_event": false
+}

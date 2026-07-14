@@ -1,0 +1,56 @@
+{
+  "parent": "item/generated",
+  "overrides": [
+    {
+      "model": "hbm:item/concrete_colored_ext_machine",
+      "predicate": {
+        "custom_model_data": 0
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_ext_machine_stripe",
+      "predicate": {
+        "custom_model_data": 1
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_ext_indigo",
+      "predicate": {
+        "custom_model_data": 2
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_ext_purple",
+      "predicate": {
+        "custom_model_data": 3
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_ext_pink",
+      "predicate": {
+        "custom_model_data": 4
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_ext_hazard",
+      "predicate": {
+        "custom_model_data": 5
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_ext_sand",
+      "predicate": {
+        "custom_model_data": 6
+      }
+    },
+    {
+      "model": "hbm:item/concrete_colored_ext_bronze",
+      "predicate": {
+        "custom_model_data": 7
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "hbm:block/concrete_colored_ext_machine"
+  }
+}

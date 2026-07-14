@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:armor/titanium_helmet"
+    },
+    "C": {
+      "item": "hbm:circuit_basic"
+    },
+    "F": {
+      "item": "hbm:gas_mask_filter"
+    },
+    "I": {
+      "tag": "hbm:any_plastic"
+    },
+    "P": {
+      "item": "hbm:plate_armor_hev"
+    }
+  },
+  "pattern": [
+    "PPC",
+    "PBP",
+    "IFI"
+  ],
+  "result": {
+    "item": "hbm:armor/hev_helmet"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "hbm:block_coltan"
+    }
+  ],
+  "result": {
+    "item": "hbm:fragment_coltan"
+  }
+}

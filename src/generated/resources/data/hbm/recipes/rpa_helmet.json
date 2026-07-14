@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "F": {
+      "item": "hbm:gas_mask_filter_combo"
+    },
+    "K": {
+      "item": "hbm:plate_kevlar"
+    },
+    "L": {
+      "item": "hbm:parts_legendary_t2"
+    },
+    "P": {
+      "item": "hbm:plate_armor_ajr"
+    }
+  },
+  "pattern": [
+    "KPK",
+    "PLP",
+    " F "
+  ],
+  "result": {
+    "item": "hbm:armor/rpa_helmet"
+  },
+  "show_notification": true
+}

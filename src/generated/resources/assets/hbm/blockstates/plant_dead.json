@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "meta=0": {
+      "model": "hbm:block/plant_dead_generic"
+    },
+    "meta=1": {
+      "model": "hbm:block/plant_dead_grass"
+    },
+    "meta=2": {
+      "model": "hbm:block/plant_dead_flower"
+    },
+    "meta=3": {
+      "model": "hbm:block/plant_dead_bigflower"
+    },
+    "meta=4": {
+      "model": "hbm:block/plant_dead_fern"
+    }
+  }
+}

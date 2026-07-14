@@ -1,0 +1,30 @@
+{
+  "parent": "hbm:root",
+  "criteria": {
+    "fiend": {
+      "conditions": {},
+      "trigger": "hbm:fiend"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.fiend.desc"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "hbm:weapon/shimmer_sledge"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.fiend"
+    }
+  },
+  "requirements": [
+    [
+      "fiend"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

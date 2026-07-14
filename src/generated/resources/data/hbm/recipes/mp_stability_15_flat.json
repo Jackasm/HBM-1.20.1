@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "hbm:plate_aluminium"
+    },
+    "P": {
+      "item": "hbm:plate_steel"
+    },
+    "S": {
+      "item": "hbm:deco/steel_scaffold"
+    }
+  },
+  "pattern": [
+    "ASA",
+    "PSP"
+  ],
+  "result": {
+    "item": "hbm:mp_stability_15_flat"
+  },
+  "show_notification": true
+}

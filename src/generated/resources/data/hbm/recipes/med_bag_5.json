@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "hbm:radaway"
+    },
+    "L": {
+      "tag": "hbm:rubber_ingots"
+    },
+    "S": {
+      "item": "hbm:syringe_metal_super"
+    }
+  },
+  "pattern": [
+    "LL",
+    "SI",
+    "LL"
+  ],
+  "result": {
+    "item": "hbm:med_bag"
+  },
+  "show_notification": true
+}

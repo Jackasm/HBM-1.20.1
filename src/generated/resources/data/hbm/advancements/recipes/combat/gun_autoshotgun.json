@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_ferrouranium_heavy_barrel": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:heavy_barrel_ferrouranium"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:gun_autoshotgun"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_ferrouranium_heavy_barrel",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:gun_autoshotgun"
+    ]
+  },
+  "sends_telemetry_event": false
+}

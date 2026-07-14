@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:light_barrel_dura_steel"
+    },
+    "G": {
+      "item": "hbm:part_grip_wood"
+    },
+    "M": {
+      "item": "hbm:gun_mechanism_gunmetal"
+    },
+    "R": {
+      "item": "hbm:light_receiver_dura_steel"
+    },
+    "S": {
+      "item": "hbm:part_stock_wood"
+    }
+  },
+  "pattern": [
+    "BRS",
+    "GMG"
+  ],
+  "result": {
+    "item": "hbm:weapon/gun_am180"
+  },
+  "show_notification": true
+}

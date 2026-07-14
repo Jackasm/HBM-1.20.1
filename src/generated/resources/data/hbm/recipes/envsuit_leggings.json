@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "hbm:plate_cast_titanium"
+    },
+    "R": {
+      "item": "hbm:ingot_rubber"
+    },
+    "T": {
+      "item": "hbm:plate_titanium"
+    }
+  },
+  "pattern": [
+    "TCT",
+    "R R",
+    "T T"
+  ],
+  "result": {
+    "item": "hbm:armor/envsuit_leggings"
+  },
+  "show_notification": true
+}

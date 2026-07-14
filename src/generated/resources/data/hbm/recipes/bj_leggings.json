@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "hbm:block_starmetal"
+    },
+    "M": {
+      "item": "hbm:motor_desh"
+    },
+    "N": {
+      "item": "hbm:plate_armor_lunar"
+    },
+    "S": {
+      "item": "hbm:armor/starmetal_leggings"
+    }
+  },
+  "pattern": [
+    "MBM",
+    "NSN",
+    "N N"
+  ],
+  "result": {
+    "item": "hbm:armor/bj_leggings"
+  },
+  "show_notification": true
+}

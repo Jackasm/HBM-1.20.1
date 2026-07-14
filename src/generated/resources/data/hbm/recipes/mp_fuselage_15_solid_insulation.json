@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "tag": "hbm:rubber_ingots"
+    },
+    "T": {
+      "item": "hbm:mp_fuselage_15_solid"
+    }
+  },
+  "pattern": [
+    "CCC",
+    "CTC",
+    "CCC"
+  ],
+  "result": {
+    "item": "hbm:mp_fuselage_15_solid_insulation"
+  },
+  "show_notification": true
+}

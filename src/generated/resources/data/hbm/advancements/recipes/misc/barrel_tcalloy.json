@@ -1,0 +1,48 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_tcalloy_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:ingot_tcalloy"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:barrel_tcalloy"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_titanium_plate": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:plate_titanium"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_tcalloy_ingot",
+      "has_titanium_plate",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:barrel_tcalloy"
+    ]
+  },
+  "sends_telemetry_event": false
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "type": "hbm:any_ash"
+    },
+    {
+      "item": "hbm:powder_red_phosphorus"
+    },
+    {
+      "item": "hbm:powder_niter"
+    },
+    {
+      "item": "hbm:powder_sulfur"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "hbm:powder_fertilizer"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:gun_stinger"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_weapon_steel_heavy_barrel": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:heavy_barrel_weapon_steel"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_weapon_steel_heavy_barrel",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:gun_stinger"
+    ]
+  },
+  "sends_telemetry_event": false
+}
