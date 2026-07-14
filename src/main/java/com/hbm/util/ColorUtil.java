@@ -83,7 +83,6 @@ public class ColorUtil {
     }
 
     private static ResourceLocation getTextureLocation(ItemStack stack) {
-        // Получаем ResourceLocation предмета через BuiltInRegistries
         ResourceLocation registryName = BuiltInRegistries.ITEM.getKey(stack.getItem());
         if (registryName != null) {
             return ResLocation(registryName.getNamespace(),
