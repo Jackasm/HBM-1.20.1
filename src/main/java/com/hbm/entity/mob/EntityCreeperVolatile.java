@@ -12,13 +12,16 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class EntityCreeperVolatile extends Creeper {
 
@@ -39,75 +42,54 @@ public class EntityCreeperVolatile extends Creeper {
         BlockState current = level.getBlockState(pos);
         BlockState above = level.getBlockState(pos.above());
 
-        // Спавн только под землёй (глубоко)
-        if (this.getY() > 40) {
-            return false;
-        }
-
-        // Не спавнимся в воде, лаве
-        if (current.liquid() || below.liquid() || above.liquid()) {
-            return false;
-        }
-
-        // Под мобом твёрдый блок
-        if (!below.isSolid()) {
-            return false;
-        }
-
-        // Место пустое и достаточно места над головой
-        if (!current.isAir()) {
-            return false;
-        }
-        if (!above.isAir()) {
-            return false;
-        }
-        if (!level.getBlockState(pos.above(2)).isAir()) {
-            return false;
-        }
-
-        return true;
+        if (this.getY() > 40) return false;
+        if (current.liquid() || below.liquid() || above.liquid()) return false;
+        if (!below.isSolid()) return false;
+        if (!current.isAir()) return false;
+        if (!above.isAir()) return false;
+        return level.getBlockState(pos.above(2)).isAir();
     }
 
     @Override
     public void die(@NotNull DamageSource source) {
         super.die(source);
-
         this.spawnAtLocation(new ItemStack(ModItems.SULFUR.get(), 2 + random.nextInt(3)));
         this.spawnAtLocation(new ItemStack(ModItems.STICK_TNT.get(), 1 + random.nextInt(2)));
     }
 
     @Override
     public void onRemovedFromWorld() {
-        if (!this.level().isClientSide) {
-            boolean griefing = this.level().getGameRules().getBoolean(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING);
+        super.onRemovedFromWorld();
+        if (this.level().isClientSide) return;
+
+        // ВСЁ выполняется отложенно
+        Objects.requireNonNull(this.level().getServer()).execute(() -> {
+            boolean griefing = this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
             boolean powered = this.isPowered();
 
-            // Откладываем взрыв на следующий тик
-            this.level().getServer().execute(() -> {
-                if (griefing) {
-                    ExplosionVNT vnt = new ExplosionVNT(this.level(), this.getX(), this.getY(), this.getZ(), powered ? 14 : 7, this);
-                    vnt.setBlockAllocator(new BlockAllocatorBulkie(60, powered ? 32 : 16));
-                    vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorBulkie(ModBlocks.BLOCK_SLAG.get(), 1)));
-                    vnt.setEntityProcessor(new EntityProcessorStandard().withRangeMod(0.5F));
-                    vnt.setPlayerProcessor(new PlayerProcessorStandard());
-                    vnt.setSFX(new ExplosionEffectStandard());
-                    vnt.explode();
-                } else {
-                    this.level().explode(this, this.getX(), this.getY(), this.getZ(), powered ? 7 : 3, Level.ExplosionInteraction.MOB);
-                }
-                cleanArea();
-            });
-        }
-        super.onRemovedFromWorld();
+            if (griefing) {
+                ExplosionVNT vnt = new ExplosionVNT(this.level(), this.getX(), this.getY(), this.getZ(),
+                        powered ? 14 : 7, this);
+                vnt.setBlockAllocator(new BlockAllocatorBulkie(60, powered ? 32 : 16));
+                vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorBulkie(ModBlocks.BLOCK_SLAG.get(), 1)));
+                vnt.setEntityProcessor(new EntityProcessorStandard().withRangeMod(0.5F));
+                vnt.setPlayerProcessor(new PlayerProcessorStandard());
+                vnt.setSFX(new ExplosionEffectStandard());
+                vnt.explode();
+            } else {
+                this.level().explode(this, this.getX(), this.getY(), this.getZ(),
+                        powered ? 7 : 3, Level.ExplosionInteraction.MOB);
+            }
+            cleanArea();
+        });
     }
 
     private void cleanArea() {
         double radius = this.isPowered() ? 14 : 7;
         AABB box = new AABB(this.getX() - radius, this.getY() - radius, this.getZ() - radius,
                 this.getX() + radius, this.getY() + radius, this.getZ() + radius);
-        List<ItemEntity> items = this.level().getEntitiesOfClass(ItemEntity.class, box);
+        List<ItemEntity> items = new ArrayList<>(this.level().getEntitiesOfClass(ItemEntity.class, box));
         for (ItemEntity item : items) {
-            // Удаляем предметы, которые находятся выше эпицентра + 2 блока
             if (item.getY() > this.getY() + 2) {
                 item.discard();
             }

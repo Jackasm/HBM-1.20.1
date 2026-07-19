@@ -3730,6 +3730,7 @@
   "item.hbm.part_generic.low_density_element": "Low Density Element",
   "item.hbm.part_generic.heavy_duty_element": "Heavy Duty Element",
   "item.hbm.part_generic.glass_polarized": "Polarized Glass",
-  "item.hbm.pellet_rtg_depleted": "Depleted RTG Pellet"
+  "item.hbm.pellet_rtg_depleted": "Depleted RTG Pellet",
+  "chat.hbm.update": "§e[HBM] §fA new version is available! §c%s §f→ §a%s"
 
 }

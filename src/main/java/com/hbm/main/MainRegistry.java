@@ -70,7 +70,9 @@ public class MainRegistry {
     public static File configHbmDir;
     public static File configDir;
 
+
     public MainRegistry(FMLJavaModLoadingContext context) {
+
         logger.info("HBM Nuclear Tech Mod loading...");
 
         proxy = DistExecutor.safeRunForDist(

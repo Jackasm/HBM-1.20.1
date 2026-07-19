@@ -33,7 +33,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 
-
 import java.util.List;
 import java.util.Objects;
 
@@ -51,40 +50,29 @@ public class EntityCreeperNuclear extends Creeper {
 
     @Override
     public boolean hurt(@NotNull DamageSource source, float amount) {
-        // for some reason the nuclear explosion would damage the already dead entity, reviving it and forcing it to play the death animation
         if (this.isDeadOrDying()) return false;
-
         if (source.is(ModDamageSource.RADIATION) || source.is(ModDamageSource.MUD_POISONING)) {
             if (this.isAlive()) this.heal(amount);
             return false;
         }
-
         return super.hurt(source, amount);
     }
 
     @Override
     public void die(@NotNull DamageSource source) {
         super.die(source);
-
-        // Дроп TNT
         this.spawnAtLocation(new ItemStack(Blocks.TNT));
-
-        // Дроп монетки
         if (random.nextInt(3) == 0) {
             this.spawnAtLocation(new ItemStack(ModItems.COIN_CREEPER.get()));
         }
-
-        // Дроп боеприпаса если убит скелетом или стрелой
         if (source.getEntity() instanceof Skeleton ||
                 (source.is(DamageTypeTags.IS_PROJECTILE) &&
                         source.getDirectEntity() instanceof Arrow &&
                         ((Arrow) source.getDirectEntity()).getOwner() == null)) {
             this.spawnAtLocation(DictFrame.fromOne(ModAmmoItems.AMMO_NUKE_STANDARD.get(), EnumAmmo.NUKE_STANDARD));
         }
-
         AABB box = this.getBoundingBox().inflate(50, 50, 50);
         List<Player> players = this.level().getEntitiesOfClass(Player.class, box);
-
         for (Player player : players) {
             if (player instanceof ServerPlayer sp) {
                 ModCriteriaTriggers.NUCLEAR_CREEPER_DEATH.trigger(sp);
@@ -94,62 +82,44 @@ public class EntityCreeperNuclear extends Creeper {
 
     @Override
     public void tick() {
-        // Радиационное заражение вокруг
         if (this.isAlive()) {
             AABB box = this.getBoundingBox().inflate(5.0D, 5.0D, 5.0D);
             List<LivingEntity> entities = this.level().getEntitiesOfClass(LivingEntity.class, box,
                     e -> e != this && e.isAlive());
-
             for (LivingEntity e : entities) {
                 ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, 0.25F);
             }
         }
-
-        // Регенерация здоровья (каждые 10 тиков)
         if (this.isAlive() && this.getHealth() < this.getMaxHealth() && this.tickCount % 10 == 0) {
             this.heal(1.0F);
         }
-
         super.tick();
     }
 
     @Override
     public void onRemovedFromWorld() {
         super.onRemovedFromWorld();
-        if (!this.level().isClientSide) {
-            // Проверяем, что крипер был заряжен и взорвался
+        if (this.level().isClientSide) return;
+
+        // ВСЁ выполняется отложенно
+        Objects.requireNonNull(this.level().getServer()).execute(() -> {
             boolean griefing = this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
             if (griefing && this.isPowered()) {
-                // Вызываем взрыв только если крипер был заряжен и моб-грифинг включён
-                // Взрыв происходит при удалении из мира (после смерти от взрыва)
-                explodeNuclear();
+                // Большой взрыв
+                CompoundTag data = new CompoundTag();
+                data.putString("type", "muke");
+                PacketDispatcher.sendAuxParticleNT(data, this.getX(), this.getY() + 0.5, this.getZ(), this);
+                this.level().playSound(null, this.getX(), this.getY() + 0.5, this.getZ(),
+                        ModSounds.MUKE_EXPLOSION.get(), SoundSource.HOSTILE, 15.0F, 1.0F);
+
+                EntityNukeExplosionMK5 entity = EntityNukeExplosionMK5.statFac(
+                        this.level(), 50, this.getX(), this.getY(), this.getZ());
+                this.level().addFreshEntity(entity);
+            } else if (griefing) {
+                // Маленький взрыв (тоже отложен)
+                ExplosionNukeSmall.explode(this.level(), this.getX(), this.getY() + 0.5, this.getZ(),
+                        ExplosionNukeSmall.PARAMS_MEDIUM);
             }
-        }
-    }
-
-    private void explodeNuclear() {
-        if (this.isPowered()) {
-            // Заряженный крипер - большой взрыв
-            CompoundTag data = new CompoundTag();
-            data.putString("type", "muke");
-
-            PacketDispatcher.sendAuxParticleNT(data, this.getX(), this.getY() + 0.5, this.getZ(), this);
-
-            this.level().playSound(null, this.getX(), this.getY() + 0.5, this.getZ(),
-                    ModSounds.MUKE_EXPLOSION.get(), SoundSource.HOSTILE, 15.0F, 1.0F);
-
-            Level level = this.level();
-            double x = this.getX();
-            double y = this.getY();
-            double z = this.getZ();
-            Objects.requireNonNull(level.getServer()).execute(() -> {
-                EntityNukeExplosionMK5 entity = EntityNukeExplosionMK5.statFac(level, 50, x, y, z);
-                level.addFreshEntity(entity);
-            });
-        } else {
-            // Обычный крипер - средний взрыв
-            ExplosionNukeSmall.explode(this.level(), this.getX(), this.getY() + 0.5, this.getZ(),
-                    ExplosionNukeSmall.PARAMS_MEDIUM);
-        }
+        });
     }
 }

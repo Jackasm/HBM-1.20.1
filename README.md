@@ -11,6 +11,8 @@
 
 ## 📖 О порте
 
+Не работает с OptiFine!
+
 HBM's Nuclear Tech Mod — один из самых масштабных технических модов для Minecraft 1.7.10. Цель этого репозитория — перенести всё на актуальную версию игры с сохранением оригинального геймплея.
 
 Уже портировано:
@@ -73,6 +75,8 @@ Hot, Blind, Hydroreactive и др.
 ## 📖 About
 
 HBM's Nuclear Tech Mod is one of the largest tech mods for Minecraft 1.7.10. This repository aims to bring it all to the modern version of the game while preserving the original gameplay.
+
+This mod does NOT work with OptiFine!
 
 Already ported:
 

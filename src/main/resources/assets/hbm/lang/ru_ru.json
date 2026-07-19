@@ -3738,6 +3738,7 @@
   "item.hbm.part_generic.low_density_element": "Низкоплотный элемент",
   "item.hbm.part_generic.heavy_duty_element": "Высокопрочный элемент",
   "item.hbm.part_generic.glass_polarized": "Поляризованное стекло",
-  "item.hbm.pellet_rtg_depleted": "Отработанная РТГ-таблетка"
+  "item.hbm.pellet_rtg_depleted": "Отработанная РТГ-таблетка",
+  "chat.hbm.update": "§e[HBM] §fДоступна новая версия! §c%s §f→ §a%s"
 
 }

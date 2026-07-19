@@ -18,6 +18,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class EntityCreeperTainted extends Creeper implements IRadiationImmune {
 
     public EntityCreeperTainted(EntityType<? extends Creeper> type, Level level) {
@@ -32,7 +34,6 @@ public class EntityCreeperTainted extends Creeper implements IRadiationImmune {
 
     @Override
     public void tick() {
-        // Регенерация здоровья (каждые 10 тиков)
         if (this.isAlive() && this.getHealth() < this.getMaxHealth() && this.tickCount % 10 == 0) {
             this.heal(1.0F);
         }
@@ -41,7 +42,6 @@ public class EntityCreeperTainted extends Creeper implements IRadiationImmune {
 
     @Override
     public void die(@NotNull DamageSource source) {
-        // Спавним TNT перед смертью
         this.spawnAtLocation(new ItemStack(Blocks.TNT));
         super.die(source);
     }
@@ -49,48 +49,37 @@ public class EntityCreeperTainted extends Creeper implements IRadiationImmune {
     @Override
     public void onRemovedFromWorld() {
         super.onRemovedFromWorld();
-        if (!this.level().isClientSide) {
-            // Проверяем, что крипер умер от взрыва, а не от урона
+        if (this.level().isClientSide) return;
+
+        // ВСЁ выполняется отложенно
+        Objects.requireNonNull(this.level().getServer()).execute(() -> {
             boolean griefing = this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
             if (griefing) {
-                spreadTaint(this);
+                spreadTaint();
             }
-        }
+        });
     }
-    private static void spreadTaint(EntityCreeperTainted creeper) {
-        RandomSource rand = creeper.getRandom();
-        boolean trails = ServerConfig.TAINT_TRAILS; // используйте свой конфиг
 
-        Level level = creeper.level();
-        double x = creeper.getX();
-        double y = creeper.getY();
-        double z = creeper.getZ();
+    private void spreadTaint() {
+        RandomSource rand = this.getRandom();
+        boolean trails = ServerConfig.TAINT_TRAILS;
+        int count = this.isPowered() ? 255 : 85;
+        int range = this.isPowered() ? 15 : 7;
 
-        if (creeper.isPowered()) {
-            for (int i = 0; i < 255; i++) {
-                int a = rand.nextInt(15) + (int) x - 7;
-                int b = rand.nextInt(15) + (int) y - 7;
-                int c = rand.nextInt(15) + (int) z - 7;
-                BlockPos pos = new BlockPos(a, b, c);
-                BlockState state = level.getBlockState(pos);
+        for (int i = 0; i < count; i++) {
+            int dx = rand.nextInt(range) - range / 2;
+            int dy = rand.nextInt(range) - range / 2;
+            int dz = rand.nextInt(range) - range / 2;
+            BlockPos pos = this.blockPosition().offset(dx, dy, dz);
+            BlockState state = this.level().getBlockState(pos);
 
-                if (!state.isAir() && state.isSolidRender(level, pos)) {
-                    int meta = trails ? rand.nextInt(3) : rand.nextInt(3) + 5;
-                    level.setBlock(pos, ModBlocks.TAINT.get().defaultBlockState().setValue(BlockTaint.META, meta), 2);
+            if (!state.isAir() && state.isSolidRender(this.level(), pos)) {
+                int meta = trails ? rand.nextInt(3) : rand.nextInt(3) + 5;
+                if (!this.isPowered()) {
+                    meta += 4;
                 }
-            }
-        } else {
-            for (int i = 0; i < 85; i++) {
-                int a = rand.nextInt(7) + (int) x - 3;
-                int b = rand.nextInt(7) + (int) y - 3;
-                int c = rand.nextInt(7) + (int) z - 3;
-                BlockPos pos = new BlockPos(a, b, c);
-                BlockState state = level.getBlockState(pos);
-
-                if (!state.isAir() && state.isSolidRender(level, pos)) {
-                    int meta = trails ? rand.nextInt(3) + 4 : rand.nextInt(6) + 10;
-                    level.setBlock(pos, ModBlocks.TAINT.get().defaultBlockState().setValue(BlockTaint.META, meta), 2);
-                }
+                this.level().setBlock(pos, ModBlocks.TAINT.get().defaultBlockState()
+                        .setValue(BlockTaint.META, meta), 2);
             }
         }
     }

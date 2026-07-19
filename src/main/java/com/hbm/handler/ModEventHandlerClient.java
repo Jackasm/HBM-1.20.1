@@ -14,6 +14,7 @@ import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.main.ClientProxy;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
+import com.hbm.update.UpdateChecker;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ItemStackUtil;
 import net.minecraft.ChatFormatting;
@@ -30,6 +31,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.event.RenderHighlightEvent;
 
@@ -38,6 +40,7 @@ import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 
 import java.text.DecimalFormat;
@@ -51,6 +54,12 @@ public class ModEventHandlerClient {
 
     public static long flashTimestamp;
     public static long shakeTimestamp;
+
+    @SubscribeEvent
+    public static void onPlayerLogin(ClientPlayerNetworkEvent.LoggingIn event) {
+        UpdateChecker.checkForUpdates();
+        checkOptiFineAndWarn(event.getPlayer());
+    }
 
 
     @SubscribeEvent
@@ -252,5 +261,30 @@ public class ModEventHandlerClient {
         }
 
          */
+    }
+
+    private static void checkOptiFineAndWarn(Player player) {
+        if (!isOptiFinePresent()) return;
+        if (player == null) return;
+
+        String[] messages = {
+                "§c§l=====================================================",
+                "§c§l  ⚠ OPTIFINE DETECTED! ⚠",
+                "§c  This mod is NOT compatible with OptiFine!",
+                "§c  OptiFine causes rendering issues and game crashes.",
+                "§c§l====================================================="
+        };
+
+        for (String msg : messages) {
+            player.displayClientMessage(Component.literal(msg), false);
+        }
+    }
+
+    private static boolean isOptiFinePresent() {
+        if (ModList.get().isLoaded("optifine")) return true;
+        try { Class.forName("optifine.OptiFine"); return true; } catch (ClassNotFoundException ignored) {}
+        try { Class.forName("net.optifine.Config"); return true; } catch (ClassNotFoundException ignored) {}
+        try { Class.forName("optifine.Insight"); return true; } catch (ClassNotFoundException ignored) {}
+        return false;
     }
 }

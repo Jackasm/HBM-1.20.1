@@ -124,30 +124,18 @@ public class ModEventHandler {
         Level level = event.level;
         long gameTime = level.getGameTime();
 
+        for (Player player : level.players()) {
+            double px = player.getX(), pz = player.getZ();
+            AABB area = new AABB(px - 64, -64, pz - 64, px + 64, 256, pz + 64);
 
-        // Получаем всех игроков, чтобы ограничить радиус
-        Player player = Minecraft.getInstance().player;
-        if (player == null) return;
-
-        double px = player.getX(), pz = player.getZ();
-        AABB area = new AABB(
-                px - 64, -64, pz - 64,
-                px + 64, 256, pz + 64
-        );
-
-        try {
             for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, area,
                     e -> !(e instanceof Player))) {
-                if (entity == null) continue;
-
                 ItemStack helmet = entity.getItemBySlot(EquipmentSlot.HEAD);
-                if (helmet == null || helmet.isEmpty()) continue;
+                if (helmet.isEmpty()) continue;
                 if (helmet.getItem() instanceof ArmorNo9) {
                     ArmorNo9.handleMobLight(level, entity, helmet, gameTime);
                 }
             }
-        } catch (Exception e) {
-            // Игнорируем
         }
     }
 
