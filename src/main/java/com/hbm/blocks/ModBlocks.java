@@ -503,7 +503,7 @@ public class ModBlocks {
             () -> new Block(ModBlockProperties.ORE_PROPERTIES()),
             BlockModel.CUBE_ALL,
             LootInfo.self(),
-            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.WOOD),
             "stone_resource_limestone");
 
     public static final RegistryObject<Block> STONE_GNEISS = registerBlock("stone_gneiss",

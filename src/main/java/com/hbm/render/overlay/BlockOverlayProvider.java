@@ -4,6 +4,7 @@ import com.hbm.blocks.ILookOverlay;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -51,7 +52,7 @@ public class BlockOverlayProvider implements IOverlayProvider {
             mainSection.addLine(Component.translatable(block.getDescriptionId())
                     .withStyle(style -> style.withColor(0xffff00)));
 
-            addMiningInfo(mainSection, blockState);
+            addMiningInfo(mainSection, context, blockState, pos);
 
             sections.add(mainSection);
         }
@@ -72,14 +73,19 @@ public class BlockOverlayProvider implements IOverlayProvider {
         return stack;
     }
 
-    private void addMiningInfo(OverlaySection section, BlockState state) {
+    private void addMiningInfo(OverlaySection section, OverlayContext context, BlockState state, BlockPos pos) {
+
+        Player player = context.mc().player;
+        if (player == null) return;
+
         float hardness = state.getBlock().defaultDestroyTime();
 
         if (hardness >= 0) {
             // Иконка и информация об инструментах
             ItemStack toolIcon = getRequiredToolIcon(state);
             if (toolIcon != null) {
-                section.setToolIcon(toolIcon);
+                boolean canHarvest = state.getBlock().canHarvestBlock(state, context.mc().level, pos, player);
+                section.setToolIcon(toolIcon, canHarvest);
             }
         } else {
             // Нерушимые блоки

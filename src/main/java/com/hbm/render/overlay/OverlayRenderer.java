@@ -1,4 +1,3 @@
-// OverlayRenderer.java
 package com.hbm.render.overlay;
 
 import net.minecraft.client.gui.Font;
@@ -62,8 +61,8 @@ public class OverlayRenderer {
                 if (width > maxTextWidth) maxTextWidth = width;
             }
         }
-        // Левая иконка (18) + текст + правая иконка (18) + отступы (5+5)
-        return maxTextWidth + 18 + 18 + 10;
+        // Левая иконка (18) + текст + промежуток 3 пикселя после названия + правая иконка (18) + отступы (5+5)
+        return maxTextWidth + 18 + 18 + 10 + 6;
     }
 
     private static void renderRoundedBackground(GuiGraphics guiGraphics, int x, int y, int width, int height) {
@@ -136,12 +135,23 @@ public class OverlayRenderer {
 
         // Правая иконка (инструмент) – отступ 3 пикселя от правой границы
         if (section.getToolIcon() != null && !section.getToolIcon().isEmpty()) {
-            int rightIconX = x + maxWidth - 18 - 3;
+            int rightIconX = x + maxWidth - 18 - 3 - 3;
+
+            if (section.hasToolFrame() && !section.getToolIcon().isEmpty()) {
+                int frameX = rightIconX - 1;
+                int frameY = currentY - 1;
+                guiGraphics.fill(frameX, frameY, frameX + 18, frameY + 1, section.getToolFrameColor());
+                guiGraphics.fill(frameX, frameY + 17, frameX + 18, frameY + 18, section.getToolFrameColor());
+                guiGraphics.fill(frameX, frameY, frameX + 1, frameY + 18, section.getToolFrameColor());
+                guiGraphics.fill(frameX + 17, frameY, frameX + 18, frameY + 18, section.getToolFrameColor());
+            }
             guiGraphics.renderItem(section.getToolIcon(), rightIconX, currentY);
         }
 
         // Текст – начинается после левой иконки + отступ
-        int textX = leftIconX + 18 + 5;
+        int textX = leftIconX + 18 + 2;
+
+        currentY = currentY + 4;
 
         int textColor = 0xFFFFFF;
         if (section.getType() == OverlaySection.Type.QUEST) {

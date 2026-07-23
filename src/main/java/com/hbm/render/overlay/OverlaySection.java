@@ -1,4 +1,3 @@
-// OverlaySection.java (если еще не создан)
 package com.hbm.render.overlay;
 
 import net.minecraft.client.gui.Font;
@@ -25,9 +24,15 @@ public class OverlaySection {
     private final List<Component> lines = new ArrayList<>();
     private ItemStack icon = ItemStack.EMPTY;
 
+    private int toolFrameColor = 0xFFFFFF;
+    private boolean hasToolFrame = false;
+
     public OverlaySection(Type type) {
         this.type = type;
     }
+
+    public int getToolFrameColor() { return toolFrameColor; }
+    public boolean hasToolFrame() { return hasToolFrame; }
 
     public Type getType() {
         return type;
@@ -59,13 +64,13 @@ public class OverlaySection {
         return toolIcon;
     }
 
-    public void setToolIcon(ItemStack toolIcon) {
-        this.toolIcon = toolIcon;
+    public void setToolIcon(ItemStack icon, boolean canHarvest) {
+        this.toolIcon = icon;
+        this.hasToolFrame = true;
+        this.toolFrameColor = canHarvest ? 0xFF00FF00 : 0xFFFF0000;
     }
 
-    // Добавьте этот метод в класс OverlaySection
     public void render(GuiGraphics guiGraphics, OverlayContext context, int x, int y, Font font) {
-        // Стандартный рендер (по умолчанию)
         int currentY = y;
         for (Component line : lines) {
             guiGraphics.drawString(font, line, x, currentY, 0xFFFFFF, true);
