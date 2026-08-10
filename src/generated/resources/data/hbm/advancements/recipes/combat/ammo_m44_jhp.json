@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_item_secret_selenium_steel": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:item_secret_selenium_steel"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:ammo_m44_jhp"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_item_secret_selenium_steel",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:ammo_m44_jhp"
+    ]
+  },
+  "sends_telemetry_event": false
+}

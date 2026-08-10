@@ -128,15 +128,18 @@ public class ContainerAnvil extends AbstractContainerMenu {
     @Override
     public void removed(@NotNull Player player) {
         super.removed(player);
-        this.access.execute((level, pos) -> {
-            // Отдаем предметы обратно игроку при закрытии GUI
-            for(int i = 0; i < input.getSlots(); i++) {
-                ItemStack stack = input.getStackInSlot(i);
-                if(!stack.isEmpty()) {
-                    player.getInventory().placeItemBackInInventory(stack);
+        for (int i = 0; i < input.getSlots(); i++) {
+            ItemStack stack = input.getStackInSlot(i);
+            if (!stack.isEmpty()) {
+                // Пытаемся добавить в инвентарь
+                if (!player.getInventory().add(stack)) {
+                    // Если не поместилось, выбрасываем на землю
+                    player.drop(stack, false);
                 }
+                // Очищаем слот
+                input.setStackInSlot(i, ItemStack.EMPTY);
             }
-        });
+        }
     }
 
     public class SmithingSlot extends SlotItemHandler {

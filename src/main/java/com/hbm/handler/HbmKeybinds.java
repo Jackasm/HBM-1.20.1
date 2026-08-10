@@ -8,10 +8,12 @@ import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.GunItem;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.network.PacketDispatcher;
+import com.hbm.network.server.AuxButtonPacket;
 import com.hbm.render.overlay.QuestOverlay;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -129,7 +131,7 @@ public class HbmKeybinds {
         questBookKey = createKey("quest_book", GLFW.GLFW_KEY_TAB);
         event.register(questBookKey);
 
-        craftingOverviewKey = createKey("crafting_overview", GLFW.GLFW_KEY_O);
+        craftingOverviewKey = createKey("crafting_overview", GLFW.GLFW_KEY_I);
         event.register(craftingOverviewKey);
     }
 
@@ -204,6 +206,18 @@ public class HbmKeybinds {
                     return;
                 }
             }
+
+            if (keyCode == GLFW.GLFW_KEY_O && action == GLFW.GLFW_PRESS) {
+                if (mc.screen == null) {
+                    var persistentData = mc.player.getPersistentData();
+                    if (!persistentData.getBoolean("hasDucked")) {
+                        persistentData.putBoolean("hasDucked", true);
+                        PacketDispatcher.sendToServer(new AuxButtonPacket(BlockPos.ZERO, 999, 0));
+                    }
+                }
+                return;
+            }
+
             if (action == GLFW.GLFW_RELEASE && tabPressed) {
                 if (!longPressActivated) {
                     long duration = System.currentTimeMillis() - tabPressStart;

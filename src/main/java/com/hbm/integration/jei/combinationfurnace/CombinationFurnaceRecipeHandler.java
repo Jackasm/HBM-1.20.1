@@ -34,7 +34,6 @@ public class CombinationFurnaceRecipeHandler {
             ItemStack outputItem = outputPair.key();
             FluidStackHBM fluidHBM = outputPair.value();
 
-            // Создаём кастомный ингредиент для жидкости вместо Forge FluidStack
             FluidColorIngredient fluidIngredient = null;
             if (fluidHBM != null && fluidHBM.type != null && fluidHBM.fill > 0) {
                 String registryName = fluidHBM.type.getName().toLowerCase(Locale.ROOT);
@@ -59,17 +58,21 @@ public class CombinationFurnaceRecipeHandler {
         if (key instanceof ComparableStack comp) {
             list.add(comp.toStack());
         } else if (key instanceof String tagName) {
-            ResourceLocation loc;
-            if (tagName.contains(":")) {
-                loc = ResLocation(tagName);
-            } else {
-                loc = ResLocation("forge", tagName);
-            }
+            ResourceLocation loc = tagName.contains(":")
+                    ? ResLocation(tagName)
+                    : ResLocation("forge", tagName);
             TagKey<Item> tag = ItemTags.create(loc);
             var items = BuiltInRegistries.ITEM.getTagOrEmpty(tag);
-            List<ItemStack> finalList = list;
-            items.forEach(holder -> finalList.add(new ItemStack(holder.value())));
-            if (list.size() > 5) list = list.subList(0, 5);
+            for (var holder : items) {
+                list.add(new ItemStack(holder.value()));
+            }
+        } else if (key instanceof TagKey) {
+            @SuppressWarnings("unchecked")
+            TagKey<Item> tag = (TagKey<Item>) key;
+            var items = BuiltInRegistries.ITEM.getTagOrEmpty(tag);
+            for (var holder : items) {
+                list.add(new ItemStack(holder.value()));
+            }
         }
 
         return list;

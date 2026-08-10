@@ -10,7 +10,7 @@ import com.hbm.blocks.generic.*;
 import com.hbm.blocks.generic.BlockDynamicSlag;
 import com.hbm.blocks.generic.DecoBlock;
 import com.hbm.blocks.machine.*;
-import com.hbm.blocks.machine.BlastFurnaceBlock;
+import com.hbm.blocks.machine.MachineBlastFurnace;
 import com.hbm.blocks.machine.pile.*;
 import com.hbm.blocks.machine.rbmk.RBMKDebris;
 import com.hbm.blocks.network.*;
@@ -915,14 +915,14 @@ public class ModBlocks {
 
 
     public static final RegistryObject<Block> MACHINE_PRESS = registerBlock("machines/press",
-            () -> new MachinePressBlock(MachinePressBlock.createProperties()),
+            () -> new MachinePress(MachinePress.createProperties()),
             BlockModel.MULTIBLOCK,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "machines/press");
 
     public static final RegistryObject<Block> MACHINE_BLAST_FURNACE = registerBlock("machines/machine_blast_furnace",
-            () -> new BlastFurnaceBlock(BlastFurnaceBlock.createProperties()),
+            () -> new MachineBlastFurnace(MachineBlastFurnace.createProperties()),
             BlockModel.MULTIBLOCK,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
@@ -2337,9 +2337,8 @@ public class ModBlocks {
             "machines/heater_oilburner");
 
     public static final RegistryObject<Block> FURNACE_STEEL = registerBlock("machines/furnace_steel",
-            () -> new FurnaceSteel(FurnaceSteel.createProperties()),
+            () -> new FurnaceSteel(FurnaceSteel.createProperties().noLootTable()),
             BlockModel.MULTIBLOCK,
-            LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "machines/furnace_steel");
 
@@ -2365,9 +2364,8 @@ public class ModBlocks {
             "machines/sawmill");
 
     public static final RegistryObject<Block> MACHINE_HEAT_BOILER = registerBlock("machines/heat_boiler",
-            () -> new MachineHeatBoiler(MachineHeatBoiler.createProperties()),
+            () -> new MachineHeatBoiler(MachineHeatBoiler.createProperties().noLootTable()),
             BlockModel.MULTIBLOCK,
-            LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "machines/heat_boiler");
 
@@ -2416,7 +2414,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> ORE_ALEXANDRITE = registerBlock("ore_alexandrite",
             () -> new Block(ModBlockProperties.ORE_PROPERTIES()),
             BlockModel.CUBE_ALL,
-            LootInfo.self(),
+            LootInfo.item(ModItems.GEM_ALEXANDRITE, 1, 1),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "ore_alexandrite");
 

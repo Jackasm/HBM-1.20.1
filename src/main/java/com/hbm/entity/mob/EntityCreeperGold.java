@@ -20,9 +20,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class EntityCreeperGold extends Creeper {
+
+    private int swell;
+    private int oldSwell;
+    private final int maxSwell = 30;
 
     public EntityCreeperGold(EntityType<? extends Creeper> type, Level level) {
         super(type, level);
@@ -59,37 +62,62 @@ public class EntityCreeperGold extends Creeper {
     }
 
     @Override
-    public void onRemovedFromWorld() {
-        super.onRemovedFromWorld();
+    public void tick() {
+        // Сначала вызываем ванильный tick, чтобы свайп работал
+        super.tick();
+
         if (this.level().isClientSide) return;
 
-        // ВСЁ выполняется отложенно
-        Objects.requireNonNull(this.level().getServer()).execute(() -> {
-            boolean griefing = this.level().getGameRules().getBoolean(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING);
+        // Сохраняем старый свайп
+        this.oldSwell = this.swell;
 
-            if (griefing) {
-                ExplosionVNT vnt = new ExplosionVNT(this.level(), this.getX(), this.getY(), this.getZ(),
-                        this.isPowered() ? 14 : 7, this);
-                vnt.setBlockAllocator(new BlockAllocatorBulkie(60, this.isPowered() ? 32 : 16));
-                vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorBulkie(Blocks.GOLD_ORE)));
-                vnt.setEntityProcessor(new EntityProcessorStandard().withRangeMod(0.5F));
-                vnt.setPlayerProcessor(new PlayerProcessorStandard());
-                vnt.setSFX(new ExplosionEffectStandard());
-                vnt.explode();
-            } else {
-                this.level().explode(this, this.getX(), this.getY(), this.getZ(),
-                        this.isPowered() ? 7 : 3, Level.ExplosionInteraction.MOB);
+        // Если крипер подожжён — увеличиваем свайп
+        if (this.isIgnited() || this.getSwellDir() > 0) {
+            this.swell++;
+        } else {
+            // Если не подожжён — уменьшаем свайп (медленное затухание)
+            if (this.swell > 0) {
+                this.swell -= 2;
+                if (this.swell < 0) this.swell = 0;
             }
+        }
 
-            cleanArea();
-        });
+        // Если свайп достиг максимума — взрываемся
+        if (this.swell >= this.maxSwell) {
+            this.explodeCreeperCustom();
+        }
+    }
+
+    private void explodeCreeperCustom() {
+        if (this.level().isClientSide) return;
+
+        boolean griefing = this.level().getGameRules().getBoolean(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING);
+        boolean powered = this.isPowered();
+
+        if (griefing) {
+            ExplosionVNT vnt = new ExplosionVNT(this.level(), this.getX(), this.getY(), this.getZ(),
+                    powered ? 14 : 7, this);
+            vnt.setBlockAllocator(new BlockAllocatorBulkie(60, powered ? 32 : 16));
+            vnt.setBlockProcessor(new BlockProcessorStandard()
+                    .setNoDrop()
+                    .withBlockEffect(new BlockMutatorBulkie(Blocks.GOLD_ORE)));
+            vnt.setEntityProcessor(new EntityProcessorStandard().withRangeMod(0.5F));
+            vnt.setPlayerProcessor(new PlayerProcessorStandard());
+            vnt.setSFX(new ExplosionEffectStandard());
+            vnt.explode();
+        } else {
+            this.level().explode(this, this.getX(), this.getY(), this.getZ(),
+                    powered ? 7 : 3, Level.ExplosionInteraction.MOB);
+        }
+
+        cleanArea();
+        this.discard();
     }
 
     private void cleanArea() {
         double radius = this.isPowered() ? 14 : 7;
         AABB box = new AABB(this.getX() - radius, this.getY() - radius, this.getZ() - radius,
                 this.getX() + radius, this.getY() + radius, this.getZ() + radius);
-        // Копия списка
         List<ItemEntity> items = new ArrayList<>(this.level().getEntitiesOfClass(ItemEntity.class, box));
         for (ItemEntity item : items) {
             if (item.getY() > this.getY() + 2) {

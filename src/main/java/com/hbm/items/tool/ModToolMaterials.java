@@ -11,6 +11,38 @@ public class ModToolMaterials {
 
     // ============ ОСНОВНЫЕ МАТЕРИАЛЫ ============
 
+    public static final Tier COPPER = new Tier() {
+        @Override
+        public int getUses() {
+            return 180;
+        }
+
+        @Override
+        public float getSpeed() {
+            return 5.0F;
+        }
+
+        @Override
+        public float getAttackDamageBonus() {
+            return 0;
+        }
+
+        @Override
+        public int getLevel() {
+            return 2;
+        }
+
+        @Override
+        public int getEnchantmentValue() {
+            return 12;
+        }
+
+        @Override
+        public @NotNull Ingredient getRepairIngredient() {
+            return Ingredient.of(Items.COPPER_INGOT);
+        }
+    };
+
     public static final Tier SCHRABIDIUM = new Tier() {
         @Override
         public int getUses() {

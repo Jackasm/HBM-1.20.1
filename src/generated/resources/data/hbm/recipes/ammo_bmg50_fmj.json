@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "hbm:ammo/ammo_bmg50_fmj"
+    },
+    {
+      "item": "hbm:item_secret_selenium_steel"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "hbm:ammo/ammo_bmg50_equestrian_secret"
+  }
+}

@@ -3659,6 +3659,15 @@ public class ModItems {
     public static final RegistryObject<Item> WEAPON_MOD_ENGINE_TURBO = register(PARTS_TAB, "weapon_mod_engine_turbo",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
+    public static final RegistryObject<Item> WEAPON_MOD_MAGNET = register(PARTS_TAB, "weapon_mod_magnet",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> WEAPON_MOD_SIFTER = register(PARTS_TAB, "weapon_mod_sifter",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> WEAPON_MOD_CANISTERS = register(PARTS_TAB, "weapon_mod_canister",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
     public static final RegistryObject<Item> SECRET_CANISTER = register(PARTS_TAB, "secret_canister",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
@@ -6571,6 +6580,21 @@ public class ModItems {
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> CELL_BALEFIRE = register(PARTS_TAB, "cell_balefire",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> ITEM_SECRET_ABERRATOR = register(PARTS_TAB, "item_secret_aberrator",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> ITEM_SECRET_CANISTER = register(PARTS_TAB, "item_secret_canister",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> ITEM_SECRET_CONTROLLER = register(PARTS_TAB, "item_secret_controller",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> ITEM_SECRET_FOLLY = register(PARTS_TAB, "item_secret_folly",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> ITEM_SECRET_SELENIUM_STEEL = register(PARTS_TAB, "item_secret_selenium_steel",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static void register(IEventBus eventBus) {

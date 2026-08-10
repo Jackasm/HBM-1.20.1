@@ -2,11 +2,9 @@ package com.hbm.blocks;
 
 import com.hbm.handler.ThreeInts;
 import com.hbm.interfaces.ICopiable;
-import com.hbm.items.ModItems;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.datagen.worldgen.nbt.INBTBlockTransformable;
 import com.hbm.tileentity.TileEntityProxyBase;
-import com.hbm.tileentity.machine.TileEntityHeatBoiler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -42,6 +40,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -308,31 +307,35 @@ public abstract class BlockDummyable extends BaseEntityBlock
                 return;
             }
             if (isCore(state)) {
-                dropInventoryAndItem(level, pos, state);
+                // Обрабатываем дроп и удаление всех частей
+                handleDrops(level, pos, state);
                 removeAllDummies(level, pos, state.getValue(FACING));
+                // Удаляем само ядро
+                level.removeBlock(pos, false);
             } else {
+                // Для dummy/extra – удаляем ядро, которое вызовет onRemove ядра
                 Direction dir = getDummyFacing(state);
                 BlockPos corePos = pos.relative(dir);
                 if (level.getBlockState(corePos).is(this)) {
                     level.removeBlock(corePos, false);
                 }
             }
-
         }
-        super.onRemove(state, level, pos, newState, isMoving);
+        // super.onRemove НЕ вызываем, чтобы избежать повторного дропа
     }
 
-    private void dropInventoryAndItem(Level level, BlockPos pos, BlockState state) {
+    protected void handleDrops(Level level, BlockPos pos, BlockState state) {
         BlockEntity be = level.getBlockEntity(pos);
-        if (be instanceof TileEntityHeatBoiler boiler && boiler.hasExploded) {
-            // Взорванный бойлер дропает 4 слитка и 8 пластин
-            Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(),
-                    new ItemStack(ModItems.INGOT_STEEL.get(), 4));
-            Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(),
-                    new ItemStack(ModItems.PLATE_COPPER.get(), 8));
-        } else {
-            // Обычный дроп - сам блок
-            Block.popResource(level, pos, getMachineItem());
+        // Дроп инвентаря, если есть
+        if (be != null) {
+            be.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
+                for (int i = 0; i < handler.getSlots(); i++) {
+                    ItemStack stack = handler.getStackInSlot(i);
+                    if (!stack.isEmpty()) {
+                        Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack);
+                    }
+                }
+            });
         }
     }
 

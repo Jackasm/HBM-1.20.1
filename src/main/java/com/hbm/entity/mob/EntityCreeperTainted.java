@@ -18,9 +18,10 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class EntityCreeperTainted extends Creeper implements IRadiationImmune {
+
+    private int swell = 0;
+    private final int maxSwell = 30;
 
     public EntityCreeperTainted(EntityType<? extends Creeper> type, Level level) {
         super(type, level);
@@ -34,30 +35,48 @@ public class EntityCreeperTainted extends Creeper implements IRadiationImmune {
 
     @Override
     public void tick() {
+        super.tick();
+
+        if (this.level().isClientSide) return;
+
+        // Регенерация
         if (this.isAlive() && this.getHealth() < this.getMaxHealth() && this.tickCount % 10 == 0) {
             this.heal(1.0F);
         }
-        super.tick();
+
+        // Свайп для взрыва
+        if (this.isIgnited() || this.getSwellDir() > 0) {
+            swell++;
+        } else {
+            if (swell > 0) {
+                swell -= 2;
+                if (swell < 0) swell = 0;
+            }
+        }
+
+        if (swell >= maxSwell) {
+            explodeCreeperCustom();
+        }
     }
 
-    @Override
-    public void die(@NotNull DamageSource source) {
-        this.spawnAtLocation(new ItemStack(Blocks.TNT));
-        super.die(source);
-    }
-
-    @Override
-    public void onRemovedFromWorld() {
-        super.onRemovedFromWorld();
+    private void explodeCreeperCustom() {
         if (this.level().isClientSide) return;
 
-        // ВСЁ выполняется отложенно
-        Objects.requireNonNull(this.level().getServer()).execute(() -> {
-            boolean griefing = this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
-            if (griefing) {
-                spreadTaint();
-            }
-        });
+        boolean griefing = this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
+
+        // Ванильный взрыв + заражение
+        if (griefing) {
+            // Стандартный взрыв крипера
+            this.level().explode(this, this.getX(), this.getY() + this.getBbHeight() / 2, this.getZ(),
+                    this.isPowered() ? 7 : 3, Level.ExplosionInteraction.MOB);
+            // Заражение вокруг
+            spreadTaint();
+        } else {
+            this.level().explode(this, this.getX(), this.getY() + this.getBbHeight() / 2, this.getZ(),
+                    this.isPowered() ? 7 : 3, Level.ExplosionInteraction.MOB);
+        }
+
+        this.discard();
     }
 
     private void spreadTaint() {
@@ -82,5 +101,11 @@ public class EntityCreeperTainted extends Creeper implements IRadiationImmune {
                         .setValue(BlockTaint.META, meta), 2);
             }
         }
+    }
+
+    @Override
+    public void die(@NotNull DamageSource source) {
+        this.spawnAtLocation(new ItemStack(Blocks.TNT));
+        super.die(source);
     }
 }

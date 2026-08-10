@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "hbm:block_niobium"
+    },
+    "G": {
+      "item": "hbm:wire_dense_gold"
+    },
+    "R": {
+      "tag": "hbm:rubber_ingots"
+    }
+  },
+  "pattern": [
+    "RGR",
+    "GBG",
+    "RGR"
+  ],
+  "result": {
+    "item": "hbm:weapon_mod_magnet"
+  },
+  "show_notification": true
+}

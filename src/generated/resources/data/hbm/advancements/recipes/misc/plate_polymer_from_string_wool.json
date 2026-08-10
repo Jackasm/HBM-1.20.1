@@ -23,7 +23,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:any_wool"
+            "tag": "minecraft:wool"
           }
         ]
       },

@@ -608,6 +608,11 @@
   "item.hbm.tools.steel_axe": "Steel Axe",
   "item.hbm.tools.steel_shovel": "Steel Shovel",
   "item.hbm.tools.steel_hoe": "Steel Hoe",
+  "item.hbm.weapon.copper_sword": "Copper Sword",
+  "item.hbm.tools.copper_pickaxe": "Copper Pickaxe",
+  "item.hbm.tools.copper_axe": "Copper Axe",
+  "item.hbm.tools.copper_shovel": "Copper Shovel",
+  "item.hbm.tools.copper_hoe": "Copper Hoe",
   "item.hbm.weapon.advanced_alloy_sword": "Advanced Alloy Sword",
   "item.hbm.tools.advanced_alloy_pickaxe": "Advanced Alloy Pickaxe",
   "item.hbm.tools.advanced_alloy_axe": "Advanced Alloy Axe",
@@ -3731,6 +3736,13 @@
   "item.hbm.part_generic.heavy_duty_element": "Heavy Duty Element",
   "item.hbm.part_generic.glass_polarized": "Polarized Glass",
   "item.hbm.pellet_rtg_depleted": "Depleted RTG Pellet",
-  "chat.hbm.update": "§e[HBM] §fA new version is available! §c%s §f→ §a%s"
-
+  "chat.hbm.update": "§e[HBM] §fA new version is available! §c%s §f→ §a%s",
+  "item.hbm.machine_difurnace_extension.usage": "§eShift + RMB on Blast Furnace to upgrade",
+  "item.hbm.machine_difurnace_extension.benefit.speed": "3x faster processing speed",
+  "item.hbm.machines.machine_difurnace_extension": "Blast Furnace Extension",
+  "item.hbm.item_secret_aberrator": "Aberrator Part",
+  "item.hbm.item_secret_canister": "Composition SB-26",
+  "item.hbm.item_secret_controller": "Proprietary Control Unit",
+  "item.hbm.item_secret_folly": "Folly Part",
+  "item.hbm.item_secret_selenium_steel": "Selenium Steel"
 }

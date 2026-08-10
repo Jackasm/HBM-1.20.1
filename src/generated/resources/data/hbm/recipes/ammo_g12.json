@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "hbm:ammo/ammo_g12"
+    },
+    {
+      "item": "hbm:item_secret_selenium_steel"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "item": "hbm:ammo/ammo_g12_equestrian_secret"
+  }
+}

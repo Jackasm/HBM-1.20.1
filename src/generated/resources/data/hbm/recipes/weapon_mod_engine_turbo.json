@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "D": {
+      "tag": "hbm:any_bismoid_plate_cast"
+    },
+    "P": {
+      "item": "hbm:piston_selenium"
+    },
+    "S": {
+      "item": "hbm:gun_mechanism_weapon_steel"
+    }
+  },
+  "pattern": [
+    "DSD",
+    "PPP",
+    "DSD"
+  ],
+  "result": {
+    "item": "hbm:weapon_mod_engine_turbo"
+  },
+  "show_notification": true
+}

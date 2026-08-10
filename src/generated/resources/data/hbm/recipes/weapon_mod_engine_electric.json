@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "D": {
+      "tag": "hbm:any_plastic"
+    },
+    "P": {
+      "item": "hbm:wire_dense_gold"
+    },
+    "S": {
+      "item": "hbm:capacitor_gold"
+    }
+  },
+  "pattern": [
+    "DSD",
+    "PPP",
+    "DSD"
+  ],
+  "result": {
+    "item": "hbm:weapon_mod_engine_electric"
+  },
+  "show_notification": true
+}

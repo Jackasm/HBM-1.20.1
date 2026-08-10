@@ -35,6 +35,12 @@ public class ToolRecipes extends ModRecipeProvider {
 
         writer = pWriter;
 
+        addSword(   Items.COPPER_INGOT, ModToolItems.COPPER_SWORD.get());
+        addPickaxe( Items.COPPER_INGOT, ModToolItems.COPPER_PICKAXE.get());
+        addAxe(     Items.COPPER_INGOT, ModToolItems.COPPER_AXE.get());
+        addShovel(  Items.COPPER_INGOT, ModToolItems.COPPER_SHOVEL.get());
+        addHoe(     Items.COPPER_INGOT, ModToolItems.COPPER_HOE.get());
+
         addSword(   ModItems.INGOT_STEEL.get(), ModToolItems.STEEL_SWORD.get());
         addPickaxe( ModItems.INGOT_STEEL.get(), ModToolItems.STEEL_PICKAXE.get());
         addAxe(     ModItems.INGOT_STEEL.get(), ModToolItems.STEEL_AXE.get());

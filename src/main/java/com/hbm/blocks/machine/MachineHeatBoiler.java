@@ -7,6 +7,7 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.fluid.FluidTypeHBM;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.trait.FT_Heatable;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.render.overlay.OverlayContext;
 import com.hbm.render.overlay.OverlaySection;
@@ -22,6 +23,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -67,6 +69,19 @@ public class MachineHeatBoiler extends BlockDummyable implements ILookOverlay, I
         } else {
             return null;
         }
+    }
+
+    @Override
+    protected void handleDrops(Level level, BlockPos pos, BlockState state) {
+        BlockEntity be = level.getBlockEntity(pos);
+
+        if (be instanceof TileEntityHeatBoiler boiler && boiler.hasExploded) {
+            Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(),
+                    new ItemStack(ModItems.INGOT_STEEL.get(), 4));
+            Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(),
+                    new ItemStack(ModItems.PLATE_COPPER.get(), 8));
+        } else Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(),
+                new ItemStack(ModItems.MACHINE_HEAT_BOILER.get(), 1));
     }
 
     @Nullable

@@ -610,6 +610,11 @@
   "item.hbm.tools.steel_axe": "Стальной топор",
   "item.hbm.tools.steel_shovel": "Стальная лопата",
   "item.hbm.tools.steel_hoe": "Стальная мотыга",
+  "item.hbm.weapon.copper_sword": "Медный меч",
+  "item.hbm.tools.copper_pickaxe": "Медная кирка",
+  "item.hbm.tools.copper_axe": "Медный топор",
+  "item.hbm.tools.copper_shovel": "Медная лопата",
+  "item.hbm.tools.copper_hoe": "Медная мотыга",
   "item.hbm.weapon.advanced_alloy_sword": "Меч из продвинутого сплава",
   "item.hbm.tools.advanced_alloy_pickaxe": "Кирка из продвинутого сплава",
   "item.hbm.tools.advanced_alloy_axe": "Топор из продвинутого сплава",
@@ -3739,6 +3744,13 @@
   "item.hbm.part_generic.heavy_duty_element": "Высокопрочный элемент",
   "item.hbm.part_generic.glass_polarized": "Поляризованное стекло",
   "item.hbm.pellet_rtg_depleted": "Отработанная РТГ-таблетка",
-  "chat.hbm.update": "§e[HBM] §fДоступна новая версия! §c%s §f→ §a%s"
-
+  "chat.hbm.update": "§e[HBM] §fДоступна новая версия! §c%s §f→ §a%s",
+  "item.hbm.machine_difurnace_extension.usage": "§eShift + ПКМ по доменной печи для улучшения",
+  "item.hbm.machine_difurnace_extension.benefit.speed": "Ускорение обработки в 3 раза",
+  "item.hbm.machines.machine_difurnace_extension": "Расширение для доменной печи",
+  "item.hbm.item_secret_aberrator": "Часть Аберратора",
+  "item.hbm.item_secret_canister": "Композит SB-26",
+  "item.hbm.item_secret_controller": "Проприетарный блок управления",
+  "item.hbm.item_secret_folly": "Фрагмент Причуды",
+  "item.hbm.item_secret_selenium_steel": "Слиток селениевой стали"
 }

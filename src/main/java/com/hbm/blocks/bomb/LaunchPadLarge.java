@@ -119,7 +119,7 @@ public class LaunchPadLarge extends BlockDummyable implements IBomb {
     }
 
     @Override
-    public void neighborChanged(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Block block, @NotNull BlockPos fromPos, boolean isMoving) {
+    public void neighborChanged(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Block block, @NotNull BlockPos fromPos, boolean isMoving) {
         if (!level.isClientSide) {
             BlockPos corePos = findCore(level, pos);
             if (corePos != null) {

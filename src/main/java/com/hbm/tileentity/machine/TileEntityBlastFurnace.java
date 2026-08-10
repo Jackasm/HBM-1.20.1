@@ -1,7 +1,11 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.inventory.fluid.FluidTypeHBM;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.trait.FT_Combustible;
+import com.hbm.items.fluid.*;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.blocks.machine.BlastFurnaceBlock;
+import com.hbm.blocks.machine.MachineBlastFurnace;
 import com.hbm.inventory.container.ContainerBlastFurnace;
 import com.hbm.inventory.recipes.BlastFurnaceRecipes;
 import com.hbm.tileentity.ModTileEntity;
@@ -17,6 +21,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -167,10 +172,10 @@ public class TileEntityBlastFurnace extends TileEntityMachineBase implements Men
 
         // Обновление состояния блока
         boolean shouldBeLit = canProcess() && fuel > 0;
-        boolean isCurrentlyLit = getBlockState().getValue(BlastFurnaceBlock.LIT);
+        boolean isCurrentlyLit = getBlockState().getValue(MachineBlastFurnace.LIT);
 
         if (shouldBeLit != isCurrentlyLit) {
-            level.setBlock(worldPosition, getBlockState().setValue(BlastFurnaceBlock.LIT, shouldBeLit), 3);
+            level.setBlock(worldPosition, getBlockState().setValue(MachineBlastFurnace.LIT, shouldBeLit), 3);
         }
 
         setChanged();
@@ -178,32 +183,87 @@ public class TileEntityBlastFurnace extends TileEntityMachineBase implements Men
 
     private void processFuel() {
         ItemStack fuelStack = inventory.getStackInSlot(SLOT_FUEL);
-        if(!fuelStack.isEmpty() && fuel <= (MAX_FUEL - getItemPower(fuelStack))) {
-            int fuelPower = getItemPower(fuelStack);
+        if (fuelStack.isEmpty()) return;
 
-            if(fuelPower > 0) {
-                fuel += fuelPower;
-                fuelStack.shrink(1);
+        int fuelPower = getItemPower(fuelStack);
+        if (fuelPower <= 0) return;
 
-                if(fuelStack.isEmpty()) {
-                    ItemStack container = fuelStack.getItem().getCraftingRemainingItem(fuelStack);
-                    inventory.setStackInSlot(SLOT_FUEL, container != null ? container : ItemStack.EMPTY);
-                }
+        if (fuel + fuelPower > MAX_FUEL) return;
 
-                setChanged();
+        ItemStack emptyContainer = getEmptyContainer(fuelStack);
+
+        fuel += fuelPower;
+        fuelStack.shrink(1);
+
+        if (fuelStack.isEmpty()) {
+            if (emptyContainer != null && !emptyContainer.isEmpty()) {
+                inventory.setStackInSlot(SLOT_FUEL, emptyContainer);
+            } else {
+                inventory.setStackInSlot(SLOT_FUEL, ItemStack.EMPTY);
             }
         }
+
+        setChanged();
     }
 
     private int getItemPower(ItemStack stack) {
-        // Временная реализация - расширь по необходимости
+        // Стандартное топливо
         if (stack.getItem() == Items.COAL) return 200;
         if (stack.getItem() == Items.CHARCOAL) return 200;
         if (stack.getItem() == Items.COAL_BLOCK) return 2000;
         if (stack.getItem() == Items.BLAZE_ROD) return 1000;
         if (stack.getItem() == Items.BLAZE_POWDER) return 300;
         if (stack.getItem() == Items.LAVA_BUCKET) return 12800;
+
+        // Жидкостные контейнеры
+        FluidTypeHBM fluid = ItemFluidContainer.getFluidType(stack);
+        if (fluid != Fluids.NONE.get()) {
+            Item item = stack.getItem();
+            if (item instanceof ItemFluidContainer container) {
+                int capacity = container.getCapacity();
+
+                // Специальный случай: лава
+                if (fluid == Fluids.LAVA.get()) {
+                    return (int)(capacity * 12.8);
+                }
+
+                // Обычные горючие жидкости (FT_Combustible)
+                if (fluid.hasTrait(FT_Combustible.class)) {
+                    FT_Combustible combustible = fluid.getTrait(FT_Combustible.class);
+                    long energy = combustible.getCombustionEnergy() * capacity;
+                    return (int) Math.min(energy, Integer.MAX_VALUE);
+                }
+            }
+        }
+
         return 0;
+    }
+
+    private ItemStack getEmptyContainer(ItemStack stack) {
+        // Ведро лавы
+        if (stack.getItem() == Items.LAVA_BUCKET) {
+            return new ItemStack(Items.BUCKET);
+        }
+
+        // Жидкостные контейнеры
+        FluidTypeHBM fluid = ItemFluidContainer.getFluidType(stack);
+        if (fluid != Fluids.NONE.get()) {
+            Item item = stack.getItem();
+            if (item instanceof ItemFluidCanister) {
+                return ItemFluidCanister.createEmpty();
+            } else if (item instanceof ItemFluidBarrel) {
+                return ItemFluidBarrel.createEmpty();
+            } else if (item instanceof ItemFluidTank) {
+                return ItemFluidTank.createEmpty();
+            } else if (item instanceof ItemFluidTankLead) {
+                return ItemFluidTankLead.createEmpty();
+            } else if (item instanceof ItemFluidBucket) {
+                return ItemFluidBucket.createEmpty();
+            }
+
+        }
+
+        return ItemStack.EMPTY;
     }
 
     private boolean canProcess() {

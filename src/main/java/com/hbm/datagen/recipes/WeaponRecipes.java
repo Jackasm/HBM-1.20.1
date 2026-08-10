@@ -901,53 +901,132 @@ public class WeaponRecipes extends ModRecipeProvider {
                 .unlockedBy("has_bismoid_chip", has(ModItems.CIRCUIT_CHIP_BISMOID.get()))
                 .save(pWriter, MODID + ":weapon_mod_special_las_auto");
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModAmmoItems.AMMO_M357_SP.get(), 6)
-                .requires(ModAmmoItems.AMMO_M357_SP.get())
-                .requires(ModItems.NITRA.get())
-                .unlockedBy("has_nitra", has(ModItems.NITRA.get()))
-                .save(pWriter, MODID + ":ammo_m357_sp");
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_DRILL_HSS.get(), 1)
+                .pattern(" IP")
+                .pattern("IIM")
+                .pattern(" IP")
+                .define('I', ModItems.INGOT_DURA_STEEL.get())
+                .define('P', ModItemTags.ANY_PLASTIC_INGOT)
+                .define('M', ModItems.GUN_MECHANISM_GUNMETAL.get())
+                .unlockedBy("has_dura_steel_ingot", has(ModItems.INGOT_DURA_STEEL.get()))
+                .save(pWriter);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModAmmoItems.AMMO_M44_SP.get(), 6)
-                .requires(ModAmmoItems.AMMO_M44_SP.get())
-                .requires(ModItems.NITRA.get())
-                .unlockedBy("has_nitra", has(ModItems.NITRA.get()))
-                .save(pWriter, MODID + ":ammo_m44_sp");
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_DRILL_WEAPONSTEEL.get(), 1)
+                .pattern(" IP")
+                .pattern("IIM")
+                .pattern(" IP")
+                .define('I', ModItems.INGOT_WEAPON_STEEL.get())
+                .define('P', ModItemTags.ANY_RUBBER_INGOT)
+                .define('M', ModItems.GUN_MECHANISM_GUNMETAL.get())
+                .unlockedBy("has_weapon_steel_ingot", has(ModItems.INGOT_WEAPON_STEEL.get()))
+                .save(pWriter);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModAmmoItems.AMMO_P9_SP.get(), 12)
-                .requires(ModAmmoItems.AMMO_P9_SP.get())
-                .requires(ModItems.NITRA.get())
-                .unlockedBy("has_nitra", has(ModItems.NITRA.get()))
-                .save(pWriter, MODID + ":ammo_p9_sp");
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_DRILL_TCALLOY.get(), 1)
+                .pattern(" IP")
+                .pattern("IIM")
+                .pattern(" IP")
+                .define('I', ModItems.INGOT_TCALLOY.get())
+                .define('P', ModItemTags.ANY_RUBBER_INGOT)
+                .define('M', ModItems.GUN_MECHANISM_WEAPON_STEEL.get())
+                .unlockedBy("has_tcalloy_ingot", has(ModItems.INGOT_TCALLOY.get()))
+                .save(pWriter);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModAmmoItems.AMMO_P22_SP.get(), 32)
-                .requires(ModAmmoItems.AMMO_P22_SP.get())
-                .requires(ModItems.NITRA.get())
-                .unlockedBy("has_nitra", has(ModItems.NITRA.get()))
-                .save(pWriter, MODID + ":ammo_p22_sp");
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_DRILL_SATURNITE.get(), 1)
+                .pattern(" IP")
+                .pattern("IIM")
+                .pattern(" IP")
+                .define('I', ModItems.INGOT_SATURNITE.get())
+                .define('P', ModItemTags.ANY_HARDPLASTIC_INGOT)
+                .define('M', ModItems.GUN_MECHANISM_WEAPON_STEEL.get())
+                .unlockedBy("has_saturnite_ingot", has(ModItems.INGOT_SATURNITE.get()))
+                .save(pWriter);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModAmmoItems.AMMO_R556_SP.get(), 8)
-                .requires(ModAmmoItems.AMMO_R556_SP.get())
-                .requires(ModItems.NITRA.get())
-                .unlockedBy("has_nitra", has(ModItems.NITRA.get()))
-                .save(pWriter, MODID + ":ammo_r556_sp");
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_ENGINE_DIESEL.get(), 1)
+                .pattern("DSD")
+                .pattern("PPP")
+                .pattern("DSD")
+                .define('D', ModItems.PLATE_DURA_STEEL.get())
+                .define('P', ModItems.PISTON_SELENIUM.get())
+                .define('S', ModItems.PIPE_STEEL.get())
+                .unlockedBy("has_dura_steel_plate", has(ModItems.PLATE_DURA_STEEL.get()))
+                .save(pWriter);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModAmmoItems.AMMO_R762_SP.get(), 6)
-                .requires(ModAmmoItems.AMMO_R762_SP.get())
-                .requires(ModItems.NITRA.get())
-                .unlockedBy("has_nitra", has(ModItems.NITRA.get()))
-                .save(pWriter, MODID + ":ammo_r762_sp");
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_ENGINE_AVIATION.get(), 1)
+                .pattern("DSD")
+                .pattern("PPP")
+                .pattern("DSD")
+                .define('D', ModItems.INGOT_DURA_STEEL.get())
+                .define('P', ModItems.PISTON_SELENIUM.get())
+                .define('S', ModItems.GUN_MECHANISM_GUNMETAL.get())
+                .unlockedBy("has_dura_steel_ingot", has(ModItems.INGOT_DURA_STEEL.get()))
+                .save(pWriter);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModAmmoItems.AMMO_BMG50_SP.get(), 4)
-                .requires(ModAmmoItems.AMMO_BMG50_SP.get())
-                .requires(ModItems.NITRA.get())
-                .unlockedBy("has_nitra", has(ModItems.NITRA.get()))
-                .save(pWriter, MODID + ":ammo_bmg50_sp");
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_ENGINE_ELECTRIC.get(), 1)
+                .pattern("DSD")
+                .pattern("PPP")
+                .pattern("DSD")
+                .define('D', ModItemTags.ANY_PLASTIC_INGOT)
+                .define('P', ModItems.WIRE_DENSE_GOLD.get())
+                .define('S', ModBlocks.CAPACITOR_GOLD.get().asItem())
+                .unlockedBy("has_gold_wire", has(ModItems.WIRE_DENSE_GOLD.get()))
+                .save(pWriter);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModAmmoItems.AMMO_G40_HE.get(), 3)
-                .requires(ModAmmoItems.AMMO_G40_HE.get())
-                .requires(ModItems.NITRA.get())
-                .unlockedBy("has_nitra", has(ModItems.NITRA.get()))
-                .save(pWriter, MODID + ":ammo_g40_he");
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_ENGINE_TURBO.get(), 1)
+                .pattern("DSD")
+                .pattern("PPP")
+                .pattern("DSD")
+                .define('D', ModItemTags.ANY_BISMOID_BRONZE_PLATE_CAST)
+                .define('P', ModItems.PISTON_SELENIUM.get())
+                .define('S', ModItems.GUN_MECHANISM_WEAPON_STEEL.get())
+                .unlockedBy("has_bismoid_bronze_plate", has(ModItemTags.ANY_BISMOID_BRONZE_PLATE_CAST))
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_MAGNET.get(), 1)
+                .pattern("RGR")
+                .pattern("GBG")
+                .pattern("RGR")
+                .define('R', ModItemTags.ANY_RUBBER_INGOT)
+                .define('G', ModItems.WIRE_DENSE_GOLD.get())
+                .define('B', ModBlocks.BLOCK_NIOBIUM.get().asItem())
+                .unlockedBy("has_niobium_block", has(ModBlocks.BLOCK_NIOBIUM.get()))
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SIFTER.get(), 1)
+                .pattern("IGI")
+                .pattern("IGI")
+                .define('I', ModItems.INGOT_DURA_STEEL.get())
+                .define('G', ModBlocks.STEEL_GRATE.get().asItem())
+                .unlockedBy("has_dura_steel_ingot", has(ModItems.INGOT_DURA_STEEL.get()))
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_CANISTERS.get(), 1)
+                .pattern(" R ")
+                .pattern("CCC")
+                .pattern("SSS")
+                .define('R', ModItems.PIPE_RUBBER.get())
+                .define('C', ModItems.FLUID_CANISTER.get())
+                .define('S', ModItems.PLATE_STEEL.get())
+                .unlockedBy("has_rubber_pipe", has(ModItems.PIPE_RUBBER.get()))
+                .save(pWriter);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModAmmoItems.AMMO_M44_EQUESTRIAN.get(), 6)
+                .requires(ModAmmoItems.AMMO_M44_JHP.get())
+                .requires(ModItems.ITEM_SECRET_SELENIUM_STEEL.get())
+                .unlockedBy("has_item_secret_selenium_steel", has(ModItems.ITEM_SECRET_SELENIUM_STEEL.get()))
+                .save(pWriter, MODID + ":ammo_m44_jhp");
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModAmmoItems.AMMO_G12_EQUESTRIAN.get(), 3)
+                .requires(ModAmmoItems.AMMO_G12.get())
+                .requires(ModItems.ITEM_SECRET_SELENIUM_STEEL.get())
+                .unlockedBy("has_item_secret_selenium_steel", has(ModItems.ITEM_SECRET_SELENIUM_STEEL.get()))
+                .save(pWriter, MODID + ":ammo_g12");
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModAmmoItems.AMMO_BMG50_EQUESTRIAN.get(), 4)
+                .requires(ModAmmoItems.AMMO_BMG50_FMJ.get())
+                .requires(ModItems.ITEM_SECRET_SELENIUM_STEEL.get())
+                .unlockedBy("has_item_secret_selenium_steel", has(ModItems.ITEM_SECRET_SELENIUM_STEEL.get()))
+                .save(pWriter, MODID + ":ammo_bmg50_fmj");
+
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModAmmoItems.AMMO_ROCKET_HE.get(), 2)
                 .requires(ModAmmoItems.AMMO_ROCKET_HE.get())

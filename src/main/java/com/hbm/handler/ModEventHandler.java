@@ -193,6 +193,32 @@ public class ModEventHandler {
 
             PacketDispatcher.sendTo(new PlayerInformPacket("Press O to Duck!", 0, 30000), serverPlayer);
         }
+
+        boolean hasReceivedStarterKit = player.getPersistentData().getBoolean("hasReceivedStarterKit");
+
+        if (!hasReceivedStarterKit) {
+            giveStarterKit(player);
+            player.getPersistentData().putBoolean("hasReceivedStarterKit", true);
+        }
+    }
+
+    private static void giveStarterKit(Player player) {
+        int freeSlots = 0;
+        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+            if (player.getInventory().getItem(i).isEmpty()) {
+                freeSlots++;
+            }
+        }
+
+        if (freeSlots >= 3) {
+            player.getInventory().add(new ItemStack(Items.STONE_PICKAXE));
+            player.getInventory().add(new ItemStack(Items.STONE_AXE));
+            player.getInventory().add(new ItemStack(Items.STONE_SHOVEL));
+        } else {
+            player.drop(new ItemStack(Items.STONE_PICKAXE), false);
+            player.drop(new ItemStack(Items.STONE_AXE), false);
+            player.drop(new ItemStack(Items.STONE_SHOVEL), false);
+        }
     }
 
     private static void replaceWithCustomSkeleton(Skeleton old, EntityJoinLevelEvent event) {

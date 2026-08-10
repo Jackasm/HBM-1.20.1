@@ -6,7 +6,7 @@
       "item": "minecraft:string"
     },
     "W": {
-      "tag": "forge:any_wool"
+      "tag": "minecraft:wool"
     }
   },
   "pattern": [

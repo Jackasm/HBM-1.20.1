@@ -14,6 +14,7 @@ import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 import com.hbm.util.ModDamageSource;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
@@ -34,9 +35,11 @@ import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Objects;
 
 public class EntityCreeperNuclear extends Creeper {
+
+    private int swell = 0;
+    private final int maxSwell = 30;
 
     public EntityCreeperNuclear(EntityType<? extends Creeper> type, Level level) {
         super(type, level);
@@ -82,6 +85,11 @@ public class EntityCreeperNuclear extends Creeper {
 
     @Override
     public void tick() {
+        super.tick();
+
+        if (this.level().isClientSide) return;
+
+        // Радиационное заражение вокруг
         if (this.isAlive()) {
             AABB box = this.getBoundingBox().inflate(5.0D, 5.0D, 5.0D);
             List<LivingEntity> entities = this.level().getEntitiesOfClass(LivingEntity.class, box,
@@ -90,36 +98,56 @@ public class EntityCreeperNuclear extends Creeper {
                 ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, 0.25F);
             }
         }
+
+        // Регенерация
         if (this.isAlive() && this.getHealth() < this.getMaxHealth() && this.tickCount % 10 == 0) {
             this.heal(1.0F);
         }
-        super.tick();
+
+        // Свайп для взрыва
+        if (this.isIgnited() || this.getSwellDir() > 0) {
+            swell++;
+        } else {
+            if (swell > 0) {
+                swell -= 2;
+                if (swell < 0) swell = 0;
+            }
+        }
+
+        if (swell >= maxSwell) {
+            explodeCreeperCustom();
+        }
     }
 
-    @Override
-    public void onRemovedFromWorld() {
-        super.onRemovedFromWorld();
+    private void explodeCreeperCustom() {
         if (this.level().isClientSide) return;
 
-        // ВСЁ выполняется отложенно
-        Objects.requireNonNull(this.level().getServer()).execute(() -> {
-            boolean griefing = this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
-            if (griefing && this.isPowered()) {
-                // Большой взрыв
-                CompoundTag data = new CompoundTag();
-                data.putString("type", "muke");
-                PacketDispatcher.sendAuxParticleNT(data, this.getX(), this.getY() + 0.5, this.getZ(), this);
-                this.level().playSound(null, this.getX(), this.getY() + 0.5, this.getZ(),
-                        ModSounds.MUKE_EXPLOSION.get(), SoundSource.HOSTILE, 15.0F, 1.0F);
+        boolean griefing = this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
 
+        if (!griefing) {
+            this.discard();
+            return;
+        }
+
+        if (this.isPowered()) {
+            // Заряженный крипер — большой ядерный взрыв
+            CompoundTag data = new CompoundTag();
+            data.putString("type", "muke");
+            PacketDispatcher.sendAuxParticleNT(data, this.getX(), this.getY() + 0.5, this.getZ(), this);
+            this.level().playSound(null, this.getX(), this.getY() + 0.5, this.getZ(),
+                    ModSounds.MUKE_EXPLOSION.get(), SoundSource.HOSTILE, 15.0F, 1.0F);
+
+            if (this.level() instanceof ServerLevel serverLevel) {
                 EntityNukeExplosionMK5 entity = EntityNukeExplosionMK5.statFac(
-                        this.level(), 50, this.getX(), this.getY(), this.getZ());
-                this.level().addFreshEntity(entity);
-            } else if (griefing) {
-                // Маленький взрыв (тоже отложен)
-                ExplosionNukeSmall.explode(this.level(), this.getX(), this.getY() + 0.5, this.getZ(),
-                        ExplosionNukeSmall.PARAMS_MEDIUM);
+                        serverLevel, 50, this.getX(), this.getY(), this.getZ());
+                serverLevel.addFreshEntity(entity);
             }
-        });
+        } else {
+            // Обычный крипер — средний взрыв
+            ExplosionNukeSmall.explode(this.level(), this.getX(), this.getY() + 0.5, this.getZ(),
+                    ExplosionNukeSmall.PARAMS_MEDIUM);
+        }
+
+        this.discard();
     }
 }

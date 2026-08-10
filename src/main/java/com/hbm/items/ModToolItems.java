@@ -38,6 +38,12 @@ public class ModToolItems {
         return com.hbm.items.ItemRegistryHelper.registerTools(tab, name, supplier);
     }
 
+    // ============ МЕДНЫЕ ИНСТРУМЕНТЫ ============
+    public static final RegistryObject<Item> COPPER_SWORD = swordAbility("weapon/copper_sword", ModToolMaterials.COPPER, 3, -2.4F);
+    public static final RegistryObject<Item> COPPER_PICKAXE = toolAbility("tools/copper_pickaxe", ModToolMaterials.COPPER, BlockTags.MINEABLE_WITH_PICKAXE, 3.5F, -2.8F);
+    public static final RegistryObject<Item> COPPER_AXE = toolAbility("tools/copper_axe", ModToolMaterials.COPPER, BlockTags.MINEABLE_WITH_AXE, 4.5F, -3.0F);
+    public static final RegistryObject<Item> COPPER_SHOVEL = toolAbility("tools/copper_shovel", ModToolMaterials.COPPER, BlockTags.MINEABLE_WITH_SHOVEL, 2.5F, -3.0F);
+
     // ============ СТАЛЬНЫЕ ИНСТРУМЕНТЫ ============
     public static final RegistryObject<Item> STEEL_SWORD = swordAbility("weapon/steel_sword", ModToolMaterials.STEEL, 5, -2.4F);
     public static final RegistryObject<Item> STEEL_PICKAXE = toolAbility("tools/steel_pickaxe", ModToolMaterials.STEEL, BlockTags.MINEABLE_WITH_PICKAXE, 4.0F, -2.8F);
@@ -101,10 +107,11 @@ public class ModToolItems {
     public static final RegistryObject<Item> COBALT_HOE = hoe("tools/cobalt_hoe", ModToolMaterials.COBALT, 750);
     public static final RegistryObject<Item> COBALT_DECORATED_HOE = hoe("tools/cobalt_decorated_hoe", ModToolMaterials.COBALT_DECORATED, 2500);
     public static final RegistryObject<Item> STARMETAL_HOE = hoe("tools/starmetal_hoe", ModToolMaterials.STARMETAL, 3000);
+    public static final RegistryObject<Item> COPPER_HOE = hoe("tools/copper_hoe", ModToolMaterials.COPPER, 180);
     public static final RegistryObject<Item> SCHRABIDIUM_HOE = register(WEAPON_TAB, "tools/schrabidium_hoe", () -> HoeSchrabidium.builder(ModToolMaterials.SCHRABIDIUM).attackDamage(-2).attackSpeed(-1.0F).rarity(Rarity.EPIC).build());
-    public static final RegistryObject<Item> CROWBAR = swordAbility("weapon/crowbar", ModToolMaterials.STEEL, 5, -2.4F);
 
     // ============ ПРОЧИЕ ОРУЖИЯ ============
+    public static final RegistryObject<Item> CROWBAR = swordAbility("weapon/crowbar", ModToolMaterials.STEEL, 5, -2.4F);
     public static final RegistryObject<Item> PIPE_LEAD = sword("weapon/pipe_lead", ModToolMaterials.PIPE_LEAD);
     public static final RegistryObject<Item> REER_GRAAR = sword("weapon/reer_graar", ModToolMaterials.TITANIUM);
     public static final RegistryObject<Item> STOPSIGN = weaponSpecial("weapon/stopsign", ModToolMaterials.ALLOY, 2000);
@@ -537,10 +544,6 @@ public class ModToolItems {
         return register(WEAPON_TAB, name, () -> new ModSword(tier, new Item.Properties().stacksTo(1)));
     }
 
-    private static RegistryObject<Item> swordAbility(String name, Tier tier) {
-        return register(WEAPON_TAB, name, () -> ItemSwordAbility.builder(tier).build());
-    }
-
     private static RegistryObject<Item> swordAbility(String name, Tier tier, int damage, float speed) {
         return register(WEAPON_TAB, name, () -> ItemSwordAbility.builder(tier).attackDamage(damage).attackSpeed(speed).build());
     }
@@ -621,7 +624,7 @@ public class ModToolItems {
         registerItemModel(ModToolItems.BOLTGUN.get(), ResLocation(MODID, "weapon/boltgun"));
     }
 
-    private static void registerItemModel(net.minecraft.world.item.Item item, ResourceLocation modelLocation) {
+    private static void registerItemModel(Item item, ResourceLocation modelLocation) {
         ItemProperties.register(item, ResLocation("model"), (stack, level, entity, seed) -> 0);
     }
 }

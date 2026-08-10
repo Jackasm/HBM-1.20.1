@@ -64,6 +64,8 @@ public class ModItemTags {
     public static final TagKey<Item> TOOL_CHEMISTRYSET = modTag("ntmchemistryset");
 
     // Группы для совместимости
+    public static final TagKey<Item> ANY_LOG = ItemTags.LOGS_THAT_BURN;
+    public static final TagKey<Item> ANY_SAPLING = ItemTags.SAPLINGS;
     public static final TagKey<Item> ANY_STEEL = modTag("any_steel");
     public static final TagKey<Item> ANY_IRON = modTag("any_iron");
     public static final TagKey<Item> ANY_COPPER = modTag("any_copper");
@@ -74,7 +76,7 @@ public class ModItemTags {
     public static final TagKey<Item> ANY_GLASS_BLOCKS = forgeTag("glass_blocks");
     public static final TagKey<Item> ANY_SAND = forgeTag("sand");
     public static final TagKey<Item> ANY_PLASTIC_INGOT = modTag("any_plastic");
-    public static final TagKey<Item> ANY_WOOL = forgeTag("any_wool");
+    public static final TagKey<Item> ANY_WOOL = ItemTags.WOOL;
     public static final TagKey<Item> ANY_HARDPLASTIC_INGOT = modTag("any_hard_plastic");
     public static final TagKey<Item> ANY_HIGHEXPLOSIVE = modTag("any_highexplosive");
     public static final TagKey<Item> ANY_BISMOID_BRONZE_PLATE_CAST = modTag("any_bismoid_plate_cast");

@@ -2,6 +2,10 @@ package com.hbm.entity.mob;
 
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.effect.EntityMist;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.inventory.fluid.Fluids;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.DamageTypeTags;
@@ -11,7 +15,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,11 +23,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class EntityCreeperPhosgene extends Creeper {
 
     private int customSwell = 0;
+    private final int customMaxSwell = 20;
 
     public EntityCreeperPhosgene(EntityType<? extends Creeper> type, Level level) {
         super(type, level);
@@ -38,38 +41,44 @@ public class EntityCreeperPhosgene extends Creeper {
 
     @Override
     public void tick() {
-        if (this.isAlive() && this.getSwellDir() > 0) {
+        super.tick();
+
+        if (this.level().isClientSide) return;
+
+        if (this.isAlive() && (this.isIgnited() || this.getSwellDir() > 0)) {
             customSwell++;
-            int customMaxSwell = 20;
             if (customSwell >= customMaxSwell) {
                 explodeCreeper();
             }
         } else {
             customSwell = 0;
         }
-        super.tick();
     }
 
-    public void explodeCreeper() {
+    private void explodeCreeper() {
         if (this.level().isClientSide) return;
 
-        // ВСЁ выполняется отложенно
-        Objects.requireNonNull(this.level().getServer()).execute(() -> {
-            this.discard();
-            boolean griefing = this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
-            this.level().explode(this, this.getX(), this.getY() + this.getBbHeight() / 2, this.getZ(),
-                    2.0F, Level.ExplosionInteraction.MOB);
-            cleanArea();
+        if (this.isAlive() && (this.isIgnited() || this.getSwellDir() > 0)) {
+            this.level().getServer().execute(() -> {
+                this.discard();
 
-            if (griefing) {
+                ExplosionVNT vnt = new ExplosionVNT(this.level(), this.getX(), this.getY() + this.getBbHeight() / 2, this.getZ(), 2.0F, this);
+
+                vnt.setEntityProcessor(new EntityProcessorStandard());
+                vnt.setPlayerProcessor(new PlayerProcessorStandard());
+                vnt.setSFX(new ExplosionEffectStandard());
+                vnt.explode();
+
+                cleanArea();
+
                 EntityMist mist = new EntityMist(ModEntities.MIST.get(), this.level());
                 mist.setFluidType(Fluids.PHOSGENE.get());
                 mist.setPos(this.getX(), this.getY(), this.getZ());
                 mist.setArea(10, 5);
                 mist.setDuration(150);
                 this.level().addFreshEntity(mist);
-            }
-        });
+            });
+        }
     }
 
     private void cleanArea() {

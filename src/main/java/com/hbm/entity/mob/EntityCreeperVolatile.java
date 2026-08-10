@@ -21,9 +21,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class EntityCreeperVolatile extends Creeper {
+
+    private int swell;
+    private int oldSwell;
+    private final int maxSwell = 30;
 
     public EntityCreeperVolatile(EntityType<? extends Creeper> type, Level level) {
         super(type, level);
@@ -58,30 +61,51 @@ public class EntityCreeperVolatile extends Creeper {
     }
 
     @Override
-    public void onRemovedFromWorld() {
-        super.onRemovedFromWorld();
+    public void tick() {
+        super.tick();
+
         if (this.level().isClientSide) return;
 
-        // ВСЁ выполняется отложенно
-        Objects.requireNonNull(this.level().getServer()).execute(() -> {
-            boolean griefing = this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
-            boolean powered = this.isPowered();
+        this.oldSwell = this.swell;
 
-            if (griefing) {
-                ExplosionVNT vnt = new ExplosionVNT(this.level(), this.getX(), this.getY(), this.getZ(),
-                        powered ? 14 : 7, this);
-                vnt.setBlockAllocator(new BlockAllocatorBulkie(60, powered ? 32 : 16));
-                vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorBulkie(ModBlocks.BLOCK_SLAG.get(), 1)));
-                vnt.setEntityProcessor(new EntityProcessorStandard().withRangeMod(0.5F));
-                vnt.setPlayerProcessor(new PlayerProcessorStandard());
-                vnt.setSFX(new ExplosionEffectStandard());
-                vnt.explode();
-            } else {
-                this.level().explode(this, this.getX(), this.getY(), this.getZ(),
-                        powered ? 7 : 3, Level.ExplosionInteraction.MOB);
+        if (this.isIgnited() || this.getSwellDir() > 0) {
+            this.swell++;
+        } else {
+            if (this.swell > 0) {
+                this.swell -= 2;
+                if (this.swell < 0) this.swell = 0;
             }
-            cleanArea();
-        });
+        }
+
+        if (this.swell >= this.maxSwell) {
+            this.explodeCreeperCustom();
+        }
+    }
+
+    private void explodeCreeperCustom() {
+        if (this.level().isClientSide) return;
+
+        boolean griefing = this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
+        boolean powered = this.isPowered();
+
+        if (griefing) {
+            ExplosionVNT vnt = new ExplosionVNT(this.level(), this.getX(), this.getY(), this.getZ(),
+                    powered ? 14 : 7, this);
+            vnt.setBlockAllocator(new BlockAllocatorBulkie(60, powered ? 32 : 16));
+            vnt.setBlockProcessor(new BlockProcessorStandard()
+                    .setNoDrop()
+                    .withBlockEffect(new BlockMutatorBulkie(ModBlocks.BLOCK_SLAG.get())));
+            vnt.setEntityProcessor(new EntityProcessorStandard().withRangeMod(0.5F));
+            vnt.setPlayerProcessor(new PlayerProcessorStandard());
+            vnt.setSFX(new ExplosionEffectStandard());
+            vnt.explode();
+        } else {
+            this.level().explode(this, this.getX(), this.getY(), this.getZ(),
+                    powered ? 7 : 3, Level.ExplosionInteraction.MOB);
+        }
+
+        cleanArea();
+        this.discard();
     }
 
     private void cleanArea() {

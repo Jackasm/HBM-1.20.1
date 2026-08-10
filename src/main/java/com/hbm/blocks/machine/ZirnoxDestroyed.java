@@ -60,7 +60,7 @@ public class ZirnoxDestroyed extends BlockDummyable {
     }
 
     @Override
-    public void tick(@NotNull BlockState state, ServerLevel level, BlockPos pos, @NotNull RandomSource random) {
+    public void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         Block blockAbove = level.getBlockState(pos.above()).getBlock();
 
         if (blockAbove == net.minecraft.world.level.block.Blocks.AIR) {

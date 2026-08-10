@@ -901,6 +901,12 @@ public class MineralRecipes extends ModRecipeProvider {
                 .unlockedBy("has_clay_ball", has(Items.CLAY_BALL))
                 .save(pWriter, "ball_fireclay_from_clay_ore_aluminium");
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.BALL_FIRECLAY.get(), 4)
+                .requires(Items.CLAY_BALL, 3)
+                .requires(ModItems.RAW_ALUMINIUM.get()) // или руда алюминия
+                .unlockedBy("has_clay_ball", has(Items.CLAY_BALL))
+                .save(pWriter, "ball_fireclay_from_clay_raw_aluminium");
+
 // Огнеупорная глина (4 штуки) из глины, известняка и песка
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.BALL_FIRECLAY.get(), 4)
                 .requires(Items.CLAY_BALL, 2)

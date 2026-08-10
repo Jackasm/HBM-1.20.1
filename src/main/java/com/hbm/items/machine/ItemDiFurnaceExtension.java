@@ -1,13 +1,19 @@
 package com.hbm.items.machine;
 
-import com.hbm.blocks.machine.BlastFurnaceBlock;
+import com.hbm.blocks.machine.MachineBlastFurnace;
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.render.item.DiFurnaceExtensionItemRenderer;
+import com.hbm.tileentity.TileEntityProxyBase;
 import com.hbm.tileentity.machine.TileEntityBlastFurnace;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -15,6 +21,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -43,7 +51,7 @@ public class ItemDiFurnaceExtension extends Item {
         BlockState state = level.getBlockState(pos);
 
         // Проверяем, что кликнули по печке
-        if (!(state.getBlock() instanceof BlastFurnaceBlock)) {
+        if (!(state.getBlock() instanceof MachineBlastFurnace machineBlastFurnace)) {
             return InteractionResult.PASS;
         }
 
@@ -63,9 +71,30 @@ public class ItemDiFurnaceExtension extends Item {
 
         // Улучшаем печку
         if (!level.isClientSide) {
+            // Создаём extra-блок сверху
+            BlockPos above = pos.above();
+            if (!level.getBlockState(above).isAir()) {
+                Objects.requireNonNull(context.getPlayer()).sendSystemMessage(Component.literal("There is no space above the furnace!"));
+                return InteractionResult.FAIL;
+            }
+
+            // Устанавливаем extra-блок
+            BlockDummyable.setSafeRem(true);
+            BlockState extraState = machineBlastFurnace.getExtraState(Direction.UP);
+            level.setBlock(above, extraState, 3);
+            BlockEntity extraBe = level.getBlockEntity(above);
+            if (extraBe instanceof TileEntityProxyBase proxy) {
+                proxy.setExtra(true);
+            }
+            BlockDummyable.setSafeRem(false);
+
+            // Обновляем флаг расширения в TileEntity
             furnace.hasExtension = true;
             furnace.setChanged();
+
+            // Синхронизируем изменения на клиенте
             level.sendBlockUpdated(pos, state, state, 3);
+            level.sendBlockUpdated(above, extraState, extraState, 3);
 
             // Съедаем предмет
             if (!Objects.requireNonNull(context.getPlayer()).isCreative()) {
@@ -76,5 +105,15 @@ public class ItemDiFurnaceExtension extends Item {
         }
 
         return InteractionResult.SUCCESS;
+    }
+
+    @Override
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
+        tooltip.add(Component.translatable("item.hbm.machine_difurnace_extension.usage")
+                .withStyle(ChatFormatting.YELLOW));
+        tooltip.add(Component.literal(""));
+        tooltip.add(Component.translatable("item.hbm.machine_difurnace_extension.benefit.speed")
+                .withStyle(ChatFormatting.GREEN));
+        tooltip.add(Component.literal(""));
     }
 }

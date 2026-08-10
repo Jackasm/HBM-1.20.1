@@ -1,6 +1,6 @@
 package com.hbm.render.tileentity;
 
-import com.hbm.blocks.machine.MachinePressBlock;
+import com.hbm.blocks.machine.MachinePress;
 import com.hbm.main.HBMResourceManager;
 import com.hbm.tileentity.machine.TileEntityMachinePress;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -26,7 +26,7 @@ public class PressRenderer implements BlockEntityRenderer<TileEntityMachinePress
         poseStack.pushPose();
         poseStack.translate(0.5, 0, 0.5);
 
-        Direction facing = tile.getBlockState().getValue(MachinePressBlock.FACING);
+        Direction facing = tile.getBlockState().getValue(MachinePress.FACING);
 
         if (facing != Direction.NORTH) {
             float rotation = getRotationFromFacing(facing);

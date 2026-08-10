@@ -4,14 +4,15 @@ import com.hbm.inventory.container.ContainerBlastFurnace;
 import com.hbm.util.RefStrings;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 
 import static com.hbm.util.ResLocation.ResLocation;
 
 public class GUIBlastFurnace extends AbstractContainerScreen<ContainerBlastFurnace> {
+
     private static final ResourceLocation TEXTURE = ResLocation(RefStrings.MODID, "textures/gui/machine/gui_blast_furnace.png");
 
     public GUIBlastFurnace(ContainerBlastFurnace container, Inventory playerInventory, Component title) {
@@ -25,25 +26,24 @@ public class GUIBlastFurnace extends AbstractContainerScreen<ContainerBlastFurna
         int left = (this.width - this.imageWidth) / 2;
         int top = (this.height - this.imageHeight) / 2;
 
-        // Фон GUI
         graphics.blit(TEXTURE, left, top, 0, 0, this.imageWidth, this.imageHeight);
 
         // Прогресс плавки
         int progress = menu.getProgress();
         int progressScaled = progress * 24 / menu.getProcessingSpeed();
-        if(progressScaled > 0) {
+        if (progressScaled > 0) {
             graphics.blit(TEXTURE, left + 101, top + 35, 176, 14, progressScaled + 1, 17);
         }
 
-        // Уровень топлива - ИСПРАВЛЕНО: используем правильные координаты
+        // Уровень топлива
         int fuel = menu.getFuel();
         int fuelScaled = fuel * 52 / menu.getMaxFuel();
-        if(fuelScaled > 0) {
+        if (fuelScaled > 0) {
             graphics.blit(TEXTURE, left + 44, top + 70 - fuelScaled, 201, 53 - fuelScaled, 16, fuelScaled);
         }
 
         // Анимация огня если идет процесс
-        if(menu.getProgress() > 0) {
+        if (menu.getProgress() > 0) {
             graphics.blit(TEXTURE, left + 63, top + 37, 176, 0, 14, 14);
         }
     }
@@ -59,5 +59,38 @@ public class GUIBlastFurnace extends AbstractContainerScreen<ContainerBlastFurna
         this.renderBackground(graphics);
         super.render(graphics, mouseX, mouseY, partialTicks);
         this.renderTooltip(graphics, mouseX, mouseY);
+
+        int left = (this.width - this.imageWidth) / 2;
+        int top = (this.height - this.imageHeight) / 2;
+
+        // ===== Тултип для шкалы топлива =====
+        int fuelX = left + 44;
+        int fuelY = top + 18; // 70 - 52 (максимальная высота)
+        int fuelW = 16;
+        int fuelH = 52;
+
+        if (mouseX >= fuelX && mouseX <= fuelX + fuelW &&
+                mouseY >= fuelY && mouseY <= fuelY + fuelH) {
+            int fuel = menu.getFuel();
+            int maxFuel = menu.getMaxFuel();
+            graphics.renderTooltip(this.font,
+                    Component.literal("Fuel: " + fuel + " / " + maxFuel),
+                    mouseX, mouseY);
+        }
+
+        // ===== Тултип для шкалы прогресса (опционально) =====
+        int progressX = left + 101;
+        int progressY = top + 35;
+        int progressW = 24;
+        int progressH = 17;
+
+        if (mouseX >= progressX && mouseX <= progressX + progressW &&
+                mouseY >= progressY && mouseY <= progressY + progressH) {
+            int progress = menu.getProgress();
+            int speed = menu.getProcessingSpeed();
+            graphics.renderTooltip(this.font,
+                    Component.literal("Progress: " + progress + " / " + speed),
+                    mouseX, mouseY);
+        }
     }
 }

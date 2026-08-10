@@ -1,6 +1,6 @@
 package com.hbm.render.tileentity;
 
-import com.hbm.blocks.machine.BlastFurnaceBlock;
+import com.hbm.blocks.machine.MachineBlastFurnace;
 import com.hbm.main.HBMResourceManager;
 import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.tileentity.machine.TileEntityBlastFurnace;
@@ -24,15 +24,15 @@ public class RenderBlastFurnace implements BlockEntityRenderer<TileEntityBlastFu
                        @NotNull MultiBufferSource buffer, int packedLight, int packedOverlay) {
 
         BlockState state = furnace.getBlockState();
-        if (!(state.getBlock() instanceof BlastFurnaceBlock)) return;
+        if (!(state.getBlock() instanceof MachineBlastFurnace)) return;
 
-        boolean isLit = state.getValue(BlastFurnaceBlock.LIT);
-        Direction facing = state.getValue(BlastFurnaceBlock.FACING);
+        boolean isLit = state.getValue(MachineBlastFurnace.LIT);
+        Direction facing = state.getValue(MachineBlastFurnace.FACING);
         float rotation = switch (facing) {
-            case SOUTH -> 180f;
-            case WEST -> 90f;
-            case EAST -> 270f;
-            default -> 0f;
+            case SOUTH -> 90f;
+            case WEST -> 0f;
+            case EAST -> 180f;
+            default -> 270f;
         };
         //packedLight = 0xF000F0;
 

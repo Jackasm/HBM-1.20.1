@@ -82,9 +82,9 @@ public class Fluids {
                     .setTemperature(600).addTraits(LIQUID));
 
     public static final RegistryObject<FluidTypeHBM> LAVA = register("lava",
-            new FluidTypeHBM("LAVA", 0xFF3300, 4, 0, 0, HBMEnums.EnumSymbol.NOWATER,
+            new FluidTypeHBM("LAVA", 0xFF3300, 4, 4, 0, HBMEnums.EnumSymbol.NOWATER,
                     ResLocation(MODID, "textures/gui/fluids/lava.png"))
-                    .setTemperature(1200).addTraits(LIQUID, VISCOUS));
+                    .setTemperature(1200).addTraits(new FT_Flammable(5_000), LIQUID, VISCOUS));
 
     // === ГАЗЫ И КРИОГЕННЫЕ ЖИДКОСТИ ===
     public static final RegistryObject<FluidTypeHBM> DEUTERIUM = register("deuterium",
