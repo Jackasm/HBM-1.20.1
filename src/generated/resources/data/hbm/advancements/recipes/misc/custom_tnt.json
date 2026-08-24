@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "tag": "hbm:any_highexplosive"
+            "items": [
+              "minecraft:oak_planks"
+            ]
           }
         ]
       },

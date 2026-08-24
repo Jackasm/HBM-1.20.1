@@ -1,0 +1,12 @@
+{
+  "values": [
+    "hbm:billet_uranium",
+    "hbm:billet_plutonium",
+    "hbm:billet_schrabidium",
+    "hbm:billet_solinium",
+    "hbm:billet_bismuth",
+    "hbm:billet_cobalt",
+    "hbm:billet_zirconium",
+    "hbm:billet_silicon"
+  ]
+}

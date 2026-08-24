@@ -23,7 +23,7 @@ public class ItemHotDusted extends ItemHot {
                 .withStyle(ChatFormatting.GRAY));
     }
 
-    public static int getMaxHeat(ItemStack stack) {
+    public int getMaxHeat(ItemStack stack) {
         if (stack.getItem() instanceof ItemHotDusted) {
             int dustLevel = stack.getDamageValue();
             return maxHeat - dustLevel * 10;

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_block_dura_steel": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:block_dura_steel"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:block_dura_steel_to_ingot_dura_steel"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_block_dura_steel",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:block_dura_steel_to_ingot_dura_steel"
+    ]
+  },
+  "sends_telemetry_event": false
+}

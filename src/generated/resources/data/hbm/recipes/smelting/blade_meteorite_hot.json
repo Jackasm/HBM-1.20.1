@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "item": "hbm:blade_meteorite"
+  },
+  "result": {
+    "item": "hbm:blade_meteorite",
+    "nbt": {
+      "heat": 200
+    }
+  }
+}

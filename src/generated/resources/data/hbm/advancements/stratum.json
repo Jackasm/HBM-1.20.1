@@ -1,0 +1,30 @@
+{
+  "parent": "hbm:root",
+  "criteria": {
+    "stratum": {
+      "conditions": {},
+      "trigger": "hbm:stratum"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.stratum.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "hbm:stone_gneiss"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.stratum"
+    }
+  },
+  "requirements": [
+    [
+      "stratum"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

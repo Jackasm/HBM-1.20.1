@@ -17,7 +17,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -78,7 +77,7 @@ public class MachineSolderingStation extends BlockDummyable {
         if (core == null) return InteractionResult.PASS;
 
         BlockEntity te = level.getBlockEntity(core);
-        if (te instanceof TileEntityMachineSolderingStation station) {
+        if (te instanceof TileEntityMachineSolderingStation) {
             return standardOpenBehavior(level, pos, player, getGuiID()) ? InteractionResult.CONSUME : InteractionResult.PASS;
         }
         return InteractionResult.PASS;
@@ -105,11 +104,6 @@ public class MachineSolderingStation extends BlockDummyable {
     @Override
     public ItemStack getMachineItem() {
         return new ItemStack(this);
-    }
-
-    @Override
-    public @NotNull RenderShape getRenderShape(@NotNull BlockState state) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     @Override

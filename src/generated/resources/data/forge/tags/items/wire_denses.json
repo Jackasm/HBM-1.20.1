@@ -1,0 +1,18 @@
+{
+  "values": [
+    "hbm:wire_dense_gold",
+    "hbm:wire_dense_schrabidium",
+    "hbm:wire_dense_schrabidate",
+    "hbm:wire_dense_titanium",
+    "hbm:wire_dense_copper",
+    "hbm:wire_dense_tungsten",
+    "hbm:wire_dense_neodymium",
+    "hbm:wire_dense_niobium",
+    "hbm:wire_dense_red_copper",
+    "hbm:wire_dense_advanced_alloy",
+    "hbm:wire_dense_starmetal",
+    "hbm:wire_dense_bscco",
+    "hbm:wire_dense_magnetized_tungsten",
+    "hbm:wire_dense_dnt"
+  ]
+}

@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:air"
+          "name": "hbm:block_pu_mix"
         }
       ],
       "rolls": 1.0

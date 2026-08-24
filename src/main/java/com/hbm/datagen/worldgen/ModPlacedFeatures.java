@@ -35,7 +35,6 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> RARE_ORE_PLACED = registerKey("rare_ore_placed");
     public static final ResourceKey<PlacedFeature> SULFUR_ORE_PLACED = registerKey("sulfur_ore_placed");
     public static final ResourceKey<PlacedFeature> TUNGSTEN_ORE_PLACED = registerKey("tungsten_ore_placed");
-    public static final ResourceKey<PlacedFeature> ZINC_ORE_PLACED = registerKey("zinc_ore_placed");
     public static final ResourceKey<PlacedFeature> THORIUM_ORE_PLACED = registerKey("thorium_ore_placed");
     public static final ResourceKey<PlacedFeature> URANIUM_ORE_PLACED = registerKey("uranium_ore_placed");
     public static final ResourceKey<PlacedFeature> STONE_RESOURCE_LIMESTONE_PLACED = registerKey("stone_resource_limestone");
@@ -55,7 +54,6 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> RARE_DEEPSLATE_ORE_PLACED = registerKey("rare_deepslate_ore_placed");
     public static final ResourceKey<PlacedFeature> SULFUR_DEEPSLATE_ORE_PLACED = registerKey("sulfur_deepslate_ore_placed");
     public static final ResourceKey<PlacedFeature> TUNGSTEN_DEEPSLATE_ORE_PLACED = registerKey("tungsten_deepslate_ore_placed");
-    public static final ResourceKey<PlacedFeature> ZINC_DEEPSLATE_ORE_PLACED = registerKey("zinc_deepslate_ore_placed");
     public static final ResourceKey<PlacedFeature> THORIUM_DEEPSLATE_ORE_PLACED = registerKey("thorium_deepslate_ore_placed");
     public static final ResourceKey<PlacedFeature> URANIUM_DEEPSLATE_ORE_PLACED = registerKey("uranium_deepslate_ore_placed");
 
@@ -76,7 +74,6 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> LANDMINE_PLACED = registerKey("landmine_placed");
     public static final ResourceKey<PlacedFeature> CRATER_PLACED = registerKey("crater_placed");
     public static final ResourceKey<PlacedFeature> ANTENNA_PLACED = registerKey("antenna_placed");
-    public static final ResourceKey<PlacedFeature> RUIN_PLACED = registerKey("ruin_placed");
 
 
     public static final ResourceKey<PlacedFeature> FLOWER_FOXGLOVE_PLACED = registerKey("flower_foxglove_placed");
@@ -155,10 +152,6 @@ public class ModPlacedFeatures {
                 WorldConfig.tungstenSpawn, WorldConfig.tungstenMinHeight, WorldConfig.tungstenMaxHeight,
                 WorldConfig.TUNGSTEN_SPAWN, WorldConfig.TUNGSTEN_MIN, WorldConfig.TUNGSTEN_MAX);
 
-        registerOre(context, configuredFeatures, ZINC_ORE_PLACED, ModConfiguredFeatures.ZINC_ORE,
-                WorldConfig.zincSpawn, WorldConfig.zincMinHeight, WorldConfig.zincMaxHeight,
-                WorldConfig.ZINC_SPAWN, WorldConfig.ZINC_MIN, WorldConfig.ZINC_MAX);
-
         registerOre(context, configuredFeatures, THORIUM_ORE_PLACED, ModConfiguredFeatures.THORIUM_ORE,
                 WorldConfig.thoriumSpawn, WorldConfig.thoriumMinHeight, WorldConfig.thoriumMaxHeight,
                 WorldConfig.THORIUM_SPAWN, WorldConfig.THORIUM_MIN, WorldConfig.THORIUM_MAX);
@@ -227,10 +220,6 @@ public class ModPlacedFeatures {
         registerOre(context, configuredFeatures, TUNGSTEN_DEEPSLATE_ORE_PLACED, ModConfiguredFeatures.TUNGSTEN_DEEPSLATE_ORE,
                 WorldConfig.tungstenDeepslateSpawn, WorldConfig.tungstenDeepslateMinHeight, WorldConfig.tungstenDeepslateMaxHeight,
                 WorldConfig.TUNGSTEN_DEEPSLATE_SPAWN, WorldConfig.TUNGSTEN_DEEPSLATE_MIN, WorldConfig.TUNGSTEN_DEEPSLATE_MAX);
-
-        registerOre(context, configuredFeatures, ZINC_DEEPSLATE_ORE_PLACED, ModConfiguredFeatures.ZINC_DEEPSLATE_ORE,
-                WorldConfig.zincDeepslateSpawn, WorldConfig.zincDeepslateMinHeight, WorldConfig.zincDeepslateMaxHeight,
-                WorldConfig.ZINC_DEEPSLATE_SPAWN, WorldConfig.ZINC_DEEPSLATE_MIN, WorldConfig.ZINC_DEEPSLATE_MAX);
 
         registerOre(context, configuredFeatures, THORIUM_DEEPSLATE_ORE_PLACED, ModConfiguredFeatures.THORIUM_DEEPSLATE_ORE,
                 WorldConfig.thoriumDeepslateSpawn, WorldConfig.thoriumDeepslateMinHeight, WorldConfig.thoriumDeepslateMaxHeight,
@@ -329,12 +318,6 @@ public class ModPlacedFeatures {
                         HeightRangePlacement.uniform(VerticalAnchor.absolute(0), VerticalAnchor.absolute(255))
                 ));
 
-        register(context, RUIN_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.RUIN),
-                List.of(
-                        RarityFilter.onAverageOnceEvery(WorldConfig.RUIN_STRUCTURE),
-                        InSquarePlacement.spread(),
-                        HeightRangePlacement.uniform(VerticalAnchor.absolute(0), VerticalAnchor.absolute(255))
-                ));
 
         register(context, FLOWER_FOXGLOVE_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.FLOWER_FOXGLOVE), 16);
         register(context, FLOWER_NIGHTSHADE_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.FLOWER_NIGHTSHADE), 8);

@@ -17,7 +17,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -108,18 +107,8 @@ public class MachineArcWelder extends BlockDummyable {
     }
 
     @Override
-    public @NotNull RenderShape getRenderShape(@NotNull BlockState state) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
-    }
-
-    @Override
     protected void fillSpace(Level level, BlockPos pos, BlockPos corePos, Direction dir) {
         super.fillSpace(level, pos, corePos, dir);
-
-        // Здесь нужно добавить extra блоки для дуговой сварки
-        // Размеры: {1, 0, 1, 0, 1, 1}
-        // Это значит: up=1, down=0, north=1, south=0, west=1, east=1
-        // Ядро находится в центре, нужно добавить extra блоки
 
         Direction forward = dir.getOpposite();
         Direction right = dir.getClockWise();

@@ -4,6 +4,22 @@
       "trigger": "minecraft:impossible"
     }
   },
+  "display": {
+    "announce_to_chat": true,
+    "background": "hbm:textures/gui/advancements/background.png",
+    "description": {
+      "translate": "achievement.root.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "hbm:book_guide"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.root"
+    }
+  },
   "requirements": [
     [
       "impossible"

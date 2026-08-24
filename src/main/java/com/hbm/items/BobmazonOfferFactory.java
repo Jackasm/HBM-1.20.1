@@ -3,7 +3,6 @@ package com.hbm.items;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockConcreteColoredExt;
-import com.hbm.blocks.generic.BlockNTMFlower;
 import com.hbm.blocks.generic.BlockPlushie;
 import com.hbm.blocks.generic.BlockSnowglobe;
 import com.hbm.inventory.fluid.FluidTypeHBM;
@@ -48,11 +47,11 @@ public class BobmazonOfferFactory {
 
         // plants
         standard.add(new Offer(new ItemStack(Blocks.OAK_SAPLING, 1), Requirement.STEEL, 12, 9));
-        standard.add(new Offer(flowerStack(BlockNTMFlower.EnumFlowerType.FOXGLOVE, 1), Requirement.STEEL, 16, 5));
-        standard.add(new Offer(flowerStack(BlockNTMFlower.EnumFlowerType.TOBACCO, 1), Requirement.STEEL, 16, 9));
-        standard.add(new Offer(flowerStack(BlockNTMFlower.EnumFlowerType.NIGHTSHADE, 1), Requirement.STEEL, 16, 3));
-        standard.add(new Offer(flowerStack(BlockNTMFlower.EnumFlowerType.WEED, 1), Requirement.STEEL, 4, 10));
-        standard.add(new Offer(flowerStack(BlockNTMFlower.EnumFlowerType.CD0, 1), Requirement.NUCLEAR, 64, 8));
+        standard.add(new Offer(new ItemStack(ModBlocks.PLANT_FLOWER_FOXGLOVE.get().asItem(), 1), Requirement.STEEL, 16, 5));
+        standard.add(new Offer(new ItemStack(ModBlocks.PLANT_FLOWER_TOBACCO.get().asItem(), 1), Requirement.STEEL, 16, 9));
+        standard.add(new Offer(new ItemStack(ModBlocks.PLANT_FLOWER_NIGHTSHADE.get().asItem(), 1), Requirement.STEEL, 16, 3));
+        standard.add(new Offer(new ItemStack(ModBlocks.PLANT_FLOWER_WEED.get().asItem(), 1), Requirement.STEEL, 4, 10));
+        standard.add(new Offer(new ItemStack(ModBlocks.PLANT_FLOWER_CD0.get().asItem(), 1), Requirement.NUCLEAR, 64, 8));
 
         // deco
         for (BlockConcreteColoredExt.EnumConcreteType conc : BlockConcreteColoredExt.EnumConcreteType.values()) {
@@ -192,12 +191,6 @@ public class BobmazonOfferFactory {
     private static ItemStack barrels(FluidTypeHBM fluid, int count) {
         ItemStack stack = ItemFluidBarrel.createForFluid(fluid);
         stack.setCount(count);
-        return stack;
-    }
-
-    private static ItemStack flowerStack(BlockNTMFlower.EnumFlowerType type, int count) {
-        ItemStack stack = new ItemStack(ModBlocks.PLANT_FLOWER.get().asItem(), count);
-        stack.setDamageValue(type.ordinal());
         return stack;
     }
 

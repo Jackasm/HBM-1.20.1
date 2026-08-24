@@ -2,15 +2,16 @@ package com.hbm.datagen.recipes;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.*;
+import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
@@ -32,92 +33,22 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     protected void buildRecipes(@NotNull Consumer<FinishedRecipe> pWriter) {
-        // Генерация рецептов плавки руд
-        generateOreSmeltingRecipes(pWriter);
 
-        // Генерация рецептов плавки порошков в слитки
-        generateSmeltingRecipes(pWriter);
 
         // Генерация обычных рецептов
         generateCraftingRecipes(pWriter);
 
-
         generateColoredConcreteRecipes(pWriter);
 
-        WeaponRecipes.generateWeaponRecipes(pWriter);
-        ArmorRecipes.generateArmorRecipes(pWriter);
-        ConsumableRecipes.generateConsumableRecipes(pWriter);
-        PowderRecipes.generatePowderRecipes(pWriter);
-        MineralRecipes.generateMineralRecipes(pWriter);
-        ToolRecipes.generateToolRecipes(pWriter);
-
+        SmeltingRecipes.generateSmeltingRecipes(pWriter, RecipeProvider::has);
+        WeaponRecipes.generateWeaponRecipes(pWriter, RecipeProvider::has);
+        ArmorRecipes.generateArmorRecipes(pWriter, RecipeProvider::has);
+        ConsumableRecipes.generateConsumableRecipes(pWriter, RecipeProvider::has);
+        PowderRecipes.generatePowderRecipes(pWriter, RecipeProvider::has);
+        MineralRecipes.generateMineralRecipes(pWriter, RecipeProvider::has);
+        ToolRecipes.generateToolRecipes(pWriter, RecipeProvider::has);
     }
 
-    private void generateOreSmeltingRecipes(Consumer<FinishedRecipe> pWriter) {
-        // Рецепты для блоков руд
-        oreSmelting(pWriter, ModBlocks.ORE_ALUMINIUM.get(), ModItems.INGOT_ALUMINIUM.get(), 0.5f, 200, "ingot_aluminium");
-        oreSmelting(pWriter, ModBlocks.ORE_TITANIUM.get(), ModItems.INGOT_TITANIUM.get(), 0.5f, 200, "ingot_titanium");
-        oreSmelting(pWriter, ModBlocks.ORE_TUNGSTEN.get(), ModItems.INGOT_TUNGSTEN.get(), 0.5f, 200, "ingot_tungsten");
-        oreSmelting(pWriter, ModBlocks.ORE_LEAD.get(), ModItems.INGOT_LEAD.get(), 0.5f, 200, "ingot_lead");
-        oreSmelting(pWriter, ModBlocks.ORE_BERYLLIUM.get(), ModItems.INGOT_BERYLLIUM.get(), 0.5f, 200, "ingot_beryllium");
-        oreSmelting(pWriter, ModBlocks.ORE_COBALT.get(), ModItems.INGOT_COBALT.get(), 0.5f, 200, "ingot_cobalt");
-        oreSmelting(pWriter, ModBlocks.ORE_ZINC.get(), ModItems.INGOT_ZINC.get(), 0.5f, 200, "ingot_zinc");
-        oreSmelting(pWriter, ModBlocks.ORE_URANIUM.get(), ModItems.INGOT_URANIUM.get(), 0.5f, 200, "ingot_uranium");
-        oreSmelting(pWriter, ModBlocks.ORE_NETHER_PLUTONIUM.get(), ModItems.INGOT_PLUTONIUM.get(), 0.5f, 200, "ingot_plutonium");
-        oreSmelting(pWriter, ModBlocks.ORE_THORIUM.get(), ModItems.INGOT_THORIUM.get(), 0.5f, 200, "ingot_thorium");
-
-
-        // Рецепты для предметов руд (сырая руда)
-        oreSmelting(pWriter, ModItems.RAW_ALUMINIUM.get(), ModItems.INGOT_ALUMINIUM.get(), 0.5f, 200, "ingot_aluminium");
-        oreSmelting(pWriter, ModItems.RAW_TITANIUM.get(), ModItems.INGOT_TITANIUM.get(), 0.5f, 200, "ingot_titanium");
-        oreSmelting(pWriter, ModItems.RAW_TUNGSTEN.get(), ModItems.INGOT_TUNGSTEN.get(), 0.5f, 200, "ingot_tungsten");
-        oreSmelting(pWriter, ModItems.RAW_LEAD.get(), ModItems.INGOT_LEAD.get(), 0.5f, 200, "ingot_lead");
-        oreSmelting(pWriter, ModItems.RAW_BERYLLIUM.get(), ModItems.INGOT_BERYLLIUM.get(), 0.5f, 200, "ingot_beryllium");
-        oreSmelting(pWriter, ModItems.RAW_COBALT.get(), ModItems.INGOT_COBALT.get(), 0.5f, 200, "ingot_cobalt");
-        oreSmelting(pWriter, ModItems.RAW_ZINC.get(), ModItems.INGOT_ZINC.get(), 0.5f, 200, "ingot_zinc");
-        oreSmelting(pWriter, ModItems.RAW_URANIUM.get(), ModItems.INGOT_URANIUM.get(), 0.5f, 200, "ingot_uranium");
-        oreSmelting(pWriter, ModItems.RAW_PLUTONIUM.get(), ModItems.INGOT_PLUTONIUM.get(), 0.5f, 200, "ingot_plutonium");
-        oreSmelting(pWriter, ModItems.RAW_THORIUM.get(), ModItems.INGOT_THORIUM.get(), 0.5f, 200, "ingot_thorium");
-    }
-
-    private void generateSmeltingRecipes(Consumer<FinishedRecipe> pWriter) {
-        // Рецепты плавки порошков в слитки
-        powderSmelting(pWriter, ModItems.POWDER_ALUMINIUM.get(), ModItems.INGOT_ALUMINIUM.get(), 0.5f, 200, "ingot_aluminium");
-        powderSmelting(pWriter, ModItems.POWDER_BERYLLIUM.get(), ModItems.INGOT_BERYLLIUM.get(), 0.5f, 200, "ingot_beryllium");
-        powderSmelting(pWriter, ModItems.POWDER_COBALT.get(), ModItems.INGOT_COBALT.get(), 0.5f, 200, "ingot_cobalt");
-        powderSmelting(pWriter, ModItems.POWDER_COPPER.get(), Items.COPPER_INGOT, 0.5f, 200, "ingot_copper");
-        powderSmelting(pWriter, ModItems.POWDER_GOLD.get(), Items.GOLD_INGOT, 0.5f, 200, "ingot_gold");
-        powderSmelting(pWriter, ModItems.POWDER_IRON.get(), Items.IRON_INGOT, 0.5f, 200, "ingot_steel");
-        powderSmelting(pWriter, ModItems.POWDER_LEAD.get(), ModItems.INGOT_LEAD.get(), 0.5f, 200, "ingot_lead");
-        powderSmelting(pWriter, ModItems.POWDER_PLUTONIUM.get(), ModItems.INGOT_PLUTONIUM.get(), 0.5f, 200, "ingot_plutonium");
-        powderSmelting(pWriter, ModItems.POWDER_THORIUM.get(), ModItems.INGOT_THORIUM.get(), 0.5f, 200, "ingot_thorium");
-        powderSmelting(pWriter, ModItems.POWDER_TITANIUM.get(), ModItems.INGOT_TITANIUM.get(), 0.5f, 200, "ingot_titanium");
-        powderSmelting(pWriter, ModItems.POWDER_TUNGSTEN.get(), ModItems.INGOT_TUNGSTEN.get(), 0.5f, 200, "ingot_tungsten");
-        powderSmelting(pWriter, ModItems.POWDER_MAGNETIZED_TUNGSTEN.get(), ModItems.INGOT_MAGNETIZED_TUNGSTEN.get(), 0.5f, 200, "ingot_magnetized_tungsten");
-        powderSmelting(pWriter, ModItems.POWDER_URANIUM.get(), ModItems.INGOT_URANIUM.get(), 0.5f, 200, "ingot_uranium");
-        powderSmelting(pWriter, ModItems.POWDER_ZINC.get(), ModItems.INGOT_ZINC.get(), 0.5f, 200, "ingot_zinc");
-        powderSmelting(pWriter, ModItems.BALL_FIRECLAY.get(), ModItems.INGOT_FIREBRICK.get(), 0.5f, 200, "ingot_firebrick");
-
-        // Прочее
-        oreSmelting(pWriter, ModItems.BALL_RESIN.get(), ModItems.INGOT_BIORUBBER.get(), 0.5f, 200, "ingot_biorubber");
-        oreSmelting(pWriter, ModItems.CRYSTAL_ALUMINIUM.get(), ModItems.INGOT_ALUMINIUM.get(), 0.5f, 200, "aluminium_ingot");
-        oreSmelting(pWriter, ModItems.CRYSTAL_BERYLLIUM.get(), ModItems.INGOT_BERYLLIUM.get(), 0.5f, 200, "beryllium_ingot");
-        oreSmelting(pWriter, ModItems.CRYSTAL_COBALT.get(), ModItems.INGOT_COBALT.get(), 0.5f, 200, "cobalt_ingot");
-        oreSmelting(pWriter, ModItems.CRYSTAL_COPPER.get(), Items.COPPER_INGOT, 0.5f, 200, "copper_ingot");
-        oreSmelting(pWriter, ModItems.CRYSTAL_GOLD.get(), Items.GOLD_INGOT, 0.5f, 200, "gold_ingot");
-        oreSmelting(pWriter, ModItems.CRYSTAL_IRON.get(), Items.IRON_INGOT, 0.5f, 200, "iron_ingot");
-        oreSmelting(pWriter, ModItems.CRYSTAL_LEAD.get(), ModItems.INGOT_LEAD.get(), 0.5f, 200, "lead_ingot");
-        oreSmelting(pWriter, ModItems.CRYSTAL_OSMIRIDIUM.get(), ModItems.INGOT_OSMIRIDIUM.get(), 0.5f, 200, "osmiridium_ingot");
-        oreSmelting(pWriter, ModItems.CRYSTAL_PLUTONIUM.get(), ModItems.INGOT_PLUTONIUM.get(), 0.5f, 200, "plutonium_ingot");
-        oreSmelting(pWriter, ModItems.CRYSTAL_SCHRABIDIUM.get(), ModItems.INGOT_SCHRABIDIUM.get(), 0.5f, 200, "schrabidium_ingot");
-        oreSmelting(pWriter, ModItems.CRYSTAL_SCHRARANIUM.get(), ModItems.INGOT_SCHRARANIUM.get(), 0.5f, 200, "schraranium_ingot");
-        oreSmelting(pWriter, ModItems.CRYSTAL_STARMETAL.get(), ModItems.INGOT_STARMETAL.get(), 0.5f, 200, "starmetal_ingot");
-        oreSmelting(pWriter, ModItems.CRYSTAL_THORIUM.get(), ModItems.INGOT_THORIUM.get(), 0.5f, 200, "thorium_ingot");
-        oreSmelting(pWriter, ModItems.CRYSTAL_TITANIUM.get(), ModItems.INGOT_TITANIUM.get(), 0.5f, 200, "titanium_ingot");
-        oreSmelting(pWriter, ModItems.CRYSTAL_TUNGSTEN.get(), ModItems.INGOT_TUNGSTEN.get(), 0.5f, 200, "tungsten_ingot");
-        oreSmelting(pWriter, ModItems.CRYSTAL_URANIUM.get(), ModItems.INGOT_URANIUM.get(), 0.5f, 200, "uranium_ingot");
-
-    }
 
     private void generateColoredConcreteRecipes(Consumer<FinishedRecipe> pWriter) {
         String[] colors = {"white", "orange", "magenta", "light_blue", "yellow", "lime",
@@ -169,45 +100,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         }
     }
 
-    protected static void oreSmelting(Consumer<FinishedRecipe> pFinishedRecipeConsumer, ItemLike pIngredient,
-                                      ItemLike pResult, float pExperience, int pCookingTime, String pGroup) {
-        oreCooking(pFinishedRecipeConsumer, RecipeSerializer.SMELTING_RECIPE, pIngredient,
-                pResult, pExperience, pCookingTime, pGroup, "_from_smelting");
-        oreCooking(pFinishedRecipeConsumer, RecipeSerializer.BLASTING_RECIPE, pIngredient,
-                pResult, pExperience, pCookingTime / 2, pGroup, "_from_blasting");
-    }
-
-    protected static void powderSmelting(Consumer<FinishedRecipe> pFinishedRecipeConsumer, ItemLike pIngredient,
-                                         ItemLike pResult, float pExperience, int pCookingTime, String pGroup) {
-        powderCooking(pFinishedRecipeConsumer, RecipeSerializer.SMELTING_RECIPE, pIngredient,
-                pResult, pExperience, pCookingTime, pGroup, "_from_smelting");
-        powderCooking(pFinishedRecipeConsumer, RecipeSerializer.BLASTING_RECIPE, pIngredient,
-                pResult, pExperience, pCookingTime / 2, pGroup, "_from_blasting");
-    }
-
-    protected static void oreCooking(Consumer<FinishedRecipe> pFinishedRecipeConsumer,
-                                     RecipeSerializer<? extends AbstractCookingRecipe> pCookingSerializer,
-                                     ItemLike pIngredient, ItemLike pResult, float pExperience,
-                                     int pCookingTime, String pGroup, String pRecipeName) {
-        SimpleCookingRecipeBuilder.generic(Ingredient.of(pIngredient), RecipeCategory.MISC, pResult,
-                        pExperience, pCookingTime, pCookingSerializer)
-                .group(pGroup).unlockedBy(getHasName(pIngredient), has(pIngredient))
-                .save(pFinishedRecipeConsumer, MODID + ":" + getItemName(pResult) +
-                        pRecipeName + "_" + getItemName(pIngredient));
-    }
-
-    protected static void powderCooking(Consumer<FinishedRecipe> pFinishedRecipeConsumer,
-                                        RecipeSerializer<? extends AbstractCookingRecipe> pCookingSerializer,
-                                        ItemLike pIngredient, ItemLike pResult, float pExperience,
-                                        int pCookingTime, String pGroup, String pRecipeName) {
-        SimpleCookingRecipeBuilder.generic(Ingredient.of(pIngredient), RecipeCategory.MISC, pResult,
-                        pExperience, pCookingTime, pCookingSerializer)
-                .group(pGroup).unlockedBy(getHasName(pIngredient), has(pIngredient))
-                .save(pFinishedRecipeConsumer, MODID + ":" + getItemName(pResult) +
-                        pRecipeName + "_from_" + getItemName(pIngredient));
-    }
-
     private void generateCraftingRecipes(Consumer<FinishedRecipe> pWriter) {
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.PIPE_RUBBER.get(), 1)
+                .pattern("RRR")
+                .define('R', ModItems.INGOT_RUBBER.get())
+                .unlockedBy("has_rubber", has(ModItems.INGOT_RUBBER.get()))
+                .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.BOLT_STEEL.get(), 4)
                 .pattern("I")
@@ -917,20 +816,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_steel_scaffold", has(ModBlocks.STEEL_SCAFFOLD.get()))
                 .save(pWriter, MODID + ":steel_beam_from_scaffold");
 
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModItems.GLYPHID_MEAT.get()),
-                        RecipeCategory.FOOD, ModItems.GLYPHID_MEAT_GRILLED.get(), 0.35F, 200)
-                .unlockedBy("has_glyphid_meat", has(ModItems.GLYPHID_MEAT.get()))
-                .save(pWriter, MODID + ":glyphid_meat_grilled_from_smelting");
 
-        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(ModItems.GLYPHID_MEAT.get()),
-                        RecipeCategory.FOOD, ModItems.GLYPHID_MEAT_GRILLED.get(), 0.35F, 600)
-                .unlockedBy("has_glyphid_meat", has(ModItems.GLYPHID_MEAT.get()))
-                .save(pWriter, MODID + ":glyphid_meat_grilled_from_campfire_cooking");
-
-        SimpleCookingRecipeBuilder.smoking(Ingredient.of(ModItems.GLYPHID_MEAT.get()),
-                        RecipeCategory.FOOD, ModItems.GLYPHID_MEAT_GRILLED.get(), 0.35F, 100)
-                .unlockedBy("has_glyphid_meat", has(ModItems.GLYPHID_MEAT.get()))
-                .save(pWriter, MODID + ":glyphid_meat_grilled_from_smoking");
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.RAG.get(), 4)
                 .requires(Items.STRING, 2)
@@ -993,5 +879,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     }
 
+    protected static InventoryChangeTrigger.TriggerInstance hasTag(TagKey<Item> tag) {
+        var optional = BuiltInRegistries.ITEM.getTag(tag);
+        if (optional.isEmpty()) {
+            return InventoryChangeTrigger.TriggerInstance.hasItems(Items.OAK_PLANKS);
+        }
+        var named = optional.get();
 
+        Item[] items = named.stream()
+                .map(Holder::value)
+                .toArray(Item[]::new);
+        return InventoryChangeTrigger.TriggerInstance.hasItems(items);
+    }
 }

@@ -33,7 +33,6 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_RARE_ORE = registerKey("add_rare_ore");
     public static final ResourceKey<BiomeModifier> ADD_SULFUR_ORE = registerKey("add_sulfur_ore");
     public static final ResourceKey<BiomeModifier> ADD_TUNGSTEN_ORE = registerKey("add_tungsten_ore");
-    public static final ResourceKey<BiomeModifier> ADD_ZINC_ORE = registerKey("add_zinc_ore");
     public static final ResourceKey<BiomeModifier> ADD_THORIUM_ORE = registerKey("add_thorium_ore");
     public static final ResourceKey<BiomeModifier> ADD_URANIUM_ORE = registerKey("add_uranium_ore");
     public static final ResourceKey<BiomeModifier> ADD_STONE_RESOURCE_LIMESTONE = registerKey("add_stone_resource_limestone");
@@ -53,7 +52,6 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_RARE_DEEPSLATE_ORE = registerKey("add_rare_deepslate_ore");
     public static final ResourceKey<BiomeModifier> ADD_SULFUR_DEEPSLATE_ORE = registerKey("add_sulfur_deepslate_ore");
     public static final ResourceKey<BiomeModifier> ADD_TUNGSTEN_DEEPSLATE_ORE = registerKey("add_tungsten_deepslate_ore");
-    public static final ResourceKey<BiomeModifier> ADD_ZINC_DEEPSLATE_ORE = registerKey("add_zinc_deepslate_ore");
     public static final ResourceKey<BiomeModifier> ADD_THORIUM_DEEPSLATE_ORE = registerKey("add_thorium_deepslate_ore");
     public static final ResourceKey<BiomeModifier> ADD_URANIUM_DEEPSLATE_ORE = registerKey("add_uranium_deepslate_ore");
 
@@ -74,7 +72,6 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_LANDMINE = registerKey("add_landmine");
     public static final ResourceKey<BiomeModifier> ADD_CRATER = registerKey("add_crater");
     public static final ResourceKey<BiomeModifier> ADD_ANTENNA = registerKey("add_antenna");
-    public static final ResourceKey<BiomeModifier> ADD_RUIN = registerKey("add_ruin");
 
 
     public static final ResourceKey<BiomeModifier> ADD_CREEPER_PHOSGENE = registerKey("add_creeper_phosgene");
@@ -199,11 +196,6 @@ public class ModBiomeModifiers {
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.TUNGSTEN_ORE_PLACED)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
 
-        context.register(ADD_ZINC_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
-                overworldBiomes,
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.ZINC_ORE_PLACED)),
-                GenerationStep.Decoration.UNDERGROUND_ORES));
-
         context.register(ADD_THORIUM_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 overworldBiomes,
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.THORIUM_ORE_PLACED)),
@@ -290,11 +282,6 @@ public class ModBiomeModifiers {
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.TUNGSTEN_DEEPSLATE_ORE_PLACED)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
 
-        context.register(ADD_ZINC_DEEPSLATE_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
-                overworldBiomes,
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.ZINC_DEEPSLATE_ORE_PLACED)),
-                GenerationStep.Decoration.UNDERGROUND_ORES));
-
         context.register(ADD_THORIUM_DEEPSLATE_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 overworldBiomes,
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.THORIUM_DEEPSLATE_ORE_PLACED)),
@@ -377,11 +364,6 @@ public class ModBiomeModifiers {
                 GenerationStep.Decoration.SURFACE_STRUCTURES
         ));
 
-        context.register(ADD_RUIN, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.RUIN_PLACED)),
-                GenerationStep.Decoration.SURFACE_STRUCTURES
-        ));
 
 
         // Получаем все биомы (или определённые)

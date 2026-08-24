@@ -1,0 +1,8 @@
+{
+  "values": [
+    "hbm:bolt_tungsten",
+    "hbm:bolt_lead",
+    "hbm:bolt_steel",
+    "hbm:bolt_dura_steel"
+  ]
+}

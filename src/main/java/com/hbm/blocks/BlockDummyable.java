@@ -176,28 +176,6 @@ public abstract class BlockDummyable extends BaseEntityBlock
         super.randomTick(state, level, pos, random);
     }
 
-    private void destroyIfOrphan(Level level, BlockPos pos, BlockState state) {
-        if (isCore(state)) return; // ядро не бывает сиротой
-
-        // Защита для новых структур (первые 5 секунд)
-        BlockPos coreCandidate = findCore(level, pos);
-        if (coreCandidate != null && NEW_STRUCTURES.contains(coreCandidate)) {
-            return; // не удаляем, структура новая
-        }
-
-        Direction dir = getDummyFacing(state);
-        BlockPos corePos = pos.relative(dir);
-
-        if (!level.isAreaLoaded(corePos, 1)) return;
-
-        BlockState coreState = level.getBlockState(corePos);
-
-        if (!coreState.is(this) || !isCore(coreState)) {
-            level.removeBlock(pos, false);
-        }
-    }
-
-
     // ---------- Размещение структуры ----------
     @Override
     public void setPlacedBy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @Nullable LivingEntity placer, @NotNull ItemStack stack) {
@@ -361,7 +339,7 @@ public abstract class BlockDummyable extends BaseEntityBlock
     // ---------- Рендер и формы ----------
     @Override
     public @NotNull RenderShape getRenderShape(@NotNull BlockState state) {
-        return RenderShape.MODEL; // или INVISIBLE, если используется TESR
+        return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     /**

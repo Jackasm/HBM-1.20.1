@@ -174,20 +174,13 @@ public class ModelProvider implements DataProvider {
                     }
                     generator.generateEnumColumnWithItems(block, texturePrefix, types);
                 }
-                case PLANT_ENUM -> {
-                    String texturePrefix = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
-                    Class<? extends Enum<?>> enumClass;
-                    if (data.length > 1 && data[1] instanceof Class<?> clazz && clazz.isEnum()) {
-                        enumClass = (Class<? extends Enum<?>>) clazz;
-                    } else {
-                        enumClass = (Class<? extends Enum<?>>) data[0];
-                    }
-                    generator.generatePlantEnum(block, texturePrefix, enumClass);
+                case PLANT -> {
+                    String texture = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
+                    generator.generatePlant(block, texture);
                 }
-                case TALL_PLANT_ENUM -> {
-                    String texturePrefix = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
-                    Class<? extends Enum<?>> enumClass = getEnumClassFromData(data);
-                    generator.generateTallPlant(block, texturePrefix, enumClass);
+                case TALL_PLANT -> {
+                    String texture = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
+                    generator.generateTallPlant(block, texture);
                 }
                 case BEDROCK_ORE -> {
                     String baseTex = data.length > 0 ? (String) data[0] : "minecraft:block/bedrock";

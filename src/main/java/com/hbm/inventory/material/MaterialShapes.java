@@ -37,8 +37,8 @@ public class MaterialShapes {
 
     public static final MaterialShapes LIGHTBARREL =    new MaterialShapes(INGOT.quantity * 3, "light_barrel");
     public static final MaterialShapes HEAVYBARREL =    new MaterialShapes(INGOT.quantity * 6, "heavy_barrel");
-    public static final MaterialShapes LIGHTRECEIVER =  new MaterialShapes(INGOT.quantity * 4, "receiver_light");
-    public static final MaterialShapes HEAVYRECEIVER =  new MaterialShapes(INGOT.quantity * 9, "receiver_heavy");
+    public static final MaterialShapes LIGHTRECEIVER =  new MaterialShapes(INGOT.quantity * 4, "light_receiver");
+    public static final MaterialShapes HEAVYRECEIVER =  new MaterialShapes(INGOT.quantity * 9, "heavy_receiver");
     public static final MaterialShapes MECHANISM =      new MaterialShapes(INGOT.quantity * 4, "gun_mechanism");
     public static final MaterialShapes STOCK =          new MaterialShapes(INGOT.quantity * 4, "part_stock");
     public static final MaterialShapes GRIP =           new MaterialShapes(INGOT.quantity * 2, "part_grip");

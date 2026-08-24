@@ -1,12 +1,9 @@
 package com.hbm.blocks.generic;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.items.block.ItemBlockResourceStone;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -16,7 +13,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -33,44 +29,9 @@ public class BlockDeadPlant extends Block implements IPlantable {
 
     private static final VoxelShape SHAPE = Shapes.box(0.3D, 0.0D, 0.3D, 0.7D, 0.6D, 0.7D);
 
-    public static final IntegerProperty META = IntegerProperty.create("meta", 0, EnumDeadPlantType.values().length - 1);
-
     public BlockDeadPlant(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(META, 0));
-    }
-
-    public enum EnumDeadPlantType {
-        GENERIC,
-        GRASS,
-        FLOWER,
-        BIGFLOWER,
-        FERN
-    }
-
-    // ========== РАЗМЕЩЕНИЕ ПО CustomModelData ==========
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
-        BlockPos pos = context.getClickedPos();
-        Level level = context.getLevel();
-        if (!canPlaceBlockOn(level.getBlockState(pos.below()).getBlock())) {
-            return null; // нельзя поставить
-        }
-        ItemStack stack = context.getItemInHand();
-        int meta = getCustomModelData(stack);
-        return this.defaultBlockState().setValue(META, meta);
-    }
-
-    private int getCustomModelData(ItemStack stack) {
-        return ItemBlockResourceStone.getType(stack);
-    }
-
-    @Override
-    public @NotNull ItemStack getCloneItemStack(@NotNull BlockGetter level, @NotNull BlockPos pos, BlockState state) {
-        int meta = state.getValue(META);
-        ItemStack stack = new ItemStack(this);
-        stack.getOrCreateTag().putInt("CustomModelData", meta);
-        return stack;
+        this.registerDefaultState(this.stateDefinition.any());
     }
 
     // ========== ЛОГИКА БЛОКА ==========
@@ -80,12 +41,6 @@ public class BlockDeadPlant extends Block implements IPlantable {
                 block == ModBlocks.DIRT_DEAD.get();
     }
 
-    public int validateMeta(int meta) {
-        if (meta < 0) return 0;
-        if (meta >= EnumDeadPlantType.values().length) return EnumDeadPlantType.values().length - 1;
-        return meta;
-    }
-
     @Override
     public void neighborChanged(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Block block, @NotNull BlockPos fromPos, boolean isMoving) {
         super.neighborChanged(state, level, pos, block, fromPos, isMoving);
@@ -93,13 +48,13 @@ public class BlockDeadPlant extends Block implements IPlantable {
     }
 
     protected void checkAndDropBlock(Level level, BlockPos pos, BlockState state) {
-        if (!this.canBlockStay(level, pos, state)) {
+        if (!this.canBlockStay(level, pos)) {
             dropResources(state, level, pos);
             level.removeBlock(pos, false);
         }
     }
 
-    public boolean canBlockStay(Level level, BlockPos pos, BlockState state) {
+    public boolean canBlockStay(Level level, BlockPos pos) {
         return canPlaceBlockOn(level.getBlockState(pos.below()).getBlock());
     }
 
@@ -118,13 +73,28 @@ public class BlockDeadPlant extends Block implements IPlantable {
         return RenderShape.MODEL;
     }
 
-    public List<ItemStack> getCustomDrops(BlockState state, ServerLevel level, BlockPos pos, BlockEntity blockEntity, Entity entity, ItemStack tool) {
+    @Override
+    public void playerDestroy(Level level, @NotNull Player player, @NotNull BlockPos pos, @NotNull BlockState state, BlockEntity blockEntity, @NotNull ItemStack tool) {
+        if (!level.isClientSide) {
+            List<ItemStack> drops = getCustomDrops();
+            for (ItemStack drop : drops) {
+                if (!drop.isEmpty()) {
+                    Block.popResource(level, pos, drop);
+                }
+            }
+        }
+        super.playerDestroy(level, player, pos, state, blockEntity, tool);
+    }
+
+    public List<ItemStack> getCustomDrops() {
         List<ItemStack> drops = new ArrayList<>();
-        int meta = state.getValue(META);
-        ItemStack stack = new ItemStack(this);
-        stack.getOrCreateTag().putInt("CustomModelData", meta);
-        drops.add(stack);
+        drops.add(new ItemStack(this));
         return drops;
+    }
+
+    @Override
+    public @NotNull ItemStack getCloneItemStack(@NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull BlockState state) {
+        return new ItemStack(this);
     }
 
     // ========== IPlantable ==========
@@ -135,13 +105,13 @@ public class BlockDeadPlant extends Block implements IPlantable {
 
     @Override
     public BlockState getPlant(BlockGetter level, BlockPos pos) {
-        return this.defaultBlockState().setValue(META, level.getBlockState(pos).getValue(META));
+        return defaultBlockState();
     }
 
     // ========== СОЗДАНИЕ СВОЙСТВ ==========
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(META);
+    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
+        // Нет свойств состояния
     }
 
     public static Properties createProperties() {

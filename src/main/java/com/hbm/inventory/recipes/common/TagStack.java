@@ -60,6 +60,10 @@ public class TagStack extends AStack {
         return new TagStack(tag, stacksize);
     }
 
+    public TagStack copy(int count) {
+        return new TagStack(tag, count);
+    }
+
     @Override
     public boolean isIngredientSame(AStack stack) {
         return stack instanceof TagStack && ((TagStack) stack).tag.equals(this.tag);

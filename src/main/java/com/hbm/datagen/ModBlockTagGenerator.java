@@ -50,10 +50,6 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
                         ModBlocks.FALLOUT.get()
                 );
 
-        this.tag(BlockTags.MINEABLE_WITH_AXE)
-                .add(
-                        ModBlocks.PLANT_TALL.get()  // трава/растения
-                );
 
         // Стандартные теги добычи для ВСЕХ руд
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)

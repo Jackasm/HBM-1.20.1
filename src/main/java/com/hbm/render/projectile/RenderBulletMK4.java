@@ -25,30 +25,15 @@ public class RenderBulletMK4 extends EntityRenderer<EntityBulletBaseMK4> {
     public void render(@NotNull EntityBulletBaseMK4 bullet, float entityYaw, float partialTicks,
                        @NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight) {
 
-        if(bullet.isRemoved()) return;
+        if (bullet.isRemoved()) return;
         if (bullet.getConfig().renderer == null) return;
 
-        // Получаем оригинальную матрицу из рендерера
-        Matrix4f originalMatrix = poseStack.last().pose();
-
-        // Извлекаем только позицию (трансляцию) из матрицы
-        float posX = originalMatrix.m30();
-        float posY = originalMatrix.m31();
-        float posZ = originalMatrix.m32();
-
-        // Создаем новую матрицу ТОЛЬКО с позицией (без вращения)
-        PoseStack positionOnlyPose = new PoseStack();
-        positionOnlyPose.translate(posX, posY, posZ);
-
-        // Передаем пуле матрицу только с позицией
-        bullet.setRenderPose(positionOnlyPose.last().pose());
+        bullet.setRenderPose(new Matrix4f(poseStack.last().pose()));
 
         bullet.setBufferSource((MultiBufferSource.BufferSource) buffer);
-
         bullet.setPackedLight(packedLight);
 
         bullet.getConfig().renderer.accept(bullet, partialTicks);
-
     }
 
     @Override

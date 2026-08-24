@@ -77,20 +77,5 @@ public class GUIBlastFurnace extends AbstractContainerScreen<ContainerBlastFurna
                     Component.literal("Fuel: " + fuel + " / " + maxFuel),
                     mouseX, mouseY);
         }
-
-        // ===== Тултип для шкалы прогресса (опционально) =====
-        int progressX = left + 101;
-        int progressY = top + 35;
-        int progressW = 24;
-        int progressH = 17;
-
-        if (mouseX >= progressX && mouseX <= progressX + progressW &&
-                mouseY >= progressY && mouseY <= progressY + progressH) {
-            int progress = menu.getProgress();
-            int speed = menu.getProcessingSpeed();
-            graphics.renderTooltip(this.font,
-                    Component.literal("Progress: " + progress + " / " + speed),
-                    mouseX, mouseY);
-        }
     }
 }

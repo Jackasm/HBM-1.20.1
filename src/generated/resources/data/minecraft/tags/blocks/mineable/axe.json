@@ -4,7 +4,6 @@
     "hbm:waste_planks",
     "hbm:frozen_log",
     "hbm:frozen_planks",
-    "hbm:pink_log",
-    "hbm:plant_tall"
+    "hbm:pink_log"
   ]
 }

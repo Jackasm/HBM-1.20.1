@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 1.0,
+  "ingredient": {
+    "item": "hbm:ingot_steel_dusted",
+    "nbt": {
+      "CustomModelData": 8
+    }
+  },
+  "result": {
+    "item": "hbm:ingot_steel_dusted",
+    "nbt": {
+      "CustomModelData": 8,
+      "heat": 200
+    }
+  }
+}

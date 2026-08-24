@@ -27,8 +27,8 @@ public enum BlockModel {
     ENUM_OBJ,  // для блоков с enum типами и OBJ моделями
     ENUM_PILLAR,          // колонна с перечисляемыми типами
     CONCRETE_SUPER,       // специальный блок с повреждениями
-    PLANT_ENUM,
-    TALL_PLANT_ENUM,
+    PLANT,        // один блок с cross-моделью (цветы)
+    TALL_PLANT,   // один блок с tall-моделью (нижняя/верхняя часть)
     CUBE_FRONT_SIDE,
     NONE                  // без генерации (по умолчанию)
 }

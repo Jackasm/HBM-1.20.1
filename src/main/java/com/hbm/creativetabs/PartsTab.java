@@ -1,7 +1,6 @@
 package com.hbm.creativetabs;
 
 import com.hbm.items.ItemEnumMulti;
-import com.hbm.items.ItemGenericPart;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBedrockOreNew;
 import com.hbm.util.HBMEnums;
@@ -21,34 +20,14 @@ public class PartsTab {
                         output.accept(powderAsh.stackFromEnum((Enum) enumConstant));
                     }
 
-                    ItemEnumMulti briquette = (ItemEnumMulti) ModItems.BRIQUETTE.get();
-                    for (Object enumConstant : briquette.theEnum.getEnumConstants()) {
-                        output.accept(briquette.stackFromEnum((Enum) enumConstant));
-                    }
-
                     ItemEnumMulti page = (ItemEnumMulti) ModItems.PAGE_OF.get();
                     for (Object enumConstant : page.theEnum.getEnumConstants()) {
                         output.accept(page.stackFromEnum((Enum) enumConstant));
                     }
 
-                    ItemEnumMulti coke = (ItemEnumMulti) ModItems.COKE.get();
-                    for (Object enumConstant : coke.theEnum.getEnumConstants()) {
-                        output.accept(coke.stackFromEnum((Enum) enumConstant));
-                    }
-
                     ItemEnumMulti pelletRtgDepleted = (ItemEnumMulti) ModItems.PELLET_RTG_DEPLETED.get();
                     for (Object enumConstant : pelletRtgDepleted.theEnum.getEnumConstants()) {
                         output.accept(pelletRtgDepleted.stackFromEnum((Enum) enumConstant));
-                    }
-
-                    ItemGenericPart partGeneric = (ItemGenericPart) ModItems.PART_GENERIC.get();
-                    for (Object enumConstant : partGeneric.theEnum.getEnumConstants()) {
-                        output.accept(partGeneric.stackFromEnum((ItemGenericPart.EnumPartType) enumConstant));
-                    }
-
-                    ItemEnumMulti chunk_ore = (ItemEnumMulti) ModItems.CHUNK_ORE.get();
-                    for (Object enumConstant : chunk_ore.theEnum.getEnumConstants()) {
-                        output.accept(chunk_ore.stackFromEnum((Enum) enumConstant));
                     }
 
                     ItemEnumMulti ore_bedrock = (ItemEnumMulti) ModItems.ORE_BEDROCK.get();

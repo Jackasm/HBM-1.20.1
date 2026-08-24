@@ -13,7 +13,10 @@ import com.hbm.render.overlay.QuestOverlay;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -182,6 +185,19 @@ public class HbmKeybinds {
             int keyCode = event.getKey();
             int action = event.getAction();
 
+            if (keyCode == GLFW.GLFW_KEY_O && action == GLFW.GLFW_PRESS &&
+                    Screen.hasControlDown() && Screen.hasAltDown()) {
+                if (mc.screen == null) {
+                    CompoundTag data = mc.player.getPersistentData();
+                    boolean current = data.getBoolean("debugOverlayEnabled");
+                    data.putBoolean("debugOverlayEnabled", !current);
+                    mc.player.sendSystemMessage(Component.literal(
+                            "§6[Debug]§r Overlay: " + (!current ? "§aON" : "§cOFF")
+                    ));
+                }
+                return;
+            }
+
             // Обработка Tab (код 258)
             if (keyCode == 258) {
                 // Если книга открыта, игнорируем Tab
@@ -209,9 +225,9 @@ public class HbmKeybinds {
 
             if (keyCode == GLFW.GLFW_KEY_O && action == GLFW.GLFW_PRESS) {
                 if (mc.screen == null) {
-                    var persistentData = mc.player.getPersistentData();
-                    if (!persistentData.getBoolean("hasDucked")) {
-                        persistentData.putBoolean("hasDucked", true);
+                    CompoundTag data = mc.player.getPersistentData();
+                    if (!data.getBoolean("hasDucked")) {
+                        data.putBoolean("hasDucked", true);
                         PacketDispatcher.sendToServer(new AuxButtonPacket(BlockPos.ZERO, 999, 0));
                     }
                 }

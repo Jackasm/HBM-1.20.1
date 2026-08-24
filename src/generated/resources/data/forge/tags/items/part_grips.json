@@ -1,0 +1,16 @@
+{
+  "values": [
+    "hbm:part_grip_wood",
+    "hbm:part_grip_steel",
+    "hbm:part_grip_dura_steel",
+    "hbm:part_grip_desh",
+    "hbm:part_grip_gunmetal",
+    "hbm:part_grip_weapon_steel",
+    "hbm:part_grip_saturnite",
+    "hbm:part_grip_polymer",
+    "hbm:part_grip_bakelite",
+    "hbm:part_grip_rubber",
+    "hbm:part_grip_polycarbonate",
+    "hbm:part_grip_pvc"
+  ]
+}

@@ -2,10 +2,7 @@ package com.hbm.entity;
 
 import com.hbm.entity.effect.*;
 import com.hbm.entity.grenade.*;
-import com.hbm.entity.item.EntityBoatRubber;
-import com.hbm.entity.item.EntityFallingBlockNT;
-import com.hbm.entity.item.EntityParachuteCrate;
-import com.hbm.entity.item.EntityTNTPrimedBase;
+import com.hbm.entity.item.*;
 import com.hbm.entity.missile.EntityMissileTier0.*;
 import com.hbm.entity.missile.EntityMissileTier1.*;
 import com.hbm.entity.missile.EntityMissileTier2.*;
@@ -899,4 +896,15 @@ public class ModEntities {
                             .clientTrackingRange(64)
                             .updateInterval(1)
                             .build(RefStrings.MODID + ":water_splash"));
+
+    public static final RegistryObject<EntityType<EntityFlamePonyPainting>> FLAME_PONY_PAINTING =
+            ENTITIES.register("flame_pony_painting",
+                    () -> EntityType.Builder.<EntityFlamePonyPainting>of(
+                                    EntityFlamePonyPainting::new,
+                                    MobCategory.MISC
+                            )
+                            .sized(0.5F, 0.5F) // размер для картины
+                            .clientTrackingRange(10)
+                            .build("flame_pony_painting")
+            );
 }

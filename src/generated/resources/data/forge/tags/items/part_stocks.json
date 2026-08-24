@@ -1,0 +1,13 @@
+{
+  "values": [
+    "hbm:part_stock_wood",
+    "hbm:part_stock_desh",
+    "hbm:part_stock_gunmetal",
+    "hbm:part_stock_weapon_steel",
+    "hbm:part_stock_saturnite",
+    "hbm:part_stock_polymer",
+    "hbm:part_stock_bakelite",
+    "hbm:part_stock_polycarbonate",
+    "hbm:part_stock_pvc"
+  ]
+}

@@ -17,10 +17,6 @@ public class BlockTab {
                 .displayItems((parameters, output) -> {
                     TabContentProvider.addItemsToTab(HBMEnums.CreativeTabRegistry.BLOCK_TAB, output);
 
-                    for (BlockCoke.CokeType type : BlockCoke.CokeType.values()) {
-                        output.accept(ItemBlockCoke.withType(type));
-                    }
-
                     for (BlockOreBasalt.EnumBasaltOreType type : BlockOreBasalt.EnumBasaltOreType.values()) {
                         int ordinal = type.ordinal();
                         ItemStack stack = new ItemStack(ModItems.ORE_BASALT.get(), 1);
@@ -52,23 +48,6 @@ public class BlockTab {
                         }
                     }
 
-                    for (BlockNTMFlower.EnumFlowerType type : BlockNTMFlower.EnumFlowerType.values()) {
-                        ItemStack stack = new ItemStack(ModItems.PLANT_FLOWER.get(), 1);
-                        stack.getOrCreateTag().putInt("CustomModelData", type.ordinal());
-                        output.accept(stack);
-                    }
-
-                    for (BlockDeadPlant.EnumDeadPlantType type : BlockDeadPlant.EnumDeadPlantType.values()) {
-                        ItemStack stack = new ItemStack(ModItems.PLANT_DEAD.get(), 1);
-                        stack.getOrCreateTag().putInt("CustomModelData", type.ordinal());
-                        output.accept(stack);
-                    }
-
-                    for (BlockTallPlant.EnumTallFlower type : BlockTallPlant.EnumTallFlower.values()) {
-                        ItemStack stack = new ItemStack(ModItems.PLANT_TALL.get(), 1);
-                        stack.getOrCreateTag().putInt("CustomModelData", type.ordinal());
-                        output.accept(stack);
-                    }
                 })
                 .build();
     }

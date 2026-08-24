@@ -41,7 +41,7 @@ public class AnvilConstructionRecipeCategory implements IRecipeCategory<HBMRecip
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("container.anvil.construction");
+        return Component.translatable("container.anvil");
     }
 
     @Override

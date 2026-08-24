@@ -17,13 +17,18 @@
     "hbm:dirt_oily",
     "hbm:foam_layer",
     "hbm:sand_boron_layer",
-    "hbm:sand_boron",
     "hbm:machine_transformer",
     "hbm:machine_transformer_dnt",
     "hbm:block_fallout",
     "hbm:tektite",
     "hbm:ore_tektite_osmiridium",
     "hbm:ntm_dirt",
+    "hbm:sand_boron",
+    "hbm:sand_lead",
+    "hbm:sand_uranium",
+    "hbm:sand_polonium",
+    "hbm:sand_quartz",
+    "hbm:ash_digamma",
     "hbm:fallout"
   ]
 }

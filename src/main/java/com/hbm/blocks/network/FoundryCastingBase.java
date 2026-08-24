@@ -104,8 +104,8 @@ public abstract class FoundryCastingBase extends BaseEntityBlock implements ICru
         }
 
         // 3. Вставить молд
-        if (held.getItem() instanceof ItemMold && cast.inventory.getStackInSlot(0).isEmpty()) {
-            ItemMold.MoldType mold = ItemMold.getMoldType(held);
+        if (held.getItem() instanceof ItemMold itemMold && cast.inventory.getStackInSlot(0).isEmpty()) {
+            ItemMold.MoldType mold = itemMold.getMoldType();
             if (mold.size == cast.getMoldSize()) {
                 ItemStack copy = held.copy();
                 copy.setCount(1);

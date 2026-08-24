@@ -435,7 +435,7 @@ public class HBMResourceManager {
     public static ResourceLocation difurnace_extension_tex;
     public static ResourceLocation machine_blast_furnace_tex;
     public static ResourceLocation machine_blast_furnace_lit_tex;
-
+    public static ResourceLocation ammo_press_tex;
 
     // Модели
     public static HFRWavefrontObject file_cabinet;
@@ -689,6 +689,8 @@ public class HBMResourceManager {
     public static HFRWavefrontObject radar_screen;
     public static HFRWavefrontObject difurnace_extension;
     public static HFRWavefrontObject blast_furnace;
+    public static HFRWavefrontObject ammo_press;
+
     /**
      * Инициализация всех ресурсов
      */
@@ -1114,6 +1116,7 @@ public class HBMResourceManager {
         difurnace_extension_tex = getTexture("block/machines/machine_difurnace_extension");
         machine_blast_furnace_lit_tex = getTexture("block/machines/machine_blast_furnace_lit");
         machine_blast_furnace_tex = getTexture("block/machines/machine_blast_furnace");
+        ammo_press_tex = getTexture("block/machines/machine_ammo_press");
     }
 
     /**
@@ -1368,6 +1371,7 @@ public class HBMResourceManager {
 
         difurnace_extension = getModel("models/block/machines/machine_difurnace_extension.obj");
         blast_furnace = getModel("models/block/machines/machine_blast_furnace.obj");
+        ammo_press = getModel("models/block/machines/machine_ammo_press.obj");
     }
 
     /**

@@ -1,7 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.api.fluid.IFluidStandardReceiver;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockNTMFlower;
 import com.hbm.blocks.generic.BlockTallPlant;
 
 import com.hbm.inventory.fluid.FluidTypeHBM;
@@ -262,28 +262,32 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 
     /** Anything additionally that the detector nor the blades should pick up on, like non-mature willows */
     public static boolean shouldIgnore(Level world, int x, int y, int z, Block b, BlockState state) {
-        if (b == ModBlocks.PLANT_TALL.get()) {
-            // Проверяем, является ли растение зрелым
-            if (state.hasProperty(BlockTallPlant.TYPE)) {
-                BlockTallPlant.EnumTallFlower type = state.getValue(BlockTallPlant.TYPE);
+        // Высокие растения (BlockTallPlant)
+        if (b instanceof BlockTallPlant tallPlant) {
+            BlockTallPlant.PlantVariant variant = tallPlant.getVariant();
+            if (state.hasProperty(BlockTallPlant.HALF)) {
                 DoubleBlockHalf half = state.getValue(BlockTallPlant.HALF);
-
                 // Игнорируем верхнюю часть зрелых растений CD2 и CD3
                 if (half == DoubleBlockHalf.UPPER) {
-                    return type == BlockTallPlant.EnumTallFlower.CD2 ||
-                            type == BlockTallPlant.EnumTallFlower.CD3;
+                    return variant == BlockTallPlant.PlantVariant.CD2 ||
+                            variant == BlockTallPlant.PlantVariant.CD3;
                 }
             }
             return false;
         }
 
+        // Обычные цветы (BlockNTMFlower)
+        if (b instanceof BlockNTMFlower flower) {
+            // CD0 и CD1 требуют воды, но это не критерий зрелости
+            // WEED — считается зрелым и игнорируется
+            return flower.getVariant() == BlockNTMFlower.FlowerVariant.WEED;
+        }
+
         if (b instanceof IPlantable) {
-            // Проверка на зрелость через интерфейс IGrowable
             if (b instanceof BonemealableBlock growable) {
-                // Если растение не может быть удобрено костной мукой, значит оно зрелое
                 return growable.isValidBonemealTarget(world, new BlockPos(x, y, z), state, world.isClientSide);
             }
-            return true; // по умолчанию игнорируем
+            return true;
         }
 
         return false;
@@ -325,9 +329,8 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 
         int eventData = Block.getId(bState);
 
-        if (b instanceof BlockTallPlant) {
-            BlockTallPlant.EnumTallFlower type = bState.getValue(BlockTallPlant.TYPE);
-            eventData += (type.ordinal() << 12);
+        if (b instanceof BlockTallPlant tallPlant) {
+            eventData += (tallPlant.getVariant().ordinal() << 12);
         }
 
         level.levelEvent(2001, pos, eventData);
@@ -358,7 +361,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
             }
 
             // Workaround для пшеницы
-            if (b == Blocks.WHEAT || b == Blocks.BEETROOTS  || b == Blocks.POTATOES && !replanted) {
+            if (b == Blocks.WHEAT || b == Blocks.BEETROOTS || b == Blocks.POTATOES && !replanted) {
                 replacementBlock = b;
             }
         }

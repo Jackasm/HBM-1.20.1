@@ -9,6 +9,7 @@ import com.hbm.tileentity.storage.TileEntityMachineBattery;
 import com.hbm.tileentity.storage.TileEntityMachineFluidTank;
 import com.hbm.tileentity.turret.TileEntityTurretSentry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -81,8 +82,8 @@ public class AuxButtonPacket extends PacketBase implements PacketBase.DecodableP
     private void handleDuckLogic(ServerPlayer player) {
         if (!MobConfig.enableDucks) return;
 
-        var persistentData = player.getPersistentData();
-        if (persistentData.getBoolean("hasDucked")) return;
+        CompoundTag data = player.getPersistentData();
+        if (data.getBoolean("hasDucked")) return;
 
         EntityDuck duck = new EntityDuck(player.level());
         duck.setPos(player.getX(), player.getY() + player.getEyeHeight(), player.getZ());
@@ -94,6 +95,6 @@ public class AuxButtonPacket extends PacketBase implements PacketBase.DecodableP
         player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
                 SoundEvents.CHICKEN_AMBIENT, SoundSource.PLAYERS, 1.0F, 1.0F);
 
-        persistentData.putBoolean("hasDucked", true);
+        data.putBoolean("hasDucked", true);
     }
 }

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 6.0,
+  "ingredient": {
+    "item": "hbm:ore_uranium"
+  },
+  "result": {
+    "item": "hbm:ingot_uranium"
+  }
+}

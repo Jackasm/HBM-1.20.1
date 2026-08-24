@@ -9,6 +9,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -29,6 +32,15 @@ import org.joml.Matrix4f;
 import java.util.UUID;
 
 public class EntityBulletBaseMK4 extends ThrowableProjectile implements IEntityAdditionalSpawnData {
+
+    private static final EntityDataAccessor<Float> HEADING_X =
+            SynchedEntityData.defineId(EntityBulletBaseMK4.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> HEADING_Y =
+            SynchedEntityData.defineId(EntityBulletBaseMK4.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> HEADING_Z =
+            SynchedEntityData.defineId(EntityBulletBaseMK4.class, EntityDataSerializers.FLOAT);
+
+    private Vec3 heading = Vec3.ZERO;
 
     public BulletConfig config;
     public float damage;
@@ -129,6 +141,8 @@ public class EntityBulletBaseMK4 extends ThrowableProjectile implements IEntityA
         double motionY = -Mth.sin(pitch * Mth.DEG_TO_RAD);
         double motionZ =  Mth.cos(yaw * Mth.DEG_TO_RAD) * Mth.cos(pitch * Mth.DEG_TO_RAD);
 
+        this.setHeading(new Vec3(motionX, motionY, motionZ));
+
         // Используем отдельный метод для установки движения с разбросом
         this.shoot(motionX, motionY, motionZ, config.velocity, gunSpread);
     }
@@ -149,6 +163,8 @@ public class EntityBulletBaseMK4 extends ThrowableProjectile implements IEntityA
         double motionZ = Mth.cos(this.getYRot() * Mth.DEG_TO_RAD) *
                 Mth.cos(this.getXRot() * Mth.DEG_TO_RAD);
         double motionY = -Mth.sin(this.getXRot() * Mth.DEG_TO_RAD);
+
+        this.setHeading(new Vec3(motionX, motionY, motionZ));
 
         this.shoot(motionX, motionY, motionZ, config.velocity, gunSpread);
     }
@@ -185,7 +201,24 @@ public class EntityBulletBaseMK4 extends ThrowableProjectile implements IEntityA
 
     @Override
     protected void defineSynchedData() {
-        // Define synced data if needed
+        this.entityData.define(HEADING_X, 0.0F);
+        this.entityData.define(HEADING_Y, 0.0F);
+        this.entityData.define(HEADING_Z, 0.0F);
+    }
+
+    public void setHeading(Vec3 heading) {
+        this.heading = heading;
+        this.entityData.set(HEADING_X, (float) heading.x);
+        this.entityData.set(HEADING_Y, (float) heading.y);
+        this.entityData.set(HEADING_Z, (float) heading.z);
+    }
+
+    public Vec3 getSyncedHeading() {
+        return new Vec3(
+                this.entityData.get(HEADING_X),
+                this.entityData.get(HEADING_Y),
+                this.entityData.get(HEADING_Z)
+        );
     }
 
     @Override
@@ -456,6 +489,7 @@ public class EntityBulletBaseMK4 extends ThrowableProjectile implements IEntityA
 
         // Сбрасываем accel
         this.accel = 0;
+        this.setHeading(new Vec3(motionX, motionY, motionZ));
     }
 
     // Check if bullet should penetrate

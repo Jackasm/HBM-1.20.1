@@ -109,8 +109,8 @@ public class PressRecipes {
         addRecipe(StampType.FLAT, ModItemTags.DUSTS_LAPIS, new ItemStack(Items.LAPIS_LAZULI));
         addRecipe(StampType.FLAT, ModItemTags.DUSTS_DIAMOND, new ItemStack(Items.DIAMOND));
         addRecipe(StampType.FLAT, ModItemTags.DUSTS_EMERALD, new ItemStack(Items.EMERALD));
-        addRecipe(StampType.FLAT, ModItemTags.DUSTS_COAL, DictFrame.fromOne(ModItems.BRIQUETTE.get(), HBMEnums.EnumBriquetteType.COAL));
-        addRecipe(StampType.FLAT, ModItemTags.DUSTS_LIGNITE, DictFrame.fromOne(ModItems.BRIQUETTE.get(), HBMEnums.EnumBriquetteType.LIGNITE));
+        addRecipe(StampType.FLAT, ModItemTags.DUSTS_COAL, new ItemStack(ModItems.BRIQUETTE_COAL.get()));
+        addRecipe(StampType.FLAT, ModItemTags.DUSTS_LIGNITE, new ItemStack(ModItems.BRIQUETTE_LIGNITE.get()));
 
         // Конкретные предметы для FLAT
         addRecipe(StampType.FLAT, ForgeRegistries.ITEMS.getKey(ModItems.BIOMASS.get()),
@@ -118,7 +118,7 @@ public class PressRecipes {
         addRecipe(StampType.FLAT, ForgeRegistries.ITEMS.getKey(ModToolItems.METEORITE_SWORD_REFORGED.get()),
                 new ItemStack(ModToolItems.METEORITE_SWORD_HARDENED.get()));
         addRecipe(StampType.FLAT, ForgeRegistries.ITEMS.getKey(ModItems.POWDER_SAWDUST.get()),
-                DictFrame.fromOne(ModItems.BRIQUETTE.get(), HBMEnums.EnumBriquetteType.WOOD));
+                new ItemStack(ModItems.BRIQUETTE_WOOD.get()));
         addRecipe(StampType.FLAT, ForgeRegistries.ITEMS.getKey(Items.JUNGLE_LOG),
                 new ItemStack(ModItems.BALL_RESIN.get()));
 

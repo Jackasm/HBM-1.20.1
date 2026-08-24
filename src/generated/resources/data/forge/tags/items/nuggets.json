@@ -1,0 +1,17 @@
+{
+  "values": [
+    "hbm:nugget_uranium",
+    "hbm:nugget_plutonium",
+    "hbm:nugget_schrabidium",
+    "hbm:nugget_solinium",
+    "hbm:nugget_lead",
+    "hbm:nugget_bismuth",
+    "hbm:nugget_arsenic",
+    "hbm:nugget_niobium",
+    "hbm:nugget_beryllium",
+    "hbm:nugget_cobalt",
+    "hbm:nugget_zirconium",
+    "hbm:nugget_silicon",
+    "hbm:nugget_osmiridium"
+  ]
+}

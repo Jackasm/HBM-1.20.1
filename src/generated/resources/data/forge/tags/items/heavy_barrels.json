@@ -1,0 +1,13 @@
+{
+  "values": [
+    "hbm:heavy_barrel_steel",
+    "hbm:heavy_barrel_dura_steel",
+    "hbm:heavy_barrel_desh",
+    "hbm:heavy_barrel_ferrouranium",
+    "hbm:heavy_barrel_technetium",
+    "hbm:heavy_barrel_cadmium_steel",
+    "hbm:heavy_barrel_gunmetal",
+    "hbm:heavy_barrel_weapon_steel",
+    "hbm:heavy_barrel_saturnite"
+  ]
+}

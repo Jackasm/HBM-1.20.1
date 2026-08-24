@@ -2,6 +2,7 @@ package com.hbm.particle;
 
 import com.hbm.util.RefStrings;
 import com.hbm.util.ResLocation;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Camera;
@@ -33,7 +34,8 @@ public class ParticleMukeFlash extends Particle {
         @Override
         public void begin(BufferBuilder builder, @NotNull TextureManager textureManager) {
             RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
+            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA,
+                    GlStateManager.DestFactor.ONE);
             RenderSystem.depthMask(false);
             RenderSystem.setShader(GameRenderer::getPositionColorTexLightmapShader);
             RenderSystem.setShaderTexture(0, TEXTURE);
@@ -44,6 +46,7 @@ public class ParticleMukeFlash extends Particle {
         public void end(Tesselator tesselator) {
             tesselator.end();
             RenderSystem.depthMask(true);
+            RenderSystem.defaultBlendFunc();
         }
 
         @Override

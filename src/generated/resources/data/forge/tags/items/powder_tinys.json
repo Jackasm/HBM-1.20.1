@@ -1,0 +1,11 @@
+{
+  "values": [
+    "hbm:powder_tiny_lead",
+    "hbm:powder_tiny_neodymium",
+    "hbm:powder_tiny_niobium",
+    "hbm:powder_tiny_cobalt",
+    "hbm:powder_tiny_boron",
+    "hbm:powder_tiny_steel",
+    "hbm:powder_tiny_red_copper"
+  ]
+}

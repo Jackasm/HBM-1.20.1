@@ -42,6 +42,12 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
             SynchedEntityData.defineId(EntityBulletBeamBase.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> BEAM_LENGTH =
             SynchedEntityData.defineId(EntityBulletBeamBase.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> HEADING_X =
+            SynchedEntityData.defineId(EntityBulletBeamBase.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> HEADING_Y =
+            SynchedEntityData.defineId(EntityBulletBeamBase.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> HEADING_Z =
+            SynchedEntityData.defineId(EntityBulletBeamBase.class, EntityDataSerializers.FLOAT);
 
     @Nullable
     private LivingEntity thrower;
@@ -150,6 +156,24 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
         this.entityData.define(CONFIG_ID, -1);
         this.entityData.define(DAMAGE, 0.0F);
         this.entityData.define(BEAM_LENGTH, 0.0F);
+        this.entityData.define(HEADING_X, 0.0F);
+        this.entityData.define(HEADING_Y, 0.0F);
+        this.entityData.define(HEADING_Z, 0.0F);
+    }
+
+    public void setHeading(Vec3 heading) {
+        this.entityData.set(HEADING_X, (float) heading.x);
+        this.entityData.set(HEADING_Y, (float) heading.y);
+        this.entityData.set(HEADING_Z, (float) heading.z);
+        this.heading = heading;
+    }
+
+    public Vec3 getSyncedHeading() {
+        return new Vec3(
+                this.entityData.get(HEADING_X),
+                this.entityData.get(HEADING_Y),
+                this.entityData.get(HEADING_Z)
+        );
     }
 
     // Вспомогательный метод для вычисления направления
@@ -331,6 +355,10 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
         }
 
         this.setBeamLength((float) this.beamLengthClient);
+
+        if (this.heading != null) {
+            this.setHeading(this.heading);
+        }
     }
 
     protected void onImpact(HitResult hitResult) {
@@ -378,7 +406,6 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
             this.beamLengthClient = compound.getDouble("BeamLength");
         }
 
-        // Сущность уничтожается при загрузке (как в оригинале)
         this.discard();
     }
 
@@ -394,7 +421,6 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
         compound.putDouble("BeamLength", this.beamLengthClient);
     }
 
-    // Network handling
     @Override
     public @NotNull Packet<ClientGamePacketListener> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
@@ -413,13 +439,11 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
             buffer.writeBoolean(false);
         }
 
-        // Отправляем ID конфига
         buffer.writeInt(config != null ? config.id : -1);
         buffer.writeFloat(this.getDamage());
 
         buffer.writeDouble(this.heading.x);
         buffer.writeDouble(this.heading.y);
-        buffer.writeDouble(this.heading.z);
         buffer.writeDouble(this.heading.z);
     }
 

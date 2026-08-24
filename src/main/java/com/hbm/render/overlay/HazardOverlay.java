@@ -5,7 +5,7 @@ import com.hbm.util.RefStrings;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = RefStrings.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class HazardOverlay {
 
-    public class ClientHazardsData {
+    public static class ClientHazardsData {
         private static int blackLung = 0;
         private static int asbestos = 0;
 
@@ -40,6 +40,9 @@ public class HazardOverlay {
         Minecraft mc = Minecraft.getInstance();
         if (mc.level == null || mc.player == null || mc.options.hideGui) return;
 
+        CompoundTag data = mc.player.getPersistentData();
+        if (!data.getBoolean("debugOverlayEnabled")) return;
+
         int blackLung = ClientHazardsData.getBlackLung();
         int asbestos = ClientHazardsData.getAsbestos();
 
@@ -48,8 +51,8 @@ public class HazardOverlay {
         int screenHeight = event.getWindow().getGuiScaledHeight();
 
         // Позиция в правом верхнем углу
-        int x = screenWidth - 80; // Отступ от правого края
-        int y = 5; // Отступ сверху
+        int x = 5; // Отступ от правого края
+        int y = screenHeight - 80; // Отступ сверху
 
         RenderSystem.enableBlend();
 
@@ -83,16 +86,15 @@ public class HazardOverlay {
         // Прогресс-бар
         int barWidth = 100;
         int barHeight = 4;
-        int barX = x;
         int barY = y + 20;
 
         // Фон
-        guiGraphics.fill(barX, barY, barX + barWidth, barY + barHeight, 0x80000000);
+        guiGraphics.fill(x, barY, x + barWidth, barY + barHeight, 0x80000000);
 
         // Заполненная часть
         int filledWidth = (int)(barWidth * percent);
         int color = getColorForPercent(percent);
-        guiGraphics.fill(barX, barY, barX + filledWidth, barY + barHeight, color);
+        guiGraphics.fill(x, barY, x + filledWidth, barY + barHeight, color);
     }
 
     private static int getColorForPercent(float percent) {

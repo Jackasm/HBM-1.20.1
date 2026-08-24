@@ -1132,14 +1132,14 @@ public class BulletConfigRegistry {
             .setupDamageClass(BulletConfig.DamageClass.SUBATOMIC).setBeam().setLife(5)
             .setRendererBeam(LegoClient.RENDER_TAU)
             .setRenderRotations(false).setDoesPenetrate(true).setDamageFalloffByPen(false)
-            .setOnBeamImpact(BulletConfig.LAMBDA_BEAM_HIT);
+            .setOnBeamImpact(XFactoryAccelerator.LAMBDA_BEAM_HIT);
 
     public static BulletConfig tau_uranium_charge = new BulletConfig()
             .setCasing(ItemStack.EMPTY, 16)
             .setupDamageClass(BulletConfig.DamageClass.SUBATOMIC).setBeam().setLife(5)
             .setRendererBeam(LegoClient.RENDER_TAU_CHARGE)
             .setRenderRotations(false).setDoesPenetrate(true).setDamageFalloffByPen(false).setSpectral(true)
-            .setOnBeamImpact(BulletConfig.LAMBDA_BEAM_HIT);
+            .setOnBeamImpact(XFactoryAccelerator.LAMBDA_BEAM_HIT);
 
     public static BulletConfig coil_tungsten = new BulletConfig()
             .setVel(7.5F).setLife(50)
@@ -1158,7 +1158,7 @@ public class BulletConfigRegistry {
             .setBeam().setLife(5).setThresholdNegation(10F).setArmorPiercing(0.2F)
             .setRendererBeam(LegoClient.RENDER_NI4NI_BOLT)
             .setRenderRotations(false).setDoesPenetrate(false)
-            .setOnBeamImpact(BulletConfig.LAMBDA_BEAM_HIT);
+            .setOnBeamImpact(XFactoryAccelerator.LAMBDA_BEAM_HIT);
 
     public static BulletConfig flame_diesel = new BulletConfig()
             .setCasing(ItemStack.EMPTY, 500)
@@ -1766,6 +1766,7 @@ public class BulletConfigRegistry {
         linkItem(energy_tesla, GunFactory.EnumAmmo.CAPACITOR);
         linkItem(energy_tesla_overcharge, GunFactory.EnumAmmo.CAPACITOR_OVERCHARGE);
         linkItem(energy_tesla_ir, GunFactory.EnumAmmo.CAPACITOR_IR);
+        linkItem(energy_tesla_ir_sub, GunFactory.EnumAmmo.CAPACITOR_IR);
 
         linkItem(g26_flare, GunFactory.EnumAmmo.G26_FLARE);
         linkItem(g26_flare_supply, GunFactory.EnumAmmo.G26_FLARE_SUPPLY);

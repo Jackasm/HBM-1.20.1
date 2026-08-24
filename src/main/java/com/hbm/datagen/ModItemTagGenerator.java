@@ -42,6 +42,7 @@ public class ModItemTagGenerator extends ItemTagsProvider {
         // === АВТОМАТИЧЕСКАЯ РЕГИСТРАЦИЯ КОНТЕЙНЕРОВ ===
         registerFluidContainers();
 
+
         // Автоматическая генерация тегов на основе autogen
         for (NTMMaterial material : Mats.orderedList) {
             for (MaterialShapes shape : material.autogen) {
@@ -59,6 +60,9 @@ public class ModItemTagGenerator extends ItemTagsProvider {
                         String tagPath = shapeName + "s/" + material.names[0];
                         TagKey<Item> tag = ItemTags.create(ResLocation("forge", tagPath));
                         tag(tag).add(item);
+
+                        TagKey<Item> commonTag = ItemTags.create(ResLocation("forge", shapeName + "s"));
+                        tag(commonTag).add(item);
                     }
                 }
             }
@@ -152,11 +156,6 @@ public class ModItemTagGenerator extends ItemTagsProvider {
                 .add(ModBlocks.ORE_ALUMINIUM_DEEPSLATE.get().asItem())
                 .add(ModBlocks.ORE_METEOR_ALUMINIUM.get().asItem());
 
-        tag(ModItemTags.ORE_ZINC)
-                .add(ModItems.RAW_ZINC.get())
-                .add(ModBlocks.ORE_ZINC.get().asItem())
-                .add(ModBlocks.ORE_ZINC_DEEPSLATE.get().asItem());
-
         tag(ModItemTags.ORE_COBALT)
                 .add(ModItems.RAW_COBALT.get())
                 .add(ModBlocks.ORE_COBALT.get().asItem())
@@ -222,7 +221,6 @@ public class ModItemTagGenerator extends ItemTagsProvider {
                 .add(ModItems.INGOT_TITANIUM.get())
                 .add(ModItems.INGOT_TUNGSTEN.get())
                 .add(ModItems.INGOT_LEAD.get())
-                .add(ModItems.INGOT_ZINC.get())
                 .add(ModItems.INGOT_URANIUM.get())
                 .add(ModItems.INGOT_PLUTONIUM.get())
                 .add(ModItems.INGOT_THORIUM.get())
@@ -237,7 +235,6 @@ public class ModItemTagGenerator extends ItemTagsProvider {
                 .add(ModItems.RAW_LEAD.get())
                 .add(ModItems.RAW_BERYLLIUM.get())
                 .add(ModItems.RAW_COBALT.get())
-                .add(ModItems.RAW_ZINC.get())
                 .add(ModItems.RAW_URANIUM.get())
                 .add(ModItems.RAW_PLUTONIUM.get())
                 .add(ModItems.RAW_THORIUM.get());
@@ -327,7 +324,9 @@ public class ModItemTagGenerator extends ItemTagsProvider {
                 .addTag(ModItemTags.STORAGE_BLOCKS_COPPER);
 
         tag(ModItemTags.ANY_COKE)
-                .add(ModItems.COKE.get());
+                .add(ModItems.COKE_COAL.get())
+                .add(ModItems.COKE_LIGNITE.get())
+                .add(ModItems.COKE_PETROLEUM.get());
 
         tag(ModItemTags.ANY_RUBBER_INGOT)
                 .add(ModItems.INGOT_BIORUBBER.get())

@@ -24,11 +24,6 @@ public class WorldConfig {
     public static ForgeConfigSpec.IntValue aluminiumMinHeight;
     public static ForgeConfigSpec.IntValue aluminiumMaxHeight;
 
-    public static ForgeConfigSpec.IntValue zincSpawn;
-    public static ForgeConfigSpec.IntValue zincVeinSize;
-    public static ForgeConfigSpec.IntValue zincMinHeight;
-    public static ForgeConfigSpec.IntValue zincMaxHeight;
-
     public static ForgeConfigSpec.IntValue fluoriteSpawn;
     public static ForgeConfigSpec.IntValue fluoriteVeinSize;
     public static ForgeConfigSpec.IntValue fluoriteMinHeight;
@@ -116,11 +111,6 @@ public class WorldConfig {
     public static ForgeConfigSpec.IntValue aluminiumDeepslateVeinSize;
     public static ForgeConfigSpec.IntValue aluminiumDeepslateMinHeight;
     public static ForgeConfigSpec.IntValue aluminiumDeepslateMaxHeight;
-
-    public static ForgeConfigSpec.IntValue zincDeepslateSpawn;
-    public static ForgeConfigSpec.IntValue zincDeepslateVeinSize;
-    public static ForgeConfigSpec.IntValue zincDeepslateMinHeight;
-    public static ForgeConfigSpec.IntValue zincDeepslateMaxHeight;
 
     public static ForgeConfigSpec.IntValue fluoriteDeepslateSpawn;
     public static ForgeConfigSpec.IntValue fluoriteDeepslateVeinSize;
@@ -294,7 +284,6 @@ public class WorldConfig {
     public static final int RARE_VEIN_SIZE = 5;
     public static final int SULFUR_VEIN_SIZE = 8;
     public static final int TUNGSTEN_VEIN_SIZE = 8;
-    public static final int ZINC_VEIN_SIZE = 6;
     public static final int THORIUM_VEIN_SIZE = 4;
     public static final int URANIUM_VEIN_SIZE = 4;
     public static final int LIMESTONE_VEIN_SIZE = 20;
@@ -355,10 +344,6 @@ public class WorldConfig {
     public static final int TUNGSTEN_MIN = 0;
     public static final int TUNGSTEN_MAX = 60;
 
-    public static final int ZINC_SPAWN = 8;
-    public static final int ZINC_MIN = 0;
-    public static final int ZINC_MAX = 64;
-
     public static final int THORIUM_SPAWN = 7;
     public static final int THORIUM_MIN = -16;
     public static final int THORIUM_MAX = 0;
@@ -386,7 +371,6 @@ public class WorldConfig {
     public static final int RARE_DEEPSLATE_VEIN_SIZE = 5;
     public static final int SULFUR_DEEPSLATE_VEIN_SIZE = 8;
     public static final int TUNGSTEN_DEEPSLATE_VEIN_SIZE = 8;
-    public static final int ZINC_DEEPSLATE_VEIN_SIZE = 6;
     public static final int THORIUM_DEEPSLATE_VEIN_SIZE = 5;
     public static final int URANIUM_DEEPSLATE_VEIN_SIZE = 5;
 
@@ -443,10 +427,6 @@ public class WorldConfig {
     public static final int TUNGSTEN_DEEPSLATE_MIN = -64;
     public static final int TUNGSTEN_DEEPSLATE_MAX = 0;
 
-    public static final int ZINC_DEEPSLATE_SPAWN = 8;
-    public static final int ZINC_DEEPSLATE_MIN = -64;
-    public static final int ZINC_DEEPSLATE_MAX = 0;
-
     public static final int THORIUM_DEEPSLATE_SPAWN = 7;
     public static final int THORIUM_DEEPSLATE_MIN = -64;
     public static final int THORIUM_DEEPSLATE_MAX = -8;
@@ -500,7 +480,7 @@ public class WorldConfig {
     public static final int RAD_FREQ = 5000;
 
     public static final int ANTENNA_STRUCTURE = 1000;
-    public static final int RUIN_STRUCTURE = 1000;
+
 
     public static boolean ENABLE_CRATER_BIOMES = true;
 
@@ -608,22 +588,6 @@ public class WorldConfig {
         aluminiumDeepslateVeinSize = builder.comment("Deepslate aluminium ore vein size").defineInRange("vein_size", 6, 1, 64);
         aluminiumDeepslateMinHeight = builder.comment("Deepslate aluminium ore minimum height").defineInRange("min_height", -64, -64, 320);
         aluminiumDeepslateMaxHeight = builder.comment("Deepslate aluminium ore maximum height").defineInRange("max_height", 0, -64, 320);
-        builder.pop();
-        builder.pop();
-
-        // Цинк
-        builder.comment("Zinc ore settings").push("zinc");
-        builder.comment("Overworld zinc ore").push("overworld");
-        zincSpawn = builder.comment("Zinc ore veins per chunk").defineInRange("vein_count", 8, 1, 100);
-        zincVeinSize = builder.comment("Zinc ore vein size").defineInRange("vein_size", 6, 1, 64);
-        zincMinHeight = builder.comment("Zinc ore minimum height").defineInRange("min_height", 0, -64, 320);
-        zincMaxHeight = builder.comment("Zinc ore maximum height").defineInRange("max_height", 64, -64, 320);
-        builder.pop();
-        builder.comment("Deepslate zinc ore").push("deepslate");
-        zincDeepslateSpawn = builder.comment("Deepslate zinc ore veins per chunk").defineInRange("vein_count", 8, 1, 100);
-        zincDeepslateVeinSize = builder.comment("Deepslate zinc ore vein size").defineInRange("vein_size", 6, 1, 64);
-        zincDeepslateMinHeight = builder.comment("Deepslate zinc ore minimum height").defineInRange("min_height", -64, -64, 320);
-        zincDeepslateMaxHeight = builder.comment("Deepslate zinc ore maximum height").defineInRange("max_height", 0, -64, 320);
         builder.pop();
         builder.pop();
 

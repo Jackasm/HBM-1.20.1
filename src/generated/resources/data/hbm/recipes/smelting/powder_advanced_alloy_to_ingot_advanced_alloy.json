@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 1.0,
+  "ingredient": {
+    "item": "hbm:powder_advanced_alloy"
+  },
+  "result": {
+    "item": "hbm:ingot_advanced_alloy"
+  }
+}

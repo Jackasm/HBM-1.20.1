@@ -61,13 +61,6 @@ public class HBMEnums {
         SMALL, LARGE, SMALL_STEEL, LARGE_STEEL, SHOTSHELL, BUCKSHOT, BUCKSHOT_ADVANCED
     }
 
-    public enum EnumChunkType {
-        RARE,
-        MALACHITE,
-        CRYOLITE,
-        MOONSTONE
-    }
-
     public enum ConnectionPriority {
         LOWEST,
         LOW,
@@ -83,18 +76,6 @@ public class HBMEnums {
         FLY,
         SOOT,
         FULLERENE
-    }
-
-    public enum EnumCokeType {
-        COAL,
-        LIGNITE,
-        PETROLEUM
-    }
-
-    public enum EnumBriquetteType {
-        COAL,
-        LIGNITE,
-        WOOD
     }
 
     public enum ScrapType {

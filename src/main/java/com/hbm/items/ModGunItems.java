@@ -880,7 +880,7 @@ public class ModGunItems {
 
     public static final RegistryObject<Item> GUN_FATMAN = registerGun("weapon/gun_fatman",
             () -> new GunItem(GunItem.WeaponQuality.A_SIDE, new GunConfig()
-				.dura(300).draw(20).inspect(30).reloadChangeType(true).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
+				.dura(300).draw(20).inspect(30).reloadChangeType(true).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(true)
 				.rec(new Receiver(0)
                 .dmg(100F).spreadHipfire(0F).delay(10).reload(57).jam(40).sound(ModSounds.FIRE_FATMAN.get(), 1.0F, 1.0F)
                 .mag(new MagazineSingleReload(0, 1).addConfigs(nuke_standard, nuke_demo, nuke_high, nuke_tots, nuke_hive, nuke_balefire))

@@ -59,8 +59,8 @@ public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase
 
     public ItemMold.MoldType getInstalledMold() {
         ItemStack stack = inventory.getStackInSlot(0);
-        if (stack.isEmpty() || !(stack.getItem() instanceof ItemMold)) return null;
-        return ItemMold.getMoldType(stack);
+        if (stack.isEmpty() || !(stack.getItem() instanceof ItemMold itemMold)) return null;
+        return itemMold.getMoldType();
     }
 
     @Override

@@ -25,20 +25,19 @@ public class CombinationRecipes {
 
     public static void register() {
 
-        recipes.put(new ComparableStack(Items.COAL), new Pair<>(DictFrame.fromOne(ModItems.COKE.get(), HBMEnums.EnumCokeType.COAL),
+        recipes.put(new ComparableStack(Items.COAL), new Pair<>(new ItemStack(ModItems.COKE_COAL.get()),
                 new FluidStackHBM(Fluids.COALCREOSOTE.get(), 100)));
-        recipes.put(new ComparableStack(ModItems.POWDER_COAL.get()), new Pair<>(DictFrame.fromOne(ModItems.COKE.get(),
-                HBMEnums.EnumCokeType.COAL), new FluidStackHBM(Fluids.COALCREOSOTE.get(), 100)));
-        recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.BRIQUETTE.get(), HBMEnums.EnumBriquetteType.COAL)),
-                new Pair<>(DictFrame.fromOne(ModItems.COKE.get(), HBMEnums.EnumCokeType.COAL), new FluidStackHBM(Fluids.COALCREOSOTE.get(), 150)));
+        recipes.put(new ComparableStack(ModItems.POWDER_COAL.get()), new Pair<>(new ItemStack(ModItems.COKE_COAL.get()),
+                new FluidStackHBM(Fluids.COALCREOSOTE.get(), 100)));
+        recipes.put(new ComparableStack(ModItems.BRIQUETTE_COAL.get()),
+                new Pair<>(new ItemStack(ModItems.COKE_COAL.get()), new FluidStackHBM(Fluids.COALCREOSOTE.get(), 150)));
 
-        recipes.put(new ComparableStack(ModItems.LIGNITE.get()), new Pair<>(DictFrame.fromOne(ModItems.COKE.get(),
-                HBMEnums.EnumCokeType.LIGNITE), new FluidStackHBM(Fluids.COALCREOSOTE.get(), 50)));
-        recipes.put(new ComparableStack(ModItems.POWDER_LIGNITE.get()), new Pair<>(DictFrame.fromOne(ModItems.COKE.get(),
-                HBMEnums.EnumCokeType.LIGNITE), new FluidStackHBM(Fluids.COALCREOSOTE.get(), 50)));
-        recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.BRIQUETTE.get(), HBMEnums.EnumBriquetteType.LIGNITE)),
-                new Pair<>(DictFrame.fromOne(ModItems.COKE.get(), HBMEnums.EnumCokeType.LIGNITE),
-                        new FluidStackHBM(Fluids.COALCREOSOTE.get(), 100)));
+        recipes.put(new ComparableStack(ModItems.LIGNITE.get()), new Pair<>(new ItemStack(ModItems.COKE_LIGNITE.get()),
+                new FluidStackHBM(Fluids.COALCREOSOTE.get(), 50)));
+        recipes.put(new ComparableStack(ModItems.POWDER_LIGNITE.get()), new Pair<>(new ItemStack(ModItems.COKE_LIGNITE.get()),
+                new FluidStackHBM(Fluids.COALCREOSOTE.get(), 50)));
+        recipes.put(new ComparableStack(ModItems.BRIQUETTE_LIGNITE.get()), new Pair<>(new ItemStack(ModItems.COKE_LIGNITE.get()),
+                new FluidStackHBM(Fluids.COALCREOSOTE.get(), 100)));
 
 
         recipes.put(new ComparableStack(ModItems.POWDER_CHLOROCALCITE.get()), new Pair<>(new ItemStack(ModItems.POWDER_CALCIUM.get()), new FluidStackHBM(Fluids.CHLORINE.get(), 250)));
@@ -46,24 +45,23 @@ public class CombinationRecipes {
         recipes.put(new ComparableStack(ModItems.CRYSTAL_CINNABAR.get()), new Pair<>(new ItemStack(ModItems.SULFUR.get()), new FluidStackHBM(Fluids.MERCURY.get(), 100)));
         recipes.put(new ComparableStack(Items.GLOWSTONE_DUST), new Pair<>(new ItemStack(ModItems.SULFUR.get()), new FluidStackHBM(Fluids.CHLORINE.get(), 100)));
         recipes.put(new ComparableStack(ModItems.GEM_SODALITE.get()), new Pair<>(new ItemStack(ModItems.POWDER_SODIUM.get()), new FluidStackHBM(Fluids.CHLORINE.get(), 100)));
-        recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.CHUNK_ORE.get(), HBMEnums.EnumChunkType.CRYOLITE)),
-                new Pair<>(new ItemStack(ModItems.POWDER_ALUMINIUM.get(), 1), new FluidStackHBM(Fluids.LYE.get(), 150)));
+        recipes.put(new ComparableStack(ModItems.CHUNK_ORE_CRYOLITE.get()), new Pair<>(new ItemStack(ModItems.POWDER_ALUMINIUM.get(), 1), new FluidStackHBM(Fluids.LYE.get(), 150)));
         recipes.put(new ComparableStack(ModItems.POWDER_SODIUM.get()), new Pair<>(null, new FluidStackHBM(Fluids.SODIUM.get(), 100)));
         recipes.put(new ComparableStack(ModItems.POWDER_LIMESTONE.get()), new Pair<>(new ItemStack(ModItems.POWDER_CALCIUM.get()), new FluidStackHBM(Fluids.CARBONDIOXIDE.get(), 50)));
 
         recipes.put(ModItemTags.ANY_LOG, new Pair<>(new ItemStack(Items.CHARCOAL), new FluidStackHBM(Fluids.WOODOIL.get(), 250)));
         recipes.put(ModItemTags.ANY_SAPLING, new Pair<>(DictFrame.fromOne(ModItems.POWDER_ASH.get(), HBMEnums.EnumAshType.WOOD), new FluidStackHBM(Fluids.WOODOIL.get(), 50)));
-        recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.BRIQUETTE.get(), HBMEnums.EnumBriquetteType.WOOD)),
+        recipes.put(new ComparableStack(ModItems.BRIQUETTE_WOOD.get()),
                 new Pair<>(new ItemStack(Items.CHARCOAL), new FluidStackHBM(Fluids.WOODOIL.get(), 500)));
 
         recipes.put(new ComparableStack(ModItems.OIL_TAR_CRUDE.get()),
-                new Pair<>(DictFrame.fromOne(ModItems.COKE.get(), HBMEnums.EnumCokeType.PETROLEUM), null));
+                new Pair<>(new ItemStack(ModItems.COKE_PETROLEUM.get()), null));
         recipes.put(new ComparableStack(ModItems.OIL_TAR_CRACK.get()),
-                new Pair<>(DictFrame.fromOne(ModItems.COKE.get(), HBMEnums.EnumCokeType.PETROLEUM), null));
+                new Pair<>(new ItemStack(ModItems.COKE_PETROLEUM.get()), null));
         recipes.put(new ComparableStack(ModItems.OIL_TAR_COAL.get()),
-                new Pair<>(DictFrame.fromOne(ModItems.COKE.get(), HBMEnums.EnumCokeType.COAL), null));
+                new Pair<>(new ItemStack(ModItems.COKE_PETROLEUM.get()), null));
         recipes.put(new ComparableStack(ModItems.OIL_TAR_WOOD.get()),
-                new Pair<>(DictFrame.fromOne(ModItems.COKE.get(), HBMEnums.EnumCokeType.COAL), null));
+                new Pair<>(new ItemStack(ModItems.COKE_PETROLEUM.get()), null));
 
         recipes.put(new ComparableStack(Items.SUGAR_CANE), new Pair<>(new ItemStack(Items.SUGAR, 2), new FluidStackHBM(Fluids.ETHANOL.get(), 50)));
         recipes.put(new ComparableStack(Items.CLAY_BALL), new Pair<>(new ItemStack(Items.BRICK, 1), null));

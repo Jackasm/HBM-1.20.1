@@ -1,0 +1,10 @@
+{
+  "values": [
+    "hbm:shell_titanium",
+    "hbm:shell_copper",
+    "hbm:shell_aluminium",
+    "hbm:shell_steel",
+    "hbm:shell_weapon_steel",
+    "hbm:shell_saturnite"
+  ]
+}

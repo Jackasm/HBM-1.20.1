@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:glass_blocks"
+            "items": [
+              "minecraft:oak_planks"
+            ]
           }
         ]
       },

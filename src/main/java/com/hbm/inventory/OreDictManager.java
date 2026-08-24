@@ -63,9 +63,9 @@ public class OreDictManager {
     public static final DictFrame AL = new DictFrame("aluminium");
     public static final DictFrame STEEL = new DictFrame("steel");
     /** TECHNETIUM STEEL */
-    public static final DictFrame TCALLOY = new DictFrame("tc_alloy");
+    public static final DictFrame TCALLOY = new DictFrame("technetium");
     /** CADMIUM STEEL */
-    public static final DictFrame CDALLOY = new DictFrame("cd_alloy");
+    public static final DictFrame CDALLOY = new DictFrame("cadmium_steel");
     /** BISMUTH BRONZE */
     public static final DictFrame BBRONZE = new DictFrame("bismuth_bronze");
     /** ARSENIC BRONZE */

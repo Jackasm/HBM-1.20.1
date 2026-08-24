@@ -353,13 +353,11 @@ public class BlockModelGenerator {
 
     public void generateBlastFurnace(Block block, String sideTex, String topOffTex, String frontOffTex, String topOnTex, String frontOnTex) {
         String name = getRegistryName(block);
-        String bottomTex = sideTex;
-        String backTex = sideTex;
         // Модель для lit=false
-        JsonObject offModel = cubeModel(sideTex, topOffTex, frontOffTex, bottomTex, backTex);
+        JsonObject offModel = cubeModel(sideTex, topOffTex, frontOffTex, sideTex, sideTex);
         saveBlockModel(block, offModel, "");
         // Модель для lit=true
-        JsonObject onModel = cubeModel(sideTex, topOnTex, frontOnTex, bottomTex, backTex);
+        JsonObject onModel = cubeModel(sideTex, topOnTex, frontOnTex, sideTex, sideTex);
         saveBlockModel(block, onModel, "_lit");
 
         // Blockstate с facing и lit
@@ -434,7 +432,7 @@ public class BlockModelGenerator {
             int pixelHeight = layer * 2;   // высота в пикселях (1 слой = 2 пикселя? но у нас в BlockLayering SHAPES = i/16.0, а i от 1 до 8, т.е. 1/16 блока, 2/16... 8/16. Однако оригинальный fallout использовал от 2 до 16 пикселей, но у нас в BlockLayering SHAPES: i/16.0, где i = layers. Значит для layers=1 высота 1/16 блока = 1 пиксель. Это очень тонко. Лучше использовать такую же логику, как в fallout: height = layers * 2 / 16 = layers / 8. Но у нас SHAPES = i/16.0, поэтому нужно либо изменить SHAPES в BlockLayering на i*2/16, либо модели делать соответственно. Проще использовать SHAPES как есть (1/16..8/16). Тогда модель должна иметь высоту = layers/16 блока. Для 8 слоёв - полный блок.
             // Для простоты делаем модель с высотой = layers / 16 блока (т.е. layers пикселей).
             // В JSON элементы задаются в 1/16 единицах, поэтому высота = layers.
-            int topY = layer; // высота в 1/16 блока
+            // высота в 1/16 блока
 
             JsonObject model = new JsonObject();
             model.addProperty("parent", "block/block");
@@ -447,7 +445,7 @@ public class BlockModelGenerator {
             JsonArray elements = new JsonArray();
             JsonObject element = new JsonObject();
             element.add("from", jsonArray(0, 0, 0));
-            element.add("to", jsonArray(16, topY, 16));
+            element.add("to", jsonArray(16, layer, 16));
             JsonObject faces = new JsonObject();
             for (String dir : new String[]{"down", "up", "north", "south", "west", "east"}) {
                 JsonObject face = new JsonObject();
@@ -918,140 +916,188 @@ public class BlockModelGenerator {
     }
 
     /**
-     * Генерирует модели для растений с крестовыми моделями
-     * - blockstate с вариантами по enum
-     * - cross-модели для каждого типа (блок)
-     * - item модели с CustomModelData overrides
+     * Генерирует модель для одного цветка (крестовая модель)
      */
-    public void generatePlantEnum(Block block, String texturePrefix, Class<? extends Enum<?>> enumClass) {
+    public void generatePlant(Block block, String textureName) {
         String name = getRegistryName(block);
-        String[] typeNames = EnumUtil.getEnumNames(enumClass);
 
-        // 1. Blockstate со ВСЕМИ значениями meta
+        // Blockstate
         JsonObject blockstate = new JsonObject();
         JsonObject variants = new JsonObject();
-
-        for (int i = 0; i < typeNames.length; i++) {
-            JsonObject variant = new JsonObject();
-            variant.addProperty("model", "hbm:block/" + name + "_" + typeNames[i]);
-            variants.add("meta=" + i, variant);
-        }
+        JsonObject variant = new JsonObject();
+        variant.addProperty("model", "hbm:block/" + name);
+        variants.add("", variant);
         blockstate.add("variants", variants);
         saveBlockstate(block, blockstate);
 
-        // 2. Блок модели (cross) для каждого типа
-        for (int i = 0; i < typeNames.length; i++) {
-            String type = typeNames[i];
+        // Блок модель
+        JsonObject model = new JsonObject();
+        model.addProperty("parent", "block/block");
+        model.addProperty("render_type", "cutout");
 
-            JsonObject blockModel = new JsonObject();
-            blockModel.addProperty("parent", "minecraft:block/cross");
-            blockModel.addProperty("render_type", "cutout");
-            JsonObject textures = new JsonObject();
-            textures.addProperty("cross", "hbm:block/" + texturePrefix + "_" + type);
-            blockModel.add("textures", textures);
-            saveBlockModel(block, blockModel, "_" + type);
-
-            JsonObject itemModel = new JsonObject();
-            itemModel.addProperty("parent", "minecraft:item/generated");
-            JsonObject itemTextures = new JsonObject();
-            itemTextures.addProperty("layer0", "hbm:block/" + texturePrefix + "_" + type);
-            itemModel.add("textures", itemTextures);
-            saveItemModel(name + "_" + type, itemModel);
-        }
-
-        // 3. Главный item model с overrides
-        JsonObject mainItemModel = new JsonObject();
-        mainItemModel.addProperty("parent", "minecraft:item/generated");
         JsonObject textures = new JsonObject();
-        textures.addProperty("layer0", "hbm:block/" + texturePrefix + "_" + typeNames[0]);
-        mainItemModel.add("textures", textures);
+        textures.addProperty("cross", "hbm:block/" + textureName);
+        textures.addProperty("particle", "hbm:block/" + textureName);
+        model.add("textures", textures);
 
-        JsonArray overrides = new JsonArray();
-        for (int i = 0; i < typeNames.length; i++) {
-            JsonObject override = new JsonObject();
-            JsonObject predicate = new JsonObject();
-            predicate.addProperty("custom_model_data", i);
-            override.add("predicate", predicate);
-            override.addProperty("model", "hbm:item/" + name + "_" + typeNames[i]);
-            overrides.add(override);
+        JsonArray elements = new JsonArray();
+
+        // Плоскость 1 (толщина по Z)
+        JsonObject elem1 = new JsonObject();
+        elem1.add("from", jsonArray(0, 0, 7.5));
+        elem1.add("to", jsonArray(16, 16, 8.5));
+        JsonObject faces1 = new JsonObject();
+        for (String dir : new String[]{"north", "south"}) {
+            JsonObject face = new JsonObject();
+            face.add("uv", jsonArray(0, 0, 16, 16));
+            face.addProperty("texture", "#cross");
+            face.addProperty("tintindex", 0);
+            faces1.add(dir, face);
         }
-        mainItemModel.add("overrides", overrides);
-        saveItemModel(name, mainItemModel);
+        elem1.add("faces", faces1);
+        elements.add(elem1);
+
+        // Плоскость 2 (толщина по X)
+        JsonObject elem2 = new JsonObject();
+        elem2.add("from", jsonArray(7.5, 0, 0));
+        elem2.add("to", jsonArray(8.5, 16, 16));
+        JsonObject faces2 = new JsonObject();
+        for (String dir : new String[]{"east", "west"}) {
+            JsonObject face = new JsonObject();
+            face.add("uv", jsonArray(0, 0, 16, 16));
+            face.addProperty("texture", "#cross");
+            face.addProperty("tintindex", 0);
+            faces2.add(dir, face);
+        }
+        elem2.add("faces", faces2);
+        elements.add(elem2);
+
+        model.add("elements", elements);
+        saveBlockModel(block, model, "");
+
+        // Item модель
+        JsonObject itemModel = new JsonObject();
+        itemModel.addProperty("parent", "minecraft:item/generated");
+        JsonObject itemTextures = new JsonObject();
+        itemTextures.addProperty("layer0", "hbm:block/" + textureName);
+        itemModel.add("textures", itemTextures);
+        saveItemModel(name, itemModel);
     }
 
     /**
-     * Генерирует модели для высоких растений (BlockTallPlant)
-     * с отдельными текстурами для нижней и верхней части
+     * Генерирует модель для одного высокого растения (верхняя и нижняя часть)
      */
-    public void generateTallPlant(Block block, String texturePrefix, Class<? extends Enum<?>> enumClass) {
+    public void generateTallPlant(Block block, String textureName) {
         String name = getRegistryName(block);
-        String[] types = EnumUtil.getEnumNames(enumClass);
 
-        // 1. Blockstate с type
+        // Blockstate с half
         JsonObject blockstate = new JsonObject();
         JsonObject variants = new JsonObject();
 
-        for (String type : types) {
-            // Для нижней части (LOWER)
-            JsonObject lowerVariant = new JsonObject();
-            lowerVariant.addProperty("model", "hbm:block/" + name + "_" + type + "_lower");
-            variants.add("half=lower,type=" + type, lowerVariant);
+        JsonObject lowerVariant = new JsonObject();
+        lowerVariant.addProperty("model", "hbm:block/" + name + "_lower");
+        variants.add("half=lower", lowerVariant);
 
-            // Для верхней части (UPPER)
-            JsonObject upperVariant = new JsonObject();
-            upperVariant.addProperty("model", "hbm:block/" + name + "_" + type + "_upper");
-            variants.add("half=upper,type=" + type, upperVariant);
-        }
+        JsonObject upperVariant = new JsonObject();
+        upperVariant.addProperty("model", "hbm:block/" + name + "_upper");
+        variants.add("half=upper", upperVariant);
+
         blockstate.add("variants", variants);
         saveBlockstate(block, blockstate);
 
-        // 2. Блок модели для каждого типа (нижняя и верхняя)
-        for (String type : types) {
-            // Нижняя часть (cross)
-            JsonObject lowerModel = new JsonObject();
-            lowerModel.addProperty("parent", "minecraft:block/cross");
-            lowerModel.addProperty("render_type", "cutout");
-            JsonObject lowerTextures = new JsonObject();
-            lowerTextures.addProperty("cross", "hbm:block/" + texturePrefix + "_" + type + "_lower");
-            lowerModel.add("textures", lowerTextures);
-            saveBlockModel(block, lowerModel, "_" + type + "_lower");
+        // Нижняя часть
+        JsonObject lowerModel = new JsonObject();
+        lowerModel.addProperty("parent", "block/block");
+        lowerModel.addProperty("render_type", "cutout");
 
-            // Верхняя часть (cross)
-            JsonObject upperModel = new JsonObject();
-            upperModel.addProperty("parent", "minecraft:block/cross");
-            upperModel.addProperty("render_type", "cutout");
-            JsonObject upperTextures = new JsonObject();
-            upperTextures.addProperty("cross", "hbm:block/" + texturePrefix + "_" + type + "_upper");
-            upperModel.add("textures", upperTextures);
-            saveBlockModel(block, upperModel, "_" + type + "_upper");
+        JsonObject lowerTextures = new JsonObject();
+        lowerTextures.addProperty("cross", "hbm:block/" + textureName + "_lower");
+        lowerTextures.addProperty("particle", "hbm:block/" + textureName + "_lower");
+        lowerModel.add("textures", lowerTextures);
 
-            // Item модель (используем нижнюю часть)
-            JsonObject itemModel = new JsonObject();
-            itemModel.addProperty("parent", "minecraft:item/generated");
-            JsonObject itemTextures = new JsonObject();
-            itemTextures.addProperty("layer0", "hbm:block/" + texturePrefix + "_" + type + "_lower");
-            itemModel.add("textures", itemTextures);
-            saveItemModel(name + "_" + type, itemModel);
+        JsonArray lowerElements = new JsonArray();
+
+        JsonObject lowerElem1 = new JsonObject();
+        lowerElem1.add("from", jsonArray(0, 0, 7.5));
+        lowerElem1.add("to", jsonArray(16, 16, 8.5));
+        JsonObject lowerFaces1 = new JsonObject();
+        for (String dir : new String[]{"north", "south"}) {
+            JsonObject face = new JsonObject();
+            face.add("uv", jsonArray(0, 0, 16, 16));
+            face.addProperty("texture", "#cross");
+            face.addProperty("tintindex", 0);
+            lowerFaces1.add(dir, face);
         }
+        lowerElem1.add("faces", lowerFaces1);
+        lowerElements.add(lowerElem1);
 
-        // 3. Главный item model с overrides
-        JsonObject mainItemModel = new JsonObject();
-        mainItemModel.addProperty("parent", "minecraft:item/generated");
-        JsonObject textures = new JsonObject();
-        textures.addProperty("layer0", "hbm:block/" + texturePrefix + "_" + types[0] + "_lower");
-        mainItemModel.add("textures", textures);
-
-        JsonArray overrides = new JsonArray();
-        for (int i = 0; i < types.length; i++) {
-            JsonObject override = new JsonObject();
-            JsonObject predicate = new JsonObject();
-            predicate.addProperty("custom_model_data", i);
-            override.add("predicate", predicate);
-            override.addProperty("model", "hbm:item/" + name + "_" + types[i]);
-            overrides.add(override);
+        JsonObject lowerElem2 = new JsonObject();
+        lowerElem2.add("from", jsonArray(7.5, 0, 0));
+        lowerElem2.add("to", jsonArray(8.5, 16, 16));
+        JsonObject lowerFaces2 = new JsonObject();
+        for (String dir : new String[]{"east", "west"}) {
+            JsonObject face = new JsonObject();
+            face.add("uv", jsonArray(0, 0, 16, 16));
+            face.addProperty("texture", "#cross");
+            face.addProperty("tintindex", 0);
+            lowerFaces2.add(dir, face);
         }
-        mainItemModel.add("overrides", overrides);
-        saveItemModel(name, mainItemModel);
+        lowerElem2.add("faces", lowerFaces2);
+        lowerElements.add(lowerElem2);
+
+        lowerModel.add("elements", lowerElements);
+        saveBlockModel(block, lowerModel, "_lower");
+
+        // Верхняя часть
+        JsonObject upperModel = new JsonObject();
+        upperModel.addProperty("parent", "block/block");
+        upperModel.addProperty("render_type", "cutout");
+
+        JsonObject upperTextures = new JsonObject();
+        upperTextures.addProperty("cross", "hbm:block/" + textureName + "_upper");
+        upperTextures.addProperty("particle", "hbm:block/" + textureName + "_upper");
+        upperModel.add("textures", upperTextures);
+
+        JsonArray upperElements = new JsonArray();
+
+        JsonObject upperElem1 = new JsonObject();
+        upperElem1.add("from", jsonArray(0, 0, 7.5));
+        upperElem1.add("to", jsonArray(16, 16, 8.5));
+        JsonObject upperFaces1 = new JsonObject();
+        for (String dir : new String[]{"north", "south"}) {
+            JsonObject face = new JsonObject();
+            face.add("uv", jsonArray(0, 0, 16, 16));
+            face.addProperty("texture", "#cross");
+            face.addProperty("tintindex", 0);
+            upperFaces1.add(dir, face);
+        }
+        upperElem1.add("faces", upperFaces1);
+        upperElements.add(upperElem1);
+
+        JsonObject upperElem2 = new JsonObject();
+        upperElem2.add("from", jsonArray(7.5, 0, 0));
+        upperElem2.add("to", jsonArray(8.5, 16, 16));
+        JsonObject upperFaces2 = new JsonObject();
+        for (String dir : new String[]{"east", "west"}) {
+            JsonObject face = new JsonObject();
+            face.add("uv", jsonArray(0, 0, 16, 16));
+            face.addProperty("texture", "#cross");
+            face.addProperty("tintindex", 0);
+            upperFaces2.add(dir, face);
+        }
+        upperElem2.add("faces", upperFaces2);
+        upperElements.add(upperElem2);
+
+        upperModel.add("elements", upperElements);
+        saveBlockModel(block, upperModel, "_upper");
+
+        // Item модель (используем нижнюю часть)
+        JsonObject itemModel = new JsonObject();
+        itemModel.addProperty("parent", "minecraft:item/generated");
+        JsonObject itemTextures = new JsonObject();
+        itemTextures.addProperty("layer0", "hbm:block/" + textureName + "_lower");
+        itemModel.add("textures", itemTextures);
+        saveItemModel(name, itemModel);
     }
 
     public void generateEnumColumnWithItems(Block block, String texturePrefix, String[] types) {

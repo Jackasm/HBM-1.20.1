@@ -109,6 +109,10 @@ public class ComparableStack extends AStack {
         return new ComparableStack(item, stacksize, nbt != null ? nbt.copy() : null);
     }
 
+    public ComparableStack copy(int count) {
+        return new ComparableStack(this.item, count, this.nbt != null ? this.nbt.copy() : null);
+    }
+
     @Override
     public boolean isIngredientSame(AStack stack) {
         if(!(stack instanceof ComparableStack other)) return false;

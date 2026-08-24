@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 2.5,
+  "ingredient": {
+    "item": "hbm:ore_aluminium_deepslate"
+  },
+  "result": {
+    "item": "hbm:chunk_ore_cryolite"
+  }
+}

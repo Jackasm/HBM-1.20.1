@@ -1,6 +1,5 @@
 package com.hbm.client;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.items.ModItems;
@@ -8,9 +7,6 @@ import com.hbm.items.fluid.*;
 import com.hbm.items.fluid.ItemFluidID;
 
 import com.hbm.items.machine.ItemScraps;
-import com.hbm.items.special.ItemBedrockOre;
-import com.hbm.items.special.ItemBedrockOreNew;
-import com.hbm.items.special.ItemByproduct;
 import com.hbm.main.HBMResourceManager;
 import com.hbm.render.block.deco.DecoCTGeometry;
 import com.hbm.render.item.ItemRenderMissileGeneric;
@@ -20,7 +16,6 @@ import com.hbm.render.overlay.OverlayManager;
 import com.hbm.render.overlay.QuestOverlay;
 import com.hbm.render.util.MissilePart;
 import com.hbm.render.util.RenderInfoSystem;
-import com.hbm.tileentity.block.TileEntityBedrockOre;
 import com.hbm.util.RefStrings;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -28,7 +23,6 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -96,57 +90,6 @@ public class ClientSetup {
         });
 
         OverlayManager.registerProvider(new QuestOverlay());
-    }
-
-    @SubscribeEvent
-    public static void onBlockColors(RegisterColorHandlersEvent.Block event) {
-        event.register((state, level, pos, tintIndex) -> {
-            if (tintIndex == 0 && level != null && pos != null) {
-                if (level.getBlockEntity(pos) instanceof TileEntityBedrockOre ore) {
-                    return ore.color != 0 ? ore.color : 0xffffff;
-                }
-            }
-            return 0xffffff;
-        }, ModBlocks.ORE_BEDROCK.get());
-    }
-
-    @SubscribeEvent
-    public static void onItemColors(RegisterColorHandlersEvent.Item event) {
-        // Бедроковые руды
-        event.register((stack, tintIndex) -> {
-                    if (stack.getItem() instanceof ItemBedrockOre oreItem) {
-                        return oreItem.getColor(stack, tintIndex);
-                    }
-                    return 0xFFFFFF;
-                },
-                ModItems.ORE_BEDROCK.get(),
-                ModItems.ORE_CENTRIFUGED.get(),
-                ModItems.ORE_CLEANED.get(),
-                ModItems.ORE_SEPARATED.get(),
-                ModItems.ORE_PURIFIED.get(),
-                ModItems.ORE_NITRATED.get(),
-                ModItems.ORE_NITROCRYSTALLINE.get(),
-                ModItems.ORE_DEEPCLEANED.get(),
-                ModItems.ORE_SEARED.get(),
-                ModItems.ORE_ENRICHED.get()
-        );
-        event.register((stack, tintIndex) -> {
-                    if (tintIndex == 1 && stack.getItem() instanceof ItemByproduct byproduct) {
-                        return byproduct.getColor(stack, tintIndex);
-                    }
-                    return 0xFFFFFF;
-                },
-                ModItems.ORE_BYPRODUCT.get()
-        );
-
-        event.register((stack, tintIndex) -> {
-                    if (tintIndex == 1 && stack.getItem() instanceof ItemBedrockOreNew bedrockOreNew) {
-                        return bedrockOreNew.getColor(stack, tintIndex);
-                    }
-                    return 0xFFFFFF;
-                },
-                ModItems.BEDROCK_ORE.get()
-        );
     }
 
     @SubscribeEvent

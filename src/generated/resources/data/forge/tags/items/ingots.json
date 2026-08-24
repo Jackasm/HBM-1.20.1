@@ -1,0 +1,14 @@
+{
+  "values": [
+    "hbm:ingot_tungsten",
+    "hbm:ingot_bismuth",
+    "hbm:ingot_neodymium",
+    "hbm:ingot_cobalt",
+    "hbm:ingot_red_copper",
+    "hbm:ingot_dura_steel",
+    "hbm:ingot_bismuth_bronze",
+    "hbm:ingot_arsenic_bronze",
+    "hbm:ingot_magnetized_tungsten",
+    "hbm:ingot_gunmetal"
+  ]
+}

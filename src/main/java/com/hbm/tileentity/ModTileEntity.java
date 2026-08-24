@@ -641,6 +641,12 @@ public class ModTileEntity {
                             ModBlocks.MACHINE_DINEUTRONIUM_BATTERY.get()
                     ).build(null));
 
+    public static final RegistryObject<BlockEntityType<TileEntityMachineAmmoPress>> MACHINE_AMMO_PRESS =
+            BLOCK_ENTITIES.register("machine_ammo_press", () -> BlockEntityType.Builder.of(
+                    TileEntityMachineAmmoPress::new,
+                    ModBlocks.MACHINE_AMMO_PRESS.get()
+            ).build(null));
+
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

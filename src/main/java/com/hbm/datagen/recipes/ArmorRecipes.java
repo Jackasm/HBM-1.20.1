@@ -9,7 +9,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.fluid.ItemFluidTank;
 import com.hbm.items.fluid.ItemGasTank;
 
-import net.minecraft.data.PackOutput;
+import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -21,24 +21,27 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 
+import static com.hbm.datagen.recipes.ModRecipeProvider.hasTag;
 import static com.hbm.util.RefStrings.MODID;
 
-public class ArmorRecipes extends ModRecipeProvider {
+public class ArmorRecipes {
 
     private static Consumer<FinishedRecipe> writer;
+    private static Function<Item, InventoryChangeTrigger.TriggerInstance> has;
 
     public static final String[] patternHelmet = new String[] {"XXX", "X X"};
     public static final String[] patternChestplate = new String[] {"X X", "XXX", "XXX"};
     public static final String[] patternLeggings = new String[] {"XXX", "X X", "X X"};
     public static final String[] patternBoots = new String[] {"X X", "X X"};
 
-    public ArmorRecipes(PackOutput pOutput) {super(pOutput);}
-
-    public static void generateArmorRecipes(Consumer<FinishedRecipe> pWriter)
+    public static void generateArmorRecipes(Consumer<FinishedRecipe> pWriter,
+                                            Function<Item, InventoryChangeTrigger.TriggerInstance> pHas)
     {
         writer = pWriter;
-
+        has = pHas;
+        
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.MACHINE_ARMOR_TABLE.get(), 1)
                 .pattern("PPP")
                 .pattern("TCT")
@@ -47,8 +50,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('T', ModItems.INGOT_TUNGSTEN.get())
                 .define('C', Blocks.CRAFTING_TABLE)
                 .define('S', ModBlocks.BLOCK_STEEL.get().asItem())
-                .unlockedBy("has_steel_plate", has(ModItems.PLATE_STEEL.get()))
-                .unlockedBy("has_tungsten_ingot", has(ModItems.INGOT_TUNGSTEN.get()))
+                .unlockedBy("has_steel_plate", pHas.apply(ModItems.PLATE_STEEL.get()))
+                .unlockedBy("has_tungsten_ingot", pHas.apply(ModItems.INGOT_TUNGSTEN.get()))
                 .save(pWriter, MODID + ":machine_armor_table");
 
         addHelmet(ModItems.INGOT_STEEL.get(), ModArmorItems.STEEL_HELMET.get());
@@ -76,16 +79,16 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .pattern("P P")
                 .define('R', ModItems.RAG.get())
                 .define('P', ModItemTags.ANY_RUBBER_INGOT)
-                .unlockedBy("has_rag", has(ModItems.RAG.get()))
-                .unlockedBy("has_rubber", has(ModItemTags.ANY_RUBBER_INGOT))
-                .save(writer, MODID + ":robes_boots");
+                .unlockedBy("has_rag", pHas.apply(ModItems.RAG.get()))
+                .unlockedBy("has_rubber",  hasTag(ModItemTags.ANY_RUBBER_INGOT))
+                .save(pWriter, MODID + ":robes_boots");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.COBALT_HELMET.get(), 1)
                 .pattern("ECE")
                 .define('E', ModItems.BILLET_COBALT.get())
                 .define('C', ModArmorItems.STEEL_HELMET.get())
-                .unlockedBy("has_cobalt", has(ModItems.BILLET_COBALT.get()))
-                .save(writer, MODID + ":cobalt_helmet");
+                .unlockedBy("has_cobalt", pHas.apply(ModItems.BILLET_COBALT.get()))
+                .save(pWriter, MODID + ":cobalt_helmet");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.COBALT_CHESTPLATE.get(), 1)
                 .pattern(" E ")
@@ -93,23 +96,23 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .pattern(" E ")
                 .define('E', ModItems.BILLET_COBALT.get())
                 .define('C', ModArmorItems.STEEL_CHESTPLATE.get())
-                .unlockedBy("has_cobalt", has(ModItems.BILLET_COBALT.get()))
-                .save(writer, MODID + ":cobalt_chestplate");
+                .unlockedBy("has_cobalt", pHas.apply(ModItems.BILLET_COBALT.get()))
+                .save(pWriter, MODID + ":cobalt_chestplate");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.COBALT_LEGGINGS.get(), 1)
                 .pattern("ECE")
                 .pattern("E E")
                 .define('E', ModItems.BILLET_COBALT.get())
                 .define('C', ModArmorItems.STEEL_LEGGINGS.get())
-                .unlockedBy("has_cobalt", has(ModItems.BILLET_COBALT.get()))
-                .save(writer, MODID + ":cobalt_leggings");
+                .unlockedBy("has_cobalt", pHas.apply(ModItems.BILLET_COBALT.get()))
+                .save(pWriter, MODID + ":cobalt_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.COBALT_BOOTS.get(), 1)
                 .pattern("ECE")
                 .define('E', ModItems.BILLET_COBALT.get())
                 .define('C', ModArmorItems.STEEL_BOOTS.get())
-                .unlockedBy("has_cobalt", has(ModItems.BILLET_COBALT.get()))
-                .save(writer, MODID + ":cobalt_boots");
+                .unlockedBy("has_cobalt", pHas.apply(ModItems.BILLET_COBALT.get()))
+                .save(pWriter, MODID + ":cobalt_boots");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.SECURITY_HELMET.get(), 1)
                 .pattern("SSS")
@@ -117,8 +120,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('S', ModItems.PLATE_STEEL.get())
                 .define('I', ModItemTags.ANY_RUBBER_INGOT)
                 .define('G', ModItemTags.ANY_GLASS_PANES)
-                .unlockedBy("has_steel_plate", has(ModItems.PLATE_STEEL.get()))
-                .save(writer, MODID + ":security_helmet");
+                .unlockedBy("has_steel_plate", pHas.apply(ModItems.PLATE_STEEL.get()))
+                .save(pWriter, MODID + ":security_helmet");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.SECURITY_CHESTPLATE.get(), 1)
                 .pattern("KWK")
@@ -127,8 +130,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('K', ModItems.PLATE_KEVLAR.get())
                 .define('I', ModItemTags.ANY_PLASTIC_INGOT)
                 .define('W', ItemTags.WOOL)
-                .unlockedBy("has_kevlar", has(ModItems.PLATE_KEVLAR.get()))
-                .save(writer, MODID + ":security_chestplate");
+                .unlockedBy("has_kevlar", pHas.apply(ModItems.PLATE_KEVLAR.get()))
+                .save(pWriter, MODID + ":security_chestplate");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.SECURITY_LEGGINGS.get(), 1)
                 .pattern("IWI")
@@ -137,24 +140,24 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('K', ModItems.PLATE_KEVLAR.get())
                 .define('I', ModItemTags.ANY_PLASTIC_INGOT)
                 .define('W', ItemTags.WOOL)
-                .unlockedBy("has_kevlar", has(ModItems.PLATE_KEVLAR.get()))
-                .save(writer, MODID + ":security_leggings");
+                .unlockedBy("has_kevlar", pHas.apply(ModItems.PLATE_KEVLAR.get()))
+                .save(pWriter, MODID + ":security_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.SECURITY_BOOTS.get(), 1)
                 .pattern("P P")
                 .pattern("I I")
                 .define('P', ModItems.PLATE_STEEL.get())
                 .define('I', ModItemTags.ANY_RUBBER_INGOT)
-                .unlockedBy("has_steel_plate", has(ModItems.PLATE_STEEL.get()))
-                .save(writer, MODID + ":security_boots");
+                .unlockedBy("has_steel_plate", pHas.apply(ModItems.PLATE_STEEL.get()))
+                .save(pWriter, MODID + ":security_boots");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.ZIRCONIUM_LEGGINGS.get(), 1)
                 .pattern("EEE")
                 .pattern("E E")
                 .pattern("E E")
                 .define('E', ModItems.INGOT_ZIRCONIUM.get())
-                .unlockedBy("has_zirconium", has(ModItems.INGOT_ZIRCONIUM.get()))
-                .save(writer, MODID + ":zirconium_leggings");
+                .unlockedBy("has_zirconium", pHas.apply(ModItems.INGOT_ZIRCONIUM.get()))
+                .save(pWriter, MODID + ":zirconium_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.T51_HELMET.get(), 1)
                 .pattern("PPC")
@@ -165,8 +168,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('I', ModItemTags.ANY_RUBBER_INGOT)
                 .define('X', ModArmorItems.GAS_MASK_M65.get())
                 .define('B', ModArmorItems.TITANIUM_HELMET.get())
-                .unlockedBy("has_titanium_plate", has(ModItems.PLATE_ARMOR_TITANIUM.get()))
-                .save(writer, MODID + ":t51_helmet");
+                .unlockedBy("has_titanium_plate", pHas.apply(ModItems.PLATE_ARMOR_TITANIUM.get()))
+                .save(pWriter, MODID + ":t51_helmet");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.T51_CHESTPLATE.get(), 1)
                 .pattern("MPM")
@@ -176,8 +179,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('P', ModItems.PLATE_ARMOR_TITANIUM.get())
                 .define('T', Ingredient.of(ItemGasTank.createEmpty()))
                 .define('B', ModArmorItems.TITANIUM_CHESTPLATE.get())
-                .unlockedBy("has_titanium_plate", has(ModItems.PLATE_ARMOR_TITANIUM.get()))
-                .save(writer, MODID + ":t51_chestplate");
+                .unlockedBy("has_titanium_plate", pHas.apply(ModItems.PLATE_ARMOR_TITANIUM.get()))
+                .save(pWriter, MODID + ":t51_chestplate");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.T51_LEGGINGS.get(), 1)
                 .pattern("MPM")
@@ -186,16 +189,16 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('M', ModItems.MOTOR.get())
                 .define('P', ModItems.PLATE_ARMOR_TITANIUM.get())
                 .define('B', ModArmorItems.TITANIUM_LEGGINGS.get())
-                .unlockedBy("has_titanium_plate", has(ModItems.PLATE_ARMOR_TITANIUM.get()))
-                .save(writer, MODID + ":t51_leggings");
+                .unlockedBy("has_titanium_plate", pHas.apply(ModItems.PLATE_ARMOR_TITANIUM.get()))
+                .save(pWriter, MODID + ":t51_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.T51_BOOTS.get(), 1)
                 .pattern("P P")
                 .pattern("PBP")
                 .define('P', ModItems.PLATE_ARMOR_TITANIUM.get())
                 .define('B', ModArmorItems.TITANIUM_BOOTS.get())
-                .unlockedBy("has_titanium_plate", has(ModItems.PLATE_ARMOR_TITANIUM.get()))
-                .save(writer, MODID + ":t51_boots");
+                .unlockedBy("has_titanium_plate", pHas.apply(ModItems.PLATE_ARMOR_TITANIUM.get()))
+                .save(pWriter, MODID + ":t51_boots");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.AJR_HELMET.get(), 1)
                 .pattern("PPC")
@@ -206,8 +209,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('I', ModItemTags.ANY_PLASTIC_INGOT)
                 .define('X', ModArmorItems.GAS_MASK_M65.get())
                 .define('B', ModArmorItems.ADVANCED_ALLOY_HELMET.get())
-                .unlockedBy("has_ajr_plate", has(ModItems.PLATE_ARMOR_AJR.get()))
-                .save(writer, MODID + ":ajr_helmet");
+                .unlockedBy("has_ajr_plate", pHas.apply(ModItems.PLATE_ARMOR_AJR.get()))
+                .save(pWriter, MODID + ":ajr_helmet");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.AJR_CHESTPLATE.get(), 1)
                 .pattern("MPM")
@@ -217,8 +220,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('P', ModItems.PLATE_ARMOR_AJR.get())
                 .define('T', Ingredient.of(ItemGasTank.createEmpty()))
                 .define('B', ModArmorItems.ADVANCED_ALLOY_CHESTPLATE.get())
-                .unlockedBy("has_ajr_plate", has(ModItems.PLATE_ARMOR_AJR.get()))
-                .save(writer, MODID + ":ajr_chestplate");
+                .unlockedBy("has_ajr_plate", pHas.apply(ModItems.PLATE_ARMOR_AJR.get()))
+                .save(pWriter, MODID + ":ajr_chestplate");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.AJR_LEGGINGS.get(), 1)
                 .pattern("MPM")
@@ -227,44 +230,44 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('M', ModItems.MOTOR_DESH.get())
                 .define('P', ModItems.PLATE_ARMOR_AJR.get())
                 .define('B', ModArmorItems.ADVANCED_ALLOY_LEGGINGS.get())
-                .unlockedBy("has_ajr_plate", has(ModItems.PLATE_ARMOR_AJR.get()))
-                .save(writer, MODID + ":ajr_leggings");
+                .unlockedBy("has_ajr_plate", pHas.apply(ModItems.PLATE_ARMOR_AJR.get()))
+                .save(pWriter, MODID + ":ajr_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.AJR_BOOTS.get(), 1)
                 .pattern("P P")
                 .pattern("PBP")
                 .define('P', ModItems.PLATE_ARMOR_AJR.get())
                 .define('B', ModArmorItems.ADVANCED_ALLOY_BOOTS.get())
-                .unlockedBy("has_ajr_plate", has(ModItems.PLATE_ARMOR_AJR.get()))
-                .save(writer, MODID + ":ajr_boots");
+                .unlockedBy("has_ajr_plate", pHas.apply(ModItems.PLATE_ARMOR_AJR.get()))
+                .save(pWriter, MODID + ":ajr_boots");
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModArmorItems.AJRO_HELMET.get(), 1)
                 .requires(ModArmorItems.AJR_HELMET.get())
                 .requires(Items.RED_DYE)
                 .requires(Items.BLACK_DYE)
-                .unlockedBy("has_ajr_helmet", has(ModArmorItems.AJR_HELMET.get()))
-                .save(writer, MODID + ":ajro_helmet");
+                .unlockedBy("has_ajr_helmet", pHas.apply(ModArmorItems.AJR_HELMET.get()))
+                .save(pWriter, MODID + ":ajro_helmet");
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModArmorItems.AJRO_CHESTPLATE.get(), 1)
                 .requires(ModArmorItems.AJR_CHESTPLATE.get())
                 .requires(Items.RED_DYE)
                 .requires(Items.BLACK_DYE)
-                .unlockedBy("has_ajr_chestplate", has(ModArmorItems.AJR_CHESTPLATE.get()))
-                .save(writer, MODID + ":ajro_chestplate");
+                .unlockedBy("has_ajr_chestplate", pHas.apply(ModArmorItems.AJR_CHESTPLATE.get()))
+                .save(pWriter, MODID + ":ajro_chestplate");
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModArmorItems.AJRO_LEGGINGS.get(), 1)
                 .requires(ModArmorItems.AJR_LEGGINGS.get())
                 .requires(Items.RED_DYE)
                 .requires(Items.BLACK_DYE)
-                .unlockedBy("has_ajr_leggings", has(ModArmorItems.AJR_LEGGINGS.get()))
-                .save(writer, MODID + ":ajro_leggings");
+                .unlockedBy("has_ajr_leggings", pHas.apply(ModArmorItems.AJR_LEGGINGS.get()))
+                .save(pWriter, MODID + ":ajro_leggings");
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModArmorItems.AJRO_BOOTS.get(), 1)
                 .requires(ModArmorItems.AJR_BOOTS.get())
                 .requires(Items.RED_DYE)
                 .requires(Items.BLACK_DYE)
-                .unlockedBy("has_ajr_boots", has(ModArmorItems.AJR_BOOTS.get()))
-                .save(writer, MODID + ":ajro_boots");
+                .unlockedBy("has_ajr_boots", pHas.apply(ModArmorItems.AJR_BOOTS.get()))
+                .save(pWriter, MODID + ":ajro_boots");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.BJ_HELMET.get(), 1)
                 .pattern("SBS")
@@ -274,8 +277,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('B', Blocks.BLACK_WOOL)
                 .define('C', ModItems.CIRCUIT_ADVANCED.get())
                 .define('I', ModItems.INGOT_STARMETAL.get())
-                .unlockedBy("has_string", has(Items.STRING))
-                .save(writer, MODID + ":bj_helmet");
+                .unlockedBy("has_string", pHas.apply(Items.STRING))
+                .save(pWriter, MODID + ":bj_helmet");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.BJ_CHESTPLATE.get(), 1)
                 .pattern("N N")
@@ -285,8 +288,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('M', ModItems.MOTOR_DESH.get())
                 .define('S', ModArmorItems.STARMETAL_CHESTPLATE.get())
                 .define('C', ModItems.CIRCUIT_ADVANCED.get())
-                .unlockedBy("has_lunar_plate", has(ModItems.PLATE_ARMOR_LUNAR.get()))
-                .save(writer, MODID + ":bj_chestplate");
+                .unlockedBy("has_lunar_plate", pHas.apply(ModItems.PLATE_ARMOR_LUNAR.get()))
+                .save(pWriter, MODID + ":bj_chestplate");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.BJ_CHESTPLATE_JETPACK.get(), 1)
                 .pattern("NFN")
@@ -298,8 +301,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('P', ModArmorItems.BJ_CHESTPLATE.get())
                 .define('I', ModItems.MP_THRUSTER_10_XENON.get())
                 .define('C', ModItems.CRYSTAL_PHOSPHORUS.get())
-                .unlockedBy("has_lunar_plate", has(ModItems.PLATE_ARMOR_LUNAR.get()))
-                .save(writer, MODID + ":bj_chestplate_jetpack");
+                .unlockedBy("has_lunar_plate", pHas.apply(ModItems.PLATE_ARMOR_LUNAR.get()))
+                .save(pWriter, MODID + ":bj_chestplate_jetpack");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.BJ_LEGGINGS.get(), 1)
                 .pattern("MBM")
@@ -309,8 +312,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('M', ModItems.MOTOR_DESH.get())
                 .define('S', ModArmorItems.STARMETAL_LEGGINGS.get())
                 .define('B', ModBlocks.BLOCK_STARMETAL.get().asItem())
-                .unlockedBy("has_lunar_plate", has(ModItems.PLATE_ARMOR_LUNAR.get()))
-                .save(writer, MODID + ":bj_leggings");
+                .unlockedBy("has_lunar_plate", pHas.apply(ModItems.PLATE_ARMOR_LUNAR.get()))
+                .save(pWriter, MODID + ":bj_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.BJ_BOOTS.get(), 1)
                 .pattern("N N")
@@ -318,8 +321,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('N', ModItems.PLATE_ARMOR_LUNAR.get())
                 .define('S', ModArmorItems.STARMETAL_BOOTS.get())
                 .define('B', ModBlocks.BLOCK_STARMETAL.get().asItem())
-                .unlockedBy("has_lunar_plate", has(ModItems.PLATE_ARMOR_LUNAR.get()))
-                .save(writer, MODID + ":bj_boots");
+                .unlockedBy("has_lunar_plate", pHas.apply(ModItems.PLATE_ARMOR_LUNAR.get()))
+                .save(pWriter, MODID + ":bj_boots");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HEV_HELMET.get(), 1)
                 .pattern("PPC")
@@ -330,8 +333,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('B', ModArmorItems.TITANIUM_HELMET.get())
                 .define('I', ModItemTags.ANY_PLASTIC_INGOT)
                 .define('F', ModItems.GAS_MASK_FILTER.get())
-                .unlockedBy("has_hev_plate", has(ModItems.PLATE_ARMOR_HEV.get()))
-                .save(writer, MODID + ":hev_helmet");
+                .unlockedBy("has_hev_plate", pHas.apply(ModItems.PLATE_ARMOR_HEV.get()))
+                .save(pWriter, MODID + ":hev_helmet");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HEV_CHESTPLATE.get(), 1)
                 .pattern("MPM")
@@ -341,8 +344,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('B', ModArmorItems.TITANIUM_CHESTPLATE.get())
                 .define('I', ModItemTags.ANY_PLASTIC_INGOT)
                 .define('M', ModItems.MOTOR_DESH.get())
-                .unlockedBy("has_hev_plate", has(ModItems.PLATE_ARMOR_HEV.get()))
-                .save(writer, MODID + ":hev_chestplate");
+                .unlockedBy("has_hev_plate", pHas.apply(ModItems.PLATE_ARMOR_HEV.get()))
+                .save(pWriter, MODID + ":hev_chestplate");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HEV_LEGGINGS.get(), 1)
                 .pattern("MPM")
@@ -352,16 +355,16 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('B', ModArmorItems.TITANIUM_LEGGINGS.get())
                 .define('I', ModItemTags.ANY_PLASTIC_INGOT)
                 .define('M', ModItems.MOTOR_DESH.get())
-                .unlockedBy("has_hev_plate", has(ModItems.PLATE_ARMOR_HEV.get()))
-                .save(writer, MODID + ":hev_leggings");
+                .unlockedBy("has_hev_plate", pHas.apply(ModItems.PLATE_ARMOR_HEV.get()))
+                .save(pWriter, MODID + ":hev_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HEV_BOOTS.get(), 1)
                 .pattern("P P")
                 .pattern("PBP")
                 .define('P', ModItems.PLATE_ARMOR_HEV.get())
                 .define('B', ModArmorItems.TITANIUM_BOOTS.get())
-                .unlockedBy("has_hev_plate", has(ModItems.PLATE_ARMOR_HEV.get()))
-                .save(writer, MODID + ":hev_boots");
+                .unlockedBy("has_hev_plate", pHas.apply(ModItems.PLATE_ARMOR_HEV.get()))
+                .save(pWriter, MODID + ":hev_boots");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.FAU_HELMET.get(), 1)
                 .pattern("PWP")
@@ -372,8 +375,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('B', ModArmorItems.STARMETAL_HELMET.get())
                 .define('F', ModItems.GAS_MASK_FILTER.get())
                 .define('S', ModItems.PIPE_STEEL.get())
-                .unlockedBy("has_fau_plate", has(ModItems.PLATE_ARMOR_FAU.get()))
-                .save(writer, MODID + ":fau_helmet");
+                .unlockedBy("has_fau_plate", pHas.apply(ModItems.PLATE_ARMOR_FAU.get()))
+                .save(pWriter, MODID + ":fau_helmet");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.FAU_CHESTPLATE.get(), 1)
                 .pattern("MCM")
@@ -384,8 +387,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('P', ModItems.PLATE_ARMOR_FAU.get())
                 .define('B', ModArmorItems.STARMETAL_CHESTPLATE.get())
                 .define('S', ModBlocks.ANCIENT_SCRAP.get().asItem())
-                .unlockedBy("has_fau_plate", has(ModItems.PLATE_ARMOR_FAU.get()))
-                .save(writer, MODID + ":fau_chestplate");
+                .unlockedBy("has_fau_plate", pHas.apply(ModItems.PLATE_ARMOR_FAU.get()))
+                .save(pWriter, MODID + ":fau_chestplate");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.FAU_LEGGINGS.get(), 1)
                 .pattern("MPM")
@@ -395,8 +398,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('P', ModItems.PLATE_ARMOR_FAU.get())
                 .define('B', ModArmorItems.STARMETAL_LEGGINGS.get())
                 .define('D', ModItems.BILLET_POLONIUM.get())
-                .unlockedBy("has_fau_plate", has(ModItems.PLATE_ARMOR_FAU.get()))
-                .save(writer, MODID + ":fau_leggings");
+                .unlockedBy("has_fau_plate", pHas.apply(ModItems.PLATE_ARMOR_FAU.get()))
+                .save(pWriter, MODID + ":fau_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.FAU_BOOTS.get(), 1)
                 .pattern("PDP")
@@ -404,8 +407,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('P', ModItems.PLATE_ARMOR_FAU.get())
                 .define('D', ModItems.BILLET_POLONIUM.get())
                 .define('B', ModArmorItems.STARMETAL_BOOTS.get())
-                .unlockedBy("has_fau_plate", has(ModItems.PLATE_ARMOR_FAU.get()))
-                .save(writer, MODID + ":fau_boots");
+                .unlockedBy("has_fau_plate", pHas.apply(ModItems.PLATE_ARMOR_FAU.get()))
+                .save(pWriter, MODID + ":fau_boots");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.DNT_HELMET.get(), 1)
                 .pattern("PCP")
@@ -415,8 +418,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('S', ModItems.INGOT_CHAINSTEEL.get())
                 .define('B', ModArmorItems.BJ_HELMET.get())
                 .define('C', ModItems.CIRCUIT_QUANTUM.get())
-                .unlockedBy("has_dnt_plate", has(ModItems.PLATE_ARMOR_DNT.get()))
-                .save(writer, MODID + ":dns_helmet");
+                .unlockedBy("has_dnt_plate", pHas.apply(ModItems.PLATE_ARMOR_DNT.get()))
+                .save(pWriter, MODID + ":dns_helmet");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.DNT_CHESTPLATE.get(), 1)
                 .pattern("PCP")
@@ -426,8 +429,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('S', ModItems.INGOT_CHAINSTEEL.get())
                 .define('B', ModArmorItems.BJ_CHESTPLATE_JETPACK.get())
                 .define('C', ModItems.SINGULARITY_SPARK.get())
-                .unlockedBy("has_dnt_plate", has(ModItems.PLATE_ARMOR_DNT.get()))
-                .save(writer, MODID + ":dns_chestplate");
+                .unlockedBy("has_dnt_plate", pHas.apply(ModItems.PLATE_ARMOR_DNT.get()))
+                .save(pWriter, MODID + ":dns_chestplate");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.DNT_LEGGINGS.get(), 1)
                 .pattern("PCP")
@@ -437,8 +440,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('S', ModItems.INGOT_CHAINSTEEL.get())
                 .define('B', ModArmorItems.BJ_LEGGINGS.get())
                 .define('C', ModItems.COIN_WORM.get())
-                .unlockedBy("has_dnt_plate", has(ModItems.PLATE_ARMOR_DNT.get()))
-                .save(writer, MODID + ":dns_leggings");
+                .unlockedBy("has_dnt_plate", pHas.apply(ModItems.PLATE_ARMOR_DNT.get()))
+                .save(pWriter, MODID + ":dns_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.DNT_BOOTS.get(), 1)
                 .pattern("PCP")
@@ -448,8 +451,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('S', ModItems.INGOT_CHAINSTEEL.get())
                 .define('B', ModArmorItems.BJ_BOOTS.get())
                 .define('C', ModItems.DEMON_CORE_CLOSED.get())
-                .unlockedBy("has_dnt_plate", has(ModItems.PLATE_ARMOR_DNT.get()))
-                .save(writer, MODID + ":dns_boots");
+                .unlockedBy("has_dnt_plate", pHas.apply(ModItems.PLATE_ARMOR_DNT.get()))
+                .save(pWriter, MODID + ":dns_boots");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.RPA_HELMET.get(), 1)
                 .pattern("KPK")
@@ -459,8 +462,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('K', ModItems.PLATE_KEVLAR.get())
                 .define('P', ModItems.PLATE_ARMOR_AJR.get())
                 .define('F', ModItems.GAS_MASK_FILTER_COMBO.get())
-                .unlockedBy("has_legendary_parts", has(ModItems.PARTS_LEGENDARY_T2.get()))
-                .save(writer, MODID + ":rpa_helmet");
+                .unlockedBy("has_legendary_parts", pHas.apply(ModItems.PARTS_LEGENDARY_T2.get()))
+                .save(pWriter, MODID + ":rpa_helmet");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.RPA_CHESTPLATE.get(), 1)
                 .pattern("P P")
@@ -470,8 +473,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('K', ModItems.PLATE_KEVLAR.get())
                 .define('P', ModItems.PLATE_ARMOR_AJR.get())
                 .define('M', ModItems.MOTOR_DESH.get())
-                .unlockedBy("has_legendary_parts", has(ModItems.PARTS_LEGENDARY_T2.get()))
-                .save(writer, MODID + ":rpa_chestplate");
+                .unlockedBy("has_legendary_parts", pHas.apply(ModItems.PARTS_LEGENDARY_T2.get()))
+                .save(pWriter, MODID + ":rpa_chestplate");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.RPA_LEGGINGS.get(), 1)
                 .pattern("MPM")
@@ -481,8 +484,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('K', ModItems.PLATE_KEVLAR.get())
                 .define('P', ModItems.PLATE_ARMOR_AJR.get())
                 .define('M', ModItems.MOTOR_DESH.get())
-                .unlockedBy("has_legendary_parts", has(ModItems.PARTS_LEGENDARY_T2.get()))
-                .save(writer, MODID + ":rpa_leggings");
+                .unlockedBy("has_legendary_parts", pHas.apply(ModItems.PARTS_LEGENDARY_T2.get()))
+                .save(pWriter, MODID + ":rpa_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.RPA_BOOTS.get(), 1)
                 .pattern("KLK")
@@ -490,8 +493,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('L', ModItems.PARTS_LEGENDARY_T2.get())
                 .define('K', ModItems.PLATE_KEVLAR.get())
                 .define('P', ModItems.PLATE_ARMOR_AJR.get())
-                .unlockedBy("has_legendary_parts", has(ModItems.PARTS_LEGENDARY_T2.get()))
-                .save(writer, MODID + ":rpa_boots");
+                .unlockedBy("has_legendary_parts", pHas.apply(ModItems.PARTS_LEGENDARY_T2.get()))
+                .save(pWriter, MODID + ":rpa_boots");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.STEAMSUIT_HELMET.get(), 1)
                 .pattern("DCD")
@@ -501,8 +504,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('C', ModItems.PLATE_COPPER.get())
                 .define('X', ModArmorItems.STEEL_HELMET.get())
                 .define('F', ModItems.GAS_MASK_FILTER.get())
-                .unlockedBy("has_desh", has(ModItems.INGOT_DESH.get()))
-                .save(writer, MODID + ":steamsuit_helmet");
+                .unlockedBy("has_desh", pHas.apply(ModItems.INGOT_DESH.get()))
+                .save(pWriter, MODID + ":steamsuit_helmet");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.STEAMSUIT_CHESTPLATE.get(), 1)
                 .pattern("C C")
@@ -512,8 +515,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('C', ModItems.PLATE_COPPER.get())
                 .define('X', ModArmorItems.STEEL_CHESTPLATE.get())
                 .define('F', ModItems.TANK_STEEL.get())
-                .unlockedBy("has_desh", has(ModItems.INGOT_DESH.get()))
-                .save(writer, MODID + ":steamsuit_chestplate");
+                .unlockedBy("has_desh", pHas.apply(ModItems.INGOT_DESH.get()))
+                .save(pWriter, MODID + ":steamsuit_chestplate");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.STEAMSUIT_LEGGINGS.get(), 1)
                 .pattern("CCC")
@@ -522,8 +525,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('D', ModItems.INGOT_DESH.get())
                 .define('C', ModItems.PLATE_COPPER.get())
                 .define('X', ModArmorItems.STEEL_LEGGINGS.get())
-                .unlockedBy("has_desh", has(ModItems.INGOT_DESH.get()))
-                .save(writer, MODID + ":steamsuit_leggings");
+                .unlockedBy("has_desh", pHas.apply(ModItems.INGOT_DESH.get()))
+                .save(pWriter, MODID + ":steamsuit_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.STEAMSUIT_BOOTS.get(), 1)
                 .pattern("C C")
@@ -531,8 +534,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('D', ModItems.INGOT_DESH.get())
                 .define('C', ModItems.PLATE_COPPER.get())
                 .define('X', ModArmorItems.STEEL_BOOTS.get())
-                .unlockedBy("has_desh", has(ModItems.INGOT_DESH.get()))
-                .save(writer, MODID + ":steamsuit_boots");
+                .unlockedBy("has_desh", pHas.apply(ModItems.INGOT_DESH.get()))
+                .save(pWriter, MODID + ":steamsuit_boots");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.DIESELSUIT_HELMET.get(), 1)
                 .pattern("W W")
@@ -541,8 +544,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('W', Blocks.RED_WOOL)
                 .define('S', ModItems.INGOT_STEEL.get())
                 .define('C', ModItems.CIRCUIT_ANALOG.get())
-                .unlockedBy("has_steel", has(ModItems.INGOT_STEEL.get()))
-                .save(writer, MODID + ":dieselsuit_helmet");
+                .unlockedBy("has_steel", pHas.apply(ModItems.INGOT_STEEL.get()))
+                .save(pWriter, MODID + ":dieselsuit_helmet");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.DIESELSUIT_CHESTPLATE.get(), 1)
                 .pattern("W W")
@@ -552,8 +555,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('S', ModItems.INGOT_STEEL.get())
                 .define('C', ModItems.CIRCUIT_ANALOG.get())
                 .define('D', ModBlocks.MACHINE_DIESEL.get().asItem())
-                .unlockedBy("has_steel", has(ModItems.INGOT_STEEL.get()))
-                .save(writer, MODID + ":dieselsuit_chestplate");
+                .unlockedBy("has_steel", pHas.apply(ModItems.INGOT_STEEL.get()))
+                .save(pWriter, MODID + ":dieselsuit_chestplate");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.DIESELSUIT_LEGGINGS.get(), 1)
                 .pattern("M M")
@@ -562,16 +565,16 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('W', Blocks.RED_WOOL)
                 .define('S', ModItems.INGOT_STEEL.get())
                 .define('M', ModItems.MOTOR.get())
-                .unlockedBy("has_steel", has(ModItems.INGOT_STEEL.get()))
-                .save(writer, MODID + ":dieselsuit_leggings");
+                .unlockedBy("has_steel", pHas.apply(ModItems.INGOT_STEEL.get()))
+                .save(pWriter, MODID + ":dieselsuit_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.DIESELSUIT_BOOTS.get(), 1)
                 .pattern("W W")
                 .pattern("S S")
                 .define('W', Blocks.RED_WOOL)
                 .define('S', ModItems.INGOT_STEEL.get())
-                .unlockedBy("has_steel", has(ModItems.INGOT_STEEL.get()))
-                .save(writer, MODID + ":dieselsuit_boots");
+                .unlockedBy("has_steel", pHas.apply(ModItems.INGOT_STEEL.get()))
+                .save(pWriter, MODID + ":dieselsuit_boots");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.ENVSUIT_HELMET.get(), 1)
                 .pattern("TCT")
@@ -581,8 +584,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('C', ModItems.CIRCUIT_CHIP.get())
                 .define('G', ModItemTags.ANY_GLASS_PANES)
                 .define('R', ModItems.INGOT_RUBBER.get())
-                .unlockedBy("has_titanium", has(ModItems.PLATE_TITANIUM.get()))
-                .save(writer, MODID + ":envsuit_helmet");
+                .unlockedBy("has_titanium", pHas.apply(ModItems.PLATE_TITANIUM.get()))
+                .save(pWriter, MODID + ":envsuit_helmet");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.ENVSUIT_CHESTPLATE.get(), 1)
                 .pattern("T T")
@@ -591,8 +594,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('T', ModItems.PLATE_TITANIUM.get())
                 .define('C', ModItems.PLATE_CAST_TITANIUM.get())
                 .define('R', ModItems.INGOT_RUBBER.get())
-                .unlockedBy("has_titanium", has(ModItems.PLATE_TITANIUM.get()))
-                .save(writer, MODID + ":envsuit_chestplate");
+                .unlockedBy("has_titanium", pHas.apply(ModItems.PLATE_TITANIUM.get()))
+                .save(pWriter, MODID + ":envsuit_chestplate");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.ENVSUIT_LEGGINGS.get(), 1)
                 .pattern("TCT")
@@ -601,16 +604,16 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('T', ModItems.PLATE_TITANIUM.get())
                 .define('C', ModItems.PLATE_CAST_TITANIUM.get())
                 .define('R', ModItems.INGOT_RUBBER.get())
-                .unlockedBy("has_titanium", has(ModItems.PLATE_TITANIUM.get()))
-                .save(writer, MODID + ":envsuit_leggings");
+                .unlockedBy("has_titanium", pHas.apply(ModItems.PLATE_TITANIUM.get()))
+                .save(pWriter, MODID + ":envsuit_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.ENVSUIT_BOOTS.get(), 1)
                 .pattern("R R")
                 .pattern("T T")
                 .define('T', ModItems.PLATE_TITANIUM.get())
                 .define('R', ModItems.INGOT_RUBBER.get())
-                .unlockedBy("has_titanium", has(ModItems.PLATE_TITANIUM.get()))
-                .save(writer, MODID + ":envsuit_boots");
+                .unlockedBy("has_titanium", pHas.apply(ModItems.PLATE_TITANIUM.get()))
+                .save(pWriter, MODID + ":envsuit_boots");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.BISMUTH_HELMET.get(), 1)
                 .pattern("GPP")
@@ -619,8 +622,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('G', Items.GOLD_INGOT)
                 .define('P', ModItems.PLATE_BISMUTH.get())
                 .define('F', ModItems.RAG.get())
-                .unlockedBy("has_bismuth_plate", has(ModItems.PLATE_BISMUTH.get()))
-                .save(writer, MODID + ":bismuth_helmet");
+                .unlockedBy("has_bismuth_plate", pHas.apply(ModItems.PLATE_BISMUTH.get()))
+                .save(pWriter, MODID + ":bismuth_helmet");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.BISMUTH_CHESTPLATE.get(), 1)
                 .pattern("RWR")
@@ -632,8 +635,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('C', ModItems.LASER_CRYSTAL_BISMUTH.get())
                 .define('S', ModItems.RING_STARMETAL.get())
                 .define('F', ModItems.RAG.get())
-                .unlockedBy("has_bismuth_plate", has(ModItems.PLATE_BISMUTH.get()))
-                .save(writer, MODID + ":bismuth_chestplate");
+                .unlockedBy("has_bismuth_plate", pHas.apply(ModItems.PLATE_BISMUTH.get()))
+                .save(pWriter, MODID + ":bismuth_chestplate");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.BISMUTH_LEGGINGS.get(), 1)
                 .pattern("FSF")
@@ -641,16 +644,16 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .pattern("FSF")
                 .define('F', ModItems.RAG.get())
                 .define('S', ModItems.RING_STARMETAL.get())
-                .unlockedBy("has_bismuth_plate", has(ModItems.PLATE_BISMUTH.get()))
-                .save(writer, MODID + ":bismuth_leggings");
+                .unlockedBy("has_bismuth_plate", pHas.apply(ModItems.PLATE_BISMUTH.get()))
+                .save(pWriter, MODID + ":bismuth_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.BISMUTH_BOOTS.get(), 1)
                 .pattern("W W")
                 .pattern("P P")
                 .define('W', ModItems.WIRE_GOLD.get())
                 .define('P', ModItems.PLATE_BISMUTH.get())
-                .unlockedBy("has_bismuth_plate", has(ModItems.PLATE_BISMUTH.get()))
-                .save(writer, MODID + ":bismuth_boots");
+                .unlockedBy("has_bismuth_plate", pHas.apply(ModItems.PLATE_BISMUTH.get()))
+                .save(pWriter, MODID + ":bismuth_boots");
 
 // ==================== EUPHEMIUM ARMOR ====================
 
@@ -658,8 +661,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .pattern("EEE")
                 .pattern("E E")
                 .define('E', ModItems.PLATE_EUPHEMIUM.get())
-                .unlockedBy("has_euphemium_plate", has(ModItems.PLATE_EUPHEMIUM.get()))
-                .save(writer, MODID + ":euphemium_helmet");
+                .unlockedBy("has_euphemium_plate", pHas.apply(ModItems.PLATE_EUPHEMIUM.get()))
+                .save(pWriter, MODID + ":euphemium_helmet");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.EUPHEMIUM_CHESTPLATE.get(), 1)
                 .pattern("EWE")
@@ -667,23 +670,23 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .pattern("EEE")
                 .define('E', ModItems.PLATE_EUPHEMIUM.get())
                 .define('W', ModItems.WATCH.get())
-                .unlockedBy("has_euphemium_plate", has(ModItems.PLATE_EUPHEMIUM.get()))
-                .save(writer, MODID + ":euphemium_chestplate");
+                .unlockedBy("has_euphemium_plate", pHas.apply(ModItems.PLATE_EUPHEMIUM.get()))
+                .save(pWriter, MODID + ":euphemium_chestplate");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.EUPHEMIUM_LEGGINGS.get(), 1)
                 .pattern("EEE")
                 .pattern("E E")
                 .pattern("E E")
                 .define('E', ModItems.PLATE_EUPHEMIUM.get())
-                .unlockedBy("has_euphemium_plate", has(ModItems.PLATE_EUPHEMIUM.get()))
-                .save(writer, MODID + ":euphemium_leggings");
+                .unlockedBy("has_euphemium_plate", pHas.apply(ModItems.PLATE_EUPHEMIUM.get()))
+                .save(pWriter, MODID + ":euphemium_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.EUPHEMIUM_BOOTS.get(), 1)
                 .pattern("E E")
                 .pattern("E E")
                 .define('E', ModItems.PLATE_EUPHEMIUM.get())
-                .unlockedBy("has_euphemium_plate", has(ModItems.PLATE_EUPHEMIUM.get()))
-                .save(writer, MODID + ":euphemium_boots");
+                .unlockedBy("has_euphemium_plate", pHas.apply(ModItems.PLATE_EUPHEMIUM.get()))
+                .save(pWriter, MODID + ":euphemium_boots");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.JETPACK_FLY.get(), 1)
                 .pattern("ACA")
@@ -694,8 +697,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('T', ModItems.TANK_STEEL.get())
                 .define('L', Items.LEATHER)
                 .define('D', ModItems.THRUSTER_SMALL.get())
-                .unlockedBy("has_aluminium_plate", has(ModItems.PLATE_ALUMINIUM.get()))
-                .save(writer);
+                .unlockedBy("has_aluminium_plate", pHas.apply(ModItems.PLATE_ALUMINIUM.get()))
+                .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.JETPACK_BREAK.get(), 1)
                 .pattern("ICI")
@@ -705,8 +708,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('T', ModItems.INGOT_DURA_STEEL.get())
                 .define('J', ModArmorItems.JETPACK_FLY.get())
                 .define('I', ModItems.PLATE_POLYMER.get())
-                .unlockedBy("has_jetpack_fly", has(ModArmorItems.JETPACK_FLY.get()))
-                .save(writer);
+                .unlockedBy("has_jetpack_fly", pHas.apply(ModArmorItems.JETPACK_FLY.get()))
+                .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.JETPACK_VECTOR.get(), 1)
                 .pattern("TCT")
@@ -717,8 +720,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('J', ModArmorItems.JETPACK_BREAK.get())
                 .define('M', ModItems.MOTOR.get())
                 .define('B', ModItems.BOLT_DURA_STEEL.get())
-                .unlockedBy("has_jetpack_break", has(ModArmorItems.JETPACK_BREAK.get()))
-                .save(writer);
+                .unlockedBy("has_jetpack_break", pHas.apply(ModArmorItems.JETPACK_BREAK.get()))
+                .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.JETPACK_BOOST.get(), 1)
                 .pattern("PCP")
@@ -729,8 +732,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('D', ModItems.INGOT_DESH.get())
                 .define('J', ModArmorItems.JETPACK_VECTOR.get())
                 .define('A', ModItems.PLATE_CAST_COPPER.get())
-                .unlockedBy("has_jetpack_vector", has(ModArmorItems.JETPACK_VECTOR.get()))
-                .save(writer);
+                .unlockedBy("has_jetpack_vector", pHas.apply(ModArmorItems.JETPACK_VECTOR.get()))
+                .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HAZMAT_HELMET.get(), 1)
                 .pattern("EEE")
@@ -739,31 +742,31 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('E', ModItems.HAZMAT_CLOTH.get())
                 .define('I', ModItemTags.ANY_GLASS_PANES)
                 .define('P', ModItems.PLATE_IRON.get())
-                .unlockedBy("has_hazmat_cloth", has(ModItems.HAZMAT_CLOTH.get()))
-                .save(writer, MODID + ":hazmat_helmet");
+                .unlockedBy("has_hazmat_cloth", pHas.apply(ModItems.HAZMAT_CLOTH.get()))
+                .save(pWriter, MODID + ":hazmat_helmet");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HAZMAT_CHESTPLATE.get(), 1)
                 .pattern("E E")
                 .pattern("EEE")
                 .pattern("EEE")
                 .define('E', ModItems.HAZMAT_CLOTH.get())
-                .unlockedBy("has_hazmat_cloth", has(ModItems.HAZMAT_CLOTH.get()))
-                .save(writer, MODID + ":hazmat_chestplate");
+                .unlockedBy("has_hazmat_cloth", pHas.apply(ModItems.HAZMAT_CLOTH.get()))
+                .save(pWriter, MODID + ":hazmat_chestplate");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HAZMAT_LEGGINGS.get(), 1)
                 .pattern("EEE")
                 .pattern("E E")
                 .pattern("E E")
                 .define('E', ModItems.HAZMAT_CLOTH.get())
-                .unlockedBy("has_hazmat_cloth", has(ModItems.HAZMAT_CLOTH.get()))
-                .save(writer, MODID + ":hazmat_leggings");
+                .unlockedBy("has_hazmat_cloth", pHas.apply(ModItems.HAZMAT_CLOTH.get()))
+                .save(pWriter, MODID + ":hazmat_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HAZMAT_BOOTS.get(), 1)
                 .pattern("E E")
                 .pattern("E E")
                 .define('E', ModItems.HAZMAT_CLOTH.get())
-                .unlockedBy("has_hazmat_cloth", has(ModItems.HAZMAT_CLOTH.get()))
-                .save(writer, MODID + ":hazmat_boots");
+                .unlockedBy("has_hazmat_cloth", pHas.apply(ModItems.HAZMAT_CLOTH.get()))
+                .save(pWriter, MODID + ":hazmat_boots");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HAZMAT_HELMET_RED.get(), 1)
                 .pattern("EEE")
@@ -772,31 +775,31 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('E', ModItems.HAZMAT_CLOTH_RED.get())
                 .define('I', ModItemTags.ANY_GLASS_PANES)
                 .define('F', ModItems.PLATE_IRON.get())
-                .unlockedBy("has_hazmat_cloth_red", has(ModItems.HAZMAT_CLOTH_RED.get()))
-                .save(writer, MODID + ":hazmat_helmet_red");
+                .unlockedBy("has_hazmat_cloth_red", pHas.apply(ModItems.HAZMAT_CLOTH_RED.get()))
+                .save(pWriter, MODID + ":hazmat_helmet_red");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HAZMAT_CHESTPLATE_RED.get(), 1)
                 .pattern("E E")
                 .pattern("EEE")
                 .pattern("EEE")
                 .define('E', ModItems.HAZMAT_CLOTH_RED.get())
-                .unlockedBy("has_hazmat_cloth_red", has(ModItems.HAZMAT_CLOTH_RED.get()))
-                .save(writer, MODID + ":hazmat_chestplate_red");
+                .unlockedBy("has_hazmat_cloth_red", pHas.apply(ModItems.HAZMAT_CLOTH_RED.get()))
+                .save(pWriter, MODID + ":hazmat_chestplate_red");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HAZMAT_LEGGINGS_RED.get(), 1)
                 .pattern("EEE")
                 .pattern("E E")
                 .pattern("E E")
                 .define('E', ModItems.HAZMAT_CLOTH_RED.get())
-                .unlockedBy("has_hazmat_cloth_red", has(ModItems.HAZMAT_CLOTH_RED.get()))
-                .save(writer, MODID + ":hazmat_leggings_red");
+                .unlockedBy("has_hazmat_cloth_red", pHas.apply(ModItems.HAZMAT_CLOTH_RED.get()))
+                .save(pWriter, MODID + ":hazmat_leggings_red");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HAZMAT_BOOTS_RED.get(), 1)
                 .pattern("E E")
                 .pattern("E E")
                 .define('E', ModItems.HAZMAT_CLOTH_RED.get())
-                .unlockedBy("has_hazmat_cloth_red", has(ModItems.HAZMAT_CLOTH_RED.get()))
-                .save(writer, MODID + ":hazmat_boots_red");
+                .unlockedBy("has_hazmat_cloth_red", pHas.apply(ModItems.HAZMAT_CLOTH_RED.get()))
+                .save(pWriter, MODID + ":hazmat_boots_red");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HAZMAT_HELMET_GREY.get(), 1)
                 .pattern("EEE")
@@ -805,62 +808,62 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('E', ModItems.HAZMAT_CLOTH_GREY.get())
                 .define('I', ModItemTags.ANY_GLASS_PANES)
                 .define('F', ModItems.PLATE_IRON.get())
-                .unlockedBy("has_hazmat_cloth_grey", has(ModItems.HAZMAT_CLOTH_GREY.get()))
-                .save(writer, MODID + ":hazmat_helmet_grey");
+                .unlockedBy("has_hazmat_cloth_grey", pHas.apply(ModItems.HAZMAT_CLOTH_GREY.get()))
+                .save(pWriter, MODID + ":hazmat_helmet_grey");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HAZMAT_CHESTPLATE_GREY.get(), 1)
                 .pattern("E E")
                 .pattern("EEE")
                 .pattern("EEE")
                 .define('E', ModItems.HAZMAT_CLOTH_GREY.get())
-                .unlockedBy("has_hazmat_cloth_grey", has(ModItems.HAZMAT_CLOTH_GREY.get()))
-                .save(writer, MODID + ":hazmat_chestplate_grey");
+                .unlockedBy("has_hazmat_cloth_grey", pHas.apply(ModItems.HAZMAT_CLOTH_GREY.get()))
+                .save(pWriter, MODID + ":hazmat_chestplate_grey");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HAZMAT_LEGGINGS_GREY.get(), 1)
                 .pattern("EEE")
                 .pattern("E E")
                 .pattern("E E")
                 .define('E', ModItems.HAZMAT_CLOTH_GREY.get())
-                .unlockedBy("has_hazmat_cloth_grey", has(ModItems.HAZMAT_CLOTH_GREY.get()))
-                .save(writer, MODID + ":hazmat_leggings_grey");
+                .unlockedBy("has_hazmat_cloth_grey", pHas.apply(ModItems.HAZMAT_CLOTH_GREY.get()))
+                .save(pWriter, MODID + ":hazmat_leggings_grey");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HAZMAT_BOOTS_GREY.get(), 1)
                 .pattern("E E")
                 .pattern("E E")
                 .define('E', ModItems.HAZMAT_CLOTH_GREY.get())
-                .unlockedBy("has_hazmat_cloth_grey", has(ModItems.HAZMAT_CLOTH_GREY.get()))
-                .save(writer, MODID + ":hazmat_boots_grey");
+                .unlockedBy("has_hazmat_cloth_grey", pHas.apply(ModItems.HAZMAT_CLOTH_GREY.get()))
+                .save(pWriter, MODID + ":hazmat_boots_grey");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.ASBESTOS_HELMET.get(), 1)
                 .pattern("EEE")
                 .pattern("EIE")
                 .define('E', ModItems.ASBESTOS_CLOTH.get())
                 .define('I', ModItems.PLATE_GOLD.get())
-                .unlockedBy("has_asbestos_cloth", has(ModItems.ASBESTOS_CLOTH.get()))
-                .save(writer, MODID + ":asbestos_helmet");
+                .unlockedBy("has_asbestos_cloth", pHas.apply(ModItems.ASBESTOS_CLOTH.get()))
+                .save(pWriter, MODID + ":asbestos_helmet");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.ASBESTOS_CHESTPLATE.get(), 1)
                 .pattern("E E")
                 .pattern("EEE")
                 .pattern("EEE")
                 .define('E', ModItems.ASBESTOS_CLOTH.get())
-                .unlockedBy("has_asbestos_cloth", has(ModItems.ASBESTOS_CLOTH.get()))
-                .save(writer, MODID + ":asbestos_chestplate");
+                .unlockedBy("has_asbestos_cloth", pHas.apply(ModItems.ASBESTOS_CLOTH.get()))
+                .save(pWriter, MODID + ":asbestos_chestplate");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.ASBESTOS_LEGGINGS.get(), 1)
                 .pattern("EEE")
                 .pattern("E E")
                 .pattern("E E")
                 .define('E', ModItems.ASBESTOS_CLOTH.get())
-                .unlockedBy("has_asbestos_cloth", has(ModItems.ASBESTOS_CLOTH.get()))
-                .save(writer, MODID + ":asbestos_leggings");
+                .unlockedBy("has_asbestos_cloth", pHas.apply(ModItems.ASBESTOS_CLOTH.get()))
+                .save(pWriter, MODID + ":asbestos_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.ASBESTOS_BOOTS.get(), 1)
                 .pattern("E E")
                 .pattern("E E")
                 .define('E', ModItems.ASBESTOS_CLOTH.get())
-                .unlockedBy("has_asbestos_cloth", has(ModItems.ASBESTOS_CLOTH.get()))
-                .save(writer, MODID + ":asbestos_boots");
+                .unlockedBy("has_asbestos_cloth", pHas.apply(ModItems.ASBESTOS_CLOTH.get()))
+                .save(pWriter, MODID + ":asbestos_boots");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HAZMAT_PAA_HELMET.get(), 1)
                 .pattern("EEE")
@@ -869,31 +872,31 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('E', ModItems.PLATE_PAA.get())
                 .define('I', ModItemTags.ANY_GLASS_PANES)
                 .define('P', ModItems.PLATE_IRON.get())
-                .unlockedBy("has_plate_paa", has(ModItems.PLATE_PAA.get()))
-                .save(writer, MODID + ":hazmat_paa_helmet");
+                .unlockedBy("has_plate_paa", pHas.apply(ModItems.PLATE_PAA.get()))
+                .save(pWriter, MODID + ":hazmat_paa_helmet");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HAZMAT_PAA_CHESTPLATE.get(), 1)
                 .pattern("E E")
                 .pattern("EEE")
                 .pattern("EEE")
                 .define('E', ModItems.PLATE_PAA.get())
-                .unlockedBy("has_plate_paa", has(ModItems.PLATE_PAA.get()))
-                .save(writer, MODID + ":hazmat_paa_chestplate");
+                .unlockedBy("has_plate_paa", pHas.apply(ModItems.PLATE_PAA.get()))
+                .save(pWriter, MODID + ":hazmat_paa_chestplate");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HAZMAT_PAA_LEGGINGS.get(), 1)
                 .pattern("EEE")
                 .pattern("E E")
                 .pattern("E E")
                 .define('E', ModItems.PLATE_PAA.get())
-                .unlockedBy("has_plate_paa", has(ModItems.PLATE_PAA.get()))
-                .save(writer, MODID + ":hazmat_paa_leggings");
+                .unlockedBy("has_plate_paa", pHas.apply(ModItems.PLATE_PAA.get()))
+                .save(pWriter, MODID + ":hazmat_paa_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.HAZMAT_PAA_BOOTS.get(), 1)
                 .pattern("E E")
                 .pattern("E E")
                 .define('E', ModItems.PLATE_PAA.get())
-                .unlockedBy("has_plate_paa", has(ModItems.PLATE_PAA.get()))
-                .save(writer, MODID + ":hazmat_paa_boots");
+                .unlockedBy("has_plate_paa", pHas.apply(ModItems.PLATE_PAA.get()))
+                .save(pWriter, MODID + ":hazmat_paa_boots");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.PAA_CHESTPLATE.get(), 1)
                 .pattern("E E")
@@ -901,8 +904,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .pattern("ENE")
                 .define('E', ModItems.PLATE_PAA.get())
                 .define('N', ModItems.NEUTRON_REFLECTOR.get())
-                .unlockedBy("has_plate_paa", has(ModItems.PLATE_PAA.get()))
-                .save(writer, MODID + ":paa_chestplate");
+                .unlockedBy("has_plate_paa", pHas.apply(ModItems.PLATE_PAA.get()))
+                .save(pWriter, MODID + ":paa_chestplate");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.PAA_LEGGINGS.get(), 1)
                 .pattern("EEE")
@@ -910,16 +913,16 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .pattern("E E")
                 .define('E', ModItems.PLATE_PAA.get())
                 .define('N', ModItems.NEUTRON_REFLECTOR.get())
-                .unlockedBy("has_plate_paa", has(ModItems.PLATE_PAA.get()))
-                .save(writer, MODID + ":paa_leggings");
+                .unlockedBy("has_plate_paa", pHas.apply(ModItems.PLATE_PAA.get()))
+                .save(pWriter, MODID + ":paa_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.PAA_BOOTS.get(), 1)
                 .pattern("E E")
                 .pattern("N N")
                 .define('E', ModItems.PLATE_PAA.get())
                 .define('N', ModItems.NEUTRON_REFLECTOR.get())
-                .unlockedBy("has_plate_paa", has(ModItems.PLATE_PAA.get()))
-                .save(writer, MODID + ":paa_boots");
+                .unlockedBy("has_plate_paa", pHas.apply(ModItems.PLATE_PAA.get()))
+                .save(pWriter, MODID + ":paa_boots");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.LIQUIDATOR_HELMET.get(), 1)
                 .pattern("III")
@@ -928,8 +931,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('I', ModItemTags.ANY_RUBBER_INGOT)
                 .define('C', ModItems.CLADDING_IRON.get())
                 .define('B', ModArmorItems.HAZMAT_HELMET_GREY.get())
-                .unlockedBy("has_cladding", has(ModItems.CLADDING_IRON.get()))
-                .save(writer, MODID + ":liquidator_helmet");
+                .unlockedBy("has_cladding", pHas.apply(ModItems.CLADDING_IRON.get()))
+                .save(pWriter, MODID + ":liquidator_helmet");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.LIQUIDATOR_CHESTPLATE.get(), 1)
                 .pattern("ICI")
@@ -939,8 +942,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('C', ModItems.CLADDING_IRON.get())
                 .define('B', ModArmorItems.HAZMAT_CHESTPLATE_GREY.get())
                 .define('T', ModItems.GAS_TANK.get())
-                .unlockedBy("has_cladding", has(ModItems.CLADDING_IRON.get()))
-                .save(writer, MODID + ":liquidator_chestplate");
+                .unlockedBy("has_cladding", pHas.apply(ModItems.CLADDING_IRON.get()))
+                .save(pWriter, MODID + ":liquidator_chestplate");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.LIQUIDATOR_LEGGINGS.get(), 1)
                 .pattern("III")
@@ -949,8 +952,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('I', ModItemTags.ANY_RUBBER_INGOT)
                 .define('C', ModItems.CLADDING_IRON.get())
                 .define('B', ModArmorItems.HAZMAT_LEGGINGS_GREY.get())
-                .unlockedBy("has_cladding", has(ModItems.CLADDING_IRON.get()))
-                .save(writer, MODID + ":liquidator_leggings");
+                .unlockedBy("has_cladding", pHas.apply(ModItems.CLADDING_IRON.get()))
+                .save(pWriter, MODID + ":liquidator_leggings");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.LIQUIDATOR_BOOTS.get(), 1)
                 .pattern("ICI")
@@ -958,16 +961,16 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('I', ModItemTags.ANY_RUBBER_INGOT)
                 .define('C', ModItems.CLADDING_IRON.get())
                 .define('B', ModArmorItems.HAZMAT_BOOTS_GREY.get())
-                .unlockedBy("has_cladding", has(ModItems.CLADDING_IRON.get()))
-                .save(writer, MODID + ":liquidator_boots");
+                .unlockedBy("has_cladding", pHas.apply(ModItems.CLADDING_IRON.get()))
+                .save(pWriter, MODID + ":liquidator_boots");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.GOGGLES.get(), 1)
                 .pattern("P P")
                 .pattern("GPG")
                 .define('G', ModItemTags.ANY_GLASS_PANES)
                 .define('P', ModItems.PLATE_STEEL.get())
-                .unlockedBy("has_steel_plate", has(ModItems.PLATE_STEEL.get()))
-                .save(writer, MODID + ":goggles");
+                .unlockedBy("has_steel_plate", pHas.apply(ModItems.PLATE_STEEL.get()))
+                .save(pWriter, MODID + ":goggles");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.GAS_MASK.get(), 1)
                 .pattern("PPP")
@@ -976,8 +979,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('G', ModItemTags.ANY_GLASS_PANES)
                 .define('P', ModItems.PLATE_STEEL.get())
                 .define('F', ModItems.PLATE_IRON.get())
-                .unlockedBy("has_steel_plate", has(ModItems.PLATE_STEEL.get()))
-                .save(writer, MODID + ":gas_mask");
+                .unlockedBy("has_steel_plate", pHas.apply(ModItems.PLATE_STEEL.get()))
+                .save(pWriter, MODID + ":gas_mask");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.GAS_MASK_M65.get(), 1)
                 .pattern("PPP")
@@ -986,8 +989,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('G', ModItemTags.ANY_GLASS_PANES)
                 .define('P', ModItemTags.ANY_RUBBER_INGOT)
                 .define('F', ModItems.PLATE_IRON.get())
-                .unlockedBy("has_rubber", has(ModItemTags.ANY_RUBBER_INGOT))
-                .save(writer, MODID + ":gas_mask_m65");
+                .unlockedBy("has_rubber",  hasTag(ModItemTags.ANY_RUBBER_INGOT))
+                .save(pWriter, MODID + ":gas_mask_m65");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.GAS_MASK_OLDE.get(), 1)
                 .pattern("PPP")
@@ -996,8 +999,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('G', ModItemTags.ANY_GLASS_PANES)
                 .define('P', Items.LEATHER)
                 .define('F', Items.IRON_INGOT)
-                .unlockedBy("has_leather", has(Items.LEATHER))
-                .save(writer, MODID + ":gas_mask_olde");
+                .unlockedBy("has_leather", pHas.apply(Items.LEATHER))
+                .save(pWriter, MODID + ":gas_mask_olde");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.GAS_MASK_MONO.get(), 1)
                 .pattern(" P ")
@@ -1005,16 +1008,16 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .pattern(" F ")
                 .define('P', ModItemTags.ANY_RUBBER_INGOT)
                 .define('F', ModItems.PLATE_IRON.get())
-                .unlockedBy("has_rubber", has(ModItemTags.ANY_RUBBER_INGOT))
-                .save(writer, MODID + ":gas_mask_mono");
+                .unlockedBy("has_rubber",  hasTag(ModItemTags.ANY_RUBBER_INGOT))
+                .save(pWriter, MODID + ":gas_mask_mono");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.MASK_OF_INFAMY.get(), 1)
                 .pattern("III")
                 .pattern("III")
                 .pattern(" I ")
                 .define('I', ModItems.PLATE_IRON.get())
-                .unlockedBy("has_iron_plate", has(ModItems.PLATE_IRON.get()))
-                .save(writer, MODID + ":mask_of_infamy");
+                .unlockedBy("has_iron_plate", pHas.apply(ModItems.PLATE_IRON.get()))
+                .save(pWriter, MODID + ":mask_of_infamy");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.ASHGLASSES.get(), 1)
                 .pattern("I I")
@@ -1022,14 +1025,14 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('I', ModItemTags.ANY_RUBBER_INGOT)
                 .define('G', ModBlocks.GLASS_ASH.get().asItem())
                 .define('P', ModItemTags.ANY_PLASTIC_INGOT)
-                .unlockedBy("has_rubber", has(ModItemTags.ANY_RUBBER_INGOT))
-                .save(writer, MODID + ":ashglasses");
+                .unlockedBy("has_rubber",  hasTag(ModItemTags.ANY_RUBBER_INGOT))
+                .save(pWriter, MODID + ":ashglasses");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.MASK_DRY.get(), 1)
                 .pattern("RRR")
                 .define('R', ModItems.RAG.get())
-                .unlockedBy("has_rag", has(ModItems.RAG.get()))
-                .save(writer, MODID + ":mask_dry");
+                .unlockedBy("has_rag", pHas.apply(ModItems.RAG.get()))
+                .save(pWriter, MODID + ":mask_dry");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.CAPE_RADIATION.get(), 1)
                 .pattern("W W")
@@ -1038,8 +1041,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('W', Blocks.YELLOW_WOOL)
                 .define('D', Items.YELLOW_DYE)
                 .define('I', ModItems.NUCLEAR_WASTE.get())
-                .unlockedBy("has_nuclear_waste", has(ModItems.NUCLEAR_WASTE.get()))
-                .save(writer, MODID + ":cape_radiation");
+                .unlockedBy("has_nuclear_waste", pHas.apply(ModItems.NUCLEAR_WASTE.get()))
+                .save(pWriter, MODID + ":cape_radiation");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.CAPE_GASMASK.get(), 1)
                 .pattern("W W")
@@ -1048,8 +1051,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('W', Blocks.YELLOW_WOOL)
                 .define('D', Items.BLACK_DYE)
                 .define('I', ModArmorItems.GAS_MASK.get())
-                .unlockedBy("has_gas_mask", has(ModArmorItems.GAS_MASK.get()))
-                .save(writer, MODID + ":cape_gasmask");
+                .unlockedBy("has_gas_mask", pHas.apply(ModArmorItems.GAS_MASK.get()))
+                .save(pWriter, MODID + ":cape_gasmask");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.CAPE_SCHRABIDIUM.get(), 1)
                 .pattern("W W")
@@ -1058,8 +1061,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .define('W', ModItems.INGOT_SCHRABIDIUM.get())
                 .define('D', Items.BLACK_DYE)
                 .define('I', ModItems.CIRCUIT_CHIP.get())
-                .unlockedBy("has_schrabidium", has(ModItems.INGOT_SCHRABIDIUM.get()))
-                .save(writer, MODID + ":cape_schrabidium");
+                .unlockedBy("has_schrabidium", pHas.apply(ModItems.INGOT_SCHRABIDIUM.get()))
+                .save(pWriter, MODID + ":cape_schrabidium");
 
         if(GeneralConfig.ENABLE_LBSM && GeneralConfig.ENABLE_LBSM_SIMPLE_ARMOR_RECIPES) {
             addHelmet(ModItems.INGOT_STARMETAL.get(), ModArmorItems.STARMETAL_HELMET.get());
@@ -1076,8 +1079,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                     .pattern("ECE")
                     .define('E', ModItems.INGOT_STARMETAL.get())
                     .define('C', ModArmorItems.COBALT_HELMET.get())
-                    .unlockedBy("has_starmetal", has(ModItems.INGOT_STARMETAL.get()))
-                    .save(writer, MODID + ":starmetal_helmet");
+                    .unlockedBy("has_starmetal", pHas.apply(ModItems.INGOT_STARMETAL.get()))
+                    .save(pWriter, MODID + ":starmetal_helmet");
 
             ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.STARMETAL_CHESTPLATE.get(), 1)
                     .pattern("ECE")
@@ -1085,8 +1088,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                     .pattern("EEE")
                     .define('E', ModItems.INGOT_STARMETAL.get())
                     .define('C', ModArmorItems.COBALT_CHESTPLATE.get())
-                    .unlockedBy("has_starmetal", has(ModItems.INGOT_STARMETAL.get()))
-                    .save(writer, MODID + ":starmetal_chestplate");
+                    .unlockedBy("has_starmetal", pHas.apply(ModItems.INGOT_STARMETAL.get()))
+                    .save(pWriter, MODID + ":starmetal_chestplate");
 
             ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.STARMETAL_LEGGINGS.get(), 1)
                     .pattern("EEE")
@@ -1094,16 +1097,16 @@ public class ArmorRecipes extends ModRecipeProvider {
                     .pattern("E E")
                     .define('E', ModItems.INGOT_STARMETAL.get())
                     .define('C', ModArmorItems.COBALT_LEGGINGS.get())
-                    .unlockedBy("has_starmetal", has(ModItems.INGOT_STARMETAL.get()))
-                    .save(writer, MODID + ":starmetal_leggings");
+                    .unlockedBy("has_starmetal", pHas.apply(ModItems.INGOT_STARMETAL.get()))
+                    .save(pWriter, MODID + ":starmetal_leggings");
 
             ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.STARMETAL_BOOTS.get(), 1)
                     .pattern("E E")
                     .pattern("ECE")
                     .define('E', ModItems.INGOT_STARMETAL.get())
                     .define('C', ModArmorItems.COBALT_BOOTS.get())
-                    .unlockedBy("has_starmetal", has(ModItems.INGOT_STARMETAL.get()))
-                    .save(writer, MODID + ":starmetal_boots");
+                    .unlockedBy("has_starmetal", pHas.apply(ModItems.INGOT_STARMETAL.get()))
+                    .save(pWriter, MODID + ":starmetal_boots");
 
             ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.SCHRABIDIUM_HELMET.get(), 1)
                     .pattern("EEE")
@@ -1112,8 +1115,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                     .define('E', ModItems.INGOT_SCHRABIDIUM.get())
                     .define('S', ModArmorItems.STARMETAL_HELMET.get())
                     .define('P', ModItems.PELLET_CHARGED.get())
-                    .unlockedBy("has_schrabidium", has(ModItems.INGOT_SCHRABIDIUM.get()))
-                    .save(writer, MODID + ":schrabidium_helmet");
+                    .unlockedBy("has_schrabidium", pHas.apply(ModItems.INGOT_SCHRABIDIUM.get()))
+                    .save(pWriter, MODID + ":schrabidium_helmet");
 
             ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.SCHRABIDIUM_CHESTPLATE.get(), 1)
                     .pattern("ESE")
@@ -1122,8 +1125,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                     .define('E', ModItems.INGOT_SCHRABIDIUM.get())
                     .define('S', ModArmorItems.STARMETAL_CHESTPLATE.get())
                     .define('P', ModItems.PELLET_CHARGED.get())
-                    .unlockedBy("has_schrabidium", has(ModItems.INGOT_SCHRABIDIUM.get()))
-                    .save(writer, MODID + ":schrabidium_chestplate");
+                    .unlockedBy("has_schrabidium", pHas.apply(ModItems.INGOT_SCHRABIDIUM.get()))
+                    .save(pWriter, MODID + ":schrabidium_chestplate");
 
             ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.SCHRABIDIUM_LEGGINGS.get(), 1)
                     .pattern("EEE")
@@ -1132,8 +1135,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                     .define('E', ModItems.INGOT_SCHRABIDIUM.get())
                     .define('S', ModArmorItems.STARMETAL_LEGGINGS.get())
                     .define('P', ModItems.PELLET_CHARGED.get())
-                    .unlockedBy("has_schrabidium", has(ModItems.INGOT_SCHRABIDIUM.get()))
-                    .save(writer, MODID + ":schrabidium_leggings");
+                    .unlockedBy("has_schrabidium", pHas.apply(ModItems.INGOT_SCHRABIDIUM.get()))
+                    .save(pWriter, MODID + ":schrabidium_leggings");
 
             ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.SCHRABIDIUM_BOOTS.get(), 1)
                     .pattern("EPE")
@@ -1141,8 +1144,8 @@ public class ArmorRecipes extends ModRecipeProvider {
                     .define('E', ModItems.INGOT_SCHRABIDIUM.get())
                     .define('S', ModArmorItems.STARMETAL_BOOTS.get())
                     .define('P', ModItems.PELLET_CHARGED.get())
-                    .unlockedBy("has_schrabidium", has(ModItems.INGOT_SCHRABIDIUM.get()))
-                    .save(writer, MODID + ":schrabidium_boots");
+                    .unlockedBy("has_schrabidium", pHas.apply(ModItems.INGOT_SCHRABIDIUM.get()))
+                    .save(pWriter, MODID + ":schrabidium_boots");
         }
 
     }
@@ -1166,11 +1169,7 @@ public class ArmorRecipes extends ModRecipeProvider {
                 .pattern(pattern[1])
                 .pattern(pattern.length > 2 ? pattern[2] : "   ")
                 .define('X', material)
-                .unlockedBy("has_material", has(material))
+                .unlockedBy("has_material", has.apply(material))
                 .save(writer, MODID + ":" + armor.getDescriptionId().replace("item.hbm.", ""));
     }
-
-
-
-
 }

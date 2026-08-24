@@ -27,6 +27,8 @@ import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 
 import static com.hbm.util.ResLocation.ResLocation;
@@ -106,8 +108,12 @@ public class LegoClient {
 
         Matrix4f poseMatrix = bulletMK4.getRenderPose();
 
+        float posX = poseMatrix.m30();
+        float posY = poseMatrix.m31();
+        float posZ = poseMatrix.m32();
+
         PoseStack poseStack = new PoseStack();
-        poseStack.last().pose().set(poseMatrix);
+        poseStack.translate(posX, posY, posZ);
 
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA,
@@ -187,23 +193,25 @@ public class LegoClient {
         RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
     }
 
-    public static BiConsumer<EntityBulletBeamBase, Float> RENDER_BLACK_LIGHTNING = (bullet, interp) -> {
+    public static BiConsumer<EntityBulletBeamBase, Float> RENDER_BLACK_LIGHTNING = (beam, interp) -> {
 
-        if (bullet.getConfig() == null) return;
+        if (beam.getConfig() == null) return;
 
         double age = Mth.clamp(
-                1D - ((double) bullet.tickCount - 2 + interp) / (double) bullet.getConfig().expires,
+                1D - ((double) beam.tickCount - 2 + interp) / (double) beam.getConfig().expires,
                 0, 1
         );
 
-        float beamLength = bullet.getBeamLength();
+        float beamLength = beam.getBeamLength();
         if (beamLength <= 0) return;
 
-        Matrix4f poseMatrix = bullet.getRenderPose();
+        Matrix4f poseMatrix = beam.getRenderPose();
         if (poseMatrix == null) return;
 
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(poseMatrix);
+
+        applyHeading(poseStack, beam, interp);
 
         poseStack.mulPose(Axis.XP.rotationDegrees(180));
 
@@ -216,47 +224,44 @@ public class LegoClient {
         int darkColor = 0x4C3093;
         int lightColor = 0x000000;
 
-        MultiBufferSource.BufferSource bufferSource = bullet.getBufferSource();
+        MultiBufferSource.BufferSource bufferSource = beam.getBufferSource();
 
         renderBulletStandard(poseStack, darkColor, lightColor, beamLength, true,0xF000F0, bufferSource);
 
     };
 
-    public static BiConsumer<EntityBulletBeamBase, Float> RENDER_CRACKLE_SIMPLE = (bullet, interp) -> {
-        if (bullet.getConfig() == null) return;
+    public static BiConsumer<EntityBulletBeamBase, Float> RENDER_CRACKLE_SIMPLE = (beam, interp) -> {
+        if (beam.getConfig() == null) return;
 
         double age = Mth.clamp(
-                1D - ((double) bullet.tickCount - 2 + interp) / (double) bullet.getConfig().expires,
+                1D - ((double) beam.tickCount - 2 + interp) / (double) beam.getConfig().expires,
                 0, 1
         );
 
-        float beamLength = bullet.getBeamLength();
+        float beamLength = beam.getBeamLength();
         if (beamLength <= 0) return;
 
-        Matrix4f poseMatrix = bullet.getRenderPose();
+        Matrix4f poseMatrix = beam.getRenderPose();
         if (poseMatrix == null) return;
 
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(poseMatrix);
 
+        applyHeading(poseStack, beam, interp);
+
         poseStack.mulPose(Axis.XP.rotationDegrees(180));
 
-        // Эффект появления/исчезания
         double scale = 5D;
         float ageScale = (float) (age * scale);
         poseStack.scale(ageScale, 1.0f, ageScale);
 
-        // Перемещаем к концу луча и вращаем
-        //poseStack.translate(0, 0,  beamLength);
         poseStack.mulPose(Axis.ZP.rotationDegrees(-90));
 
-        // Цвета как в оригинале
-        int darkColor = 0xE3D692;  // Бежево-золотой
-        int lightColor = 0xFFFFFF; // Белый
+        int darkColor = 0xE3D692;
+        int lightColor = 0xFFFFFF;
 
-        MultiBufferSource.BufferSource bufferSource = bullet.getBufferSource();
+        MultiBufferSource.BufferSource bufferSource = beam.getBufferSource();
 
-        // Рисуем луч используя уже существующий метод renderBulletStandard
         renderBulletStandard(poseStack, darkColor, lightColor, beamLength, true,0xF000F0, bufferSource);
 
     };
@@ -278,6 +283,9 @@ public class LegoClient {
 
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(poseMatrix);
+
+        applyHeading(poseStack, beam, interp);
+
         MultiBufferSource.BufferSource bufferSource = beam.getBufferSource();
 
         poseStack.pushPose();
@@ -366,6 +374,9 @@ public class LegoClient {
 
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(poseMatrix);
+
+        applyHeading(poseStack, beam, interp);
+
         MultiBufferSource.BufferSource bufferSource = beam.getBufferSource();
 
         poseStack.mulPose(Axis.XP.rotationDegrees(180));
@@ -431,7 +442,6 @@ public class LegoClient {
     public static BiConsumer<EntityBulletBeamBase, Float> RENDER_TAU = (beam, interp) -> {
         if (beam.getConfig() == null) return;
 
-        // Эффект затухания по времени
         double age = Mth.clamp(
                 1D - ((double) beam.tickCount - 2 + interp) / (double) beam.getConfig().expires,
                 0, 1
@@ -440,28 +450,28 @@ public class LegoClient {
         float beamLength = beam.getBeamLength();
         if (beamLength <= 0) return;
 
-        // Получаем MultiBufferSource из Minecraft
         Matrix4f poseMatrix = beam.getRenderPose();
         if (poseMatrix == null) return;
 
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(poseMatrix);
 
+        applyHeading(poseStack, beam, interp);
+
         MultiBufferSource.BufferSource bufferSource = beam.getBufferSource();
         poseStack.mulPose(Axis.XP.rotationDegrees(180));
+
+        // Единый блок трансформаций
         poseStack.pushPose();
         {
-            // Второй слой: основной луч (оранжевый)
+            // Первый слой: основной луч (оранжевый)
             float ageScale2 = (float) (age * 2);
             poseStack.scale(ageScale2, 1.0f, ageScale2);
-
             poseStack.mulPose(Axis.ZP.rotationDegrees(-90));
+            renderBulletStandard(poseStack, 0xFFBF00, 0xFFFFFF, beamLength, true, 0xF000F0, bufferSource);
 
-            // Рисуем стандартный луч (оранжевый)
-            renderBulletStandard(poseStack, 0xFFBF00, 0xFFFFFF, beamLength, true,0xF000F0, bufferSource);
-        }
-        poseStack.popPose();
-
+            // Второй слой: дополнительный луч
+            // Масштаб накладывается поверх предыдущего
             float ageScale = (float)(age / 2 + 0.5);
             poseStack.scale(ageScale, 1.0f, ageScale);
 
@@ -482,7 +492,8 @@ public class LegoClient {
                     2,
                     0.0625F
             );
-
+        }
+        poseStack.popPose();
     };
 
     public static BiConsumer<EntityBulletBeamBase, Float> RENDER_TAU_CHARGE = (beam, interp) -> {
@@ -503,6 +514,8 @@ public class LegoClient {
 
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(poseMatrix);
+
+        applyHeading(poseStack, beam, interp);
 
         MultiBufferSource.BufferSource bufferSource = beam.getBufferSource();
 
@@ -565,6 +578,8 @@ public class LegoClient {
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(poseMatrix);
 
+        applyHeading(poseStack, beam, interp);
+
         poseStack.mulPose(Axis.XP.rotationDegrees(180));
 
         MultiBufferSource.BufferSource bufferSource = beam.getBufferSource();
@@ -581,6 +596,8 @@ public class LegoClient {
 
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(poseMatrix);
+
+        applyHeadingForBullet(poseStack, bullet, interp);
 
         // Получаем MultiBufferSource
         MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
@@ -624,6 +641,8 @@ public class LegoClient {
 
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(poseMatrix);
+
+        applyHeadingForBullet(poseStack, bullet, interp);
 
         MultiBufferSource.BufferSource bufferSource = bullet.getBufferSource();
 
@@ -684,6 +703,8 @@ public class LegoClient {
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(poseMatrix);
 
+        applyHeadingForBullet(poseStack, bullet, interp);
+
         MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
 
         // Сохраняем состояние для модели ракеты
@@ -736,6 +757,8 @@ public class LegoClient {
 
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(poseMatrix);
+
+        applyHeadingForBullet(poseStack, bullet, interp);
 
         MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
 
@@ -798,6 +821,8 @@ public class LegoClient {
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(poseMatrix);
 
+        applyHeading(poseStack, beam, partialTicks);
+
         MultiBufferSource.BufferSource bufferSource = beam.getBufferSource();
 
         Vec3 delta = new Vec3(0, 0, -beam.getBeamLength());
@@ -815,21 +840,53 @@ public class LegoClient {
 
         // Рендер луча вдоль Z (вперёд)
         BeamPronter.prontBeam(
-                poseStack,                 // PoseStack из контекста рендера
-                bufferSource,              // MultiBufferSource из контекста рендера
-                delta,                     // Vec3 - направление луча
-                EnumWaveType.RANDOM,       // тип волны
-                EnumBeamType.SOLID,        // тип луча (твердый)
-                colorOuter,                // внешний цвет (в оригинале colorInner)
-                colorInner,                // внутренний цвет (тоже colorInner)
-                beam.tickCount / 3,   // start - seed для случайных колебаний
-                (int)(beam.getBeamLength() / 2 + 1), // segments - количество сегментов
-                0F,                        // size - амплитуда колебаний (0 - нет колебаний)
-                8,                         // layers - количество слоев (8)
-                0.0625F                    // thickness - толщина (1/16 пикселя)
+                poseStack,
+                bufferSource,
+                delta,
+                EnumWaveType.RANDOM,
+                EnumBeamType.SOLID,
+                colorOuter,
+                colorInner,
+                beam.tickCount / 3,
+                (int)(beam.getBeamLength() / 2 + 1),
+                0F,
+                8,
+                0.0625F
         );
+    }
 
+    private static void applyHeading(PoseStack poseStack, EntityBulletBeamBase beam, float partialTicks) {
+        Vec3 heading = beam.getSyncedHeading();
+        if (heading != null && heading.lengthSqr() > 0) {
+            Vec3 forward = heading.normalize();
+            poseStack.mulPose(new Quaternionf().rotationTo(
+                    new Vector3f(0, 0, -1),
+                    new Vector3f((float) forward.x, (float) forward.y, (float) forward.z)
+            ));
+        } else {
+            // Fallback на yaw/pitch
+            float yaw = Mth.lerp(partialTicks, beam.yRotO, beam.getYRot()) - 90.0F;
+            float pitch = Mth.lerp(partialTicks, beam.xRotO, beam.getXRot()) + 180.0F;
+            poseStack.mulPose(Axis.YP.rotationDegrees(yaw));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(pitch));
+        }
+    }
 
+    private static void applyHeadingForBullet(PoseStack poseStack, EntityBulletBaseMK4 bullet, float partialTicks) {
+        Vec3 heading = bullet.getSyncedHeading();
+        if (heading != null && heading.lengthSqr() > 0) {
+            Vec3 forward = heading.normalize();
+            poseStack.mulPose(new Quaternionf().rotationTo(
+                    new Vector3f(0, 0, -1),
+                    new Vector3f((float) forward.x, (float) forward.y, (float) forward.z)
+            ));
+        } else {
+            // Fallback на yaw/pitch
+            float yaw = Mth.lerp(partialTicks, bullet.yRotO, bullet.getYRot()) - 90.0F;
+            float pitch = Mth.lerp(partialTicks, bullet.xRotO, bullet.getXRot()) + 180.0F;
+            poseStack.mulPose(Axis.YP.rotationDegrees(yaw));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(pitch));
+        }
     }
 
     private static void renderTracer(EntityBulletBaseMK4 bullet, float interp,
@@ -847,10 +904,11 @@ public class LegoClient {
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(poseMatrix);
 
+        applyHeadingForBullet(poseStack, bullet, interp);
+
         poseStack.mulPose(Axis.XP.rotationDegrees(180));
         poseStack.mulPose(Axis.ZP.rotationDegrees(-90));
 
-        //renderBulletStandard(poseStack, darkColor, lightColor, length, fullbright, packedLight);
         MultiBufferSource.BufferSource bufferSource = bullet.getBufferSource();
         renderBulletStandard(poseStack, darkColor, lightColor, length, fullbright, packedLight, bufferSource);
     }
@@ -948,7 +1006,6 @@ public class LegoClient {
 
         BufferUploader.drawWithShader(buffer.end());
 
-        poseStack.popPose();
         RenderSystem.enableCull();
         RenderSystem.disableBlend();
         RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
@@ -963,6 +1020,8 @@ public class LegoClient {
 
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(poseMatrix);
+
+        applyHeadingForBullet(poseStack, bullet, interp);
 
         // Применяем преобразования как в оригинале
         poseStack.scale(0.125F, 0.125F, 0.125F);
@@ -982,6 +1041,8 @@ public class LegoClient {
 
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(poseMatrix);
+
+        applyHeadingForBullet(poseStack, bullet, interp);
 
         // Применяем преобразования как в оригинале
         poseStack.scale(0.125F, 0.125F, 0.125F);
@@ -1009,10 +1070,7 @@ public class LegoClient {
             PoseStack poseStack = new PoseStack();
             poseStack.last().pose().set(poseMatrix);
 
-            float yaw = bullet.yRotO + (bullet.getYRot() - bullet.yRotO) * interp;
-            float pitch = bullet.xRotO + (bullet.getXRot() - bullet.xRotO) * interp;
-            poseStack.mulPose(Axis.YP.rotationDegrees(yaw - 90.0F));
-            poseStack.mulPose(Axis.ZP.rotationDegrees(pitch + 180.0F));
+            applyHeadingForBullet(poseStack, bullet, interp);
 
             poseStack.scale(0.125F, 0.125F, 0.125F);
             poseStack.translate(0, 0, -6F);
@@ -1227,12 +1285,8 @@ public class LegoClient {
             PoseStack poseStack = new PoseStack();
             poseStack.last().pose().set(poseMatrix);
 
-            // Применяем вращения
-            float yaw = beam.yRotO + (beam.getYRot() - beam.yRotO) * interp;
-            float pitch = beam.xRotO + (beam.getXRot() - beam.xRotO) * interp;
+            applyHeading(poseStack, beam, interp);
 
-            poseStack.mulPose(Axis.YP.rotationDegrees(180 - yaw));
-            poseStack.mulPose(Axis.XP.rotationDegrees(-pitch - 90));
 
             // Масштаб
             double scale = (1 - age) * 25 + 2.5;
@@ -1315,8 +1369,10 @@ public class LegoClient {
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(poseMatrix);
 
+        applyHeadingForBullet(poseStack, bullet, interp);
+
         poseStack.scale(0.125F, 0.125F, 0.125F);
-        poseStack.mulPose(Axis.YN.rotationDegrees(90));  // -90 градусов вокруг Y
+
         poseStack.translate(0, -1, 1F);
 
         VertexConsumer consumer = Minecraft.getInstance().renderBuffers().bufferSource()
@@ -1333,11 +1389,12 @@ public class LegoClient {
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(poseMatrix);
 
+        applyHeadingForBullet(poseStack, bullet, interp);
+
         poseStack.scale(0.125F, 0.125F, 0.125F);
-        poseStack.mulPose(Axis.YN.rotationDegrees(90));
+
         poseStack.translate(0, -1, 1F);
 
-        // Рендерим балефайр эффект (как в ItemRenderFatMan)
         renderBalefireProjectile(poseStack, bullet, interp);
     };
 
@@ -1350,8 +1407,10 @@ public class LegoClient {
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(poseMatrix);
 
+        applyHeadingForBullet(poseStack, bullet, interp);
+
         poseStack.scale(0.125F, 0.125F, 0.125F);
-        poseStack.mulPose(Axis.YP.rotationDegrees(90));  // 90 градусов вокруг Y
+
         poseStack.translate(0, 0, 3.5F);
 
         VertexConsumer consumer = Minecraft.getInstance().renderBuffers().bufferSource()

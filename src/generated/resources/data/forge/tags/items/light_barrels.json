@@ -1,0 +1,14 @@
+{
+  "values": [
+    "hbm:light_barrel_steel",
+    "hbm:light_barrel_dura_steel",
+    "hbm:light_barrel_desh",
+    "hbm:light_barrel_technetium",
+    "hbm:light_barrel_cadmium_steel",
+    "hbm:light_barrel_bismuth_bronze",
+    "hbm:light_barrel_arsenic_bronze",
+    "hbm:light_barrel_gunmetal",
+    "hbm:light_barrel_weapon_steel",
+    "hbm:light_barrel_saturnite"
+  ]
+}

@@ -139,10 +139,36 @@ public class ClientProxy extends CommonProxy {
             case "exhaust":
                 handleExhaustEffect(world, nbt, posX, posY, posZ);
                 break;
+            case "radiation":
+                handleRadiationEffect(nbt, world, posX, posY, posZ, rand, mc);
+                break;
 
             default:
                 // Если тип не распознан, можно создать базовые частицы
                 needsToRealise(nbt, posX, posY, posZ);
+        }
+    }
+
+    private void handleRadiationEffect(CompoundTag nbt, Level world, double posX, double posY, double posZ,
+                                       RandomSource rand, Minecraft mc) {
+        int count = nbt.getInt("count");
+
+        for (int i = 0; i < count; i++) {
+
+            double x = posX + rand.nextGaussian() * 4;
+            double y = posY + rand.nextGaussian() * 2;
+            double z = posZ + rand.nextGaussian() * 4;
+
+            double vx = rand.nextGaussian();
+            double vy = rand.nextGaussian();
+            double vz = rand.nextGaussian();
+
+            DustParticleOptions dust = new DustParticleOptions(
+                    new Vector3f(0.0F, 0.75F, 1.0F),
+                    1.0F
+            );
+
+            mc.particleEngine.createParticle(dust, x, y, z, vx, vy, vz);
         }
     }
 

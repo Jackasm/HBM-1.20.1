@@ -1,0 +1,14 @@
+{
+  "values": [
+    "hbm:light_receiver_steel",
+    "hbm:light_receiver_dura_steel",
+    "hbm:light_receiver_desh",
+    "hbm:light_receiver_technetium",
+    "hbm:light_receiver_cadmium_steel",
+    "hbm:light_receiver_bismuth_bronze",
+    "hbm:light_receiver_arsenic_bronze",
+    "hbm:light_receiver_gunmetal",
+    "hbm:light_receiver_weapon_steel",
+    "hbm:light_receiver_saturnite"
+  ]
+}

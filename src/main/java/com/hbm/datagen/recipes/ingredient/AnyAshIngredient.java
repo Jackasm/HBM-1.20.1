@@ -2,6 +2,7 @@ package com.hbm.datagen.recipes.ingredient;
 
 import com.google.gson.JsonObject;
 import com.hbm.items.ModItems;
+import com.hbm.util.HBMEnums;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -13,6 +14,8 @@ import java.util.stream.Stream;
 
 public class AnyAshIngredient extends Ingredient {
 
+    private static ItemStack[] ashVariants = null;
+
     public AnyAshIngredient() {
         super(Stream.empty());
     }
@@ -22,6 +25,24 @@ public class AnyAshIngredient extends Ingredient {
         if (Objects.requireNonNull(stack).isEmpty()) return false;
         return stack.getItem() == ModItems.POWDER_ASH.get();
 
+    }
+
+    @Override
+    public @NotNull ItemStack @NotNull [] getItems() {
+        return getAshVariants();
+    }
+
+    private static ItemStack[] getAshVariants() {
+        if (ashVariants == null) {
+            HBMEnums.EnumAshType[] types = HBMEnums.EnumAshType.values();
+            ashVariants = new ItemStack[types.length];
+            for (int i = 0; i < types.length; i++) {
+                ItemStack stack = new ItemStack(ModItems.POWDER_ASH.get());
+                stack.getOrCreateTag().putInt("CustomModelData", i);
+                ashVariants[i] = stack;
+            }
+        }
+        return ashVariants;
     }
 
     @Override

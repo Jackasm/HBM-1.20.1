@@ -4,9 +4,8 @@
     "to_place": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "hbm:plant_tall",
+        "Name": "hbm:plant_tall_weed",
         "Properties": {
-          "type": "weed",
           "half": "lower"
         }
       }

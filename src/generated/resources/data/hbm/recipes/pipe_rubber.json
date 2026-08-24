@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "R": {
+      "item": "hbm:ingot_rubber"
+    }
+  },
+  "pattern": [
+    "RRR"
+  ],
+  "result": {
+    "item": "hbm:pipe_rubber"
+  },
+  "show_notification": true
+}

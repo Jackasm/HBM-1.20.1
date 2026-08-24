@@ -1,0 +1,48 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_ammo.ammo_g40_he": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:ammo/ammo_g40_he"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_nitra": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:nitra"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:ammo/ammo.ammo_g40_he_nitra"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_ammo.ammo_g40_he",
+      "has_nitra",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:ammo/ammo.ammo_g40_he_nitra"
+    ]
+  },
+  "sends_telemetry_event": false
+}

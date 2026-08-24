@@ -25,7 +25,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @Mod.EventBusSubscriber
 public class QuestManager {
 
-    private static final String FIRST_JOIN_TAG = "firstJoin";
     private static final String WORLD_DATA_KEY = "hbm_quests";
 
     private static final Map<String, QuestInstance> CLIENT_ACTIVE_QUESTS = new ConcurrentHashMap<>();
@@ -299,39 +298,7 @@ public class QuestManager {
         }
     }
 
-    @SubscribeEvent
-    public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        Player player = event.getEntity();
 
-        if (!player.level().isClientSide() && player instanceof ServerPlayer serverPlayer) {
-            QuestWorldData worldData = getWorldData(player.level());
-            if (worldData != null) {
-                Map<String, QuestInstance> active = worldData.getPlayerQuests(player.getUUID());
-                Set<String> completed = worldData.getCompletedOneTimeQuests(player.getUUID());
-                PacketDispatcher.sendQuestSync(serverPlayer, active, completed);
-            }
-
-            HbmPlayerProps.IHbmPlayerProps props = HbmPlayerProps.getData(serverPlayer);
-            if (props != null) {
-                // Синхронизируем разблокированные крафтеры при входе
-                PacketDispatcher.sendCrafterSync(serverPlayer, props.getUnlockedCrafters());
-            }
-        }
-
-        CompoundTag persistentData = player.getPersistentData();
-        if (!persistentData.contains(FIRST_JOIN_TAG)) {
-            persistentData.putBoolean(FIRST_JOIN_TAG, true);
-            giveStarterItems(player);
-        }
-    }
-
-    private static void giveStarterItems(Player player) {
-        ItemStack guideBook = new ItemStack(ModItems.BOOK_GUIDE.get());
-        guideBook.setDamageValue(ItemGuideBook.BookType.TEST.ordinal());
-        if (!player.getInventory().add(guideBook)) {
-            player.drop(guideBook, false);
-        }
-    }
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {

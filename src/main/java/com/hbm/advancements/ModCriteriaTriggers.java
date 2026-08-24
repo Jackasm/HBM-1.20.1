@@ -15,7 +15,7 @@ public class ModCriteriaTriggers {
     public static final HorizonsStartTrigger HORIZONS_START = new HorizonsStartTrigger();
     public static final HorizonsEndTrigger HORIZONS_END = new HorizonsEndTrigger();
     public static final FOEQTrigger FOEQ = new FOEQTrigger();
-
+    public static final StratumTrigger STRATUM = new StratumTrigger();
     public static final No9Trigger NO9 = new No9Trigger();
     public static final SomeWoundsTrigger SOME_WOUNDS = new SomeWoundsTrigger();
     public static final GoFishTrigger GO_FISH = new GoFishTrigger();
@@ -42,7 +42,7 @@ public class ModCriteriaTriggers {
         CriteriaTriggers.register(NO9);
         CriteriaTriggers.register(SOME_WOUNDS);
         CriteriaTriggers.register(GO_FISH);
-
+        CriteriaTriggers.register(STRATUM);
         CriteriaTriggers.register(BLAST_FURNACE);
         CriteriaTriggers.register(ASSEMBLY);
         CriteriaTriggers.register(CHEMPLANT);

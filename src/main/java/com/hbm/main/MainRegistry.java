@@ -11,7 +11,6 @@ import com.hbm.datagen.worldgen.ModFeatures;
 import com.hbm.datagen.worldgen.feature.BedrockOre;
 import com.hbm.entity.ModEntities;
 import com.hbm.handler.ArmorResistanceHandler;
-import com.hbm.event.MiningEventHandler;
 
 import com.hbm.handler.neutron.NeutronHandler;
 import com.hbm.handler.pollution.PollutionCapability;
@@ -163,14 +162,11 @@ public class MainRegistry {
 
         ModSounds.SOUNDS.register(modEventBus);
 
-
-        // MiningEventHandler нужно зарегистрировать вручную,
-        // так как он использует статический метод с @SubscribeEvent
-        MinecraftForge.EVENT_BUS.addListener(MiningEventHandler::onBlockBroken);
-
         AnvilRecipes.updateSmithingTiersFromConfig();
 
         ModCriteriaTriggers.register();
+
+        ModPaintings.register(modEventBus);
 
         logger.info("HBM Nuclear Tech Mod loaded!");
     }
@@ -202,6 +198,7 @@ public class MainRegistry {
             ArcWelderRecipes.register();
             ShredderRecipes.register();
             CrystallizerRecipes.register();
+            AmmoPressRecipes.register();
 
             Fluids.init();
             HazardRegistration.registerAll();

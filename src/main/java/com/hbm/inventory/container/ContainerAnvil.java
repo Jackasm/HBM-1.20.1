@@ -44,15 +44,20 @@ public class ContainerAnvil extends AbstractContainerMenu {
                 ItemStack left = ContainerAnvil.this.input.getStackInSlot(0);
                 ItemStack right = ContainerAnvil.this.input.getStackInSlot(1);
 
-                if(left.isEmpty() || right.isEmpty()) {
+                if (left.isEmpty() || right.isEmpty()) {
                     return;
                 }
 
-                for(AnvilRecipes.AnvilSmithingRecipe rec : AnvilRecipes.getSmithing()) {
+                for (AnvilRecipes.AnvilSmithingRecipe rec : AnvilRecipes.getSmithing()) {
                     int i = rec.matchesInt(left, right);
-                    if(i != -1) {
-                        ContainerAnvil.this.input.extractItem(0, rec.amountConsumed(0, i == 1), false);
-                        ContainerAnvil.this.input.extractItem(1, rec.amountConsumed(1, i == 1), false);
+                    if (i != -1) {
+                        if (rec.retainLeft) {
+                            ContainerAnvil.this.input.extractItem(0, 0, false);
+                            ContainerAnvil.this.input.extractItem(1, rec.right.getStackSize(), false);
+                        } else {
+                            ContainerAnvil.this.input.extractItem(0, rec.amountConsumed(0, i == 1), false);
+                            ContainerAnvil.this.input.extractItem(1, rec.amountConsumed(1, i == 1), false);
+                        }
                         ContainerAnvil.this.updateSmithing();
                         return;
                     }

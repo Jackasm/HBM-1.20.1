@@ -5,7 +5,7 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.items.ModItemTags;
 import com.hbm.items.ModItems;
 import com.hbm.items.ModToolItems;
-import net.minecraft.data.PackOutput;
+import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -16,12 +16,15 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 
+import static com.hbm.datagen.recipes.ModRecipeProvider.hasTag;
 import static com.hbm.util.RefStrings.MODID;
 
-public class ToolRecipes extends ModRecipeProvider {
+public class ToolRecipes {
 
     private static Consumer<FinishedRecipe> writer;
+    private static Function<Item, InventoryChangeTrigger.TriggerInstance> has;
 
     public static final String[] patternSword = new String[] {"X", "X", "#"};
     public static final String[] patternPick = new String[] {"XXX", " # ", " # "};
@@ -29,11 +32,11 @@ public class ToolRecipes extends ModRecipeProvider {
     public static final String[] patternShovel = new String[] {"X", "#", "#"};
     public static final String[] patternHoe = new String[] {"XX", " #", " #"};
 
-    public ToolRecipes(PackOutput pOutput) {super(pOutput);}
-
-    public static void generateToolRecipes(Consumer<FinishedRecipe> pWriter){
+    public static void generateToolRecipes(Consumer<FinishedRecipe> pWriter,
+                                           Function<Item, InventoryChangeTrigger.TriggerInstance> pHas){
 
         writer = pWriter;
+        has = pHas;
 
         addSword(   Items.COPPER_INGOT, ModToolItems.COPPER_SWORD.get());
         addPickaxe( Items.COPPER_INGOT, ModToolItems.COPPER_PICKAXE.get());
@@ -84,7 +87,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('P', ModItemTags.ANY_PLASTIC_INGOT)
                 .define('R', ModItems.BOLT_DURA_STEEL.get())
                 .define('B', ModItems.BATTERY_LITHIUM.get())
-                .unlockedBy("has_plastic", has(ModItemTags.ANY_PLASTIC_INGOT))
+                .unlockedBy("has_plastic", hasTag(ModItemTags.ANY_PLASTIC_INGOT))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.ELEC_PICKAXE.get(), 1)
@@ -96,7 +99,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('R', ModItems.BOLT_DURA_STEEL.get())
                 .define('M', ModItems.MOTOR.get())
                 .define('B', ModItems.BATTERY_LITHIUM.get())
-                .unlockedBy("has_plastic", has(ModItemTags.ANY_PLASTIC_INGOT))
+                .unlockedBy("has_plastic", hasTag(ModItemTags.ANY_PLASTIC_INGOT))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.ELEC_AXE.get(), 1)
@@ -108,7 +111,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('R', ModItems.BOLT_DURA_STEEL.get())
                 .define('M', ModItems.MOTOR.get())
                 .define('B', ModItems.BATTERY_LITHIUM.get())
-                .unlockedBy("has_plastic", has(ModItemTags.ANY_PLASTIC_INGOT))
+                .unlockedBy("has_plastic", hasTag(ModItemTags.ANY_PLASTIC_INGOT))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.ELEC_SHOVEL.get(), 1)
@@ -119,14 +122,14 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('R', ModItems.BOLT_DURA_STEEL.get())
                 .define('M', ModItems.MOTOR.get())
                 .define('B', ModItems.BATTERY_LITHIUM.get())
-                .unlockedBy("has_plastic", has(ModItemTags.ANY_PLASTIC_INGOT))
+                .unlockedBy("has_plastic", hasTag(ModItemTags.ANY_PLASTIC_INGOT))
                 .save(pWriter);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, ModToolItems.CENTRI_STICK.get(), 1)
                 .requires(ModItems.CENTRIFUGE_ELEMENT.get())
                 .requires(ModItems.ENERGY_CORE.get())
                 .requires(Items.STICK)
-                .unlockedBy("has_centrifuge_element", has(ModItems.CENTRIFUGE_ELEMENT.get()))
+                .unlockedBy("has_centrifuge_element", has.apply(ModItems.CENTRIFUGE_ELEMENT.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.SMASHING_HAMMER.get(), 1)
@@ -136,7 +139,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('S', ModBlocks.BLOCK_STEEL.get().asItem())
                 .define('T', ModBlocks.BLOCK_TUNGSTEN.get().asItem())
                 .define('P', ModItemTags.ANY_PLASTIC_INGOT)
-                .unlockedBy("has_steel", has(ModBlocks.BLOCK_STEEL.get().asItem()))
+                .unlockedBy("has_steel", has.apply(ModBlocks.BLOCK_STEEL.get().asItem()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModToolItems.METEORITE_SWORD.get(), 1)
@@ -146,7 +149,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('B', ModItems.BLADE_METEORITE.get())
                 .define('G', ModItems.PLATE_GOLD.get())
                 .define('S', Items.STICK)
-                .unlockedBy("has_blade_meteorite", has(ModItems.BLADE_METEORITE.get()))
+                .unlockedBy("has_blade_meteorite", has.apply(ModItems.BLADE_METEORITE.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.DWARVEN_PICKAXE.get(), 1)
@@ -156,7 +159,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('C', ModItems.INGOT_RED_COPPER.get())
                 .define('I', Items.IRON_INGOT)
                 .define('S', Items.STICK)
-                .unlockedBy("has_red_copper", has(ModItems.INGOT_RED_COPPER.get()))
+                .unlockedBy("has_red_copper", has.apply(ModItems.INGOT_RED_COPPER.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.DRAX.get(), 1)
@@ -169,7 +172,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('F', ModItems.FUSION_CORE.get())
                 .define('D', ModItems.INGOT_DESH.get())
                 .define('M', ModItems.MOTOR_DESH.get())
-                .unlockedBy("has_starmetal_pickaxe", has(ModToolItems.STARMETAL_PICKAXE.get()))
+                .unlockedBy("has_starmetal_pickaxe", has.apply(ModToolItems.STARMETAL_PICKAXE.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.DRAX_MK2.get(), 1)
@@ -182,7 +185,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('D', ModToolItems.DRAX.get())
                 .define('F', ModItems.FUSION_CORE.get())
                 .define('E', ModItems.CIRCUIT_ADVANCED.get())
-                .unlockedBy("has_drax", has(ModToolItems.DRAX.get()))
+                .unlockedBy("has_drax", has.apply(ModToolItems.DRAX.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.DRAX_MK3.get(), 1)
@@ -194,7 +197,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('D', ModToolItems.DRAX_MK2.get())
                 .define('S', ModItems.CIRCUIT_BISMOID.get())
                 .define('B', ModItems.BATTERY_SPARK.get())
-                .unlockedBy("has_drax_mk2", has(ModToolItems.DRAX_MK2.get()))
+                .unlockedBy("has_drax_mk2", has.apply(ModToolItems.DRAX_MK2.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.BISMUTH_PICKAXE.get(), 1)
@@ -205,7 +208,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('M', ModItems.INGOT_METEORITE.get())
                 .define('P', ModToolItems.STARMETAL_PICKAXE.get())
                 .define('T', ModItems.BOLT_TUNGSTEN.get())
-                .unlockedBy("has_bismuth", has(ModItems.INGOT_BISMUTH.get()))
+                .unlockedBy("has_bismuth", has.apply(ModItems.INGOT_BISMUTH.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.VOLCANIC_PICKAXE.get(), 1)
@@ -216,7 +219,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('M', ModItems.INGOT_METEORITE.get())
                 .define('P', ModToolItems.STARMETAL_PICKAXE.get())
                 .define('T', ModItems.BOLT_TUNGSTEN.get())
-                .unlockedBy("has_volcanic", has(ModItems.GEM_VOLCANIC.get()))
+                .unlockedBy("has_volcanic", has.apply(ModItems.GEM_VOLCANIC.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.CHLOROPHYTE_PICKAXE.get(), 1)
@@ -228,7 +231,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('A', ModItems.INGOT_FIBERGLASS.get())
                 .define('P', ModToolItems.BISMUTH_PICKAXE.get())
                 .define('F', ModItems.BOLT_DURA_STEEL.get())
-                .unlockedBy("has_chlorophyte", has(ModItems.POWDER_CHLOROPHYTE.get()))
+                .unlockedBy("has_chlorophyte", has.apply(ModItems.POWDER_CHLOROPHYTE.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.CHLOROPHYTE_PICKAXE.get(), 1)
@@ -240,7 +243,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('A', ModItems.INGOT_FIBERGLASS.get())
                 .define('P', ModToolItems.VOLCANIC_PICKAXE.get())
                 .define('F', ModItems.BOLT_DURA_STEEL.get())
-                .unlockedBy("has_chlorophyte", has(ModItems.POWDER_CHLOROPHYTE.get()))
+                .unlockedBy("has_chlorophyte", has.apply(ModItems.POWDER_CHLOROPHYTE.get()))
                 .save(pWriter, MODID + ":chlorophyte_pickaxe_volcanic");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.MESE_PICKAXE.get(), 1)
@@ -252,7 +255,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('A', ModItems.PLATE_PAA.get())
                 .define('P', ModToolItems.CHLOROPHYTE_PICKAXE.get())
                 .define('F', ModItems.SHIMMER_HANDLE.get())
-                .unlockedBy("has_mese", has(ModItems.POWDER_DINEUTRONIUM.get()))
+                .unlockedBy("has_mese", has.apply(ModItems.POWDER_DINEUTRONIUM.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.BISMUTH_AXE.get(), 1)
@@ -263,7 +266,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('M', ModItems.INGOT_METEORITE.get())
                 .define('P', ModToolItems.STARMETAL_AXE.get())
                 .define('T', ModItems.BOLT_TUNGSTEN.get())
-                .unlockedBy("has_bismuth", has(ModItems.INGOT_BISMUTH.get()))
+                .unlockedBy("has_bismuth", has.apply(ModItems.INGOT_BISMUTH.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.VOLCANIC_AXE.get(), 1)
@@ -274,7 +277,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('M', ModItems.INGOT_METEORITE.get())
                 .define('P', ModToolItems.STARMETAL_AXE.get())
                 .define('T', ModItems.BOLT_TUNGSTEN.get())
-                .unlockedBy("has_volcanic", has(ModItems.GEM_VOLCANIC.get()))
+                .unlockedBy("has_volcanic", has.apply(ModItems.GEM_VOLCANIC.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.CHLOROPHYTE_AXE.get(), 1)
@@ -286,7 +289,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('A', ModItems.INGOT_FIBERGLASS.get())
                 .define('P', ModToolItems.BISMUTH_AXE.get())
                 .define('F', ModItems.BOLT_DURA_STEEL.get())
-                .unlockedBy("has_chlorophyte", has(ModItems.POWDER_CHLOROPHYTE.get()))
+                .unlockedBy("has_chlorophyte", has.apply(ModItems.POWDER_CHLOROPHYTE.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.CHLOROPHYTE_AXE.get(), 1)
@@ -298,7 +301,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('A', ModItems.INGOT_FIBERGLASS.get())
                 .define('P', ModToolItems.VOLCANIC_AXE.get())
                 .define('F', ModItems.BOLT_DURA_STEEL.get())
-                .unlockedBy("has_chlorophyte", has(ModItems.POWDER_CHLOROPHYTE.get()))
+                .unlockedBy("has_chlorophyte", has.apply(ModItems.POWDER_CHLOROPHYTE.get()))
                 .save(pWriter, MODID + ":chlorophyte_axe_volcanic");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.MESE_AXE.get(), 1)
@@ -310,7 +313,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('A', ModItems.PLATE_PAA.get())
                 .define('P', ModToolItems.CHLOROPHYTE_AXE.get())
                 .define('F', ModItems.SHIMMER_HANDLE.get())
-                .unlockedBy("has_mese", has(ModItems.POWDER_DINEUTRONIUM.get()))
+                .unlockedBy("has_mese", has.apply(ModItems.POWDER_DINEUTRONIUM.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.CHAINSAW.get(), 1)
@@ -322,7 +325,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('P', ModItems.PISTON_SELENIUM.get())
                 .define('C', ModBlocks.STEEL_CHAIN.get().asItem())
                 .define('E', ModItems.FLUID_CANISTER.get())
-                .unlockedBy("has_chain", has(ModBlocks.STEEL_CHAIN.get().asItem()))
+                .unlockedBy("has_chain", has.apply(ModBlocks.STEEL_CHAIN.get().asItem()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.CROWBAR.get(), 1)
@@ -330,7 +333,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern(" I")
                 .pattern(" I")
                 .define('I', ModItems.INGOT_STEEL.get())
-                .unlockedBy("has_steel", has(ModItems.INGOT_STEEL.get()))
+                .unlockedBy("has_steel", has.apply(ModItems.INGOT_STEEL.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.BOTTLE_OPENER.get(), 1)
@@ -338,7 +341,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern("P")
                 .define('S', ModItems.PLATE_STEEL.get())
                 .define('P', ItemTags.PLANKS)
-                .unlockedBy("has_steel_plate", has(ModItems.PLATE_STEEL.get()))
+                .unlockedBy("has_steel_plate", has.apply(ModItems.PLATE_STEEL.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Items.SADDLE, 1)
@@ -347,8 +350,8 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern(" S ")
                 .define('S', ModItems.INGOT_STEEL.get())
                 .define('L', Items.LEATHER)
-                .define('R', ModItems.PLANT_ROPE.get())
-                .unlockedBy("has_leather", has(Items.LEATHER))
+                .define('R', ModItems.PLANT_ITEM_ROPE.get())
+                .unlockedBy("has_leather", has.apply(Items.LEATHER))
                 .save(pWriter, MODID + ":saddle_from_rope");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.MATCHSTICK.get(), 16)
@@ -356,7 +359,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern("S")
                 .define('I', ModItems.SULFUR.get())
                 .define('S', Items.STICK)
-                .unlockedBy("has_sulfur", has(ModItems.SULFUR.get()))
+                .unlockedBy("has_sulfur", has.apply(ModItems.SULFUR.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.MATCHSTICK.get(), 24)
@@ -364,7 +367,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern("S")
                 .define('I', ModItems.POWDER_FIRE.get())
                 .define('S', Items.STICK)
-                .unlockedBy("has_red_phosphorus", has(ModItems.POWDER_FIRE.get()))
+                .unlockedBy("has_red_phosphorus", has.apply(ModItems.POWDER_FIRE.get()))
                 .save(pWriter, MODID + ":matchstick_phosphorus");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.WOOD_GAVEL.get(), 1)
@@ -374,7 +377,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('S', ItemTags.WOODEN_SLABS)
                 .define('W', ItemTags.LOGS)
                 .define('R', Items.STICK)
-                .unlockedBy("has_stick", has(Items.STICK))
+                .unlockedBy("has_stick", has.apply(Items.STICK))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.LEAD_GAVEL.get(), 1)
@@ -384,7 +387,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('P', ModItems.PELLET_BUCKSHOT.get())
                 .define('I', ModItems.INGOT_LEAD.get())
                 .define('G', ModToolItems.WOOD_GAVEL.get())
-                .unlockedBy("has_wood_gavel", has(ModToolItems.WOOD_GAVEL.get()))
+                .unlockedBy("has_wood_gavel", has.apply(ModToolItems.WOOD_GAVEL.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.PIPE_LEAD.get(), 1)
@@ -392,7 +395,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern(" I")
                 .pattern(" I")
                 .define('I', ModItems.PIPE_LEAD.get())
-                .unlockedBy("has_lead_pipe", has(ModItems.PIPE_LEAD.get()))
+                .unlockedBy("has_lead_pipe", has.apply(ModItems.PIPE_LEAD.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.ULLAPOOL_CABER.get(), 1)
@@ -402,7 +405,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('I', ModItems.PLATE_IRON.get())
                 .define('T', Blocks.TNT)
                 .define('S', Items.STICK)
-                .unlockedBy("has_tnt", has(Blocks.TNT))
+                .unlockedBy("has_tnt", has.apply(Blocks.TNT.asItem()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.RANGEFINDER.get(), 1)
@@ -412,7 +415,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('R', Items.REDSTONE)
                 .define('C', ModItems.CIRCUIT_BASIC.get())
                 .define('S', ModItems.PLATE_STEEL.get())
-                .unlockedBy("has_circuit_basic", has(ModItems.CIRCUIT_BASIC.get()))
+                .unlockedBy("has_circuit_basic", has.apply(ModItems.CIRCUIT_BASIC.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.DESIGNATOR.get(), 1)
@@ -422,14 +425,14 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('#', ModItemTags.ANY_PLASTIC_INGOT)
                 .define('A', ModItems.PLATE_STEEL.get())
                 .define('B', ModItems.CIRCUIT_BASIC.get())
-                .unlockedBy("has_circuit_basic", has(ModItems.CIRCUIT_BASIC.get()))
+                .unlockedBy("has_circuit_basic", has.apply(ModItems.CIRCUIT_BASIC.get()))
                 .save(pWriter);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, ModItems.DESIGNATOR_RANGE.get(), 1)
                 .requires(ModItems.RANGEFINDER.get())
                 .requires(ModItems.DESIGNATOR.get())
                 .requires(ModItemTags.ANY_PLASTIC_INGOT)
-                .unlockedBy("has_designator", has(ModItems.DESIGNATOR.get()))
+                .unlockedBy("has_designator", has.apply(ModItems.DESIGNATOR.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.DESIGNATOR_MANUAL.get(), 1)
@@ -440,14 +443,14 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('A', ModItems.PLATE_LEAD.get())
                 .define('B', ModItems.CIRCUIT_ADVANCED.get())
                 .define('C', ModItems.DESIGNATOR.get())
-                .unlockedBy("has_designator", has(ModItems.DESIGNATOR.get()))
+                .unlockedBy("has_designator", has.apply(ModItems.DESIGNATOR.get()))
                 .save(pWriter);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, ModItems.DESIGNATOR_ARTY_RANGE.get(), 1)
                 .requires(ModItems.RANGEFINDER.get())
                 .requires(ModItems.CIRCUIT_ADVANCED.get())
                 .requires(ModItemTags.ANY_PLASTIC_INGOT)
-                .unlockedBy("has_rangefinder", has(ModItems.RANGEFINDER.get()))
+                .unlockedBy("has_rangefinder", has.apply(ModItems.RANGEFINDER.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.LINKER.get(), 1)
@@ -457,7 +460,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('I', ModItems.PLATE_IRON.get())
                 .define('G', ModItems.PLATE_GOLD.get())
                 .define('C', ModItems.CIRCUIT_ADVANCED.get())
-                .unlockedBy("has_circuit_advanced", has(ModItems.CIRCUIT_ADVANCED.get()))
+                .unlockedBy("has_circuit_advanced", has.apply(ModItems.CIRCUIT_ADVANCED.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.OIL_DETECTOR.get(), 1)
@@ -468,7 +471,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('I', ModItems.INGOT_RED_COPPER.get())
                 .define('C', ModItems.CIRCUIT_ANALOG.get())
                 .define('P', ModItems.PLATE_CAST_STEEL.get())
-                .unlockedBy("has_circuit_analog", has(ModItems.CIRCUIT_ANALOG.get()))
+                .unlockedBy("has_circuit_analog", has.apply(ModItems.CIRCUIT_ANALOG.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.TURRET_CHIP.get(), 1)
@@ -478,7 +481,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('W', ModItems.WIRE_GOLD.get())
                 .define('P', ModItemTags.ANY_PLASTIC_INGOT)
                 .define('C', ModItems.CIRCUIT_ADVANCED.get())
-                .unlockedBy("has_circuit_advanced", has(ModItems.CIRCUIT_ADVANCED.get()))
+                .unlockedBy("has_circuit_advanced", has.apply(ModItems.CIRCUIT_ADVANCED.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.SURVEY_SCANNER.get(), 1)
@@ -490,7 +493,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('C', ModItems.CIRCUIT_ADVANCED.get())
                 .define('S', ModItems.PLATE_CAST_STEEL.get())
                 .define('G', Items.GOLD_INGOT)
-                .unlockedBy("has_circuit_advanced", has(ModItems.CIRCUIT_ADVANCED.get()))
+                .unlockedBy("has_circuit_advanced", has.apply(ModItems.CIRCUIT_ADVANCED.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.GEIGER_COUNTER.get(), 1)
@@ -503,7 +506,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('G', Items.GOLD_INGOT)
                 .define('S', ModItems.PLATE_CAST_STEEL.get())
                 .define('B', ModItems.INGOT_BERYLLIUM.get())
-                .unlockedBy("has_circuit_basic", has(ModItems.CIRCUIT_BASIC.get()))
+                .unlockedBy("has_circuit_basic", has.apply(ModItems.CIRCUIT_BASIC.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.DOSIMETER.get(), 1)
@@ -514,19 +517,19 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('G', ModItemTags.ANY_GLASS_PANES)
                 .define('C', ModItems.CIRCUIT_VACUUM_TUBE.get())
                 .define('B', ModItems.INGOT_BERYLLIUM.get())
-                .unlockedBy("has_circuit_vacuum_tube", has(ModItems.CIRCUIT_VACUUM_TUBE.get()))
+                .unlockedBy("has_circuit_vacuum_tube", has.apply(ModItems.CIRCUIT_VACUUM_TUBE.get()))
                 .save(pWriter);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, ModBlocks.GEIGER.get().asItem(), 1)
                 .requires(ModItems.GEIGER_COUNTER.get())
-                .unlockedBy("has_geiger_counter", has(ModItems.GEIGER_COUNTER.get()))
+                .unlockedBy("has_geiger_counter", has.apply(ModItems.GEIGER_COUNTER.get()))
                 .save(pWriter, MODID + ":geiger_from_counter");
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, ModItems.DIGAMMA_DIAGNOSTIC.get(), 1)
                 .requires(ModItems.GEIGER_COUNTER.get())
                 .requires(ModItems.BILLET_POLONIUM.get())
                 .requires(ModItems.INGOT_ASBESTOS.get())
-                .unlockedBy("has_geiger_counter", has(ModItems.GEIGER_COUNTER.get()))
+                .unlockedBy("has_geiger_counter", has.apply(ModItems.GEIGER_COUNTER.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.POLLUTION_DETECTOR.get(), 1)
@@ -536,7 +539,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('S', ModItems.PLATE_STEEL.get())
                 .define('F', ModItems.FILTER_COAL.get())
                 .define('C', ModItems.CIRCUIT_VACUUM_TUBE.get())
-                .unlockedBy("has_circuit_vacuum_tube", has(ModItems.CIRCUIT_VACUUM_TUBE.get()))
+                .unlockedBy("has_circuit_vacuum_tube", has.apply(ModItems.CIRCUIT_VACUUM_TUBE.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.ORE_DENSITY_SCANNER.get(), 1)
@@ -547,7 +550,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('C', ModItems.CIRCUIT_CAPACITOR.get())
                 .define('S', ModItems.CIRCUIT_CONTROLLER_CHASSIS.get())
                 .define('G', ModItems.PLATE_GOLD.get())
-                .unlockedBy("has_circuit_vacuum_tube", has(ModItems.CIRCUIT_VACUUM_TUBE.get()))
+                .unlockedBy("has_circuit_vacuum_tube", has.apply(ModItems.CIRCUIT_VACUUM_TUBE.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.DEFUSER.get(), 1)
@@ -556,7 +559,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern(" P ")
                 .define('P', ModItemTags.ANY_PLASTIC_INGOT)
                 .define('S', ModItems.PLATE_STEEL.get())
-                .unlockedBy("has_plastic", has(ModItemTags.ANY_PLASTIC_INGOT))
+                .unlockedBy("has_plastic", hasTag(ModItemTags.ANY_PLASTIC_INGOT))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.COLTAN_TOOL.get(), 1)
@@ -566,7 +569,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('A', ModItems.INGOT_ADVANCED_ALLOY.get())
                 .define('C', ModItems.CRYSTAL_CINNABAR.get())
                 .define('X', Items.COMPASS)
-                .unlockedBy("has_advanced_alloy", has(ModItems.INGOT_ADVANCED_ALLOY.get()))
+                .unlockedBy("has_advanced_alloy", has.apply(ModItems.INGOT_ADVANCED_ALLOY.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.REACHER.get(), 1)
@@ -576,7 +579,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('B', ModItems.BOLT_TUNGSTEN.get())
                 .define('I', ModItems.INGOT_TUNGSTEN.get())
                 .define('P', ModItemTags.ANY_RUBBER_INGOT)
-                .unlockedBy("has_tungsten", has(ModItems.INGOT_TUNGSTEN.get()))
+                .unlockedBy("has_tungsten", has.apply(ModItems.INGOT_TUNGSTEN.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.SAT_DESIGNATOR.get(), 1)
@@ -588,14 +591,14 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('C', ModItems.CIRCUIT_ADVANCED.get())
                 .define('D', ModItems.SAT_CHIP.get())
                 .define('I', Items.GOLD_INGOT)
-                .unlockedBy("has_circuit_advanced", has(ModItems.CIRCUIT_ADVANCED.get()))
+                .unlockedBy("has_circuit_advanced", has.apply(ModItems.CIRCUIT_ADVANCED.get()))
                 .save(pWriter);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, ModItems.SAT_RELAY.get(), 1)
                 .requires(ModItems.SAT_CHIP.get())
                 .requires(ModItems.DUCTTAPE.get())
                 .requires(ModItems.RADAR_LINKER.get())
-                .unlockedBy("has_sat_chip", has(ModItems.SAT_CHIP.get()))
+                .unlockedBy("has_sat_chip", has.apply(ModItems.SAT_CHIP.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.SETTINGS_TOOL.get(), 1)
@@ -605,7 +608,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('P', ModItems.PLATE_IRON.get())
                 .define('C', ModItems.CIRCUIT_ANALOG.get())
                 .define('I', ModItems.PLATE_POLYMER.get())
-                .unlockedBy("has_circuit_analog", has(ModItems.CIRCUIT_ANALOG.get()))
+                .unlockedBy("has_circuit_analog", has.apply(ModItems.CIRCUIT_ANALOG.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.PIPETTE.get(), 1)
@@ -614,7 +617,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern("G  ")
                 .define('L', ModItemTags.ANY_RUBBER_INGOT)
                 .define('G', Items.GLASS)
-                .unlockedBy("has_rubber", has(ModItemTags.ANY_RUBBER_INGOT))
+                .unlockedBy("has_rubber", hasTag(ModItemTags.ANY_RUBBER_INGOT))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.PIPETTE_BORON.get(), 1)
@@ -623,7 +626,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern("B  ")
                 .define('P', ModItems.INGOT_RUBBER.get())
                 .define('B', ModBlocks.GLASS_BORON.get().asItem())
-                .unlockedBy("has_boron_glass", has(ModBlocks.GLASS_BORON.get().asItem()))
+                .unlockedBy("has_boron_glass", has.apply(ModBlocks.GLASS_BORON.get().asItem()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.PIPETTE_LABORATORY.get(), 1)
@@ -633,7 +636,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('C', ModItems.CIRCUIT_CHIP.get())
                 .define('R', ModItems.INGOT_RUBBER.get())
                 .define('P', ModItems.PIPETTE_BORON.get())
-                .unlockedBy("has_pipette_boron", has(ModItems.PIPETTE_BORON.get()))
+                .unlockedBy("has_pipette_boron", has.apply(ModItems.PIPETTE_BORON.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.SIPHON.get(), 1)
@@ -642,7 +645,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern(" G ")
                 .define('G', Items.GLASS)
                 .define('R', ModItemTags.ANY_RUBBER_INGOT)
-                .unlockedBy("has_clear_glass", has(Items.GLASS))
+                .unlockedBy("has_clear_glass", has.apply(Items.GLASS))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.MIRROR_TOOL.get(), 1)
@@ -651,7 +654,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern("I  ")
                 .define('A', ModItems.INGOT_ALUMINIUM.get())
                 .define('I', Items.IRON_INGOT)
-                .unlockedBy("has_aluminium", has(ModItems.INGOT_ALUMINIUM.get()))
+                .unlockedBy("has_aluminium", has.apply(ModItems.INGOT_ALUMINIUM.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.RBMK_TOOL.get(), 1)
@@ -660,7 +663,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern("I  ")
                 .define('A', ModItems.INGOT_LEAD.get())
                 .define('I', Items.IRON_INGOT)
-                .unlockedBy("has_lead", has(ModItems.INGOT_LEAD.get()))
+                .unlockedBy("has_lead", has.apply(ModItems.INGOT_LEAD.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.POWER_NET_TOOL.get(), 1)
@@ -671,7 +674,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('R', Items.REDSTONE)
                 .define('I', Items.IRON_INGOT)
                 .define('B', ModItems.BATTERY_GENERIC.get())
-                .unlockedBy("has_wire", has(ModItems.WIRE_RED_COPPER.get()))
+                .unlockedBy("has_wire", has.apply(ModItems.WIRE_RED_COPPER.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.ANALYSIS_TOOL.get(), 1)
@@ -680,7 +683,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern("S  ")
                 .define('G', ModItemTags.ANY_GLASS_PANES)
                 .define('S', ModItems.INGOT_STEEL.get())
-                .unlockedBy("has_steel", has(ModItems.INGOT_STEEL.get()))
+                .unlockedBy("has_steel", has.apply(ModItems.INGOT_STEEL.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.TOOLBOX.get(), 1)
@@ -688,7 +691,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern("CIC")
                 .define('C', ModItems.PLATE_COPPER.get())
                 .define('I', Items.IRON_INGOT)
-                .unlockedBy("has_copper_plate", has(ModItems.PLATE_COPPER.get()))
+                .unlockedBy("has_copper_plate", has.apply(ModItems.PLATE_COPPER.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.SCREWDRIVER.get(), 1)
@@ -697,7 +700,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern("S  ")
                 .define('S', ModItems.INGOT_STEEL.get())
                 .define('I', Items.IRON_INGOT)
-                .unlockedBy("has_steel", has(ModItems.INGOT_STEEL.get()))
+                .unlockedBy("has_steel", has.apply(ModItems.INGOT_STEEL.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.SCREWDRIVER_DESH.get(), 1)
@@ -706,7 +709,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern("S  ")
                 .define('S', ModItemTags.ANY_PLASTIC_INGOT)
                 .define('I', ModItems.INGOT_DESH.get())
-                .unlockedBy("has_desh", has(ModItems.INGOT_DESH.get()))
+                .unlockedBy("has_desh", has.apply(ModItems.INGOT_DESH.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.HAND_DRILL.get(), 1)
@@ -715,7 +718,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern(" S")
                 .define('D', ModItems.INGOT_DURA_STEEL.get())
                 .define('S', Items.STICK)
-                .unlockedBy("has_dura_steel", has(ModItems.INGOT_DURA_STEEL.get()))
+                .unlockedBy("has_dura_steel", has.apply(ModItems.INGOT_DURA_STEEL.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.HAND_DRILL_DESH.get(), 1)
@@ -724,7 +727,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern(" S")
                 .define('D', ModItems.INGOT_DESH.get())
                 .define('S', ModItemTags.ANY_PLASTIC_INGOT)
-                .unlockedBy("has_desh", has(ModItems.INGOT_DESH.get()))
+                .unlockedBy("has_desh", has.apply(ModItems.INGOT_DESH.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.CHEMISTRY_SET.get(), 1)
@@ -733,7 +736,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('G', ModItemTags.ANY_GLASS_BLOCKS)
                 .define('I', Items.IRON_INGOT)
                 .define('C', ModItems.INGOT_RED_COPPER.get())
-                .unlockedBy("has_glass", has(ModItemTags.ANY_GLASS_BLOCKS))
+                .unlockedBy("has_glass", hasTag(ModItemTags.ANY_GLASS_BLOCKS))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.CHEMISTRY_SET_BORON.get(), 1)
@@ -742,7 +745,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('G', ModBlocks.GLASS_BORON.get().asItem())
                 .define('I', ModItems.INGOT_STEEL.get())
                 .define('C', ModItems.INGOT_COBALT.get())
-                .unlockedBy("has_boron_glass", has(ModBlocks.GLASS_BORON.get().asItem()))
+                .unlockedBy("has_boron_glass", has.apply(ModBlocks.GLASS_BORON.get().asItem()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.BLOWTORCH.get(), 1)
@@ -751,7 +754,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern("CCC")
                 .define('C', ModItems.PLATE_CAST_STEEL.get())
                 .define('I', Items.IRON_INGOT)
-                .unlockedBy("has_cast_steel_plate", has(ModItems.PLATE_CAST_STEEL.get()))
+                .unlockedBy("has_cast_steel_plate", has.apply(ModItems.PLATE_CAST_STEEL.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.ACETYLENE_TORCH.get(), 1)
@@ -761,7 +764,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('S', ModItems.PLATE_CAST_STEEL.get())
                 .define('P', ModItemTags.ANY_PLASTIC_INGOT)
                 .define('T', ModItems.TANK_STEEL.get())
-                .unlockedBy("has_cast_steel_plate", has(ModItems.PLATE_CAST_STEEL.get()))
+                .unlockedBy("has_cast_steel_plate", has.apply(ModItems.PLATE_CAST_STEEL.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.BOLTGUN.get(), 1)
@@ -772,7 +775,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('P', ModItems.PISTON_PNEUMATIC.get())
                 .define('R', ModItems.INGOT_RUBBER.get())
                 .define('S', ModItems.SHELL_STEEL.get())
-                .unlockedBy("has_dura_steel", has(ModItems.INGOT_DURA_STEEL.get()))
+                .unlockedBy("has_dura_steel", has.apply(ModItems.INGOT_DURA_STEEL.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.REBAR_PLACER.get(), 1)
@@ -782,7 +785,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .define('R', ModBlocks.REBAR.get().asItem())
                 .define('D', ModItems.DUCTTAPE.get())
                 .define('W', ModToolItems.WRENCH.get())
-                .unlockedBy("has_rebar", has(ModBlocks.REBAR.get().asItem()))
+                .unlockedBy("has_rebar", has.apply(ModBlocks.REBAR.get().asItem()))
                 .save(pWriter);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.BOBMAZON.get(), 1)
@@ -790,7 +793,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .requires(Items.GOLD_NUGGET)
                 .requires(Items.STRING)
                 .requires(Items.BLUE_DYE)
-                .unlockedBy("has_book", has(Items.BOOK))
+                .unlockedBy("has_book", has.apply(Items.BOOK))
                 .save(pWriter);
 
         /* TODO ItemModMinecart
@@ -812,7 +815,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern("L L")
                 .pattern("LLL")
                 .define('L', ModItemTags.ANY_RUBBER_INGOT)
-                .unlockedBy("has_rubber", has(ModItemTags.ANY_RUBBER_INGOT))
+                .unlockedBy("has_rubber", hasTag(ModItemTags.ANY_RUBBER_INGOT))
                 .save(pWriter);
 
         if (GeneralConfig.ENABLE_LBSM && GeneralConfig.ENABLE_LBSM_SIMPLE_TOOL_RECIPES) {
@@ -839,7 +842,7 @@ public class ToolRecipes extends ModRecipeProvider {
                     .define('I', ModItems.INGOT_STARMETAL.get())
                     .define('S', ModItems.RING_STARMETAL.get())
                     .define('B', ModToolItems.COBALT_DECORATED_SWORD.get())
-                    .unlockedBy("has_starmetal", has(ModItems.INGOT_STARMETAL.get()))
+                    .unlockedBy("has_starmetal", has.apply(ModItems.INGOT_STARMETAL.get()))
                     .save(pWriter);
 
             ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.STARMETAL_PICKAXE.get(), 1)
@@ -849,7 +852,7 @@ public class ToolRecipes extends ModRecipeProvider {
                     .define('I', ModItems.INGOT_STARMETAL.get())
                     .define('S', ModItems.RING_STARMETAL.get())
                     .define('B', ModToolItems.COBALT_DECORATED_PICKAXE.get())
-                    .unlockedBy("has_starmetal", has(ModItems.INGOT_STARMETAL.get()))
+                    .unlockedBy("has_starmetal", has.apply(ModItems.INGOT_STARMETAL.get()))
                     .save(pWriter);
 
             ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.STARMETAL_AXE.get(), 1)
@@ -859,7 +862,7 @@ public class ToolRecipes extends ModRecipeProvider {
                     .define('I', ModItems.INGOT_STARMETAL.get())
                     .define('S', ModItems.RING_STARMETAL.get())
                     .define('B', ModToolItems.COBALT_DECORATED_AXE.get())
-                    .unlockedBy("has_starmetal", has(ModItems.INGOT_STARMETAL.get()))
+                    .unlockedBy("has_starmetal", has.apply(ModItems.INGOT_STARMETAL.get()))
                     .save(pWriter);
 
             ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.STARMETAL_SHOVEL.get(), 1)
@@ -868,7 +871,7 @@ public class ToolRecipes extends ModRecipeProvider {
                     .pattern("I")
                     .define('I', ModItems.INGOT_STARMETAL.get())
                     .define('B', ModToolItems.COBALT_DECORATED_SHOVEL.get())
-                    .unlockedBy("has_starmetal", has(ModItems.INGOT_STARMETAL.get()))
+                    .unlockedBy("has_starmetal", has.apply(ModItems.INGOT_STARMETAL.get()))
                     .save(pWriter);
 
             ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.STARMETAL_HOE.get(), 1)
@@ -878,7 +881,7 @@ public class ToolRecipes extends ModRecipeProvider {
                     .define('I', ModItems.INGOT_STARMETAL.get())
                     .define('S', ModItems.RING_STARMETAL.get())
                     .define('B', ModToolItems.COBALT_DECORATED_HOE.get())
-                    .unlockedBy("has_starmetal", has(ModItems.INGOT_STARMETAL.get()))
+                    .unlockedBy("has_starmetal", has.apply(ModItems.INGOT_STARMETAL.get()))
                     .save(pWriter);
 
             ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModToolItems.SCHRABIDIUM_SWORD.get(), 1)
@@ -888,7 +891,7 @@ public class ToolRecipes extends ModRecipeProvider {
                     .define('I', ModBlocks.BLOCK_SCHRABIDIUM.get().asItem())
                     .define('W', ModToolItems.DESH_SWORD.get())
                     .define('S', ModItemTags.ANY_PLASTIC_INGOT)
-                    .unlockedBy("has_schrabidium", has(ModBlocks.BLOCK_SCHRABIDIUM.get().asItem()))
+                    .unlockedBy("has_schrabidium", has.apply(ModBlocks.BLOCK_SCHRABIDIUM.get().asItem()))
                     .save(pWriter);
 
             ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.SCHRABIDIUM_PICKAXE.get(), 1)
@@ -899,7 +902,7 @@ public class ToolRecipes extends ModRecipeProvider {
                     .define('S', ModBlocks.BLOCK_SCHRABIDIUM.get().asItem())
                     .define('W', ModToolItems.DESH_PICKAXE.get())
                     .define('P', ModItemTags.ANY_PLASTIC_INGOT)
-                    .unlockedBy("has_schrabidium", has(ModBlocks.BLOCK_SCHRABIDIUM.get().asItem()))
+                    .unlockedBy("has_schrabidium", has.apply(ModBlocks.BLOCK_SCHRABIDIUM.get().asItem()))
                     .save(pWriter);
 
             ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.SCHRABIDIUM_AXE.get(), 1)
@@ -910,7 +913,7 @@ public class ToolRecipes extends ModRecipeProvider {
                     .define('S', ModBlocks.BLOCK_SCHRABIDIUM.get().asItem())
                     .define('W', ModToolItems.DESH_AXE.get())
                     .define('P', ModItemTags.ANY_PLASTIC_INGOT)
-                    .unlockedBy("has_schrabidium", has(ModBlocks.BLOCK_SCHRABIDIUM.get().asItem()))
+                    .unlockedBy("has_schrabidium", has.apply(ModBlocks.BLOCK_SCHRABIDIUM.get().asItem()))
                     .save(pWriter);
 
             ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.SCHRABIDIUM_SHOVEL.get(), 1)
@@ -920,7 +923,7 @@ public class ToolRecipes extends ModRecipeProvider {
                     .define('B', ModBlocks.BLOCK_SCHRABIDIUM.get().asItem())
                     .define('W', ModToolItems.DESH_SHOVEL.get())
                     .define('P', ModItemTags.ANY_PLASTIC_INGOT)
-                    .unlockedBy("has_schrabidium", has(ModBlocks.BLOCK_SCHRABIDIUM.get().asItem()))
+                    .unlockedBy("has_schrabidium", has.apply(ModBlocks.BLOCK_SCHRABIDIUM.get().asItem()))
                     .save(pWriter);
 
             ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModToolItems.SCHRABIDIUM_HOE.get(), 1)
@@ -930,7 +933,7 @@ public class ToolRecipes extends ModRecipeProvider {
                     .define('I', ModItems.INGOT_SCHRABIDIUM.get())
                     .define('W', ModToolItems.DESH_HOE.get())
                     .define('S', ModItemTags.ANY_PLASTIC_INGOT)
-                    .unlockedBy("has_schrabidium", has(ModItems.INGOT_SCHRABIDIUM.get()))
+                    .unlockedBy("has_schrabidium", has.apply(ModItems.INGOT_SCHRABIDIUM.get()))
                     .save(pWriter);
         }
     }
@@ -958,7 +961,7 @@ public class ToolRecipes extends ModRecipeProvider {
                 .pattern(pattern[2])
                 .define('X', material)
                 .define('#', Items.STICK)
-                .unlockedBy("has_material", has(material))
+                .unlockedBy("has_material", has.apply(material))
                 .save(writer, MODID + ":" + tool.getDescriptionId().replace("item.hbm.", ""));
     }
 }

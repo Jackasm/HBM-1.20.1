@@ -2,12 +2,16 @@ package com.hbm.integration.jei;
 
 import com.hbm.integration.jei.BlastFurnace.BlastFurnaceRecipeCategory;
 import com.hbm.integration.jei.BlastFurnace.BlastFurnaceRecipeHandler;
+import com.hbm.integration.jei.ammopress.AmmoPressRecipeCategory;
+import com.hbm.integration.jei.ammopress.AmmoPressRecipeHandler;
 import com.hbm.integration.jei.anvil.AnvilConstructionRecipeCategory;
 import com.hbm.integration.jei.anvil.AnvilConstructionRecipeHandler;
 import com.hbm.integration.jei.anvil.AnvilRecipeCategory;
 import com.hbm.integration.jei.anvil.AnvilRecipeHandler;
 import com.hbm.integration.jei.arcwelder.ArcWelderRecipeCategory;
 import com.hbm.integration.jei.arcwelder.ArcWelderRecipeHandler;
+import com.hbm.integration.jei.casting.CastingRecipeCategory;
+import com.hbm.integration.jei.casting.CastingRecipeHandler;
 import com.hbm.integration.jei.centrifuge.CentrifugeRecipeCategory;
 import com.hbm.integration.jei.centrifuge.CentrifugeRecipeHandler;
 import com.hbm.integration.jei.combinationfurnace.CombinationFurnaceRecipeCategory;
@@ -60,11 +64,13 @@ public class HBMJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new CombinationFurnaceRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new RotaryFurnaceRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new CrucibleRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new CastingRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new SolderingStationRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new ArcWelderRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new GasCentrifugeRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new CrystallizerRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new CentrifugeRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new AmmoPressRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
@@ -76,11 +82,13 @@ public class HBMJeiPlugin implements IModPlugin {
         registration.addRecipes(HBMJeiRecipeTypes.COMBINATION_FURNACE, CombinationFurnaceRecipeHandler.getRecipes());
         registration.addRecipes(HBMJeiRecipeTypes.ROTARY_FURNACE, RotaryFurnaceRecipeHandler.getRecipes());
         registration.addRecipes(HBMJeiRecipeTypes.CRUCIBLE, CrucibleRecipeHandler.getRecipes());
+        registration.addRecipes(HBMJeiRecipeTypes.CASTING, CastingRecipeHandler.getRecipes());
         registration.addRecipes(HBMJeiRecipeTypes.SOLDERING_STATION, SolderingStationRecipeHandler.getRecipes());
         registration.addRecipes(HBMJeiRecipeTypes.ARC_WELDER, ArcWelderRecipeHandler.getRecipes());
         registration.addRecipes(HBMJeiRecipeTypes.GAS_CENTRIFUGE, GasCentrifugeRecipeHandler.getRecipes());
         registration.addRecipes(HBMJeiRecipeTypes.CRYSTALLIZER, CrystallizerRecipeHandler.getRecipes());
         registration.addRecipes(HBMJeiRecipeTypes.CENTRIFUGE, CentrifugeRecipeHandler.getRecipes());
+        registration.addRecipes(HBMJeiRecipeTypes.AMMO_PRESS, AmmoPressRecipeHandler.getRecipes());
     }
 
     @Override
@@ -92,11 +100,13 @@ public class HBMJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.FURNACE_COMBINATION.get()), HBMJeiRecipeTypes.COMBINATION_FURNACE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.MACHINE_ROTARY_FURNACE.get()), HBMJeiRecipeTypes.ROTARY_FURNACE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.MACHINE_CRUCIBLE.get()), HBMJeiRecipeTypes.CRUCIBLE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.FOUNDRY_MOLD.get()), HBMJeiRecipeTypes.CASTING);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.MACHINE_SOLDERING_STATION.get()), HBMJeiRecipeTypes.SOLDERING_STATION);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.MACHINE_ARC_WELDER.get()), HBMJeiRecipeTypes.ARC_WELDER);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.MACHINE_GAS_CENT.get()), HBMJeiRecipeTypes.GAS_CENTRIFUGE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.MACHINE_CRYSTALLIZER.get()), HBMJeiRecipeTypes.CRYSTALLIZER);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.MACHINE_CENTRIFUGE.get()), HBMJeiRecipeTypes.CENTRIFUGE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.MACHINE_AMMO_PRESS.get()), HBMJeiRecipeTypes.AMMO_PRESS);
     }
 
     @Override

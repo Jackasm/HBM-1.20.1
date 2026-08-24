@@ -478,4 +478,9 @@ public class ModContainers {
                         }
                         return null;
                     }));
+
+    public static final RegistryObject<MenuType<ContainerMachineAmmoPress>> MACHINE_AMMO_PRESS =
+            MENUS.register("machine_ammo_press", () -> IForgeMenuType.create(
+                    (windowId, inv, data) -> new ContainerMachineAmmoPress(windowId, inv, (TileEntityMachineAmmoPress) inv.player.level().getBlockEntity(data.readBlockPos()))
+            ));
 }

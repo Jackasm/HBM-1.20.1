@@ -26,6 +26,9 @@ public class HBMJeiRecipeTypes {
     public static final RecipeType<HBMRecipeWrapper> CRUCIBLE =
             RecipeType.create(MODID, "crucible", HBMRecipeWrapper.class);
 
+    public static final RecipeType<HBMRecipeWrapper> CASTING =
+            RecipeType.create(MODID, "casting", HBMRecipeWrapper.class);
+
     public static final RecipeType<HBMRecipeWrapper> SOLDERING_STATION =
             RecipeType.create(MODID, "soldering_station", HBMRecipeWrapper.class);
 
@@ -40,5 +43,8 @@ public class HBMJeiRecipeTypes {
 
     public static final RecipeType<HBMRecipeWrapper> CENTRIFUGE =
             RecipeType.create(MODID, "centrifuge", HBMRecipeWrapper.class);
+
+    public static final RecipeType<HBMRecipeWrapper> AMMO_PRESS =
+            RecipeType.create(MODID, "ammo_press", HBMRecipeWrapper.class);
 
 }

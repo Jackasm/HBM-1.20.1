@@ -58,7 +58,7 @@ public class ModScreens {
             MenuScreens.register(ModContainers.LAUNCH_TABLE.get(), GUIMachineLaunchTable::new);
             MenuScreens.register(ModContainers.LAUNCH_PAD_RUSTED.get(), GUILaunchPadRusted::new);
             MenuScreens.register(ModContainers.MACHINE_BATTERY.get(), GUIMachineBattery::new);
-
+            MenuScreens.register(ModContainers.MACHINE_AMMO_PRESS.get(), GUIMachineAmmoPress::new);
         });
     }
 }

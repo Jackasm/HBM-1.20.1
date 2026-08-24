@@ -91,7 +91,7 @@ public class BlockOre extends Block {
             return new ItemStack(ModItems.FRAGMENT_METEORITE.get());
         }
         if (this == ModBlocks.ORE_RARE.get() || this == ModBlocks.ORE_GNEISS_RARE.get()) {
-            return new ItemStack(ModItems.CHUNK_ORE.get());
+            return new ItemStack(ModItems.CHUNK_ORE_RARE.get());
         }
         if (this == ModBlocks.ORE_ASBESTOS.get() || this == ModBlocks.ORE_GNEISS_ASBESTOS.get()) {
             return new ItemStack(ModItems.INGOT_ASBESTOS.get());
@@ -163,16 +163,6 @@ public class BlockOre extends Block {
     private Item getItemDropped() {
         ItemStack stack = this.getCloneItemStack(null, null, null);
         return stack.isEmpty() ? null : stack.getItem();
-    }
-
-    public int getDroppedDamage(BlockState state) {
-        if (this == ModBlocks.ORE_RARE.get() || this == ModBlocks.ORE_GNEISS_RARE.get()) {
-            return HBMEnums.EnumChunkType.RARE.ordinal();
-        }
-        if (this == ModBlocks.WASTE_PLANKS.get()) {
-            return 1;
-        }
-        return 0;
     }
 
     @Override

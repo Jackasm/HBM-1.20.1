@@ -1,6 +1,7 @@
 package com.hbm.datagen.advancements;
 
 import com.hbm.advancements.*;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.ModEntities;
 import com.hbm.items.ModArmorItems;
 import com.hbm.items.ModItems;
@@ -14,7 +15,6 @@ import net.minecraft.advancements.critereon.KilledTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -42,6 +42,12 @@ public class ModAdvancementProvider extends ForgeAdvancementProvider {
                              @NotNull ExistingFileHelper existingFileHelper) {
 
             Advancement root = Advancement.Builder.advancement()
+                    .display(ModItems.BOOK_GUIDE.get().getDefaultInstance(),
+                            Component.translatable("achievement.root"),
+                            Component.translatable("achievement.root.desc"),
+                            ResLocation(MODID, "textures/gui/advancements/background.png"),
+                            FrameType.TASK,
+                            true, true, false)
                     .addCriterion("impossible", new ImpossibleTrigger.TriggerInstance())
                     .save(writer, ResLocation(MODID, "root"), existingFileHelper);
 
@@ -225,7 +231,7 @@ public class ModAdvancementProvider extends ForgeAdvancementProvider {
 
             Advancement blastFurnace = Advancement.Builder.advancement()
                     .parent(root)
-                    .display(new ItemStack(ModItems.NOTHING.get()),
+                    .display(new ItemStack(ModItems.MACHINE_BLAST_FURNACE.get()),
                             Component.translatable("achievement.blastFurnace"),
                             Component.translatable("achievement.blastFurnace.desc"),
                             null,
@@ -278,6 +284,16 @@ public class ModAdvancementProvider extends ForgeAdvancementProvider {
                     .addCriterion("technetium", TechnetiumTrigger.Instance.instance())
                     .save(writer, ResLocation(MODID, "technetium"), existingFileHelper);
 
+            Advancement.Builder.advancement()
+                    .parent(root)
+                    .display(ModBlocks.STONE_GNEISS.get().asItem().getDefaultInstance(),
+                            Component.translatable("achievement.stratum"),
+                            Component.translatable("achievement.stratum.desc"),
+                            null,
+                            FrameType.TASK,
+                            true, true, false)
+                    .addCriterion("stratum", StratumTrigger.Instance.instance())
+                    .save(writer, ResLocation(MODID, "stratum"), existingFileHelper);
         }
     }
 }

@@ -79,11 +79,47 @@ public class RenderMeteor extends EntityRenderer<EntityMeteor> {
                          float u0, float u1, float v0, float v1, int packedLight) {
 
         var matrix = poseStack.last().pose();
+        var normal = poseStack.last().normal();
 
-        consumer.vertex(matrix, x1, y1, z1).color(1, 1, 1, 1).uv(u0, v0).uv2(packedLight).endVertex();
-        consumer.vertex(matrix, x2, y2, z2).color(1, 1, 1, 1).uv(u1, v0).uv2(packedLight).endVertex();
-        consumer.vertex(matrix, x3, y3, z3).color(1, 1, 1, 1).uv(u1, v1).uv2(packedLight).endVertex();
-        consumer.vertex(matrix, x4, y4, z4).color(1, 1, 1, 1).uv(u0, v1).uv2(packedLight).endVertex();
+        // Для каждой грани нормаль своя — вычисляем по первым трём вершинам
+        float nx = (y2 - y1) * (z3 - z1) - (z2 - z1) * (y3 - y1);
+        float ny = (z2 - z1) * (x3 - x1) - (x2 - x1) * (z3 - z1);
+        float nz = (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1);
+        float len = (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
+        if (len > 0) {
+            nx /= len;
+            ny /= len;
+            nz /= len;
+        }
+
+        consumer.vertex(matrix, x1, y1, z1)
+                .color(1, 1, 1, 1)
+                .uv(u0, v0)
+                .overlayCoords(0)
+                .uv2(packedLight)
+                .normal(normal, nx, ny, nz)
+                .endVertex();
+        consumer.vertex(matrix, x2, y2, z2)
+                .color(1, 1, 1, 1)
+                .uv(u1, v0)
+                .overlayCoords(0)
+                .uv2(packedLight)
+                .normal(normal, nx, ny, nz)
+                .endVertex();
+        consumer.vertex(matrix, x3, y3, z3)
+                .color(1, 1, 1, 1)
+                .uv(u1, v1)
+                .overlayCoords(0)
+                .uv2(packedLight)
+                .normal(normal, nx, ny, nz)
+                .endVertex();
+        consumer.vertex(matrix, x4, y4, z4)
+                .color(1, 1, 1, 1)
+                .uv(u0, v1)
+                .overlayCoords(0)
+                .uv2(packedLight)
+                .normal(normal, nx, ny, nz)
+                .endVertex();
     }
 
     @Override

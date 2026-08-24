@@ -1,8 +1,6 @@
 package com.hbm.datagen.recipes;
 
-import com.hbm.datagen.recipes.ingredient.AnyAshIngredient;
-import com.hbm.datagen.recipes.ingredient.FluidBucketIngredient;
-import com.hbm.datagen.recipes.ingredient.FluidTankIngredient;
+import com.hbm.datagen.recipes.ingredient.*;
 import com.hbm.inventory.recipes.RecipeCache;
 import com.hbm.inventory.recipes.RecipeType;
 import com.hbm.util.RefStrings;
@@ -27,6 +25,9 @@ public class ModRecipeSerializers {
 
             CraftingHelper.register(ResLocation(RefStrings.MODID, "any_ash"),
                     AnyAshIngredient.Serializer.INSTANCE);
+
+            CraftingHelper.register(ResLocation(RefStrings.MODID, "scrap_plastic"),
+                    ScrapPlasticIngredient.Serializer.INSTANCE);
 
 
             // Инициализируем кэш рецептов

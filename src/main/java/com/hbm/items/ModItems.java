@@ -86,10 +86,6 @@ public class ModItems {
             () -> new BlockItem(ModBlocks.ORE_ALUMINIUM.get(), new Item.Properties()));
     public static final RegistryObject<Item> ORE_ALUMINIUM_DEEPSLATE = register(BLOCK_TAB, "ore_aluminium_deepslate",
             () -> new BlockItem(ModBlocks.ORE_ALUMINIUM_DEEPSLATE.get(), new Item.Properties()));
-    public static final RegistryObject<Item> ORE_ZINC = register(BLOCK_TAB, "ore_zinc",
-            () -> new BlockItem(ModBlocks.ORE_ZINC.get(), new Item.Properties()));
-    public static final RegistryObject<Item> ORE_ZINC_DEEPSLATE = register(BLOCK_TAB, "ore_zinc_deepslate",
-            () -> new BlockItem(ModBlocks.ORE_ZINC_DEEPSLATE.get(), new Item.Properties()));
     public static final RegistryObject<Item> ORE_FLUORITE = register(BLOCK_TAB, "ore_fluorite",
             () -> new BlockItem(ModBlocks.ORE_FLUORITE.get(), new Item.Properties()));
     public static final RegistryObject<Item> ORE_FLUORITE_DEEPSLATE = register(BLOCK_TAB, "ore_fluorite_deepslate",
@@ -120,6 +116,14 @@ public class ModItems {
             () -> new BlockItem(ModBlocks.ORE_ASBESTOS_DEEPSLATE.get(), new Item.Properties()));
     public static final RegistryObject<Item> ORE_GNEISS_ASBESTOS = register(BLOCK_TAB, "ore_gneiss_asbestos",
             () -> new BlockItem(ModBlocks.ORE_GNEISS_ASBESTOS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> ORE_GNEISS_IRON = register(BLOCK_TAB, "ore_gneiss_iron",
+            () -> new BlockItem(ModBlocks.ORE_GNEISS_IRON.get(), new Item.Properties()));
+    public static final RegistryObject<Item> ORE_GNEISS_GOLD = register(BLOCK_TAB, "ore_gneiss_gold",
+            () -> new BlockItem(ModBlocks.ORE_GNEISS_GOLD.get(), new Item.Properties()));
+    public static final RegistryObject<Item> ORE_GNEISS_COPPER = register(BLOCK_TAB, "ore_gneiss_copper",
+            () -> new BlockItem(ModBlocks.ORE_GNEISS_COPPER.get(), new Item.Properties()));
+    public static final RegistryObject<Item> ORE_GNEISS_LITHIUM = register(BLOCK_TAB, "ore_gneiss_lithium",
+            () -> new BlockItem(ModBlocks.ORE_GNEISS_LITHIUM.get(), new Item.Properties()));
     public static final RegistryObject<Item> ORE_RARE = register(BLOCK_TAB, "ore_rare",
             () -> new BlockItem(ModBlocks.ORE_RARE.get(), new Item.Properties()));
     public static final RegistryObject<Item> ORE_RARE_DEEPSLATE = register(BLOCK_TAB, "ore_rare_deepslate",
@@ -291,9 +295,6 @@ public class ModItems {
     public static final RegistryObject<Item> POWDER_MAGNETIZED_TUNGSTEN = register(PARTS_TAB, "powder_magnetized_tungsten",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> POWDER_ZINC = register(PARTS_TAB, "powder_zinc",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
     public static final RegistryObject<Item> POWDER_URANIUM = register(PARTS_TAB, "powder_uranium",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
@@ -399,6 +400,9 @@ public class ModItems {
     public static final RegistryObject<Item> POWDER_TEKTITE = register(PARTS_TAB, "powder_tektite",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
+    public static final RegistryObject<Item> POWDER_AUSTRALIUM = register(PARTS_TAB, "powder_australium",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
     public static final RegistryObject<Item> POWDER_POLONIUM = register(PARTS_TAB, "powder_polonium",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
@@ -415,6 +419,36 @@ public class ModItems {
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> POWDER_DESH_READY = register(PARTS_TAB, "powder_desh_ready",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> POWDER_COMBINE_STEEL = register(PARTS_TAB, "powder_combine_steel",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> POWDER_POLYMER = register(PARTS_TAB, "powder_polymer",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> POWDER_BAKELITE = register(PARTS_TAB, "powder_bakelite",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> POWDER_ZIRCONIUM = register(PARTS_TAB, "powder_zirconium",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> POWDER_TCALLOY = register(PARTS_TAB, "powder_tcalloy",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> POWDER_AU198 = register(PARTS_TAB, "powder_au198",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> POWDER_RA226 = register(PARTS_TAB, "powder_ra226",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> POWDER_TANTALIUM = register(PARTS_TAB, "powder_tantalium",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> POWDER_BISMUTH = register(PARTS_TAB, "powder_bismuth",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> POWDER_CADMIUM = register(PARTS_TAB, "powder_cadmium",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> POWDER_YELLOWCAKE = register(PARTS_TAB, "powder_yellowcake",
@@ -531,9 +565,6 @@ public class ModItems {
     public static final RegistryObject<Item> POWDER_MAGNETIZED_TUNGSTEN_TINY = register(PARTS_TAB, "powder_tiny_magnetized_tungsten",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED_TINY);
 
-    public static final RegistryObject<Item> POWDER_ZINC_TINY = register(PARTS_TAB, "powder_tiny_zinc",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED_TINY);
-
     public static final RegistryObject<Item> POWDER_FLUORITE_TINY = register(PARTS_TAB, "powder_tiny_fluorite",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED_TINY);
 
@@ -578,6 +609,26 @@ public class ModItems {
     public static final RegistryObject<Item> POWDER_PALEOGENITE_TINY = register(PARTS_TAB, "powder_tiny_paleogenite",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED_TINY);
 
+    public static final RegistryObject<Item> POWDER_SR90 = register(PARTS_TAB, "powder_sr90",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> POWDER_SR90_TINY = register(PARTS_TAB, "powder_sr90_tiny",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> POWDER_XE135 = register(PARTS_TAB, "powder_xe135",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> POWDER_XE135_TINY = register(PARTS_TAB, "powder_xe135_tiny",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> POWDER_CS137 = register(PARTS_TAB, "powder_cs137",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> POWDER_CS137_TINY = register(PARTS_TAB, "powder_cs137_tiny",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> POWDER_I131 = register(PARTS_TAB, "powder_i131",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> POWDER_I131_TINY = register(PARTS_TAB, "powder_i131_tiny",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
     public static final RegistryObject<Item> DUST_TINY = register(PARTS_TAB, "powder_tiny_dust",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED_TINY);
 
@@ -618,9 +669,6 @@ public class ModItems {
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> CRYSTAL_IRON = register(PARTS_TAB, "crystal_iron",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> CRYSTAL_ZINC = register(PARTS_TAB, "crystal_zinc",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> CRYSTAL_LAPIS = register(PARTS_TAB, "crystal_lapis",
@@ -719,9 +767,6 @@ public class ModItems {
     public static final RegistryObject<Item> RAW_URANIUM = register(PARTS_TAB, "raw_uranium",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> RAW_ZINC = register(PARTS_TAB, "raw_zinc",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
     public static final RegistryObject<Item> INGOT_ALUMINIUM = register(PARTS_TAB, "ingot_aluminium",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
@@ -743,10 +788,10 @@ public class ModItems {
     public static final RegistryObject<Item> INGOT_COBALT = register(PARTS_TAB, "ingot_cobalt",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> INGOT_BORON = register(PARTS_TAB, "ingot_boron",
+    public static final RegistryObject<Item> INGOT_CALCIUM = register(PARTS_TAB, "ingot_calcium",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> INGOT_ZINC = register(PARTS_TAB, "ingot_zinc",
+    public static final RegistryObject<Item> INGOT_BORON = register(PARTS_TAB, "ingot_boron",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> INGOT_STEEL = register(PARTS_TAB, "ingot_steel",
@@ -805,8 +850,6 @@ public class ModItems {
 
     public static final RegistryObject<Item> INGOT_SCHRARANIUM = register(PARTS_TAB, "ingot_schraranium",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    // ==================== СЛИТКИ ====================
 
     public static final RegistryObject<Item> INGOT_LANTHANIUM = register(PARTS_TAB, "ingot_lanthanium",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
@@ -1050,6 +1093,75 @@ public class ModItems {
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> NUGGET_AU198 = register(PARTS_TAB, "nugget_au198",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_CO60 = register(PARTS_TAB, "nugget_co60",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_SR90 = register(PARTS_TAB, "nugget_sr90",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_PB209 = register(PARTS_TAB, "nugget_pb209",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_ACTINIUM = register(PARTS_TAB, "nugget_actinium",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_PU241 = register(PARTS_TAB, "nugget_pu241",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_AM241 = register(PARTS_TAB, "nugget_am241",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_AM242 = register(PARTS_TAB, "nugget_am242",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_AM_MIX = register(PARTS_TAB, "nugget_am_mix",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_AMERICIUM_FUEL = register(PARTS_TAB, "nugget_americium_fuel",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_GH336 = register(PARTS_TAB, "nugget_gh336",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_NEPTUNIUM_FUEL = register(PARTS_TAB, "nugget_neptunium_fuel",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_THORIUM_FUEL = register(PARTS_TAB, "nugget_thorium_fuel",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_LES = register(PARTS_TAB, "nugget_les",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_SCHRABIDIUM_FUEL = register(PARTS_TAB, "nugget_schrabidium_fuel",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_HES = register(PARTS_TAB, "nugget_hes",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_AUSTRALIUM = register(PARTS_TAB, "nugget_australium",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_AUSTRALIUM_GREATER = register(PARTS_TAB, "nugget_australium_greater",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_AUSTRALIUM_LESSER = register(PARTS_TAB, "nugget_australium_lesser",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_BERYLLIUM = register(PARTS_TAB, "nugget_beryllium",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_COBALT = register(PARTS_TAB, "nugget_cobalt",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_OSMIRIDIUM = register(PARTS_TAB, "nugget_osmiridium",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_SILICON = register(PARTS_TAB, "nugget_silicon",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> NUGGET_DINEUTRONIUM = register(PARTS_TAB, "nugget_dineutronium",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> PLATE_IRON = register(PARTS_TAB, "plate_iron",
@@ -1371,15 +1483,23 @@ public class ModItems {
     public static final RegistryObject<Item> BIOMASS_COMPRESSED = register(PARTS_TAB, "biomass_compressed",
             () -> new FuelItem(new Item.Properties(), 800), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> BRIQUETTE = register("briquette",
-            () -> new ItemEnumMulti(new Item.Properties(), HBMEnums.EnumBriquetteType.class, true),
-            ItemModelType.ENUM_ITEM,
-            HBMEnums.EnumBriquetteType.class);
+    public static final RegistryObject<Item> BRIQUETTE_COAL = register(PARTS_TAB, "briquette_coal",
+            () -> new FuelItem(new Item.Properties(), 2000), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> COKE = register("coke",
-            () -> new ItemEnumMulti(new Item.Properties(), HBMEnums.EnumCokeType.class, true, 32000),
-            ItemModelType.ENUM_ITEM,
-            HBMEnums.EnumCokeType.class);
+    public static final RegistryObject<Item> BRIQUETTE_LIGNITE = register(PARTS_TAB, "briquette_lignite",
+            () -> new FuelItem(new Item.Properties(), 1600), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> BRIQUETTE_WOOD = register(PARTS_TAB, "briquette_wood",
+            () -> new FuelItem(new Item.Properties(), 400), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> COKE_COAL = register(PARTS_TAB, "coke_coal",
+            () -> new FuelItem(new Item.Properties(), 32000), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> COKE_LIGNITE = register(PARTS_TAB, "coke_lignite",
+            () -> new FuelItem(new Item.Properties(), 32000), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> COKE_PETROLEUM = register(PARTS_TAB, "coke_petroleum",
+            () -> new FuelItem(new Item.Properties(), 32000), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> BALL_RESIN = register(PARTS_TAB, "ball_resin",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
@@ -1839,7 +1959,7 @@ public class ModItems {
             () -> new ItemDrop(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> FLAME_PONY = register(PARTS_TAB, "flame_pony",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+            () -> new ItemFlamePonyPainting(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> MAN_CORE = register(PARTS_TAB, "man_core",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
@@ -1964,10 +2084,17 @@ public class ModItems {
     public static final RegistryObject<Item> FRAGMENT_BORON = register(PARTS_TAB, "fragment_boron",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> CHUNK_ORE = register("chunk_ore",
-            () -> new ItemEnumMulti<>(new Item.Properties().stacksTo(64), HBMEnums.EnumChunkType.class, true),
-            ItemModelType.ENUM_ITEM,
-            HBMEnums.EnumChunkType.class);
+    public static final RegistryObject<Item> CHUNK_ORE_RARE = register(PARTS_TAB, "chunk_ore_rare",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> CHUNK_ORE_MALACHITE = register(PARTS_TAB, "chunk_ore_malachite",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> CHUNK_ORE_CRYOLITE = register(PARTS_TAB, "chunk_ore_cryolite",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> CHUNK_ORE_MOONSTONE = register(PARTS_TAB, "chunk_ore_moonstone",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> FALLOUT = register(PARTS_TAB, "fallout",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
@@ -2584,8 +2711,14 @@ public class ModItems {
     public static final RegistryObject<Item> BOTTLE_CAP = register(CONSUMABLE_TAB, "bottle_cap",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> BLOCK_COKE = register("block_coke",
-            () -> new ItemBlockCoke(ModBlocks.BLOCK_COKE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> BLOCK_COKE_COAL = register(BLOCK_TAB, "block_coke_coal",
+            () -> new ItemBlockCoke(ModBlocks.BLOCK_COKE_COAL.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BLOCK_COKE_LIGNITE = register(BLOCK_TAB, "block_coke_lignite",
+            () -> new ItemBlockCoke(ModBlocks.BLOCK_COKE_LIGNITE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BLOCK_COKE_PETROLEUM = register(BLOCK_TAB, "block_coke_petroleum",
+            () -> new ItemBlockCoke(ModBlocks.BLOCK_COKE_PETROLEUM.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> ANCIENT_SCRAP = register(BLOCK_TAB, "ancient_scrap",
             () -> new BlockItem(ModBlocks.ANCIENT_SCRAP.get(), new Item.Properties()));
@@ -2644,8 +2777,26 @@ public class ModItems {
     public static final RegistryObject<Item> SAND_BORON = register(BLOCK_TAB, "sand_boron",
             () -> new BlockItem(ModBlocks.SAND_BORON.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> SAND_LEAD = register(BLOCK_TAB, "sand_lead",
+            () -> new BlockItem(ModBlocks.SAND_LEAD.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> SAND_URANIUM = register(BLOCK_TAB, "sand_uranium",
+            () -> new BlockItem(ModBlocks.SAND_URANIUM.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> SAND_POLONIUM = register(BLOCK_TAB, "sand_polonium",
+            () -> new BlockItem(ModBlocks.SAND_POLONIUM.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> SAND_QUARTZ = register(BLOCK_TAB, "sand_quartz",
+            () -> new BlockItem(ModBlocks.SAND_QUARTZ.get(), new Item.Properties()));
+
     public static final RegistryObject<Item> SAND_DIRTY_RED = register(BLOCK_TAB, "sand_dirty_red",
             () -> new BlockItem(ModBlocks.SAND_DIRTY_RED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BASALT_SMOOTH = register(BLOCK_TAB, "basalt_smooth",
+            () -> new BlockItem(ModBlocks.BASALT_SMOOTH.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> ASH_DIGAMMA = register(BLOCK_TAB, "ash_digamma",
+            () -> new BlockItem(ModBlocks.ASH_DIGAMMA.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> NTM_DIRT = register(BLOCK_TAB, "ntm_dirt",
             () -> new BlockItem(ModBlocks.NTM_DIRT.get(), new Item.Properties()));
@@ -2750,6 +2901,9 @@ public class ModItems {
 
     public static final RegistryObject<Item> GRAVEL_OBSIDIAN = register(BLOCK_TAB, "gravel_obsidian",
             () -> new BlockItem(ModBlocks.GRAVEL_OBSIDIAN.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> GRAVEL_DIAMOND = register(BLOCK_TAB, "gravel_diamond",
+            () -> new BlockItem(ModBlocks.GRAVEL_DIAMOND.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> GAS_RADON = register(BLOCK_TAB, "gas_radon",
             () -> new BlockItem(ModBlocks.GAS_RADON.get(), new Item.Properties()));
@@ -2909,9 +3063,6 @@ public class ModItems {
     public static final RegistryObject<Item> PWR_CASING = register(BLOCK_TAB, "pwr_casing",
             () -> new BlockItem(ModBlocks.PWR_CASING.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> PLANT_TALL = register("plant_tall",
-            () -> new ItemBlockPlant(ModBlocks.PLANT_TALL.get(), new Item.Properties(), ItemBlockPlant.PlantType.TALL));
-
     public static final RegistryObject<Item> DIRT_DEAD = register(BLOCK_TAB, "dirt_dead",
             () -> new BlockItem(ModBlocks.DIRT_DEAD.get(), new Item.Properties()));
 
@@ -3033,10 +3184,54 @@ public class ModItems {
     public static final RegistryObject<Item> CRUCIBLE_TEMPLATE = register("crucible_template",
             () -> new ItemCrucibleTemplate(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> MOLD = register("mold",
-            () -> new ItemMold(new Item.Properties()),
-            ItemModelType.ENUM_ITEM,
-            ItemMold.MoldType.class);
+    public static final RegistryObject<Item> MOLD_NUGGET = register(TEMPLATE_TAB, "mold_nugget",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.NUGGET), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_BILLET = register(TEMPLATE_TAB, "mold_billet",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.BILLET), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_INGOT = register(TEMPLATE_TAB, "mold_ingot",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.INGOT), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_PLATE = register(TEMPLATE_TAB, "mold_plate",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.PLATE), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_WIRE = register(TEMPLATE_TAB, "mold_wire",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.WIRE), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_PLATE_CAST = register(TEMPLATE_TAB, "mold_plate_cast",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.PLATE_CAST), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_WIRE_DENSE = register(TEMPLATE_TAB, "mold_wire_dense",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.WIRE_DENSE), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_BLADE = register(TEMPLATE_TAB, "mold_blade",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.BLADE), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_BLADES = register(TEMPLATE_TAB, "mold_blades",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.BLADES), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_STAMP = register(TEMPLATE_TAB, "mold_stamp",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.STAMP), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_SHELL = register(TEMPLATE_TAB, "mold_shell",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.SHELL), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_PIPE = register(TEMPLATE_TAB, "mold_pipe",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.PIPE), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_PIPES = register(TEMPLATE_TAB, "mold_pipes",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.PIPES), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_INGOTS = register(TEMPLATE_TAB, "mold_ingots",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.INGOTS), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_PLATES = register(TEMPLATE_TAB, "mold_plates",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.PLATES), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_WIRES_DENSE = register(TEMPLATE_TAB, "mold_wires_dense",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.WIRES_DENSE), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_BLOCK = register(TEMPLATE_TAB, "mold_block",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.BLOCK), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_BARREL_LIGHT = register(TEMPLATE_TAB, "mold_barrel_light",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.BARREL_LIGHT), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_BARREL_HEAVY = register(TEMPLATE_TAB, "mold_barrel_heavy",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.BARREL_HEAVY), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_RECEIVER_LIGHT = register(TEMPLATE_TAB, "mold_receiver_light",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.RECEIVER_LIGHT), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_RECEIVER_HEAVY = register(TEMPLATE_TAB, "mold_receiver_heavy",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.RECEIVER_HEAVY), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_MECHANISM = register(TEMPLATE_TAB, "mold_mechanism",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.MECHANISM), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_STOCK = register(TEMPLATE_TAB, "mold_stock",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.STOCK), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> MOLD_GRIP = register(TEMPLATE_TAB, "mold_grip",
+            () -> new ItemMold(new Item.Properties(), ItemMold.MoldType.GRIP), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> MOLD_BASE = register(PARTS_TAB,"mold_base",
             () -> new Item(new Item.Properties()),
@@ -3627,45 +3822,6 @@ public class ModItems {
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> WEAPON_MOD_LAS_AUTO = register(PARTS_TAB, "weapon_mod_las_auto",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> WEAPON_MOD_NICKEL = register(PARTS_TAB, "weapon_mod_nickel",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> WEAPON_MOD_DOUBLOONS = register(PARTS_TAB, "weapon_mod_doubloons",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> WEAPON_MOD_DRILL_HSS = register(PARTS_TAB, "weapon_mod_drill_hss",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> WEAPON_MOD_DRILL_WEAPONSTEEL = register(PARTS_TAB, "weapon_mod_drill_weaponsteel",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> WEAPON_MOD_DRILL_TCALLOY = register(PARTS_TAB, "weapon_mod_drill_tcalloy",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> WEAPON_MOD_DRILL_SATURNITE = register(PARTS_TAB, "weapon_mod_drill_saturnite",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> WEAPON_MOD_ENGINE_DIESEL = register(PARTS_TAB, "weapon_mod_engine_diesel",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> WEAPON_MOD_ENGINE_AVIATION = register(PARTS_TAB, "weapon_mod_engine_aviation",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> WEAPON_MOD_ENGINE_ELECTRIC = register(PARTS_TAB, "weapon_mod_engine_electric",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> WEAPON_MOD_ENGINE_TURBO = register(PARTS_TAB, "weapon_mod_engine_turbo",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> WEAPON_MOD_MAGNET = register(PARTS_TAB, "weapon_mod_magnet",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> WEAPON_MOD_SIFTER = register(PARTS_TAB, "weapon_mod_sifter",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> WEAPON_MOD_CANISTERS = register(PARTS_TAB, "weapon_mod_canister",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> SECRET_CANISTER = register(PARTS_TAB, "secret_canister",
@@ -4516,6 +4672,22 @@ public class ModItems {
 
     public static final RegistryObject<Item> ARC_ELECTRODE_SATURNITE = register(MACHINE_TAB, "arc_electrode_saturnite",
             () -> new ItemArcElectrode(new Item.Properties(), 1500),
+            ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> ARC_ELECTRODE_BURNT_GRAPHITE = register(MACHINE_TAB, "arc_electrode_burnt_graphite",
+            () -> new Item(new Item.Properties()),
+            ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> ARC_ELECTRODE_BURNT_LANTHANIUM = register(MACHINE_TAB, "arc_electrode_burnt_lanthanium",
+            () -> new Item(new Item.Properties()),
+            ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> ARC_ELECTRODE_BURNT_DESH = register(MACHINE_TAB, "arc_electrode_burnt_desh",
+            () -> new Item(new Item.Properties()),
+            ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> ARC_ELECTRODE_BURNT_SATURNITE = register(MACHINE_TAB, "arc_electrode_burnt_saturnite",
+            () -> new Item(new Item.Properties()),
             ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> LAMP_DEMON = register(MACHINE_TAB, "machines/lamp_demon",
@@ -5717,15 +5889,15 @@ public class ModItems {
                     .stacksTo(16), true),
             ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> PLANT_TOBACCO = register(PARTS_TAB, "plant_tobacco",
+    public static final RegistryObject<Item> PLANT_ITEM_TOBACCO = register(PARTS_TAB, "plant_tobacco",
             () -> new Item(new Item.Properties()),
             ItemModelType.GENERATED, "plant_tobacco");
 
-    public static final RegistryObject<Item> PLANT_ROPE = register(PARTS_TAB, "plant_rope",
+    public static final RegistryObject<Item> PLANT_ITEM_ROPE = register(PARTS_TAB, "plant_rope",
             () -> new Item(new Item.Properties()),
             ItemModelType.GENERATED, "plant_rope");
 
-    public static final RegistryObject<Item> PLANT_MUSTARDWILLOW = register(PARTS_TAB, "plant_mustardwillow",
+    public static final RegistryObject<Item> PLANT_ITEM_MUSTARDWILLOW = register(PARTS_TAB, "plant_mustardwillow",
             () -> new Item(new Item.Properties()),
             ItemModelType.GENERATED, "plant_mustardwillow");
 
@@ -6121,12 +6293,50 @@ public class ModItems {
             ItemModelType.GENERATED,
             "boat_rubber");
 
-    public static final RegistryObject<Item> PLANT_DEAD = register("plant_dead",
-            () -> new ItemBlockPlant(ModBlocks.PLANT_DEAD.get(),new Item.Properties(), ItemBlockPlant.PlantType.DEAD),
-            ItemModelType.GENERATED);
+    public static final RegistryObject<Item> PLANT_DEAD_GENERIC = register(BLOCK_TAB, "plant_dead_generic",
+            () -> new BlockItem(ModBlocks.PLANT_DEAD_GENERIC.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> PLANT_FLOWER = register("plant_flower",
-            () -> new ItemBlockPlant(ModBlocks.PLANT_FLOWER.get(), new Item.Properties(), ItemBlockPlant.PlantType.FLOWER));
+    public static final RegistryObject<Item> PLANT_DEAD_GRASS = register(BLOCK_TAB, "plant_dead_grass",
+            () -> new BlockItem(ModBlocks.PLANT_DEAD_GRASS.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> PLANT_DEAD_FLOWER = register(BLOCK_TAB, "plant_dead_flower",
+            () -> new BlockItem(ModBlocks.PLANT_DEAD_FLOWER.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> PLANT_DEAD_BIGFLOWER = register(BLOCK_TAB, "plant_dead_bigflower",
+            () -> new BlockItem(ModBlocks.PLANT_DEAD_BIGFLOWER.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> PLANT_DEAD_FERN = register(BLOCK_TAB, "plant_dead_fern",
+            () -> new BlockItem(ModBlocks.PLANT_DEAD_FERN.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> PLANT_FLOWER_FOXGLOVE = register(BLOCK_TAB, "plant_flower_foxglove",
+            () -> new BlockItem(ModBlocks.PLANT_FLOWER_FOXGLOVE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> PLANT_FLOWER_TOBACCO = register(BLOCK_TAB, "plant_flower_tobacco",
+            () -> new BlockItem(ModBlocks.PLANT_FLOWER_TOBACCO.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> PLANT_FLOWER_NIGHTSHADE = register(BLOCK_TAB, "plant_flower_nightshade",
+            () -> new BlockItem(ModBlocks.PLANT_FLOWER_NIGHTSHADE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> PLANT_FLOWER_WEED = register(BLOCK_TAB, "plant_flower_weed",
+            () -> new BlockItem(ModBlocks.PLANT_FLOWER_WEED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> PLANT_FLOWER_CD0 = register(BLOCK_TAB, "plant_flower_cd0",
+            () -> new BlockItem(ModBlocks.PLANT_FLOWER_CD0.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> PLANT_FLOWER_CD1 = register(BLOCK_TAB, "plant_flower_cd1",
+            () -> new BlockItem(ModBlocks.PLANT_FLOWER_CD1.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> PLANT_TALL_WEED = register(BLOCK_TAB, "plant_tall_weed",
+            () -> new BlockItem(ModBlocks.PLANT_TALL_WEED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> PLANT_TALL_CD2 = register(BLOCK_TAB, "plant_tall_cd2",
+            () -> new BlockItem(ModBlocks.PLANT_TALL_CD2.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> PLANT_TALL_CD3 = register(BLOCK_TAB, "plant_tall_cd3",
+            () -> new BlockItem(ModBlocks.PLANT_TALL_CD3.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> PLANT_TALL_CD4 = register(BLOCK_TAB, "plant_tall_cd4",
+            () -> new BlockItem(ModBlocks.PLANT_TALL_CD4.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> PLUSHIE = register("plushie",
             () -> new ItemPlushie(ModBlocks.PLUSHIE.get(), new Item.Properties()));
@@ -6341,86 +6551,43 @@ public class ModItems {
     public static final RegistryObject<Item> BLOCK_DINEUTRONIUM = register(BLOCK_TAB, "block_dineutronium",
             () -> new BlockItem(ModBlocks.BLOCK_DINEUTRONIUM.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> NUGGET_DINEUTRONIUM = register(PARTS_TAB, "nugget_dineutronium",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
     public static final RegistryObject<Item> NUCLEAR_WASTE_VITRIFIED_TINY = register(PARTS_TAB, "nuclear_waste_vitrified_tiny",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> NUCLEAR_WASTE_VITRIFIED = register(PARTS_TAB, "nuclear_waste_vitrified",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> NUGGET_SILICON = register(PARTS_TAB, "nugget_silicon",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> POWDER_SR90 = register(PARTS_TAB, "powder_sr90",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> POWDER_SR90_TINY = register(PARTS_TAB, "powder_sr90_tiny",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> POWDER_XE135 = register(PARTS_TAB, "powder_xe135",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> POWDER_XE135_TINY = register(PARTS_TAB, "powder_xe135_tiny",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> POWDER_CS137 = register(PARTS_TAB, "powder_cs137",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> POWDER_CS137_TINY = register(PARTS_TAB, "powder_cs137_tiny",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> POWDER_I131 = register(PARTS_TAB, "powder_i131",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> POWDER_I131_TINY = register(PARTS_TAB, "powder_i131_tiny",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
     public static final RegistryObject<Item> INGOT_TECHNETIUM = register(PARTS_TAB, "ingot_technetium",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> INGOT_CO60 = register(PARTS_TAB, "ingot_co60",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> NUGGET_CO60 = register(PARTS_TAB, "nugget_co60",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> INGOT_SR90 = register(PARTS_TAB, "ingot_sr90",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> NUGGET_SR90 = register(PARTS_TAB, "nugget_sr90",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
     public static final RegistryObject<Item> INGOT_AU198 = register(PARTS_TAB, "ingot_au198",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
     public static final RegistryObject<Item> INGOT_PB209 = register(PARTS_TAB, "ingot_pb209",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> NUGGET_PB209 = register(PARTS_TAB, "nugget_pb209",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> NUGGET_ACTINIUM = register(PARTS_TAB, "nugget_actinium",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
     public static final RegistryObject<Item> INGOT_ARSENIC = register(PARTS_TAB, "ingot_arsenic",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
     public static final RegistryObject<Item> INGOT_PU241 = register(PARTS_TAB, "ingot_pu241",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> NUGGET_PU241 = register(PARTS_TAB, "nugget_pu241",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> INGOT_AM241 = register(PARTS_TAB, "ingot_am241",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> NUGGET_AM241 = register(PARTS_TAB, "nugget_am241",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> INGOT_AM242 = register(PARTS_TAB, "ingot_am242",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> NUGGET_AM242 = register(PARTS_TAB, "nugget_am242",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> INGOT_AM_MIX = register(PARTS_TAB, "ingot_am_mix",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> NUGGET_AM_MIX = register(PARTS_TAB, "nugget_am_mix",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> INGOT_AMERICIUM_FUEL = register(PARTS_TAB, "ingot_americium_fuel",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> NUGGET_AMERICIUM_FUEL = register(PARTS_TAB, "nugget_americium_fuel",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> NUGGET_GH336 = register(PARTS_TAB, "nugget_gh336",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> INGOT_PU_MIX = register(PARTS_TAB, "ingot_pu_mix",
@@ -6429,57 +6596,13 @@ public class ModItems {
     public static final RegistryObject<Item> INGOT_NEPTUNIUM_FUEL = register(PARTS_TAB, "ingot_neptunium_fuel",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> NUGGET_NEPTUNIUM_FUEL = register(PARTS_TAB, "nugget_neptunium_fuel",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    // ==================== НЕДОСТАЮЩИЕ ПРЕДМЕТЫ ====================
-
-    // Кобальт
-    public static final RegistryObject<Item> NUGGET_COBALT = register(PARTS_TAB, "nugget_cobalt",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    // Торий-232
     public static final RegistryObject<Item> INGOT_TH232 = register(PARTS_TAB, "ingot_th232",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    // Полоний
     public static final RegistryObject<Item> INGOT_POLONIUM = register(PARTS_TAB, "ingot_polonium",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    // Солиний
     public static final RegistryObject<Item> INGOT_SOLINIUM = register(PARTS_TAB, "ingot_solinium",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    // Ториевое топливо (самородок)
-    public static final RegistryObject<Item> NUGGET_THORIUM_FUEL = register(PARTS_TAB, "nugget_thorium_fuel",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    // LES (самородок)
-    public static final RegistryObject<Item> NUGGET_LES = register(PARTS_TAB, "nugget_les",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    // Шрабридиевое топливо (самородок)
-    public static final RegistryObject<Item> NUGGET_SCHRABIDIUM_FUEL = register(PARTS_TAB, "nugget_schrabidium_fuel",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    // HES (самородок)
-    public static final RegistryObject<Item> NUGGET_HES = register(PARTS_TAB, "nugget_hes",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    // Австралий (самородок)
-    public static final RegistryObject<Item> NUGGET_AUSTRALIUM = register(PARTS_TAB, "nugget_australium",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    // Австралий greater (самородок)
-    public static final RegistryObject<Item> NUGGET_AUSTRALIUM_GREATER = register(PARTS_TAB, "nugget_australium_greater",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    // Австралий lesser (самородок)
-    public static final RegistryObject<Item> NUGGET_AUSTRALIUM_LESSER = register(PARTS_TAB, "nugget_australium_lesser",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    // Бериллий (самородок)
-    public static final RegistryObject<Item> NUGGET_BERYLLIUM = register(PARTS_TAB, "nugget_beryllium",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> INGOT_LES = register(PARTS_TAB, "ingot_les",
@@ -6535,6 +6658,9 @@ public class ModItems {
     public static final RegistryObject<Item> BLOCK_PU238 = register(BLOCK_TAB, "block_pu238",
             () -> new BlockItem(ModBlocks.BLOCK_PU238.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> BLOCK_PU_MIX = register(BLOCK_TAB, "block_pu_mix",
+            () -> new BlockItem(ModBlocks.BLOCK_PU_MIX.get(), new Item.Properties()));
+
     public static final RegistryObject<Item> BLOCK_PU239 = register(BLOCK_TAB, "block_pu239",
             () -> new BlockItem(ModBlocks.BLOCK_PU239.get(), new Item.Properties()));
 
@@ -6568,13 +6694,23 @@ public class ModItems {
     public static final RegistryObject<Item> POWDER_PALEOGENITE = register(PARTS_TAB, "powder_paleogenite",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> NUGGET_OSMIRIDIUM = register(PARTS_TAB, "nugget_osmiridium",
+    public static final RegistryObject<Item> PART_GENERIC_PISTON_PNEUMATIC = register(PARTS_TAB, "part_generic_piston_pneumatic",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> PART_GENERIC = register("part_generic",
-            () -> new ItemGenericPart(new Item.Properties()),
-            ItemModelType.ENUM_ITEM,
-            ItemGenericPart.EnumPartType.class);
+    public static final RegistryObject<Item> PART_GENERIC_PISTON_HYDRAULIC = register(PARTS_TAB, "part_generic_piston_hydraulic",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> PART_GENERIC_PISTON_ELECTRIC = register(PARTS_TAB, "part_generic_piston_electric",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> PART_GENERIC_LDE = register(PARTS_TAB, "part_generic_lde",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> PART_GENERIC_HDE = register(PARTS_TAB, "part_generic_hde",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> PART_GENERIC_GLASS_POLARIZED = register(PARTS_TAB, "part_generic_glass_polarized",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> POWDER_BALEFIRE = register(PARTS_TAB, "powder_balefire",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
@@ -6596,6 +6732,14 @@ public class ModItems {
 
     public static final RegistryObject<Item> ITEM_SECRET_SELENIUM_STEEL = register(PARTS_TAB, "item_secret_selenium_steel",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> MACHINE_AMMO_PRESS = register(MACHINE_TAB, "machines/machine_ammo_press",
+            () -> new ItemAmmoPress(ModBlocks.MACHINE_AMMO_PRESS.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> SCRAP_PLASTIC = register("scrap_plastic",
+            () -> new ItemPlasticScrap(new Item.Properties()),
+            ItemModelType.ENUM_ITEM,
+            ItemPlasticScrap.ScrapType.class);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

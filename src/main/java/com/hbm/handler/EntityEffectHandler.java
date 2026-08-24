@@ -500,11 +500,12 @@ public class EntityEffectHandler {
             HbmLivingProps.setAsbestos(entity, 0);
             return;
         } else {
-
-            int bl = HbmLivingProps.getBlackLung(entity);
-
-            if (bl > 0 && bl < HbmLivingProps.MAX_BLACK_LUNG * 0.5)
-                HbmLivingProps.setBlackLung(entity, HbmLivingProps.getBlackLung(entity) - 1);
+            if (entity.tickCount % 10 == 0) {
+                int bl = HbmLivingProps.getBlackLung(entity);
+                if (bl > 0 && bl < HbmLivingProps.MAX_BLACK_LUNG * 0.5) {
+                    HbmLivingProps.setBlackLung(entity, bl - 1);
+                }
+            }
         }
 
         double blacklung = Math.min(HbmLivingProps.getBlackLung(entity), HbmLivingProps.MAX_BLACK_LUNG);

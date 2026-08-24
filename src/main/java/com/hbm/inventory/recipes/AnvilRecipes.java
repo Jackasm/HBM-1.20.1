@@ -5,6 +5,9 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.FluidTypeHBM;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.material.MaterialShapes;
+import com.hbm.inventory.material.Mats;
+import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.items.ModItemTags;
 import com.hbm.items.ModItems;
 import com.hbm.inventory.recipes.common.AStack;
@@ -12,6 +15,8 @@ import com.hbm.inventory.recipes.common.ComparableStack;
 import com.hbm.inventory.recipes.common.TagStack;
 import com.hbm.items.fluid.ItemFluidCanister;
 import com.hbm.items.fluid.ItemFluidID;
+import com.hbm.util.RefStrings;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -19,6 +24,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,14 +43,6 @@ public class AnvilRecipes{
         registerSmithing();
         registerConstruction();
         initFluidRecipes();
-    }
-
-    public static List<Object> getAllRecipes() {
-        List<Object> all = new ArrayList<>();
-        all.addAll(smithingRecipes);
-        all.addAll(constructionRecipes);
-        all.addAll(fluidRecipes);
-        return all;
     }
 
     public static void initFluidRecipes() {
@@ -66,6 +64,11 @@ public class AnvilRecipes{
             recipe.setTier(1);
             fluidRecipes.add(recipe);
         }
+    }
+
+    private static void addMoldRecipe(Item outputMold, AStack demo) {
+        smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(outputMold),
+                demo, new ComparableStack(ModItems.MOLD_BASE.get()), false, true));
     }
 
     public static void registerSmithing() {
@@ -93,17 +96,137 @@ public class AnvilRecipes{
                     new ComparableStack(anvil), new ComparableStack(ModItems.INGOT_OSMIRIDIUM.get(), 10)).makeShapeless());
         }
 
+        // ===== ФОРМЫ (MOLDS) =====
+
+        addMoldRecipe(ModItems.MOLD_NUGGET.get(),
+                new TagStack(ItemTags.create(ResLocation("forge", "nuggets"))));
+
+        addMoldRecipe(ModItems.MOLD_BILLET.get(),
+                new TagStack(ItemTags.create(ResLocation("forge", "billets"))));
+
+        addMoldRecipe(ModItems.MOLD_INGOT.get(),
+                new TagStack(ItemTags.create(ResLocation("forge", "ingots"))));
+
+        addMoldRecipe(ModItems.MOLD_PLATE.get(),
+                new TagStack(ItemTags.create(ResLocation("forge", "plates"))));
+
+        addMoldRecipe(ModItems.MOLD_PLATE_CAST.get(),
+                new TagStack(ItemTags.create(ResLocation("forge", "plate_casts"))));
+
+        addMoldRecipe(ModItems.MOLD_WIRE.get(),
+                new TagStack(ItemTags.create(ResLocation("forge", "wires"))));
+
+        addMoldRecipe(ModItems.MOLD_BLADE.get(),
+                new MultiAStack(
+                        new ComparableStack(ModItems.BLADE_TITANIUM.get()),
+                        new ComparableStack(ModItems.BLADE_TUNGSTEN.get())
+                ));
+
+        addMoldRecipe(ModItems.MOLD_BLADES.get(),
+                new MultiAStack(
+                        new ComparableStack(ModItems.BLADES_STEEL.get()),
+                        new ComparableStack(ModItems.BLADES_TITANIUM.get()),
+                        new ComparableStack(ModItems.BLADES_ADVANCED_ALLOY.get()),
+                        new ComparableStack(ModItems.BLADES_DESH.get())
+                ));
+
+        addMoldRecipe(ModItems.MOLD_STAMP.get(),
+                new MultiAStack(
+                        new ComparableStack(ModItems.STAMP_STONE_FLAT.get()),
+                        new ComparableStack(ModItems.STAMP_IRON_FLAT.get()),
+                        new ComparableStack(ModItems.STAMP_STEEL_FLAT.get()),
+                        new ComparableStack(ModItems.STAMP_TITANIUM_FLAT.get()),
+                        new ComparableStack(ModItems.STAMP_OBSIDIAN_FLAT.get()),
+                        new ComparableStack(ModItems.STAMP_DESH_FLAT.get())
+                ));
+
+        addMoldRecipe(ModItems.MOLD_SHELL.get(),
+                new TagStack(ItemTags.create(ResLocation("forge", "shells"))));
+
+        addMoldRecipe(ModItems.MOLD_PIPE.get(),
+                new TagStack(ItemTags.create(ResLocation("forge", "pipes"))));
+
+        addMoldRecipe(ModItems.MOLD_INGOTS.get(),
+                new TagStack(ItemTags.create(ResLocation("forge", "ingots")), 9));
+
+        addMoldRecipe(ModItems.MOLD_PLATES.get(),
+                new TagStack(ItemTags.create(ResLocation("forge", "plates")), 9));
+
+        addMoldRecipe(ModItems.MOLD_BLOCK.get(),
+                new MultiAStack(
+                        new TagStack(ItemTags.create(ResLocation("forge", "storage_blocks"))),
+                        new TagStack(ItemTags.create(ResLocation("forge", "blocks")))
+                ));
+
+        addMoldRecipe(ModItems.MOLD_WIRE_DENSE.get(),
+                new TagStack(ItemTags.create(ResLocation("forge", "wire_denses"))));
+
+        addMoldRecipe(ModItems.MOLD_WIRES_DENSE.get(),
+                new TagStack(ItemTags.create(ResLocation("forge", "wire_denses")), 9));
 
     }
 
     public static void registerConstruction() {
 
         registerConstructionRecipes();
-        registerConstructionAmmo();
+        registerGrenades();
         registerStampRecipes();
         registerConstructionRecycling();
+        registerMolds();
+        registerShellAndPipeRecipes();
     }
 
+    private static void registerShellAndPipeRecipes() {
+        for (NTMMaterial mat : Mats.orderedList) {
+            if (mat.autogen == null) continue;
+
+            // ===== SHELL (оболочки) =====
+            if (mat.autogen.contains(MaterialShapes.SHELL)) {
+                String shellName = "shell_" + mat.names[0];
+                ResourceLocation shellId = ResLocation(RefStrings.MODID, shellName);
+                if (ForgeRegistries.ITEMS.containsKey(shellId)) {
+                    Item shellItem = ForgeRegistries.ITEMS.getValue(shellId);
+                    if (shellItem != null) {
+                        // Ищем пластину для этого материала
+                        String plateName = "plate_" + mat.names[0];
+                        ResourceLocation plateId = ResLocation(RefStrings.MODID, plateName);
+                        if (ForgeRegistries.ITEMS.containsKey(plateId)) {
+                            Item plateItem = ForgeRegistries.ITEMS.getValue(plateId);
+                            if (plateItem != null) {
+                                constructionRecipes.add(new AnvilConstructionRecipe(
+                                        new ComparableStack(plateItem, 4),
+                                        new AnvilOutput(new ItemStack(shellItem))
+                                ).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
+                            }
+                        }
+                    }
+                }
+            }
+
+            // ===== PIPE (трубы) =====
+            if (mat.autogen.contains(MaterialShapes.PIPE)) {
+                String pipeName = "pipe_" + mat.names[0];
+                ResourceLocation pipeId = ResLocation(RefStrings.MODID, pipeName);
+                if (ForgeRegistries.ITEMS.containsKey(pipeId)) {
+                    Item pipeItem = ForgeRegistries.ITEMS.getValue(pipeId);
+                    if (pipeItem != null) {
+                        // Ищем пластину для этого материала
+                        String plateName = "plate_" + mat.names[0];
+                        ResourceLocation plateId = ResLocation(RefStrings.MODID, plateName);
+                        if (ForgeRegistries.ITEMS.containsKey(plateId)) {
+                            Item plateItem = ForgeRegistries.ITEMS.getValue(plateId);
+                            if (plateItem != null) {
+                                constructionRecipes.add(new AnvilConstructionRecipe(
+                                        new ComparableStack(plateItem, 3),
+                                        new AnvilOutput(new ItemStack(pipeItem))
+                                ).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     private static void registerStampRecipes() {
         constructionRecipes.add(new AnvilConstructionRecipe(
@@ -471,7 +594,7 @@ public class AnvilRecipes{
     }
 
 
-    public static void registerConstructionAmmo() {
+    public static void registerGrenades() {
         // Grenade Generic (4 шт) - из материалов
         constructionRecipes.add(new AnvilConstructionRecipe(
                 new AStack[] {
@@ -744,6 +867,71 @@ public class AnvilRecipes{
         }).setTier(2));
     }
 
+    public static void registerMolds(){
+        // GRIP (22) — 4 стальных слитка + пустой молд
+        constructionRecipes.add(new AnvilConstructionRecipe(
+                new AStack[]{
+                        new ComparableStack(ModItems.MOLD_BASE.get()),
+                        new ComparableStack(ModItems.INGOT_STEEL.get(), 4)
+                },
+                new AnvilOutput(new ItemStack(ModItems.MOLD_GRIP.get()))
+        ).setTier(2));
+
+        // STOCK (23) — 4 стальных слитка + пустой молд
+        constructionRecipes.add(new AnvilConstructionRecipe(
+                new AStack[]{
+                        new ComparableStack(ModItems.MOLD_BASE.get()),
+                        new ComparableStack(ModItems.INGOT_STEEL.get(), 4)
+                },
+                new AnvilOutput(new ItemStack(ModItems.MOLD_STOCK.get()))
+        ).setTier(2));
+
+        // MECHANISM (24) — 4 стальных слитка + пустой молд
+        constructionRecipes.add(new AnvilConstructionRecipe(
+                new AStack[]{
+                        new ComparableStack(ModItems.MOLD_BASE.get()),
+                        new ComparableStack(ModItems.INGOT_STEEL.get(), 4)
+                },
+                new AnvilOutput(new ItemStack(ModItems.MOLD_MECHANISM.get()))
+        ).setTier(2));
+
+        // LIGHT_BARREL (25) — 4 стальных слитка + пустой молд
+        constructionRecipes.add(new AnvilConstructionRecipe(
+                new AStack[]{
+                        new ComparableStack(ModItems.MOLD_BASE.get()),
+                        new ComparableStack(ModItems.INGOT_STEEL.get(), 4)
+                },
+                new AnvilOutput(new ItemStack(ModItems.MOLD_BARREL_LIGHT.get()))
+        ).setTier(2));
+
+        // HEAVY_BARREL (26) — 4 стальных слитка + пустой молд
+        constructionRecipes.add(new AnvilConstructionRecipe(
+                new AStack[]{
+                        new ComparableStack(ModItems.MOLD_BASE.get()),
+                        new ComparableStack(ModItems.INGOT_STEEL.get(), 4)
+                },
+                new AnvilOutput(new ItemStack(ModItems.MOLD_BARREL_HEAVY.get()))
+        ).setTier(2));
+
+        // LIGHT_RECEIVER (27) — 4 стальных слитка + пустой молд
+        constructionRecipes.add(new AnvilConstructionRecipe(
+                new AStack[]{
+                        new ComparableStack(ModItems.MOLD_BASE.get()),
+                        new ComparableStack(ModItems.INGOT_STEEL.get(), 4)
+                },
+                new AnvilOutput(new ItemStack(ModItems.MOLD_RECEIVER_LIGHT.get()))
+        ).setTier(2));
+
+        // HEAVY_RECEIVER (28) — 4 стальных слитка + пустой молд
+        constructionRecipes.add(new AnvilConstructionRecipe(
+                new AStack[]{
+                        new ComparableStack(ModItems.MOLD_BASE.get()),
+                        new ComparableStack(ModItems.INGOT_STEEL.get(), 4)
+                },
+                new AnvilOutput(new ItemStack(ModItems.MOLD_RECEIVER_HEAVY.get()))
+        ).setTier(2));
+    }
+
     public static List<AnvilSmithingRecipe> getSmithing() {
         return smithingRecipes;
     }
@@ -792,16 +980,6 @@ public class AnvilRecipes{
             if(GeneralConfig.ENABLE_LBSM &&
                     GeneralConfig.enableLBSMUnlockAnvil != null && GeneralConfig.ENABLE_LBSM_UNLOCK_ANVIL) {
                 this.tierLower = 1;
-            }
-            return this;
-        }
-
-        public AnvilConstructionRecipe setTierRange(int lower, int upper) {
-            this.tierLower = lower;
-            this.tierUpper = upper;
-            if(GeneralConfig.ENABLE_LBSM &&
-                    GeneralConfig.enableLBSMUnlockAnvil != null && GeneralConfig.ENABLE_LBSM_UNLOCK_ANVIL) {
-                this.tierLower = this.tierUpper = 1;
             }
             return this;
         }
@@ -878,9 +1056,10 @@ public class AnvilRecipes{
     public static class AnvilSmithingRecipe {
         public int tier;
         protected ItemStack output;
-        protected AStack left;
-        protected AStack right;
+        public AStack left;
+        public AStack right;
         protected boolean shapeless = false;
+        public boolean retainLeft = false;
 
         public AnvilSmithingRecipe(int tier, ItemStack out, AStack left, AStack right) {
             this.tier = tier;
@@ -891,6 +1070,17 @@ public class AnvilRecipes{
                     GeneralConfig.enableLBSMUnlockAnvil != null && GeneralConfig.ENABLE_LBSM_UNLOCK_ANVIL) {
                 this.tier = 1;
             }
+        }
+
+        public AnvilSmithingRecipe(int tier, ItemStack out, AStack left, AStack right, boolean retainLeft) {
+            this(tier, out, left, right);
+            this.retainLeft = retainLeft;
+        }
+
+        public AnvilSmithingRecipe(int tier, ItemStack out, AStack left, AStack right, boolean shapeless, boolean retainLeft) {
+            this(tier, out, left, right);
+            this.shapeless = shapeless;
+            this.retainLeft = retainLeft;
         }
 
         public void updateTierFromConfig() {
@@ -937,11 +1127,14 @@ public class AnvilRecipes{
         }
 
         public int amountConsumed(int index, boolean mirrored) {
+            if (retainLeft) {
+                if (index == 0) return 0;
+                if (index == 1) return right.getStackSize();
+            }
             if(index == 0)
                 return mirrored ? right.getStackSize() : left.getStackSize();
             if(index == 1)
                 return mirrored ? left.getStackSize() : right.getStackSize();
-
             return 0;
         }
 
@@ -949,6 +1142,57 @@ public class AnvilRecipes{
             return tier;
         }
 
+    }
+
+    public static class MultiAStack extends AStack {
+        private final AStack[] variants;
+        private final int stacksize;
+
+        public MultiAStack(AStack... variants) {
+            this.variants = variants;
+            this.stacksize = variants.length > 0 ? variants[0].getStackSize() : 1;
+        }
+
+        public MultiAStack(int stacksize, AStack... variants) {
+            this.variants = variants;
+            this.stacksize = stacksize;
+        }
+
+        @Override
+        public boolean matchesRecipe(ItemStack stack, boolean container) {
+            for (AStack variant : variants) {
+                if (variant.matchesRecipe(stack, container)) return true;
+            }
+            return false;
+        }
+
+        @Override
+        public List<ItemStack> extractForNEI() {
+            List<ItemStack> list = new ArrayList<>();
+            for (AStack variant : variants) {
+                list.addAll(variant.extractForNEI());
+            }
+            return list;
+        }
+
+        @Override
+        public int getStackSize() {
+            return stacksize;
+        }
+
+        @Override
+        public AStack copy() {
+            AStack[] copied = new AStack[variants.length];
+            for (int i = 0; i < variants.length; i++) {
+                copied[i] = variants[i].copy();
+            }
+            return new MultiAStack(stacksize, copied);
+        }
+
+        @Override
+        public boolean isIngredientSame(AStack stack) {
+            return false;
+        }
     }
 
 

@@ -1,7 +1,6 @@
 package com.hbm.datagen.worldgen;
 
 import com.hbm.datagen.worldgen.feature.*;
-import com.hbm.datagen.worldgen.structure.RuinConfiguration;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
@@ -29,8 +28,7 @@ public class ModFeatures {
             FEATURES.register("crater", () -> new CraterFeature(CraterConfiguration.CODEC));
     public static final RegistryObject<AntennaFeature> ANTENNA =
             FEATURES.register("antenna", () -> new AntennaFeature(AntennaConfiguration.CODEC));
-    public static final RegistryObject<RuinFeature> RUIN =
-            FEATURES.register("ruin", () -> new RuinFeature(RuinConfiguration.CODEC));
+
 
     public static final RegistryObject<PlantFeature> PLANT =
             FEATURES.register("plant", () -> new PlantFeature(SimpleBlockConfiguration.CODEC));

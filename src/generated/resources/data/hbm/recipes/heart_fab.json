@@ -12,7 +12,7 @@
       "item": "hbm:heart_booster"
     },
     "M": {
-      "item": "hbm:coke"
+      "tag": "hbm:any_coke"
     }
   },
   "pattern": [

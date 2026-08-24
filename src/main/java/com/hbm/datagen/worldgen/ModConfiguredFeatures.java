@@ -1,20 +1,16 @@
 package com.hbm.datagen.worldgen;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockDeadPlant;
-import com.hbm.blocks.generic.BlockNTMFlower;
-import com.hbm.blocks.generic.BlockTallPlant;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.datagen.worldgen.feature.*;
-import com.hbm.datagen.worldgen.structure.RuinConfiguration;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
@@ -48,7 +44,6 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> RARE_ORE = registerKey("rare_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> SULFUR_ORE = registerKey("sulfur_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> TUNGSTEN_ORE = registerKey("tungsten_ore");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> ZINC_ORE = registerKey("zinc_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> THORIUM_ORE = registerKey("thorium_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> URANIUM_ORE = registerKey("uranium_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> STONE_RESOURCE_LIMESTONE = registerKey("stone_resource_limestone");
@@ -68,7 +63,6 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> RARE_DEEPSLATE_ORE = registerKey("rare_deepslate_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> SULFUR_DEEPSLATE_ORE = registerKey("sulfur_deepslate_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> TUNGSTEN_DEEPSLATE_ORE = registerKey("tungsten_deepslate_ore");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> ZINC_DEEPSLATE_ORE = registerKey("zinc_deepslate_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> THORIUM_DEEPSLATE_ORE = registerKey("thorium_deepslate_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> URANIUM_DEEPSLATE_ORE = registerKey("uranium_deepslate_ore");
 
@@ -86,7 +80,7 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> LANDMINE = registerKey("landmine");
     public static final ResourceKey<ConfiguredFeature<?, ?>> CRATER = registerKey("crater");
     public static final ResourceKey<ConfiguredFeature<?, ?>> ANTENNA = registerKey("antenna");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> RUIN = registerKey("ruin");
+
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> FLOWER_FOXGLOVE = registerKey("flower_foxglove");
     public static final ResourceKey<ConfiguredFeature<?, ?>> FLOWER_NIGHTSHADE = registerKey("flower_nightshade");
@@ -176,11 +170,6 @@ public class ModConfiguredFeatures {
                         OreConfiguration.target(STONE_ORE_REPLACEABLES, ModBlocks.ORE_TUNGSTEN.get().defaultBlockState())
                 ), getVeinSize(WorldConfig.tungstenVeinSize, WorldConfig.TUNGSTEN_VEIN_SIZE)));
 
-        register(context, ZINC_ORE, Feature.ORE,
-                new OreConfiguration(List.of(
-                        OreConfiguration.target(STONE_ORE_REPLACEABLES, ModBlocks.ORE_ZINC.get().defaultBlockState())
-                ), getVeinSize(WorldConfig.zincVeinSize, WorldConfig.ZINC_VEIN_SIZE)));
-
         register(context, THORIUM_ORE, Feature.ORE,
                 new OreConfiguration(List.of(
                         OreConfiguration.target(STONE_ORE_REPLACEABLES, ModBlocks.ORE_THORIUM.get().defaultBlockState())
@@ -267,10 +256,6 @@ public class ModConfiguredFeatures {
                         OreConfiguration.target(DEEPSLATE_ORE_REPLACEABLES, ModBlocks.ORE_TUNGSTEN_DEEPSLATE.get().defaultBlockState())
                 ), getVeinSize(WorldConfig.tungstenDeepslateVeinSize, WorldConfig.TUNGSTEN_DEEPSLATE_VEIN_SIZE)));
 
-        register(context, ZINC_DEEPSLATE_ORE, Feature.ORE,
-                new OreConfiguration(List.of(
-                        OreConfiguration.target(DEEPSLATE_ORE_REPLACEABLES, ModBlocks.ORE_ZINC_DEEPSLATE.get().defaultBlockState())
-                ), getVeinSize(WorldConfig.zincDeepslateVeinSize, WorldConfig.ZINC_DEEPSLATE_VEIN_SIZE)));
 
         register(context, THORIUM_DEEPSLATE_ORE, Feature.ORE,
                 new OreConfiguration(List.of(
@@ -344,19 +329,17 @@ public class ModConfiguredFeatures {
         register(context, ANTENNA, ModFeatures.ANTENNA.get(),
                 new AntennaConfiguration(WorldConfig.ANTENNA_STRUCTURE));
 
-        register(context, RUIN, ModFeatures.RUIN.get(),
-                new RuinConfiguration(WorldConfig.RUIN_STRUCTURE));
 
-        registerFlower(context, FLOWER_FOXGLOVE, BlockNTMFlower.EnumFlowerType.FOXGLOVE.ordinal());
-        registerFlower(context, FLOWER_NIGHTSHADE, BlockNTMFlower.EnumFlowerType.NIGHTSHADE.ordinal());
-        registerFlower(context, FLOWER_TOBACCO, BlockNTMFlower.EnumFlowerType.TOBACCO.ordinal());
-        registerFlower(context, FLOWER_WEED, BlockNTMFlower.EnumFlowerType.WEED.ordinal());
-        registerFlower(context, FLOWER_CD0, BlockNTMFlower.EnumFlowerType.CD0.ordinal());
+        registerPlant(context, FLOWER_FOXGLOVE, ModBlocks.PLANT_FLOWER_FOXGLOVE.get());
+        registerPlant(context, FLOWER_NIGHTSHADE, ModBlocks.PLANT_FLOWER_NIGHTSHADE.get());
+        registerPlant(context, FLOWER_TOBACCO, ModBlocks.PLANT_FLOWER_TOBACCO.get());
+        registerPlant(context, FLOWER_WEED, ModBlocks.PLANT_FLOWER_WEED.get());
+        registerPlant(context, FLOWER_CD0, ModBlocks.PLANT_FLOWER_CD0.get());
 
-        registerTallPlant(context, TALL_WEED, BlockTallPlant.EnumTallFlower.WEED);
-        registerTallPlant(context, TALL_CD2, BlockTallPlant.EnumTallFlower.CD2);
+        registerPlant(context, TALL_WEED, ModBlocks.PLANT_TALL_WEED.get());
+        registerPlant(context, TALL_CD2, ModBlocks.PLANT_TALL_CD2.get());
 
-        registerDeadPlant(context, DEAD_PLANT_GENERIC, BlockDeadPlant.EnumDeadPlantType.GENERIC.ordinal());
+        registerPlant(context, DEAD_PLANT_GENERIC, ModBlocks.PLANT_DEAD_GENERIC.get());
 
         // === НЕТЕР РУДЫ ===
         registerOre(context, NETHER_URANIUM_ORE, ModBlocks.ORE_NETHER_URANIUM.get().defaultBlockState(), Blocks.NETHERRACK.defaultBlockState(), 6, 0, 127);
@@ -368,9 +351,9 @@ public class ModConfiguredFeatures {
         if (GeneralConfig.ENABLE_PLUTONIUM_ORE) {
             registerOre(context, NETHER_PLUTONIUM_ORE, ModBlocks.ORE_NETHER_PLUTONIUM.get().defaultBlockState(), Blocks.NETHERRACK.defaultBlockState(), 4, 0, 127);
         }
-// Smoldering ore (30 блоков на чанк)
+        // Smoldering ore (30 блоков на чанк)
         registerSmoldering(context, NETHER_SMOLDERING_ORE);
-// Geyser
+        // Geyser
         registerGeyser(context, NETHER_GEYSER);
 
     }
@@ -422,40 +405,12 @@ public class ModConfiguredFeatures {
         ));
     }
 
-    private static void registerFlower(BootstapContext<ConfiguredFeature<?, ?>> context,
-                                       ResourceKey<ConfiguredFeature<?, ?>> key,
-                                       int meta) {
-        BlockState state = ModBlocks.PLANT_FLOWER.get().defaultBlockState()
-                .setValue(BlockNTMFlower.META, meta);
-
+    private static void registerPlant(BootstapContext<ConfiguredFeature<?, ?>> context,
+                                      ResourceKey<ConfiguredFeature<?, ?>> key,
+                                      Block block) {
         context.register(key, new ConfiguredFeature<>(
                 ModFeatures.PLANT.get(),
-                new SimpleBlockConfiguration(BlockStateProvider.simple(state))
-        ));
-    }
-
-    private static void registerTallPlant(BootstapContext<ConfiguredFeature<?, ?>> context,
-                                          ResourceKey<ConfiguredFeature<?, ?>> key,
-                                          BlockTallPlant.EnumTallFlower type) {
-        BlockState state = ModBlocks.PLANT_TALL.get().defaultBlockState()
-                .setValue(BlockTallPlant.HALF, DoubleBlockHalf.LOWER)
-                .setValue(BlockTallPlant.TYPE, type);
-
-        context.register(key, new ConfiguredFeature<>(
-                ModFeatures.PLANT.get(),
-                new SimpleBlockConfiguration(BlockStateProvider.simple(state))
-        ));
-    }
-
-    private static void registerDeadPlant(BootstapContext<ConfiguredFeature<?, ?>> context,
-                                          ResourceKey<ConfiguredFeature<?, ?>> key,
-                                          int meta) {
-        BlockState state = ModBlocks.PLANT_DEAD.get().defaultBlockState()
-                .setValue(BlockDeadPlant.META, meta);
-
-        context.register(key, new ConfiguredFeature<>(
-                ModFeatures.PLANT.get(),
-                new SimpleBlockConfiguration(BlockStateProvider.simple(state))
+                new SimpleBlockConfiguration(BlockStateProvider.simple(block.defaultBlockState()))
         ));
     }
 

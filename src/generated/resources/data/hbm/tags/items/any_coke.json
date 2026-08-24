@@ -1,5 +1,7 @@
 {
   "values": [
-    "hbm:coke"
+    "hbm:coke_coal",
+    "hbm:coke_lignite",
+    "hbm:coke_petroleum"
   ]
 }

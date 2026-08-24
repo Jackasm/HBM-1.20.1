@@ -7,6 +7,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockTaint;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
+import com.hbm.config.RadiationConfig;
 import com.hbm.config.ServerConfig;
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.mob.CustomSkeleton;
@@ -27,14 +28,19 @@ import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ArmorNo9;
 import com.hbm.items.armor.ItemArmorMod;
+import com.hbm.items.tool.ItemGuideBook;
 import com.hbm.network.PacketDispatcher;
 import com.hbm.network.client.PlayerInformPacket;
+import com.hbm.potion.HbmPotion;
 import com.hbm.sound.ModSounds;
 import com.hbm.uninos.UniNodespace;
+import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ModDamageSource;
 import com.hbm.world.generator.TimedGenerator;
-import net.minecraft.client.Minecraft;
+import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -42,6 +48,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -58,6 +65,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.util.FakePlayer;
@@ -66,16 +74,22 @@ import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
+
+import static com.hbm.util.RefStrings.MODID;
+import static com.hbm.util.ResLocation.ResLocation;
 
 @Mod.EventBusSubscriber
 public class ModEventHandler {
+
+    private static final String FIRST_JOIN_TAG = "firstJoin";
+    private static final String WORLD_DATA_KEY = "hbm_quests";
 
     private static final Random rand = new Random();
 
@@ -113,7 +127,6 @@ public class ModEventHandler {
             // EntityRailCarBase.updateMotion(level);
         }
     }
-
 
     @SubscribeEvent
     public static void onLivingTick(TickEvent.LevelTickEvent event) {
@@ -158,7 +171,6 @@ public class ModEventHandler {
         }
     }
 
-
     @SubscribeEvent
     public static void onEntityJoin(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
@@ -183,25 +195,6 @@ public class ModEventHandler {
         }
     }
 
-    @SubscribeEvent
-    public static void onPlayerLogin(EntityJoinLevelEvent event) {
-        if (!(event.getEntity() instanceof Player player)) return;
-        if (player.level().isClientSide) return;
-
-        if (MobConfig.enableDucks && player instanceof ServerPlayer serverPlayer &&
-                !player.getPersistentData().getBoolean("hasDucked")) {
-
-            PacketDispatcher.sendTo(new PlayerInformPacket("Press O to Duck!", 0, 30000), serverPlayer);
-        }
-
-        boolean hasReceivedStarterKit = player.getPersistentData().getBoolean("hasReceivedStarterKit");
-
-        if (!hasReceivedStarterKit) {
-            giveStarterKit(player);
-            player.getPersistentData().putBoolean("hasReceivedStarterKit", true);
-        }
-    }
-
     private static void giveStarterKit(Player player) {
         int freeSlots = 0;
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
@@ -218,6 +211,59 @@ public class ModEventHandler {
             player.drop(new ItemStack(Items.STONE_PICKAXE), false);
             player.drop(new ItemStack(Items.STONE_AXE), false);
             player.drop(new ItemStack(Items.STONE_SHOVEL), false);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        Player player = event.getEntity();
+        if (player.level().isClientSide) return;
+
+        CompoundTag data = player.getPersistentData();
+
+        if (player instanceof ServerPlayer serverPlayer) {
+            Advancement rootAdvancement = serverPlayer.server.getAdvancements()
+                    .getAdvancement(ResLocation(MODID, "root"));
+
+            if (rootAdvancement != null) {
+                AdvancementProgress progress = serverPlayer.getAdvancements()
+                        .getOrStartProgress(rootAdvancement);
+                if (!progress.isDone()) {
+                    for (String criterion : progress.getRemainingCriteria()) {
+                        progress.grantProgress(criterion);
+                    }
+                }
+            }
+        }
+
+        // === СТАРТЕР-ПАК ===
+        if (!data.getBoolean("hasReceivedStarterKit")) {
+            giveStarterItems(player); // Книга
+            giveStarterKit(player);   // Инструменты
+            data.putBoolean("hasReceivedStarterKit", true);
+        }
+
+        // === DUCK-СООБЩЕНИЕ ===
+        if (!data.getBoolean("hasDucked") && MobConfig.enableDucks && player instanceof ServerPlayer serverPlayer) {
+            PacketDispatcher.sendTo(new PlayerInformPacket("Press O to Duck!", 0, 30000), serverPlayer);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerClone(PlayerEvent.Clone event) {
+        if (!event.isWasDeath()) return;
+        CompoundTag oldData = event.getOriginal().getPersistentData();
+        CompoundTag newData = event.getEntity().getPersistentData();
+
+        newData.putBoolean("hasReceivedStarterKit", oldData.getBoolean("hasReceivedStarterKit"));
+        newData.putBoolean("hasDucked", oldData.getBoolean("hasDucked"));
+    }
+
+    private static void giveStarterItems(Player player) {
+        ItemStack guideBook = new ItemStack(ModItems.BOOK_GUIDE.get());
+        guideBook.setDamageValue(ItemGuideBook.BookType.TEST.ordinal());
+        if (!player.getInventory().add(guideBook)) {
+            player.drop(guideBook, false);
         }
     }
 
@@ -600,4 +646,64 @@ public class ModEventHandler {
             }
         }
     }
+
+    @SubscribeEvent
+    public static void onBlockBreak(BlockEvent.BreakEvent event) {
+
+        Player player = event.getPlayer();
+
+        if (!(player instanceof ServerPlayer serverPlayer))
+            return;
+
+        Level level = player.level();
+        BlockPos pos = event.getPos();
+        BlockState state = event.getState();
+        Block block = state.getBlock();
+
+        if (block == ModBlocks.STONE_GNEISS.get()) {
+            Advancement advancement = serverPlayer.server.getAdvancements()
+                    .getAdvancement(ResLocation(MODID, "stratum"));
+            if (advancement != null) {
+                AdvancementProgress progress = serverPlayer.getAdvancements()
+                        .getOrStartProgress(advancement);
+                if (!progress.isDone()) {
+                    ModCriteriaTriggers.STRATUM.trigger(serverPlayer);
+                    event.setExpToDrop(500);
+                }
+            }
+        }
+
+        if (block == Blocks.COAL_ORE || block == Blocks.COAL_BLOCK ||
+                block == ModBlocks.ORE_LIGNITE.get() || block == Blocks.DEEPSLATE_COAL_ORE ||
+                block == ModBlocks.ORE_LIGNITE_DEEPSLATE.get()) {
+
+            RandomSource rand = level.random;
+
+            for (Direction dir : Direction.values()) {
+                BlockPos offPos = pos.relative(dir);
+
+                if (rand.nextInt(2) == 0 && level.getBlockState(offPos).isAir()) {
+                    level.setBlock(offPos, ModBlocks.GAS_COAL.get().defaultBlockState(), 3);
+                }
+            }
+        }
+
+        if (RadiationConfig.enablePollution.get() && RadiationConfig.enableLeadFromBlocks.get()) {
+            if (!ArmorRegistry.hasProtection(player, 3, ArmorRegistry.HazardClass.PARTICLE_FINE)) {
+
+                float metal = PollutionHandler.getPollution(level, pos, PollutionType.HEAVYMETAL);
+
+                if (metal < 5) return;
+
+                if (metal < 10) {
+                    player.addEffect(new MobEffectInstance(HbmPotion.LEAD.get(), 100, 0));
+                } else if (metal < 25) {
+                    player.addEffect(new MobEffectInstance(HbmPotion.LEAD.get(), 100, 1));
+                } else {
+                    player.addEffect(new MobEffectInstance(HbmPotion.LEAD.get(), 100, 2));
+                }
+            }
+        }
+    }
+
 }

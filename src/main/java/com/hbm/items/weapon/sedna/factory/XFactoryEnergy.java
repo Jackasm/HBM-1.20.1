@@ -262,8 +262,8 @@ public class XFactoryEnergy {
                     ModEntities.BULLET_BEAM.get(),
                     world,
                     beam.getThrower(),
-                    beam.getConfig(), // Или специальный конфиг для дочернего луча
-                    beam.getDamage() * 0.5f // Например, половина урона
+                    BulletConfigRegistry.energy_tesla_ir_sub,
+                    beam.getDamage()
             );
 
             // Устанавливаем позицию в точке попадания

@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class ItemHot extends Item {
 
-    public static int maxHeat;
+    public final int maxHeat;
 
     public ItemHot(Properties properties, int heat) {
         super(properties);
@@ -32,11 +32,11 @@ public class ItemHot extends Item {
         }
     }
 
-    public static int getMaxHeat(ItemStack stack) {
+    public int getMaxHeat(ItemStack stack) {
         return maxHeat;
     }
 
-    public static ItemStack heatUp(ItemStack stack) {
+    public ItemStack heatUp(ItemStack stack) {
         if (!(stack.getItem() instanceof ItemHot)) return stack;
 
         CompoundTag tag = stack.getTag();
@@ -48,7 +48,7 @@ public class ItemHot extends Item {
         return stack;
     }
 
-    public static ItemStack heatUp(ItemStack stack, double d) {
+    public ItemStack heatUp(ItemStack stack, double d) {
         if (!(stack.getItem() instanceof ItemHot)) return stack;
 
         CompoundTag tag = stack.getTag();
@@ -60,7 +60,7 @@ public class ItemHot extends Item {
         return stack;
     }
 
-    public static double getHeat(ItemStack stack) {
+    public double getHeat(ItemStack stack) {
         if (!(stack.getItem() instanceof ItemHot)) return 0;
         if (!stack.hasTag()) return 0;
 

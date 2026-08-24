@@ -4,12 +4,10 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.NTMMaterial;
-import com.hbm.items.ItemEnumMulti;
 import com.hbm.items.ModItems;
 import com.hbm.util.RefStrings;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
@@ -29,6 +27,8 @@ import java.util.*;
 import static com.hbm.util.ResLocation.ResLocation;
 
 public class ItemMold extends Item {
+
+    private final MoldType moldType;
 
     public enum MoldType implements StringRepresentable {
         NUGGET("nugget", 0, MaterialShapes.NUGGET, 1),
@@ -92,7 +92,7 @@ public class ItemMold extends Item {
         GRIP("grip", 0, MaterialShapes.GRIP, 1);
 
         private final String name;
-        public final int size; // 0 = small (FoundryMold), 1 = large (FoundryBasin)
+        public final int size;
         public final MaterialShapes shape;
         public final int amount;
 
@@ -137,21 +137,6 @@ public class ItemMold extends Item {
                 return new ItemStack(item, this.amount);
             }
 
-            ResourceLocation baseId = ResLocation(RefStrings.MODID, shape.name());
-            if (BuiltInRegistries.ITEM.containsKey(baseId)) {
-                Item baseItem = BuiltInRegistries.ITEM.get(baseId);
-                if (baseItem instanceof ItemEnumMulti<?> enumMulti) {
-                    Class<? extends Enum<?>> enumClass = enumMulti.theEnum;
-                    for (Enum<?> constant : enumClass.getEnumConstants()) {
-                        if (constant.name().equalsIgnoreCase(mat.names[0])) {
-                            ItemStack result = new ItemStack(baseItem, this.amount);
-                            result.getOrCreateTag().putInt("CustomModelData", constant.ordinal());
-                            return result;
-                        }
-                    }
-                }
-            }
-
             // 3. Если ничего не найдено – материал не отливается в этой форме
             return null;
         }
@@ -166,37 +151,49 @@ public class ItemMold extends Item {
         }
     }
 
-    public ItemMold(Properties properties) {
-        super(properties.stacksTo(1));
+    public ItemMold(Properties properties, MoldType moldType) {
+        super(properties);
+        this.moldType = moldType;
     }
 
-    public static MoldType getMoldType(ItemStack stack) {
-        CompoundTag tag = stack.getTag();
-        int ordinal = tag != null ? tag.getInt("CustomModelData") : 0;
-        MoldType[] values = MoldType.values();
-        return values[Math.abs(ordinal) % values.length];
-    }
-
-    @Override
-    public @NotNull Component getName(@NotNull ItemStack stack) {
-        MoldType mold = getMoldType(stack);
-        return Component.translatable(this.getDescriptionId())
-                .append(" ")
-                .append(Component.translatable("hbm.mold_" + mold.getSerializedName()));
+    public MoldType getMoldType() {
+        return moldType;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        MoldType mold = getMoldType(stack);
-        tooltip.add(Component.literal(mold.getSerializedName() + " x" + mold.amount).withStyle(ChatFormatting.YELLOW));
-        if (mold.size == 0) tooltip.add(Component.translatable(ModBlocks.FOUNDRY_MOLD.get().getDescriptionId()).withStyle(ChatFormatting.GOLD));
-        if (mold.size == 1) tooltip.add(Component.translatable(ModBlocks.FOUNDRY_BASIN.get().getDescriptionId()).withStyle(ChatFormatting.RED));
+        tooltip.add(Component.literal(moldType.getSerializedName() + " x" + moldType.amount).withStyle(ChatFormatting.YELLOW));
+        if (moldType.size == 0) tooltip.add(Component.translatable(ModBlocks.FOUNDRY_MOLD.get().getDescriptionId()).withStyle(ChatFormatting.GOLD));
+        if (moldType.size == 1) tooltip.add(Component.translatable(ModBlocks.FOUNDRY_BASIN.get().getDescriptionId()).withStyle(ChatFormatting.RED));
     }
 
-    public static ItemStack forMold(MoldType type) {
-        ItemStack stack = new ItemStack(ModItems.MOLD.get());
-        stack.getOrCreateTag().putInt("CustomModelData", type.ordinal());
-        return stack;
+    public static ItemStack getMoldStack(MoldType type) {
+        return switch (type) {
+            case NUGGET -> new ItemStack(ModItems.MOLD_NUGGET.get());
+            case BILLET -> new ItemStack(ModItems.MOLD_BILLET.get());
+            case INGOT -> new ItemStack(ModItems.MOLD_INGOT.get());
+            case PLATE -> new ItemStack(ModItems.MOLD_PLATE.get());
+            case WIRE -> new ItemStack(ModItems.MOLD_WIRE.get());
+            case PLATE_CAST -> new ItemStack(ModItems.MOLD_PLATE_CAST.get());
+            case WIRE_DENSE -> new ItemStack(ModItems.MOLD_WIRE_DENSE.get());
+            case BLADE -> new ItemStack(ModItems.MOLD_BLADE.get());
+            case BLADES -> new ItemStack(ModItems.MOLD_BLADES.get());
+            case STAMP -> new ItemStack(ModItems.MOLD_STAMP.get());
+            case SHELL -> new ItemStack(ModItems.MOLD_SHELL.get());
+            case PIPE -> new ItemStack(ModItems.MOLD_PIPE.get());
+            case PIPES -> new ItemStack(ModItems.MOLD_PIPES.get());
+            case INGOTS -> new ItemStack(ModItems.MOLD_INGOTS.get());
+            case PLATES -> new ItemStack(ModItems.MOLD_PLATES.get());
+            case WIRES_DENSE -> new ItemStack(ModItems.MOLD_WIRES_DENSE.get());
+            case BLOCK -> new ItemStack(ModItems.MOLD_BLOCK.get());
+            case BARREL_LIGHT -> new ItemStack(ModItems.MOLD_BARREL_LIGHT.get());
+            case BARREL_HEAVY -> new ItemStack(ModItems.MOLD_BARREL_HEAVY.get());
+            case RECEIVER_LIGHT -> new ItemStack(ModItems.MOLD_RECEIVER_LIGHT.get());
+            case RECEIVER_HEAVY -> new ItemStack(ModItems.MOLD_RECEIVER_HEAVY.get());
+            case MECHANISM -> new ItemStack(ModItems.MOLD_MECHANISM.get());
+            case STOCK -> new ItemStack(ModItems.MOLD_STOCK.get());
+            case GRIP -> new ItemStack(ModItems.MOLD_GRIP.get());
+        };
     }
 }

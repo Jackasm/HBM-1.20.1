@@ -14,7 +14,7 @@
     "frame": "goal",
     "hidden": false,
     "icon": {
-      "item": "hbm:nothing"
+      "item": "hbm:machines/machine_blast_furnace"
     },
     "show_toast": true,
     "title": {

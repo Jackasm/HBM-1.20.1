@@ -12,14 +12,18 @@ import com.hbm.render.anim.AnimationEnums;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
+import com.hbm.util.EntityDamageUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Objects;
@@ -44,6 +48,41 @@ public class XFactoryAccelerator {
                 WEAPON_FIRE_TAURELEASE.get(),
                 ctx.getPlayer().getSoundSource(),
                 1F, 1F);
+    };
+
+    public static BiConsumer<EntityBulletBeamBase, HitResult> LAMBDA_BEAM_HIT = (beam, hitResult) -> {
+
+        // Проверяем тип попадания
+        if (hitResult.getType() == HitResult.Type.ENTITY) {
+            EntityHitResult entityHit = (EntityHitResult) hitResult;
+            Entity entity = entityHit.getEntity();
+
+            // Проверяем, является ли entity живым существом и живое ли оно еще
+            if (entity instanceof LivingEntity living) {
+                if (living.getHealth() <= 0) return;
+            }
+
+            // Получаем источник урона
+            DamageSource source = beam.getConfig().getDamage(beam, beam.getThrower(), BulletConfig.DamageClass.SUBATOMIC);
+
+            // Если entity не является LivingEntity
+            if (!(entity instanceof LivingEntity)) {
+                EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, source, beam.getDamage());
+                return;
+            }
+
+            // Если entity является LivingEntity
+            LivingEntity living = (LivingEntity) entity;
+            EntityDamageUtil.attackEntityFromNT(
+                    living,
+                    source,
+                    beam.getDamage(),
+                    true,
+                    beam.getConfig().knockbackMult,
+                    beam.getConfig().armorThresholdNegation,
+                    beam.getConfig().armorPiercingPercent
+            );
+        }
     };
 
     public static BiConsumer<ItemStack, GunItem.LambdaContext> LAMBDA_RECOIL_COILGUN = (stack, ctx) -> GunItem.setupRecoil(10, (float) (Objects.requireNonNull(ctx.getPlayer()).getRandom().nextGaussian() * 1.5));

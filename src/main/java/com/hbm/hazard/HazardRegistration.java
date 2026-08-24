@@ -349,7 +349,6 @@ public class HazardRegistration {
 
         HazardBuilder.ofBlock(ModBlocks.BLOCK_RA226).rad(ra226 * block).register();
         HazardBuilder.ofBlock(ModBlocks.BLOCK_ACTINIUM).rad(ac227 * block).register();
-        HazardBuilder.ofBlock(ModBlocks.BLOCK_COKE).coal(block).register();
         HazardBuilder.ofBlock(ModBlocks.BLOCK_URANIUM).rad(u * block).register();
         HazardBuilder.ofBlock(ModBlocks.BLOCK_U233).rad(u233 * block).register();
         HazardBuilder.ofBlock(ModBlocks.BLOCK_U235).rad(u235 * block).register();
@@ -367,6 +366,7 @@ public class HazardRegistration {
         HazardBuilder.ofBlock(ModBlocks.BLOCK_WASTE_PAINTED).rad(wst * block).register();
         HazardBuilder.ofBlock(ModBlocks.BLOCK_WASTE_VITRIFIED).rad(wstv * block).register();
         HazardBuilder.ofBlock(ModBlocks.BLOCK_LITHIUM).hydro(block).register();
+        HazardBuilder.ofBlock(ModBlocks.ORE_GNEISS_LITHIUM).hydro(block).register();
         HazardBuilder.ofBlock(ModBlocks.BLOCK_ASBESTOS).asbestos(1F * block).register();
         HazardBuilder.ofBlock(ModBlocks.TILE_LAB_BROKEN).asbestos(1F).register();
         HazardBuilder.ofBlock(ModBlocks.DECO_ASBESTOS).asbestos(1F).register();

@@ -235,7 +235,7 @@ public class ItemGuideBook extends Item{
         public boolean showAcceptButton;
         public boolean completeOnLastPage;
 
-        public List<ItemStack> craftingGrid = new ArrayList<>(); // 9 элементов
+
         public ItemStack craftingResult = ItemStack.EMPTY;
         public int craftingX = 0;
         public int cellSize = 18;
@@ -245,7 +245,6 @@ public class ItemGuideBook extends Item{
         public int anvilX = 0, anvilY = 0;
 
         public GuidePage setCraftingRecipe(ItemStack result) {
-            this.craftingGrid = getCraftingRecipe(result);
             this.craftingResult = result.copy();
             return this;
         }

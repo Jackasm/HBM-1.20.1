@@ -13,13 +13,12 @@ import com.hbm.sound.ModSounds;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.HBMEnums;
+import com.hbm.util.ModDamageSource;
 import net.minecraft.core.Direction;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
@@ -37,11 +36,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-
-import static com.hbm.util.ModDamageSource.*;
 
 public class BulletConfig implements Cloneable {
 
@@ -435,59 +433,39 @@ public class BulletConfig implements Cloneable {
 
     /* DAMAGE SOURCE CREATION */
 
-    @SuppressWarnings("incomplete-switch")
     public static DamageSource getDamage(Entity projectile, @Nullable LivingEntity shooter, DamageClass dmgClass) {
-
-        ResourceKey<DamageType> typeKey = switch(dmgClass) {
-            case PHYSICAL -> PHYSICAL;
-            case FIRE -> FIRE;
-            case EXPLOSIVE -> EXPLOSIVE;
-            case ELECTRIC -> ELECTRICITY;
-            case LASER -> LASER;
-            case SUBATOMIC -> SUBATOMIC;
-            default -> DAMAGE_TYPE_GENERIC;
-        };
-
         Level level = projectile != null ? projectile.level() :
                 shooter != null ? shooter.level() : null;
 
         if (level == null) {
-            return new DamageSource(RegistryAccess.EMPTY.registryOrThrow(Registries.DAMAGE_TYPE)
-                    .getHolderOrThrow(DamageTypes.GENERIC), projectile, shooter);
+            // fallback
+            var registry = net.minecraft.core.RegistryAccess.EMPTY
+                    .registryOrThrow(net.minecraft.core.registries.Registries.DAMAGE_TYPE);
+            var holder = registry.getHolderOrThrow(net.minecraft.world.damagesource.DamageTypes.GENERIC);
+            return new DamageSourceSednaNoAttacker(dmgClass.name(), holder);
         }
 
-        var registry = level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE);
-        var damageType = registry.getHolderOrThrow(typeKey);
-
-        if (shooter != null && projectile != null) {
-            return new DamageSource(damageType, projectile, shooter);
-        } else if (shooter != null) {
-            return new DamageSource(damageType, shooter);
-        } else if (projectile != null) {
-            return new DamageSource(damageType, projectile);
-        } else {
-            return new DamageSource(damageType);
-        }
+        return getDamageForLevel(level, shooter, dmgClass);
     }
 
-    public static DamageSource getDamage(RegistryAccess registryAccess, @Nullable LivingEntity shooter, DamageClass dmgClass) {
-        ResourceKey<DamageType> typeKey = switch(dmgClass) {
-            case PHYSICAL -> DamageTypes.GENERIC;
-            case FIRE -> DamageTypes.ON_FIRE;
-            case EXPLOSIVE -> DamageTypes.EXPLOSION;
-            case ELECTRIC -> DamageTypes.LIGHTNING_BOLT;
-            case LASER -> DamageTypes.GENERIC;
-            case SUBATOMIC -> DamageTypes.GENERIC;
-            default -> DamageTypes.GENERIC;
+    public static DamageSource getDamageForLevel(Level level, @Nullable LivingEntity shooter, DamageClass dmgClass) {
+        ResourceKey<DamageType> typeKey = switch (dmgClass) {
+            case PHYSICAL -> ModDamageSource.PHYSICAL;
+            case FIRE -> ModDamageSource.FIRE;
+            case EXPLOSIVE -> ModDamageSource.EXPLOSIVE;
+            case ELECTRIC -> ModDamageSource.ELECTRICITY;
+            case LASER -> ModDamageSource.LASER;
+            case SUBATOMIC -> ModDamageSource.SUBATOMIC;
+            default -> ModDamageSource.DAMAGE_TYPE_GENERIC;
         };
 
-        var registry = registryAccess.registryOrThrow(Registries.DAMAGE_TYPE);
-        var damageType = registry.getHolderOrThrow(typeKey);
+        var registry = level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE);
+        var holder = registry.getHolderOrThrow(typeKey);
 
         if (shooter != null) {
-            return new DamageSource(damageType, shooter);
+            return new DamageSourceSednaWithAttacker(dmgClass.name(), null, shooter, holder);
         } else {
-            return new DamageSource(damageType);
+            return new DamageSourceSednaNoAttacker(dmgClass.name(), holder);
         }
     }
 
@@ -647,7 +625,7 @@ public class BulletConfig implements Cloneable {
             LivingEntity thrower = beam.getThrower();
 
             // Skip if hitting self too soon (если есть задержка)
-            if (entity == thrower && beam.tickCount < beam.getConfig().selfDamageDelay) {
+            if (entity == thrower && beam.tickCount < Objects.requireNonNull(beam.getConfig()).selfDamageDelay) {
                 return;
             }
 
@@ -668,7 +646,7 @@ public class BulletConfig implements Cloneable {
                     source,
                     intendedDamage,
                     true,
-                    beam.getConfig().knockbackMult,
+                    Objects.requireNonNull(beam.getConfig()).knockbackMult,
                     beam.getConfig().armorThresholdNegation,
                     beam.getConfig().armorPiercingPercent / 100f
             );
@@ -677,41 +655,6 @@ public class BulletConfig implements Cloneable {
             if (entity instanceof LivingEntity && !living.isAlive()) {
                 ConfettiUtil.decideConfetti(living, source);
             }
-        }
-    };
-
-    public static BiConsumer<EntityBulletBeamBase, HitResult> LAMBDA_BEAM_HIT = (beam, hitResult) -> {
-
-        // Проверяем тип попадания
-        if (hitResult.getType() == HitResult.Type.ENTITY) {
-            EntityHitResult entityHit = (EntityHitResult) hitResult;
-            Entity entity = entityHit.getEntity();
-
-            // Проверяем, является ли entity живым существом и живое ли оно еще
-            if (entity instanceof LivingEntity living) {
-                if (living.getHealth() <= 0) return;
-            }
-
-            // Получаем источник урона
-            DamageSource source = beam.getConfig().getDamage(beam, beam.getThrower(), DamageClass.LASER);
-
-            // Если entity не является LivingEntity
-            if (!(entity instanceof LivingEntity)) {
-                EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, source, beam.getDamage());
-                return;
-            }
-
-            // Если entity является LivingEntity
-            LivingEntity living = (LivingEntity) entity;
-            EntityDamageUtil.attackEntityFromNT(
-                    living,
-                    source,
-                    beam.getDamage(),
-                    true,
-                    beam.getConfig().knockbackMult,
-                    beam.getConfig().armorThresholdNegation,
-                    beam.getConfig().armorPiercingPercent
-            );
         }
     };
 

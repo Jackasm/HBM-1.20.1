@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_block_starmetal": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:block_starmetal"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:block_starmetal_to_ingot_starmetal"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_block_starmetal",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:block_starmetal_to_ingot_starmetal"
+    ]
+  },
+  "sends_telemetry_event": false
+}

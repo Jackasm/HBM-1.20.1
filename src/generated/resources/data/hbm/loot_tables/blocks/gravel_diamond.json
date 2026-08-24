@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:air"
+          "name": "hbm:gravel_diamond"
         }
       ],
       "rolls": 1.0

@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "tag": "hbm:rubber_ingots"
+            "items": [
+              "minecraft:oak_planks"
+            ]
           }
         ]
       },

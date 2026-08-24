@@ -1,0 +1,25 @@
+{
+  "values": [
+    "hbm:plate_cast_iron",
+    "hbm:plate_cast_gold",
+    "hbm:plate_cast_schrabidate",
+    "hbm:plate_cast_titanium",
+    "hbm:plate_cast_copper",
+    "hbm:plate_cast_tungsten",
+    "hbm:plate_cast_aluminium",
+    "hbm:plate_cast_lead",
+    "hbm:plate_cast_zirconium",
+    "hbm:plate_cast_osmiridium",
+    "hbm:plate_cast_steel",
+    "hbm:plate_cast_advanced_alloy",
+    "hbm:plate_cast_desh",
+    "hbm:plate_cast_ferrouranium",
+    "hbm:plate_cast_technetium",
+    "hbm:plate_cast_cadmium_steel",
+    "hbm:plate_cast_bismuth_bronze",
+    "hbm:plate_cast_arsenic_bronze",
+    "hbm:plate_cast_cmb_steel",
+    "hbm:plate_cast_weapon_steel",
+    "hbm:plate_cast_saturnite"
+  ]
+}

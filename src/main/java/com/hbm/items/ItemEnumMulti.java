@@ -70,21 +70,6 @@ public class ItemEnumMulti<T extends Enum<T>> extends Item {
 
     @Override
     public int getBurnTime(@NotNull ItemStack stack, @Nullable RecipeType<?> recipeType) {
-        // Специальная обработка для брикетов
-        if (this == ModItems.BRIQUETTE.get()) {
-            int single = 200;
-            Enum<?> type = getType(stack);
-            if (type instanceof HBMEnums.EnumBriquetteType briquetteType) {
-                return switch (briquetteType) {
-                    case COAL -> single * 10;      // 2000
-                    case LIGNITE -> single * 8;    // 1600
-                    case WOOD -> single * 2;       // 400
-                    default -> 0;
-                };
-            }
-            return 0;
-        }
-
         // Специальная обработка для золы
         if (this == ModItems.POWDER_ASH.get()) {
             int single = 200;

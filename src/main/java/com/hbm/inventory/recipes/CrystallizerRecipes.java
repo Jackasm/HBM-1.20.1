@@ -56,7 +56,6 @@ public class CrystallizerRecipes {
         // Руды без кислоты
         registerRecipe(ModItemTags.ORE_COPPER, new CrystallizerRecipe(ModItems.CRYSTAL_COPPER.get(), BASE_TIME), peroxide);
         registerRecipe(ModItemTags.ORE_ALUMINIUM, new CrystallizerRecipe(ModItems.CRYSTAL_ALUMINIUM.get(), BASE_TIME), peroxide);
-        registerRecipe(ModItemTags.ORE_ZINC, new CrystallizerRecipe(ModItems.CRYSTAL_ZINC.get(), BASE_TIME), peroxide);
         registerRecipe(ModItemTags.ORE_NITER, new CrystallizerRecipe(ModItems.CRYSTAL_NITER.get(), BASE_TIME), peroxide);
         registerRecipe(ModItemTags.ORE_SULFUR, new CrystallizerRecipe(ModItems.CRYSTAL_SULFUR.get(), BASE_TIME), peroxide);
         registerRecipe(ModItemTags.ORE_FLUORITE, new CrystallizerRecipe(ModItems.CRYSTAL_FLUORITE.get(), BASE_TIME), peroxide);

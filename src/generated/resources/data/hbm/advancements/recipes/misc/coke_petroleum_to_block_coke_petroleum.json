@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_coke_petroleum": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hbm:coke_petroleum"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbm:coke_petroleum_to_block_coke_petroleum"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_coke_petroleum",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbm:coke_petroleum_to_block_coke_petroleum"
+    ]
+  },
+  "sends_telemetry_event": false
+}

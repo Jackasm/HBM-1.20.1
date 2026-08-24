@@ -6,7 +6,6 @@
     "hbm:raw_lead",
     "hbm:raw_beryllium",
     "hbm:raw_cobalt",
-    "hbm:raw_zinc",
     "hbm:raw_uranium",
     "hbm:raw_plutonium",
     "hbm:raw_thorium"

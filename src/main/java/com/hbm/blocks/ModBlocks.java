@@ -137,13 +137,6 @@ public class ModBlocks {
             ToolInfo.pickaxe(ToolInfo.ToolLevel.STONE),
             "ore_asbestos", "deepslate");
 
-    public static final RegistryObject<Block> ORE_GNEISS_ASBESTOS = registerBlock("ore_gneiss_asbestos",
-            () -> new BlockOutgas(BlockOutgas.createProperties(MapColor.STONE, 1.5F, 10.0F, true), 5, true),
-            BlockModel.ORE,
-            LootInfo.item(ModItems.POWDER_ASBESTOS, 1, 3),
-            ToolInfo.pickaxe(ToolInfo.ToolLevel.STONE),
-            "ore_gneiss_asbestos");
-
     public static final RegistryObject<Block> ORE_METEOR_IRON = registerBlock("ore_meteor_iron",
             () -> new BlockOutgas(BlockOutgas.createProperties(MapColor.STONE, 1.5F, 10.0F, true), 5, true),
             BlockModel.ORE,
@@ -407,20 +400,6 @@ public class ModBlocks {
             LootInfo.item(ModItems.RARE_EARTH_CHUNK, 1, 2),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "ore_rare", "deepslate");
-
-    public static final RegistryObject<Block> ORE_ZINC = registerBlock("ore_zinc",
-            () -> new Block(ModBlockProperties.ORE_PROPERTIES()),
-            BlockModel.ORE,
-            LootInfo.item(ModItems.RAW_ZINC, 1, 1),
-            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
-            "ore_zinc", "stone");
-
-    public static final RegistryObject<Block> ORE_ZINC_DEEPSLATE = registerBlock("ore_zinc_deepslate",
-            () -> new Block(ModBlockProperties.DEEPSLATE_ORE_PROPERTIES()),
-            BlockModel.ORE,
-            LootInfo.item(ModItems.RAW_ZINC, 1, 1),
-            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
-            "ore_zinc", "deepslate");
 
     public static final RegistryObject<Block> ORE_CINNABAR = registerBlock("ore_cinnabar",
             () -> new Block(ModBlockProperties.ORE_PROPERTIES()),
@@ -1244,12 +1223,92 @@ public class ModBlocks {
             ToolInfo.pickaxe(ToolInfo.ToolLevel.DIAMOND),
             "ore_bedrock_oil");
 
+    public static final RegistryObject<Block> ORE_GNEISS_IRON = registerBlock("ore_gneiss_iron",
+            () -> new BlockOre(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(1.5F, 10.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE), 0.0F),
+            BlockModel.CUBE_ALL,
+            LootInfo.item(() -> Items.RAW_IRON, 1, 1),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "ore_gneiss_iron");
+
+    public static final RegistryObject<Block> ORE_GNEISS_GOLD = registerBlock("ore_gneiss_gold",
+            () -> new BlockOre(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(1.5F, 10.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE), 0.0F),
+            BlockModel.CUBE_ALL,
+            LootInfo.item(() -> Items.RAW_GOLD, 1, 1),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "ore_gneiss_gold");
+
+    public static final RegistryObject<Block> ORE_GNEISS_COPPER = registerBlock("ore_gneiss_copper",
+            () -> new BlockOre(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(1.5F, 10.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE), 0.0F),
+            BlockModel.CUBE_ALL,
+            LootInfo.item(() -> Items.RAW_COPPER, 1, 1),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "ore_gneiss_copper");
+
+    public static final RegistryObject<Block> ORE_GNEISS_LITHIUM = registerBlock("ore_gneiss_lithium",
+            () -> new BlockOre(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(1.5F, 10.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE), 0.0F),
+            BlockModel.CUBE_ALL,
+            LootInfo.item(ModItems.LITHIUM, 1, 1),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "ore_gneiss_lithium");
+
     public static final RegistryObject<Block> ORE_GNEISS_URANIUM = registerBlock("ore_gneiss_uranium",
             () -> new BlockOutgas(BlockOutgas.createProperties(MapColor.STONE, 1.5F, 10F, true), 5, true),
             BlockModel.CUBE_ALL,
             LootInfo.item(ModItems.RAW_URANIUM, 1, 1),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "ore_gneiss_uranium");
+
+    public static final RegistryObject<Block> ORE_GNEISS_ASBESTOS = registerBlock("ore_gneiss_asbestos",
+            () -> new BlockOutgas(BlockOutgas.createProperties(MapColor.STONE, 1.5F, 10.0F, true), 5, true),
+            BlockModel.ORE,
+            LootInfo.item(ModItems.POWDER_ASBESTOS, 1, 3),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.STONE),
+            "ore_gneiss_asbestos");
+
+    public static final RegistryObject<Block> ORE_GNEISS_RARE = registerBlock("ore_gneiss_rare",
+            () -> new BlockOre(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(1.5F, 10.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE), 0.0F),
+            BlockModel.ORE,
+            LootInfo.item(ModItems.RARE_EARTH_CHUNK, 1, 2),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "ore_gneiss_rare", "stone");
+
+    public static final RegistryObject<Block> ORE_GNEISS_SCHRABIDIUM = registerBlock("ore_gneiss_schrabidium",
+            () -> new BlockOre(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(1.5F, 10.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE), 0.0F),
+            BlockModel.ORE,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.DIAMOND),
+            "ore_schrabidium", "stone");
+
+    public static final RegistryObject<Block> ORE_GNEISS_URANIUM_SCORCHED = registerBlock("ore_gneiss_uranium_scorched",
+            () -> new BlockOutgas(BlockOutgas.createProperties(MapColor.STONE, 1.5F, 10F, true), 5, true),
+            BlockModel.CUBE_ALL,
+            LootInfo.item(ModItems.RAW_URANIUM, 1, 1),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "ore_gneiss_uranium_scorched");
 
     public static final RegistryObject<Block> ORE_GNEISS_GAS = registerBlock("ore_gneiss_gas",
             () -> new BlockOre(ModBlockProperties.ORE_PROPERTIES()),
@@ -1290,17 +1349,6 @@ public class ModBlocks {
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.DIAMOND),
             "block_meteor_broken");
-
-    public static final RegistryObject<Block> ORE_GNEISS_RARE = registerBlock("ore_gneiss_rare",
-            () -> new BlockOre(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.STONE)
-                    .strength(1.5F, 10.0F)
-                    .requiresCorrectToolForDrops()
-                    .sound(SoundType.STONE), 0.0F),
-            BlockModel.ORE,
-            LootInfo.item(ModItems.RARE_EARTH_CHUNK, 1, 2),
-            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
-            "ore_gneiss_rare", "stone");
 
     public static final RegistryObject<Block> WASTE_TRINITITE = registerBlock("waste_trinitite",
             () -> new BlockOre(BlockOre.createRadioactiveProperties(MapColor.COLOR_GREEN, 0.5F, 2.5F)
@@ -1628,24 +1676,6 @@ public class ModBlocks {
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "ore_uranium_scorched");
 
-    public static final RegistryObject<Block> ORE_GNEISS_SCHRABIDIUM = registerBlock("ore_gneiss_schrabidium",
-            () -> new BlockOre(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.STONE)
-                    .strength(1.5F, 10.0F)
-                    .requiresCorrectToolForDrops()
-                    .sound(SoundType.STONE), 0.0F),
-            BlockModel.ORE,
-            LootInfo.self(),
-            ToolInfo.pickaxe(ToolInfo.ToolLevel.DIAMOND),
-            "ore_schrabidium", "stone");
-
-    public static final RegistryObject<Block> ORE_GNEISS_URANIUM_SCORCHED = registerBlock("ore_gneiss_uranium_scorched",
-            () -> new BlockOutgas(BlockOutgas.createProperties(MapColor.STONE, 1.5F, 10F, true), 5, true),
-            BlockModel.CUBE_ALL,
-            LootInfo.item(ModItems.RAW_URANIUM, 1, 1),
-            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
-            "ore_gneiss_uranium_scorched");
-
     public static final RegistryObject<Block> BLOCK_ELECTRICAL_SCRAP = registerBlock("block_electrical_scrap",
             () -> new FallingBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.METAL)
@@ -1798,7 +1828,7 @@ public class ModBlocks {
             "block_smore_side", "block_smore","block_smore");
 
     public static final RegistryObject<Block> BLOCK_SEMTEX = registerBlock("block_semtex",
-            () -> new Block(BlockBehaviour.Properties.of()
+            () -> new BlockPlasticExplosive(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED)
                     .strength(5.0F, 10.0F)
                     .sound(SoundType.METAL)
@@ -1953,6 +1983,7 @@ public class ModBlocks {
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "block_pu_mix");
+
     public static final RegistryObject<Block> BLOCK_FLUORITE = registerBlock("block_fluorite",
             () -> new Block(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_LIGHT_GRAY)
@@ -2300,13 +2331,26 @@ public class ModBlocks {
             BlockModel.AIR,
             "dummy_block");
 
-    public static final RegistryObject<Block> BLOCK_COKE = registerBlock("block_coke",
+    public static final RegistryObject<Block> BLOCK_COKE_COAL = registerBlock("block_coke_coal",
             BlockCoke::new,
-            BlockModel.ENUM_BLOCK,
+            BlockModel.CUBE_ALL,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
-            "block_coke",
-            BlockCoke.CokeType.class);
+            "block_coke_coal");
+
+    public static final RegistryObject<Block> BLOCK_COKE_LIGNITE = registerBlock("block_coke_lignite",
+            BlockCoke::new,
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "block_coke_lignite");
+
+    public static final RegistryObject<Block> BLOCK_COKE_PETROLEUM = registerBlock("block_coke_petroleum",
+            BlockCoke::new,
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "block_coke_petroleum");
 
     public static final RegistryObject<Block> HEATER_FIREBOX = registerBlock("machines/heater_firebox",
             () -> new HeaterFirebox(HeaterFirebox.createProperties()),
@@ -2383,13 +2427,33 @@ public class ModBlocks {
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "machines/machine_crucible");
 
-    public static final RegistryObject<Block> PLANT_TALL = registerBlock("plant_tall",
-            () -> new BlockTallPlant(BlockTallPlant.createProperties()),
-            BlockModel.TALL_PLANT_ENUM,
+    public static final RegistryObject<Block> PLANT_TALL_WEED = registerBlock("plant_tall_weed",
+            () -> new BlockTallPlant(BlockTallPlant.createProperties(), BlockTallPlant.PlantVariant.WEED),
+            BlockModel.TALL_PLANT,
             LootInfo.self(),
             ToolInfo.none(),
-            "plant_tall", BlockTallPlant.EnumTallFlower.class
-    );
+            "plant_tall_weed");
+
+    public static final RegistryObject<Block> PLANT_TALL_CD2 = registerBlock("plant_tall_cd2",
+            () -> new BlockTallPlant(BlockTallPlant.createProperties(), BlockTallPlant.PlantVariant.CD2),
+            BlockModel.TALL_PLANT,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "plant_tall_cd2");
+
+    public static final RegistryObject<Block> PLANT_TALL_CD3 = registerBlock("plant_tall_cd3",
+            () -> new BlockTallPlant(BlockTallPlant.createProperties(), BlockTallPlant.PlantVariant.CD3),
+            BlockModel.TALL_PLANT,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "plant_tall_cd3");
+
+    public static final RegistryObject<Block> PLANT_TALL_CD4 = registerBlock("plant_tall_cd4",
+            () -> new BlockTallPlant(BlockTallPlant.createProperties(), BlockTallPlant.PlantVariant.CD4),
+            BlockModel.TALL_PLANT,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "plant_tall_cd4");
 
     public static final RegistryObject<Block> DIRT_DEAD = registerBlock("dirt_dead",
             () -> new FallingBlock(Block.Properties.of()
@@ -2990,16 +3054,6 @@ public class ModBlocks {
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "ore_aluminium");
 
-    public static final RegistryObject<Block> SAND_BORON = registerBlock("sand_boron",
-            () -> new FallingBlock(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.SAND)
-                    .strength(0.5F)
-                    .sound(SoundType.SAND)),
-            BlockModel.CUBE_ALL,
-            LootInfo.self(),
-            ToolInfo.shovel(ToolInfo.ToolLevel.IRON),
-            "sand_boron");
-
     public static final RegistryObject<Block> TURRET_SENTRY = registerBlock("turrets/turret_sentry",
             () -> new TurretSentry(TurretSentry.createProperties()),
             BlockModel.OBJ_MODEL_HORIZONTAL,
@@ -3589,18 +3643,82 @@ public class ModBlocks {
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "rebar");
 
-    public static final RegistryObject<Block> PLANT_FLOWER = registerBlock("plant_flower",
-            () -> new BlockNTMFlower(BlockNTMFlower.createProperties().noLootTable()),
-            BlockModel.PLANT_ENUM,
-            ToolInfo.none(),
-            "plant_flower", BlockNTMFlower.EnumFlowerType.class);
-
-    public static final RegistryObject<Block> PLANT_DEAD = registerBlock("plant_dead",
-            () -> new BlockDeadPlant(BlockDeadPlant.createProperties()),
-            BlockModel.PLANT_ENUM,
+    public static final RegistryObject<Block> PLANT_FLOWER_FOXGLOVE = registerBlock("plant_flower_foxglove",
+            () -> new BlockNTMFlower(BlockNTMFlower.createProperties(), BlockNTMFlower.FlowerVariant.FOXGLOVE),
+            BlockModel.PLANT,
             LootInfo.self(),
             ToolInfo.none(),
-            "plant_dead", BlockDeadPlant.EnumDeadPlantType.class);
+            "plant_flower_foxglove");
+
+    public static final RegistryObject<Block> PLANT_FLOWER_TOBACCO = registerBlock("plant_flower_tobacco",
+            () -> new BlockNTMFlower(BlockNTMFlower.createProperties(), BlockNTMFlower.FlowerVariant.TOBACCO),
+            BlockModel.PLANT,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "plant_flower_tobacco");
+
+    public static final RegistryObject<Block> PLANT_FLOWER_NIGHTSHADE = registerBlock("plant_flower_nightshade",
+            () -> new BlockNTMFlower(BlockNTMFlower.createProperties(), BlockNTMFlower.FlowerVariant.NIGHTSHADE),
+            BlockModel.PLANT,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "plant_flower_nightshade");
+
+    public static final RegistryObject<Block> PLANT_FLOWER_WEED = registerBlock("plant_flower_weed",
+            () -> new BlockNTMFlower(BlockNTMFlower.createProperties(), BlockNTMFlower.FlowerVariant.WEED),
+            BlockModel.PLANT,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "plant_flower_weed");
+
+    public static final RegistryObject<Block> PLANT_FLOWER_CD0 = registerBlock("plant_flower_cd0",
+            () -> new BlockNTMFlower(BlockNTMFlower.createProperties(), BlockNTMFlower.FlowerVariant.CD0),
+            BlockModel.PLANT,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "plant_flower_cd0");
+
+    public static final RegistryObject<Block> PLANT_FLOWER_CD1 = registerBlock("plant_flower_cd1",
+            () -> new BlockNTMFlower(BlockNTMFlower.createProperties(), BlockNTMFlower.FlowerVariant.CD1),
+            BlockModel.PLANT,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "plant_flower_cd1");
+
+    public static final RegistryObject<Block> PLANT_DEAD_GENERIC = registerBlock("plant_dead_generic",
+            () -> new BlockDeadPlant(BlockDeadPlant.createProperties()),
+            BlockModel.PLANT,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "plant_dead_generic");
+
+    public static final RegistryObject<Block> PLANT_DEAD_GRASS = registerBlock("plant_dead_grass",
+            () -> new BlockDeadPlant(BlockDeadPlant.createProperties()),
+            BlockModel.PLANT,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "plant_dead_grass");
+
+    public static final RegistryObject<Block> PLANT_DEAD_FLOWER = registerBlock("plant_dead_flower",
+            () -> new BlockDeadPlant(BlockDeadPlant.createProperties()),
+            BlockModel.PLANT,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "plant_dead_flower");
+
+    public static final RegistryObject<Block> PLANT_DEAD_BIGFLOWER = registerBlock("plant_dead_bigflower",
+            () -> new BlockDeadPlant(BlockDeadPlant.createProperties()),
+            BlockModel.PLANT,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "plant_dead_bigflower");
+
+    public static final RegistryObject<Block> PLANT_DEAD_FERN = registerBlock("plant_dead_fern",
+            () -> new BlockDeadPlant(BlockDeadPlant.createProperties()),
+            BlockModel.PLANT,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "plant_dead_fern");
 
     public static final RegistryObject<Block> PLUSHIE = registerBlock("plushie",
             () -> new BlockPlushie(BlockPlushie.createProperties()),
@@ -3723,5 +3841,83 @@ public class ModBlocks {
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "battery_dineutronium_front", "battery_dineutronium_side", "battery_dineutronium_top");
+
+    public static final RegistryObject<Block> MACHINE_AMMO_PRESS = registerBlock("machines/machine_ammo_press",
+            () -> new MachineAmmoPress(MachineAmmoPress.createProperties()),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "machines/machine_ammo_press");
+
+    public static final RegistryObject<Block> SAND_BORON = registerBlock("sand_boron",
+            () -> new FallingBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SAND)
+                    .strength(0.5F)
+                    .sound(SoundType.SAND)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.shovel(ToolInfo.ToolLevel.IRON),
+            "sand_boron");
+
+    public static final RegistryObject<Block> SAND_LEAD = registerBlock("sand_lead",
+            () -> new FallingBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SAND)
+                    .strength(0.5F)
+                    .sound(SoundType.SAND)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.shovel(ToolInfo.ToolLevel.IRON),
+            "sand_lead");
+
+    public static final RegistryObject<Block> SAND_URANIUM = registerBlock("sand_uranium",
+            () -> new FallingBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SAND)
+                    .strength(0.5F)
+                    .sound(SoundType.SAND)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.shovel(ToolInfo.ToolLevel.IRON),
+            "sand_uranium");
+
+    public static final RegistryObject<Block> SAND_POLONIUM = registerBlock("sand_polonium",
+            () -> new FallingBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SAND)
+                    .strength(0.5F)
+                    .sound(SoundType.SAND)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.shovel(ToolInfo.ToolLevel.IRON),
+            "sand_polonium");
+
+    public static final RegistryObject<Block> SAND_QUARTZ = registerBlock("sand_quartz",
+            () -> new FallingBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SAND)
+                    .strength(0.5F)
+                    .sound(SoundType.SAND)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.shovel(ToolInfo.ToolLevel.IRON),
+            "sand_quartz");
+
+    public static final RegistryObject<Block> ASH_DIGAMMA = registerBlock("ash_digamma",
+            () -> new BlockAshes(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SAND)
+                    .strength(0.5F, 150.0F)
+                    .sound(SoundType.SAND)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.shovel(ToolInfo.ToolLevel.IRON),
+            "ash_digamma");
+
+    public static final RegistryObject<Block> BASALT_SMOOTH = registerBlock("basalt_smooth",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLACK)
+                    .strength(5.0F, 10.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "basalt_smooth");
 
 }

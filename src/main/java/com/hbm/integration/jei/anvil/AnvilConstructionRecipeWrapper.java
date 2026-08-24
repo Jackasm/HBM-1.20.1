@@ -29,21 +29,37 @@ public class AnvilConstructionRecipeWrapper implements HBMRecipeWrapper {
 
     @Override
     public void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull IFocusGroup focuses) {
-        // Входные предметы: размещаем в сетке 2x2
-        int x = 44;
-        int y = 26;
-        int offset = 18;
-
-        for (int i = 0; i < inputsVariants.size() && i < 4; i++) {
-            int slotX = x + (i % 2) * offset;
-            int slotY = y + (i / 2) * offset;
-            List<ItemStack> variants = inputsVariants.get(i);
-
-            if (!variants.isEmpty()) {
-                // Добавляем все варианты для этого слота
-                builder.addSlot(RecipeIngredientRole.INPUT, slotX, slotY)
-                        .addItemStacks(variants);
+        // Определяем количество рядов (rows) по последнему занятому слоту
+        int maxIndex = -1;
+        for (int i = 0; i < inputsVariants.size(); i++) {
+            if (!inputsVariants.get(i).isEmpty()) {
+                maxIndex = i;
             }
+        }
+        if (maxIndex == -1) return; // нет ингредиентов
+
+        int cols = 3; // всегда 3 колонки
+        int rows = (maxIndex / cols) + 1;
+
+        // Центр сетки по горизонтали и вертикали
+        int xCenter = 64;  // центр сетки по X (можно подобрать)
+        int yCenter = 43;  // центр сетки по Y (совпадает с центром выходного слота)
+
+        int startX = xCenter - (cols * 18) / 2;
+        int startY = yCenter - (rows * 18) / 2;
+
+        // Добавляем слоты для ингредиентов
+        for (int i = 0; i < inputsVariants.size() && i < 9; i++) {
+            List<ItemStack> variants = inputsVariants.get(i);
+            if (variants.isEmpty()) continue;
+
+            int row = i / cols;
+            int col = i % cols;
+            int slotX = startX + col * 18;
+            int slotY = startY + row * 18;
+
+            builder.addSlot(RecipeIngredientRole.INPUT, slotX, slotY)
+                    .addItemStacks(variants);
         }
 
         // Выходной предмет (первый выход)

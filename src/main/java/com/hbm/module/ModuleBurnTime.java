@@ -2,16 +2,18 @@ package com.hbm.module;
 
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-import com.hbm.handler.FuelHandler;
+import com.hbm.inventory.recipes.common.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.util.ItemStackUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.ForgeHooks;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -19,6 +21,8 @@ import java.util.List;
  * @author hbm
  */
 public class ModuleBurnTime {
+
+    private static final HashMap<ComparableStack, Integer> burnCache = new HashMap<>();
 
     private static final int modLog = 0;
     private static final int modWood = 1;
@@ -79,12 +83,27 @@ public class ModuleBurnTime {
     }
 
     public int getBurnTime(ItemStack stack) {
-        int fuel = FuelHandler.getBurnTimeFromCache(stack);
+        int fuel = getBurnTimeFromCache(stack);
 
         if (fuel == 0)
             return 0;
 
         return (int) (fuel * getMod(stack, modTime));
+    }
+
+    public static int getBurnTimeFromCache(ItemStack stack) {
+        if (stack == null || stack.isEmpty()) return 0;
+
+        ComparableStack comp = new ComparableStack(stack).makeSingular();
+
+        if (burnCache.containsKey(comp)) {
+            return burnCache.get(comp);
+        }
+
+        int burnTime = ForgeHooks.getBurnTime(stack, null);
+        burnCache.put(comp, burnTime);
+
+        return burnTime;
     }
 
     public int getBurnHeat(int base, ItemStack stack) {

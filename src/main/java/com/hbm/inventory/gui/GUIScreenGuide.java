@@ -268,7 +268,8 @@ public class GUIScreenGuide extends Screen {
             }
 
             // Отрисовка рецепта крафта
-            if (page.craftingGrid != null && !page.craftingGrid.isEmpty()) {
+            List<ItemStack> craftingGrid = ItemGuideBook.getCraftingRecipe(page.craftingResult);
+            if (craftingGrid != null && !craftingGrid.isEmpty()) {
                 int startX = guiLeft + 20 + i * sideOffset + page.craftingX;
                 int startY = guiTop + 44;
                 int cell = page.cellSize;
@@ -277,7 +278,7 @@ public class GUIScreenGuide extends Screen {
                 guiGraphics.fill(startX - 1, startY - 1, startX + 3 * cell + 1, startY + 3 * cell + 1, 0xFF444444);
 
                 for (int slot = 0; slot < 9; slot++) {
-                    ItemStack stack = page.craftingGrid.get(slot);
+                    ItemStack stack = craftingGrid.get(slot);
                     if (!stack.isEmpty()) {
                         int col = slot % 3;
                         int row = slot / 3;
@@ -301,7 +302,7 @@ public class GUIScreenGuide extends Screen {
                     guiGraphics.renderItemDecorations(font, page.craftingResult, resultX, resultY);
                 }
 
-                checkCraftingHover(mouseX, mouseY, startX, startY, cell, page);
+                checkCraftingHover(mouseX, mouseY, startX, startY, cell, craftingGrid, page.craftingResult);
             }
 
             // Отрисовка рецепта наковальни
@@ -432,15 +433,15 @@ public class GUIScreenGuide extends Screen {
         }
     }
 
-    private void checkCraftingHover(int mouseX, int mouseY, int startX, int startY, int cell, ItemGuideBook.GuidePage page) {
-        for (int slot = 0; slot < 9; slot++) {
-            ItemStack stack = page.craftingGrid.get(slot);
+    private void checkCraftingHover(int mouseX, int mouseY, int startX, int startY, int cell,
+                                    List<ItemStack> craftingGrid, ItemStack result) {
+        for (int slot = 0; slot < 9 && slot < craftingGrid.size(); slot++) {
+            ItemStack stack = craftingGrid.get(slot);
             if (!stack.isEmpty()) {
                 int col = slot % 3;
                 int row = slot / 3;
                 int x = startX + col * cell;
                 int y = startY + row * cell;
-
                 if (mouseX >= x && mouseX <= x + cell && mouseY >= y && mouseY <= y + cell) {
                     hoverStack = stack;
                     hoverSlotX = x;
@@ -449,21 +450,18 @@ public class GUIScreenGuide extends Screen {
                 }
             }
         }
-
-        if (!page.craftingResult.isEmpty()) {
+        if (!result.isEmpty()) {
             int resultX = startX + 3 * cell + 20;
             int resultY = startY + cell - 2;
             int resultW = cell + 4;
             int resultH = cell + 4;
-
             if (mouseX >= resultX && mouseX <= resultX + resultW && mouseY >= resultY && mouseY <= resultY + resultH) {
-                hoverStack = page.craftingResult;
+                hoverStack = result;
                 hoverSlotX = resultX;
                 hoverSlotY = resultY;
                 return;
             }
         }
-
         hoverStack = ItemStack.EMPTY;
         hoverSlotX = -1;
         hoverSlotY = -1;

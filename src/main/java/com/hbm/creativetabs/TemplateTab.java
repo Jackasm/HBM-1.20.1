@@ -6,7 +6,6 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.CrucibleRecipes;
 import com.hbm.items.machine.ItemCrucibleTemplate;
 import com.hbm.items.fluid.ItemFluidID;
-import com.hbm.items.machine.ItemMold;
 import com.hbm.util.HBMEnums;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -34,9 +33,7 @@ public class TemplateTab {
                     for (int i = 0; i < CrucibleRecipes.recipes.size(); i++) {
                         output.accept(ItemCrucibleTemplate.forRecipe(i));
                     }
-                    for (ItemMold.MoldType type : ItemMold.MoldType.values()) {
-                        output.accept(ItemMold.forMold(type));
-                    }
+
                 })
                 .build();
     }

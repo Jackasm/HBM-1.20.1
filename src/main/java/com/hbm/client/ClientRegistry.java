@@ -143,7 +143,7 @@ public class ClientRegistry {
         event.registerBlockEntityRenderer(ModTileEntity.RADAR_NT.get(), RenderRadar::new);
         event.registerBlockEntityRenderer(ModTileEntity.RADAR_SCREEN.get(), RenderRadarScreen::new);
         event.registerBlockEntityRenderer(ModTileEntity.MACHINE_BLAST_FURNACE.get(), RenderBlastFurnace::new);
-
+        event.registerBlockEntityRenderer(ModTileEntity.MACHINE_AMMO_PRESS.get(), RenderAmmoPress::new);
 
 //======================================== Entity ========================================================================
 
@@ -157,7 +157,7 @@ public class ClientRegistry {
         event.registerEntityRenderer(ModEntities.FALLING_NUKE.get(), NoopRenderer::new);
 
         event.registerEntityRenderer(ModEntities.BULLET.get(), RenderBulletMK4::new);
-        event.registerEntityRenderer(ModEntities.BULLET_BEAM.get(), BeamEntityRenderer::new);
+        event.registerEntityRenderer(ModEntities.BULLET_BEAM.get(), RenderBeamEntity::new);
         event.registerEntityRenderer(ModEntities.FIRE_LINGERING.get(), RenderFireLingering::new);
         event.registerEntityRenderer(ModEntities.CLOUD_FLEIJA.get(), RenderCloudFleija::new);
 
@@ -398,6 +398,7 @@ public class ClientRegistry {
         event.registerEntityRenderer(ModEntities.MISSILE_VOLCANO.get(), RenderMissileNuclear::new);
         event.registerEntityRenderer(ModEntities.MISSILE_DOOMSDAY.get(), RenderMissileNuclear::new);
         event.registerEntityRenderer(ModEntities.MISSILE_DOOMSDAY_RUSTED.get(), RenderMissileNuclear::new);
+        event.registerEntityRenderer(ModEntities.FLAME_PONY_PAINTING.get(), FlamePonyPaintingRenderer::new);
     }
 
     @SubscribeEvent

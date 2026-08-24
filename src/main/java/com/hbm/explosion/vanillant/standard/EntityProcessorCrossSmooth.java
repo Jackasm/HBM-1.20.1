@@ -5,7 +5,6 @@ import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.factory.ConfettiUtil;
 import com.hbm.util.EntityDamageUtil;
 
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.damagesource.DamageSource;
@@ -44,14 +43,10 @@ public class EntityProcessorCrossSmooth extends EntityProcessorCross {
     public void attackEntity(Entity entity, ExplosionVNT source, float amount) {
         if(!entity.isAlive()) return;
 
-        // Уменьшаем урон самому себе
         if(source.exploder == entity) amount *= 0.5F;
 
-        // Создаем DamageSource в зависимости от класса урона
-        RegistryAccess registryAccess = source.world.registryAccess();
-        DamageSource dmg = BulletConfig.getDamage(registryAccess,
-                source.exploder instanceof LivingEntity ? (LivingEntity) source.exploder : null,
-                clazz);
+        LivingEntity shooter = source.exploder instanceof LivingEntity ? (LivingEntity) source.exploder : null;
+        DamageSource dmg = BulletConfig.getDamageForLevel(source.world, shooter, clazz);
 
         if(!(entity instanceof LivingEntity)) {
             entity.hurt(dmg, amount);

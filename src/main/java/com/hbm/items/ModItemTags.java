@@ -24,7 +24,6 @@ public class ModItemTags {
     public static final TagKey<Item> ORE_TITANIUM = forgeTag("ores/titanium");
     public static final TagKey<Item> ORE_TUNGSTEN = forgeTag("ores/tungsten");
     public static final TagKey<Item> ORE_ALUMINIUM = forgeTag("ores/aluminium");
-    public static final TagKey<Item> ORE_ZINC = forgeTag("ores/zinc");
     public static final TagKey<Item> ORE_COBALT = forgeTag("ores/cobalt");
     public static final TagKey<Item> ORE_BERYLLIUM = forgeTag("ores/beryllium");
     public static final TagKey<Item> ORE_NITER = forgeTag("ores/niter");

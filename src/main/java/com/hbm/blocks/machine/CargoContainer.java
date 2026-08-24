@@ -128,11 +128,6 @@ public class CargoContainer extends BlockDummyable {
     }
 
     @Override
-    public @NotNull RenderShape getRenderShape(@NotNull BlockState state) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
-    }
-
-    @Override
     @OnlyIn(Dist.CLIENT)
     public void drawHighlight(PoseStack poseStack, MultiBufferSource bufferSource, Level level, BlockPos pos) {
         BlockPos core = findCore(level, pos);

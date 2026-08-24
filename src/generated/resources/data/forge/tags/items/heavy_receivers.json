@@ -1,0 +1,13 @@
+{
+  "values": [
+    "hbm:heavy_receiver_dura_steel",
+    "hbm:heavy_receiver_ferrouranium",
+    "hbm:heavy_receiver_technetium",
+    "hbm:heavy_receiver_cadmium_steel",
+    "hbm:heavy_receiver_bismuth_bronze",
+    "hbm:heavy_receiver_arsenic_bronze",
+    "hbm:heavy_receiver_gunmetal",
+    "hbm:heavy_receiver_weapon_steel",
+    "hbm:heavy_receiver_saturnite"
+  ]
+}
