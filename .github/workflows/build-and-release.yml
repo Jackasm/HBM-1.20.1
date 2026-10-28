@@ -4,6 +4,12 @@ on:
   push:
     branches: [ "master" ]
 
+# В приватном репозитории синк бампает версию и пушит сюда; если пушей
+# несколько подряд, сборки не должны идти параллельно.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
@@ -24,12 +30,28 @@ jobs:
           VERSION=$(grep -Po 'mod_version=\K.*' gradle.properties)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
+      # Тот же коммит может приехать дважды (повторный синк, ретрай).
+      # В этом случае релиз уже есть — сборку и публикацию пропускаем.
+      - name: Check whether release exists
+        id: release_exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view "v${{ steps.version.outputs.version }}" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Релиз v${{ steps.version.outputs.version }} уже существует, пропускаю"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build
+        if: steps.release_exists.outputs.exists == 'false'
         run: |
           chmod +x gradlew
           ./gradlew build
 
       - name: Create Release
+        if: steps.release_exists.outputs.exists == 'false'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.version.outputs.version }}
@@ -39,3 +61,17 @@ jobs:
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Репозиторий держит только последний релиз.
+      - name: Keep only the latest release
+        if: steps.release_exists.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          CURRENT="v${{ steps.version.outputs.version }}"
+          gh release list --limit 100 --json tagName --jq '.[].tagName' | while read -r tag; do
+            if [ -n "$tag" ] && [ "$tag" != "$CURRENT" ]; then
+              echo "Удаляю старый релиз $tag"
+              gh release delete "$tag" --yes --cleanup-tag || true
+            fi
+          done
