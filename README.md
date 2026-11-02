@@ -2,7 +2,7 @@
 
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1-brightgreen)](https://minecraft.net)
 [![Forge](https://img.shields.io/badge/Forge-47.3.0%2B-orange)](https://files.minecraftforge.net)
-[![License](https://img.shields.io/badge/License-TBD-red)](#license)
+[![License](https://img.shields.io/badge/License-GPL--3.0-blue)](LICENSE)
 
 > **Внимание:** это неофициальный порт легендарного HBM's Nuclear Tech Mod с версии 1.7.10 на современный Minecraft 1.20.1.  
 > Проект находится на стадии активной разработки и закрытого тестирования.
@@ -125,5 +125,13 @@ Hot, Blind, Hydroreactive, etc.
 ## 🙏 Credits
 
 Original mod created by the **HBM** team (Alcater, Drillgon200, etc.).
+
+---
+
+## License / Лицензия
+
+The original mod is licensed under **GPL-3.0**, and this port continues under the same license — see [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md) for attribution and provenance.
+
+Оригинальный мод распространяется под **GPL-3.0**, порт продолжает ту же лицензию — см. [LICENSE](LICENSE) и [NOTICE.md](NOTICE.md).
 
 ---
