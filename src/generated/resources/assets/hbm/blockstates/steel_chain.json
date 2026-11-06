@@ -1,6 +1,18 @@
 {
   "variants": {
-    "": {
+    "orientation=vertical": {
+      "model": "hbm:block/steel_chain"
+    },
+    "orientation=wall_east": {
+      "model": "hbm:block/steel_chain"
+    },
+    "orientation=wall_north": {
+      "model": "hbm:block/steel_chain"
+    },
+    "orientation=wall_south": {
+      "model": "hbm:block/steel_chain"
+    },
+    "orientation=wall_west": {
       "model": "hbm:block/steel_chain"
     }
   }

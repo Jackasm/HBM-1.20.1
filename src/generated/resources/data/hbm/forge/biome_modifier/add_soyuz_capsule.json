@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_beach",
+  "features": "hbm:soyuz_capsule_placed",
+  "step": "surface_structures"
+}

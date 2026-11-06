@@ -15,13 +15,10 @@ public class RadiationConfig {
 
     public static ForgeConfigSpec.BooleanValue enableContamination;
     public static ForgeConfigSpec.BooleanValue enableChunkRads;
-    public static ForgeConfigSpec.BooleanValue enablePRISM;
 
     public static ForgeConfigSpec.IntValue fogRad;
     public static ForgeConfigSpec.IntValue fogCh;
     public static ForgeConfigSpec.DoubleValue hellRad;
-    public static ForgeConfigSpec.IntValue worldRad;
-    public static ForgeConfigSpec.IntValue worldRadThreshold;
     public static ForgeConfigSpec.BooleanValue worldRadEffects;
     public static ForgeConfigSpec.BooleanValue cleanupDeadDirt;
 
@@ -46,13 +43,10 @@ public class RadiationConfig {
 
     public static boolean ENABLE_CONTAMINATION = true;
     public static boolean ENABLE_CHUNK_RADS = true;
-    public static boolean ENABLE_PRISM = false;
 
     public static int FOG_RAD = 100;
     public static int FOG_CH = 20;
     public static double HELL_RAD = 0.1;
-    public static int WORLD_RAD = 10;
-    public static int WORLD_RAD_THRESHOLD = 20;
     public static boolean WORLD_RAD_EFFECTS = true;
     public static boolean CLEANUP_DEAD_DIRT = false;
 
@@ -87,14 +81,6 @@ public class RadiationConfig {
                 .comment("RAD/s in the nether")
                 .defineInRange("hellRad", 0.1, 0.0, Double.MAX_VALUE);
 
-        worldRad = BUILDER
-                .comment("How many block operations radiation can perform per tick")
-                .defineInRange("worldRad", 10, 0, 1000);
-
-        worldRadThreshold = BUILDER
-                .comment("The least amount of RADs required for block modification to happen")
-                .defineInRange("worldRadThreshold", 20, 0, 1000);
-
         worldRadEffects = BUILDER
                 .comment("Whether high radiation levels should perform changes in the world")
                 .define("worldRadEffects", true);
@@ -115,10 +101,6 @@ public class RadiationConfig {
         enableChunkRads = BUILDER
                 .comment("Toggles the world radiation system (chunk radiation only, some block use an AoE!)")
                 .define("enableChunkRads", true);
-
-        enablePRISM = BUILDER
-                .comment("Enables the new 3D resistance-aware PRISM radiation system")
-                .define("enablePRISM", false);
 
         BUILDER.pop();
 
@@ -213,13 +195,10 @@ public class RadiationConfig {
 
         ENABLE_CONTAMINATION = enableContamination.get();
         ENABLE_CHUNK_RADS = enableChunkRads.get();
-        ENABLE_PRISM = enablePRISM.get();
 
         FOG_RAD = fogRad.get();
         FOG_CH = fogCh.get();
         HELL_RAD = hellRad.get();
-        WORLD_RAD = worldRad.get();
-        WORLD_RAD_THRESHOLD = worldRadThreshold.get();
         WORLD_RAD_EFFECTS = worldRadEffects.get();
         CLEANUP_DEAD_DIRT = cleanupDeadDirt.get();
 

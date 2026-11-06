@@ -45,13 +45,13 @@ public class ArcWelderRecipes {
 
         // Dense Wires
         recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.WIRE_DENSE_COPPER.get()), 100, 10_000L,
-                new ComparableStack(ModItems.WIRE_COPPER.get(), 8)));
+                new ComparableStack(ModItems.WIRE_FINE_COPPER.get(), 8)));
 
         recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.WIRE_DENSE_ADVANCED_ALLOY.get()), 100, 10_000L,
-                new ComparableStack(ModItems.WIRE_ADVANCED_ALLOY.get(), 8)));
+                new ComparableStack(ModItems.WIRE_FINE_ADVANCED_ALLOY.get(), 8)));
 
         recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.WIRE_DENSE_GOLD.get()), 100, 10_000L,
-                new ComparableStack(ModItems.WIRE_GOLD.get(), 8)));
+                new ComparableStack(ModItems.WIRE_FINE_GOLD.get(), 8)));
 
         // Earlygame welded parts
         recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.PLATE_WELDED_IRON.get()), 100, 100L,
@@ -101,7 +101,7 @@ public class ArcWelderRecipes {
         // Missile Parts
         recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.THRUSTER_SMALL.get()), 60, 1_000L,
                 new ComparableStack(ModItems.PLATE_STEEL.get(), 4),
-                new ComparableStack(ModItems.WIRE_ALUMINIUM.get(), 4),
+                new ComparableStack(ModItems.WIRE_FINE_ALUMINIUM.get(), 4),
                 new ComparableStack(ModItems.PLATE_COPPER.get(), 4)));
 
         recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.THRUSTER_MEDIUM.get()), 100, 2_000L,
@@ -117,17 +117,17 @@ public class ArcWelderRecipes {
         recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.FUEL_TANK_SMALL.get()), 60, 1_000L,
                 new ComparableStack(ModItems.PLATE_ALUMINIUM.get(), 6),
                 new ComparableStack(ModItems.PLATE_COPPER.get(), 4),
-                new ComparableStack(ModBlocks.STEEL_SCAFFOLD.get().asItem(), 4)));
+                new TagStack(ModItemTags.ANY_STEEL_SCAFFOLD, 4)));
 
         recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.FUEL_TANK_MEDIUM.get()), 100, 2_000L,
                 new ComparableStack(ModItems.PLATE_CAST_ALUMINIUM.get(), 4),
                 new ComparableStack(ModItems.PLATE_TITANIUM.get(), 8),
-                new ComparableStack(ModBlocks.STEEL_SCAFFOLD.get().asItem(), 12)));
+                new TagStack(ModItemTags.ANY_STEEL_SCAFFOLD, 12)));
 
         recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.FUEL_TANK_LARGE.get()), 200, 5_000L,
                 new ComparableStack(ModItems.PLATE_WELDED_ALUMINIUM.get(), 8),
                 new ComparableStack(ModItems.PLATE_SATURNITE.get(), 12),
-                new ComparableStack(ModBlocks.STEEL_SCAFFOLD.get().asItem(), 16)));
+                new TagStack(ModItemTags.ANY_STEEL_SCAFFOLD, 16)));
 
         // Missiles
         recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.MISSILE_ANTI_BALLISTIC.get()), 100, 5_000L,

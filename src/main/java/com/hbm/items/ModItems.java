@@ -3,8 +3,10 @@ package com.hbm.items;
 import com.hbm.api.block.IToolable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.*;
+import com.hbm.config.VersatileConfig;
 import com.hbm.datagen.models.ItemModelType;
 import com.hbm.entity.ModEntities;
+import com.hbm.interfaces.ICustomWarhead;
 import com.hbm.items.armor.*;
 import com.hbm.items.block.*;
 import com.hbm.items.bomb.ItemN2;
@@ -17,7 +19,9 @@ import com.hbm.items.special.*;
 import com.hbm.items.storage.*;
 import com.hbm.items.tool.*;
 import com.hbm.items.weapon.*;
+import com.hbm.sound.ModSounds;
 import com.hbm.util.HBMEnums;
+import com.hbm.util.RTGUtil;
 import com.hbm.util.RefStrings;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -25,6 +29,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -36,6 +41,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 import static com.hbm.util.HBMEnums.CreativeTabRegistry.*;
+import static com.hbm.util.ResLocation.ResLocation;
 
 @SuppressWarnings("all")
 public class ModItems {
@@ -172,6 +178,33 @@ public class ModItems {
             () -> new BlockItem(ModBlocks.CLUSTER_ALUMINIUM.get(), new Item.Properties()));
     public static final RegistryObject<Item> CLUSTER_COPPER = register(BLOCK_TAB, "cluster_copper",
             () -> new BlockItem(ModBlocks.CLUSTER_COPPER.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> STONE_BIOME_DESERT_ITEM = register(BLOCK_TAB, "stone_biome_desert",
+            () -> new BlockItem(ModBlocks.STONE_BIOME_DESERT.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> STONE_BIOME_WOODLAND_ITEM = register(BLOCK_TAB, "stone_biome_woodland",
+            () -> new BlockItem(ModBlocks.STONE_BIOME_WOODLAND.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> ORE_DEPTH_CINNEBAR = register(BLOCK_TAB, "ore_depth_cinnebar",
+            () -> new BlockItem(ModBlocks.ORE_DEPTH_CINNEBAR.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> ORE_DEPTH_ZIRCONIUM = register(BLOCK_TAB, "ore_depth_zirconium",
+            () -> new BlockItem(ModBlocks.ORE_DEPTH_ZIRCONIUM.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> ORE_DEPTH_BORAX = register(BLOCK_TAB, "ore_depth_borax",
+            () -> new BlockItem(ModBlocks.ORE_DEPTH_BORAX.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> ORE_DEPTH_NETHER_NEODYMIUM = register(BLOCK_TAB, "ore_depth_nether_neodymium",
+            () -> new BlockItem(ModBlocks.ORE_DEPTH_NETHER_NEODYMIUM.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CLUSTER_DEPTH_IRON = register(BLOCK_TAB, "cluster_depth_iron",
+            () -> new BlockItem(ModBlocks.CLUSTER_DEPTH_IRON.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CLUSTER_DEPTH_TITANIUM = register(BLOCK_TAB, "cluster_depth_titanium",
+            () -> new BlockItem(ModBlocks.CLUSTER_DEPTH_TITANIUM.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CLUSTER_DEPTH_TUNGSTEN = register(BLOCK_TAB, "cluster_depth_tungsten",
+            () -> new BlockItem(ModBlocks.CLUSTER_DEPTH_TUNGSTEN.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> WASTE_EARTH = register(BLOCK_TAB, "waste_earth",
             () -> new BlockItem(ModBlocks.WASTE_EARTH.get(), new Item.Properties()));
@@ -767,6 +800,18 @@ public class ModItems {
     public static final RegistryObject<Item> RAW_URANIUM = register(PARTS_TAB, "raw_uranium",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
+    public static final RegistryObject<Item> RAW_AUSTRALIUM = register(PARTS_TAB, "raw_australium",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> RAW_SCHRABIDIUM = register(PARTS_TAB, "raw_schrabidium",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> RAW_TIKITE = register(PARTS_TAB, "raw_tikite",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> RAW_OSMIRIDIUM = register(PARTS_TAB, "raw_osmiridium",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
     public static final RegistryObject<Item> INGOT_ALUMINIUM = register(PARTS_TAB, "ingot_aluminium",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
@@ -1080,7 +1125,7 @@ public class ModItems {
     public static final RegistryObject<Item> NUGGET_POLONIUM = register(PARTS_TAB, "nugget_polonium",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> NUGGET_RA_226 = register(PARTS_TAB, "nugget_ra226",
+    public static final RegistryObject<Item> NUGGET_RA226 = register(PARTS_TAB, "nugget_ra226",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> NUGGET_ARSENIC = register(PARTS_TAB, "nugget_arsenic",
@@ -1350,40 +1395,40 @@ public class ModItems {
     public static final RegistryObject<Item> PLATE_WELDED_ZIRCONIUM = register(PARTS_TAB, "plate_welded_zirconium",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WIRE_COPPER = register(PARTS_TAB, "wire_copper",
+    public static final RegistryObject<Item> WIRE_FINE_COPPER = register(PARTS_TAB, "wire_copper",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WIRE_CARBON = register(PARTS_TAB, "wire_carbon",
+    public static final RegistryObject<Item> WIRE_FINE_CARBON = register(PARTS_TAB, "wire_carbon",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WIRE_ALUMINIUM = register(PARTS_TAB, "wire_aluminium",
+    public static final RegistryObject<Item> WIRE_FINE_ALUMINIUM = register(PARTS_TAB, "wire_aluminium",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WIRE_RED_COPPER = register(PARTS_TAB, "wire_red_copper",
+    public static final RegistryObject<Item> WIRE_FINE_RED_COPPER = register(PARTS_TAB, "wire_red_copper",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WIRE_GOLD = register(PARTS_TAB, "wire_gold",
+    public static final RegistryObject<Item> WIRE_FINE_GOLD = register(PARTS_TAB, "wire_gold",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WIRE_LEAD = register(PARTS_TAB, "wire_lead",
+    public static final RegistryObject<Item> WIRE_FINE_LEAD = register(PARTS_TAB, "wire_lead",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WIRE_ZIRCONIUM = register(PARTS_TAB, "wire_zirconium",
+    public static final RegistryObject<Item> WIRE_FINE_ZIRCONIUM = register(PARTS_TAB, "wire_zirconium",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WIRE_TUNGSTEN = register(PARTS_TAB, "wire_tungsten",
+    public static final RegistryObject<Item> WIRE_FINE_TUNGSTEN = register(PARTS_TAB, "wire_tungsten",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WIRE_ADVANCED_ALLOY = register(PARTS_TAB, "wire_advanced_alloy",
+    public static final RegistryObject<Item> WIRE_FINE_ADVANCED_ALLOY = register(PARTS_TAB, "wire_advanced_alloy",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WIRE_STEEL = register(PARTS_TAB, "wire_steel",
+    public static final RegistryObject<Item> WIRE_FINE_STEEL = register(PARTS_TAB, "wire_steel",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WIRE_SCHRABIDIUM = register(PARTS_TAB, "wire_schrabidium",
+    public static final RegistryObject<Item> WIRE_FINE_SCHRABIDIUM = register(PARTS_TAB, "wire_schrabidium",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WIRE_MAGNETIZED_TUNGSTEN = register(PARTS_TAB, "wire_magnetized_tungsten",
+    public static final RegistryObject<Item> WIRE_FINE_MAGNETIZED_TUNGSTEN = register(PARTS_TAB, "wire_magnetized_tungsten",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> CASING_LARGE = register(PARTS_TAB, "casing_large",
@@ -1672,14 +1717,20 @@ public class ModItems {
             () -> new FilingCabinetItem(ModBlocks.FILING_CABINET.get(), new Item.Properties()));
     public static final RegistryObject<Item> FILING_CABINET_STEEL_ITEM = register(MACHINE_TAB, "storage/filing_cabinet_steel",
             () -> new FilingCabinetItem(ModBlocks.FILING_CABINET_STEEL.get(), new Item.Properties()));
-    public static final RegistryObject<Item> STEEL_GRATE = register(MACHINE_TAB, "deco/steel_grate",
+    public static final RegistryObject<Item> STEEL_GRATE = register(BLOCK_TAB, "deco/steel_grate",
             () -> new SteelGrateItem(ModBlocks.STEEL_GRATE.get(), new Item.Properties()));
-    public static final RegistryObject<Item> STEEL_GRATE_WIDE = register(MACHINE_TAB, "deco/steel_grate_wide",
+    public static final RegistryObject<Item> STEEL_GRATE_WIDE = register(BLOCK_TAB, "deco/steel_grate_wide",
             () -> new SteelGrateItem(ModBlocks.STEEL_GRATE_WIDE.get(), new Item.Properties()));
-    public static final RegistryObject<Item> STEEL_BEAM = register(MACHINE_TAB, "deco/steel_beam",
+    public static final RegistryObject<Item> STEEL_BEAM = register(BLOCK_TAB, "deco/steel_beam",
             () -> new SimpleOBJItem(ModBlocks.STEEL_BEAM.get(), new Item.Properties()));
-    public static final RegistryObject<Item> STEEL_SCAFFOLD = register(MACHINE_TAB, "deco/steel_scaffold",
-            () -> new SteelScaffoldItem(ModBlocks.STEEL_SCAFFOLD.get(), new Item.Properties()));
+    public static final RegistryObject<Item> STEEL_SCAFFOLD_STEEL = register(BLOCK_TAB, "deco/steel_scaffold_steel",
+            () -> new SteelScaffoldItem(ModBlocks.STEEL_SCAFFOLD_STEEL.get(), new Item.Properties()));
+    public static final RegistryObject<Item> STEEL_SCAFFOLD_RED = register(BLOCK_TAB, "deco/steel_scaffold_red",
+            () -> new SteelScaffoldItem(ModBlocks.STEEL_SCAFFOLD_RED.get(), new Item.Properties()));
+    public static final RegistryObject<Item> STEEL_SCAFFOLD_WHITE = register(BLOCK_TAB, "deco/steel_scaffold_white",
+            () -> new SteelScaffoldItem(ModBlocks.STEEL_SCAFFOLD_WHITE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> STEEL_SCAFFOLD_YELLOW = register(BLOCK_TAB, "deco/steel_scaffold_yellow",
+            () -> new SteelScaffoldItem(ModBlocks.STEEL_SCAFFOLD_YELLOW.get(), new Item.Properties()));
     public static final RegistryObject<Item> MACHINE_ROTARY_FURNACE = register(MACHINE_TAB,"machines/rotary_furnace",
             () -> new ItemRotaryFurnace(ModBlocks.MACHINE_ROTARY_FURNACE.get(), new Item.Properties()));
     public static final RegistryObject<Item> MACHINE_CRUCIBLE = register(MACHINE_TAB,"machines/machine_crucible",
@@ -1688,6 +1739,11 @@ public class ModItems {
             () -> new ItemSolderingStation(ModBlocks.MACHINE_SOLDERING_STATION.get(), new Item.Properties()));
     public static final RegistryObject<Item> MACHINE_ARC_WELDER = register(MACHINE_TAB,"machines/machine_arc_welder",
             () -> new ItemArcWelder(ModBlocks.MACHINE_ARC_WELDER.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> FRACTION_SPACER = register(MACHINE_TAB, "machines/fraction_spacer",
+            () -> new ItemFractionSpacer(ModBlocks.FRACTION_SPACER.get(), new Item.Properties()));
+    public static final RegistryObject<Item> MACHINE_FRACTION_TOWER = register(MACHINE_TAB, "machines/machine_fraction_tower",
+            () -> new ItemMachineFractionTower(ModBlocks.MACHINE_FRACTION_TOWER.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> FLUID_CANISTER = register("fluid_canister",
             () -> new ItemFluidCanister(new Item.Properties().stacksTo(16)),
@@ -1871,8 +1927,13 @@ public class ModItems {
     public static final RegistryObject<Item> GUN_KIT_2 = register(CONSUMABLE_TAB, "gun_kit_2",
             () -> new ItemRepairKit(100), ItemModelType.GENERATED);
 
+    // Книги-гайды: в 1.7.10 это был один предмет с разными meta, теперь — отдельные
+    // предметы над общим ItemGuideBook. book_guide остаётся стартовой книгой.
     public static final RegistryObject<Item> BOOK_GUIDE = register(CONSUMABLE_TAB, "book_guide",
-            () -> new ItemGuideBook(), ItemModelType.GENERATED);
+            ItemGuideBooks.Starter::new, ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> BOOK_LORE =
+            register(CONSUMABLE_TAB,"book_lore", () -> new ItemBookLore(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> BOOK_OF_ = register(CONSUMABLE_TAB, "book_of_",
             () -> new ItemBook(new Item.Properties().stacksTo(1)), ItemModelType.GENERATED);
@@ -1955,11 +2016,22 @@ public class ModItems {
     public static final RegistryObject<Item> COIN_RADIATION = register(PARTS_TAB, "coin_radiation",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
+    public static final RegistryObject<Item> COIN_TOKEN = register(PARTS_TAB, "coin_token",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
     public static final RegistryObject<Item> PELLET_ANTIMATTER = register(PARTS_TAB, "pellet_antimatter",
             () -> new ItemDrop(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> FLAME_PONY = register(PARTS_TAB, "flame_pony",
             () -> new ItemFlamePonyPainting(new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> FLAME_CONSPIRACY = register(PARTS_TAB, "flame_conspiracy",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> FLAME_POLITICS = register(PARTS_TAB, "flame_politics",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> FLAME_OPINION = register(PARTS_TAB, "flame_opinion",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> TOOTHPICKS = register(PARTS_TAB, "toothpicks",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> MAN_CORE = register(PARTS_TAB, "man_core",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
@@ -2148,6 +2220,9 @@ public class ModItems {
             () -> new ItemFluidDuctBox(ModBlocks.FLUID_DUCT_EXHAUST.get(), new Item.Properties()),
             ItemModelType.NONE,
             "storage/fluid_duct_exhaust_end");
+
+    public static final RegistryObject<Item> FLUID_DUCT_GAUGE = register(MACHINE_TAB, "fluid_duct_gauge",
+            () -> new BlockItem(ModBlocks.FLUID_DUCT_GAUGE.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> UPGRADE_TEMPLATE = register(CONTROL_TAB, "upgrade/upgrade_template",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
@@ -2666,6 +2741,10 @@ public class ModItems {
             () -> new ForgeSpawnEggItem(ModEntities.RADBEAST, 0x004000, 0x00FF00, new Item.Properties()),
             ItemModelType.SPAWN_EGG);
 
+    public static final RegistryObject<Item> UNDEAD_SOLDIER_SPAWN_EGG = register(CONSUMABLE_TAB, "undead_soldier_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.UNDEAD_SOLDIER, 0x2F4F4F, 0x8B0000, new Item.Properties()),
+            ItemModelType.SPAWN_EGG);
+
     public static final RegistryObject<Item> STICK_TNT = register(PARTS_TAB, "stick_tnt",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
@@ -2792,6 +2871,11 @@ public class ModItems {
     public static final RegistryObject<Item> SAND_DIRTY_RED = register(BLOCK_TAB, "sand_dirty_red",
             () -> new BlockItem(ModBlocks.SAND_DIRTY_RED.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> REINFORCED_SAND = register(BLOCK_TAB, "reinforced_sand",
+            () -> new BlockItem(ModBlocks.REINFORCED_SAND.get(), new Item.Properties()));
+    public static final RegistryObject<Item> REINFORCED_LIGHT = register(BLOCK_TAB, "reinforced_light",
+            () -> new BlockItem(ModBlocks.REINFORCED_LIGHT.get(), new Item.Properties()));
+
     public static final RegistryObject<Item> BASALT_SMOOTH = register(BLOCK_TAB, "basalt_smooth",
             () -> new BlockItem(ModBlocks.BASALT_SMOOTH.get(), new Item.Properties()));
 
@@ -2803,6 +2887,10 @@ public class ModItems {
 
     public static final RegistryObject<Item> BLOCK_FOAM = register(BLOCK_TAB, "block_foam",
             () -> new BlockItem(ModBlocks.BLOCK_FOAM.get(), new Item.Properties()));
+    public static final RegistryObject<Item> OIL_SPILL = register(BLOCK_TAB, "oil_spill",
+            () -> new BlockItem(ModBlocks.OIL_SPILL.get(), new Item.Properties()));
+    public static final RegistryObject<Item> LEAVES_LAYER = register(BLOCK_TAB, "leaves_layer",
+            () -> new BlockItem(ModBlocks.LEAVES_LAYER.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> WASTE_LEAVES = register(BLOCK_TAB, "waste_leaves",
             () -> new BlockItem(ModBlocks.WASTE_LEAVES.get(), new Item.Properties()));
@@ -2820,10 +2908,10 @@ public class ModItems {
             () -> new BlockItem(ModBlocks.PINK_LOG.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> GLYPHID_BASE = register(BLOCK_TAB, "glyphid_base",
-            () -> new BlockItem(ModBlocks.GLYPHID_BASE.get(), new Item.Properties()));
+            () -> new ItemGlyphid(ModBlocks.GLYPHID_BASE.get(), new Item.Properties()), ItemModelType.BUILTIN_ENTITY);
 
     public static final RegistryObject<Item> GLYPHID_SPAWNER = register(BLOCK_TAB, "glyphid_spawner",
-            () -> new BlockItem(ModBlocks.GLYPHID_SPAWNER.get(), new Item.Properties()));
+            () -> new ItemBlockGlyphidSpawner(ModBlocks.GLYPHID_SPAWNER.get(), new Item.Properties()), ItemModelType.BUILTIN_ENTITY);
 
     public static final RegistryObject<Item> ORE_NETHER_URANIUM = register(BLOCK_TAB, "ore_nether_uranium",
             () -> new BlockItem(ModBlocks.ORE_NETHER_URANIUM.get(), new Item.Properties()));
@@ -2884,8 +2972,7 @@ public class ModItems {
 
     public static final RegistryObject<Item> STATUE_ELB_F = register(BLOCK_TAB, "deco/statue_elb_f",
             () -> new DecoBlockAltItem(ModBlocks.STATUE_ELB_F.get(), new Item.Properties()),
-            ItemModelType.NONE,
-            "deco/statue_elb_f");
+            ItemModelType.BUILTIN_ENTITY);
 
     public static final RegistryObject<Item> PLASMA = register(BLOCK_TAB, "plasma",
             () -> new BlockItem(ModBlocks.PLASMA.get(), new Item.Properties()));
@@ -2943,6 +3030,9 @@ public class ModItems {
 
     public static final RegistryObject<Item> RED_CABLE = register(MACHINE_TAB, "red_cable",
             () -> new ItemRedCable(ModBlocks.RED_CABLE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> RED_CABLE_GAUGE = register(MACHINE_TAB, "red_cable_gauge",
+            () -> new BlockItem(ModBlocks.RED_CABLE_GAUGE.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> CABLE_SWITCH = register(MACHINE_TAB, "cable_switch",
             () -> new BlockItem(ModBlocks.CABLE_SWITCH.get(), new Item.Properties()));
@@ -3060,6 +3150,9 @@ public class ModItems {
     public static final RegistryObject<Item> SELLAFIELD_SLAKED = register(BLOCK_TAB, "sellafield_slaked",
             () -> new BlockItem(ModBlocks.SELLAFIELD_SLAKED.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> SELLAFIELD_ITEM = register("sellafield",
+            () -> new ItemBlockSellafield(ModBlocks.SELLAFIELD.get(), new Item.Properties()), ItemModelType.BUILTIN_ENTITY);
+
     public static final RegistryObject<Item> PWR_CASING = register(BLOCK_TAB, "pwr_casing",
             () -> new BlockItem(ModBlocks.PWR_CASING.get(), new Item.Properties()));
 
@@ -3099,31 +3192,76 @@ public class ModItems {
     public static final RegistryObject<Item> BLOCK_SLAG = register(BLOCK_TAB, "block_slag",
             () -> new BlockItem(ModBlocks.BLOCK_SLAG.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> BOBBLEHEAD = register(BLOCK_TAB, "bobble",
-            () -> new BlockItem(ModBlocks.BOBBLEHEAD.get(), new Item.Properties()));
+    public static final RegistryObject<Item> BOBBLEHEAD = register("deco/bobblehead",
+            () -> new ItemBobble(ModBlocks.BOBBLEHEAD.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> CONCRETE_COLORED =
-            register("concrete_colored",
-                    () -> new ItemBlockConcreteColored(ModBlocks.CONCRETE_COLORED.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_WHITE = register(BLOCK_TAB, "concrete_colored_white",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_WHITE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_ORANGE = register(BLOCK_TAB, "concrete_colored_orange",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_ORANGE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_MAGENTA = register(BLOCK_TAB, "concrete_colored_magenta",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_MAGENTA.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_LIGHT_BLUE = register(BLOCK_TAB, "concrete_colored_light_blue",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_LIGHT_BLUE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_YELLOW = register(BLOCK_TAB, "concrete_colored_yellow",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_YELLOW.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_LIME = register(BLOCK_TAB, "concrete_colored_lime",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_LIME.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_PINK = register(BLOCK_TAB, "concrete_colored_pink",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_PINK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_GRAY = register(BLOCK_TAB, "concrete_colored_gray",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_GRAY.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_LIGHT_GRAY = register(BLOCK_TAB, "concrete_colored_light_gray",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_LIGHT_GRAY.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_CYAN = register(BLOCK_TAB, "concrete_colored_cyan",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_CYAN.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_PURPLE = register(BLOCK_TAB, "concrete_colored_purple",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_PURPLE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_BLUE = register(BLOCK_TAB, "concrete_colored_blue",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_BLUE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_BROWN = register(BLOCK_TAB, "concrete_colored_brown",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_BROWN.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_GREEN = register(BLOCK_TAB, "concrete_colored_green",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_GREEN.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_RED = register(BLOCK_TAB, "concrete_colored_red",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_RED.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_BLACK = register(BLOCK_TAB, "concrete_colored_black",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_BLACK.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> CONCRETE_COLORED_EXT =
-            register("concrete_colored_ext",
-                    () -> new ItemBlockConcreteColoredExt(ModBlocks.CONCRETE_COLORED_EXT.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_EXT_MACHINE = register(BLOCK_TAB, "concrete_colored_ext_machine",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_EXT_MACHINE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_EXT_MACHINE_STRIPE = register(BLOCK_TAB, "concrete_colored_ext_machine_stripe",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_EXT_MACHINE_STRIPE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_EXT_INDIGO = register(BLOCK_TAB, "concrete_colored_ext_indigo",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_EXT_INDIGO.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_EXT_PURPLE = register(BLOCK_TAB, "concrete_colored_ext_purple",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_EXT_PURPLE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_EXT_PINK = register(BLOCK_TAB, "concrete_colored_ext_pink",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_EXT_PINK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_EXT_HAZARD = register(BLOCK_TAB, "concrete_colored_ext_hazard",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_EXT_HAZARD.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_EXT_SAND = register(BLOCK_TAB, "concrete_colored_ext_sand",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_EXT_SAND.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_COLORED_EXT_BRONZE = register(BLOCK_TAB, "concrete_colored_ext_bronze",
+            () -> new BlockItem(ModBlocks.CONCRETE_COLORED_EXT_BRONZE.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> CONCRETE_ASBESTOS =
-            register(BLOCK_TAB,"concrete_asbestos", () -> new BlockItem(ModBlocks.CONCRETE_ASBESTOS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_ASBESTOS = register(BLOCK_TAB,"concrete_asbestos",
+            () -> new BlockItem(ModBlocks.CONCRETE_ASBESTOS.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> CONCRETE_REBAR =
-            register(BLOCK_TAB,"concrete_rebar", () -> new BlockItem(ModBlocks.CONCRETE_REBAR.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_REBAR = register(BLOCK_TAB,"concrete_rebar",
+            () -> new BlockItem(ModBlocks.CONCRETE_REBAR.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> CONCRETE_SUPER =
-            register(BLOCK_TAB,"concrete_super", () -> new BlockItem(ModBlocks.CONCRETE_SUPER.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_SUPER = register(BLOCK_TAB,"concrete_super",
+            () -> new BlockItem(ModBlocks.CONCRETE_SUPER.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> CONCRETE_SUPER_BROKEN =
-            register(BLOCK_TAB,"concrete_super_broken", () -> new BlockItem(ModBlocks.CONCRETE_SUPER_BROKEN.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_SUPER_BROKEN = register(BLOCK_TAB,"concrete_super_broken",
+            () -> new BlockItem(ModBlocks.CONCRETE_SUPER_BROKEN.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> CONCRETE_PILLAR =
-            register(BLOCK_TAB,"concrete_pillar", () -> new BlockItem(ModBlocks.CONCRETE_PILLAR.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_PILLAR = register(BLOCK_TAB,"concrete_pillar",
+            () -> new BlockItem(ModBlocks.CONCRETE_PILLAR.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BRICK_CONCRETE_MARKED = register(BLOCK_TAB, "brick_concrete_marked",
+            () -> new BlockItem(ModBlocks.BRICK_CONCRETE_MARKED.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> PIN = register(PARTS_TAB, "pin",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
@@ -3135,10 +3273,10 @@ public class ModItems {
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> KEY_FAKE = register(PARTS_TAB, "key_fake",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+            () -> new ItemKey(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> SANDBAG = register(BLOCK_TAB, "sandbag",
-            () -> new BlockItem(ModBlocks.SANDBAG.get(), new Item.Properties()));
+    public static final RegistryObject<Item> KEY = register(CONSUMABLE_TAB, "key",
+            () -> new ItemKey(new Item.Properties().stacksTo(1)), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> DOOR_METAL_ITEM = register(MACHINE_TAB, "door_metal",
             () -> new BlockItem(ModBlocks.DOOR_METAL.get(), new Item.Properties()));
@@ -3152,8 +3290,47 @@ public class ModItems {
     public static final RegistryObject<Item> DOOR_RED_ITEM = register(MACHINE_TAB,"door_red",
             () -> new BlockItem(ModBlocks.DOOR_RED.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> SLIDING_BLAST_DOOR = register(MACHINE_TAB, "sliding_blast_door",
+            () -> new ItemDoorGeneric(ModBlocks.SLIDING_BLAST_DOOR.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> FIRE_DOOR = register(MACHINE_TAB, "fire_door",
+            () -> new ItemDoorGeneric(ModBlocks.FIRE_DOOR.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> SILO_HATCH = register(MACHINE_TAB, "silo_hatch",
+            () -> new ItemDoorGeneric(ModBlocks.SILO_HATCH.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> SILO_HATCH_LARGE = register(MACHINE_TAB, "silo_hatch_large",
+            () -> new ItemDoorGeneric(ModBlocks.SILO_HATCH_LARGE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> SECURE_ACCESS_DOOR = register(MACHINE_TAB, "secure_access_door",
+            () -> new ItemDoorGeneric(ModBlocks.SECURE_ACCESS_DOOR.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LARGE_VEHICLE_DOOR = register(MACHINE_TAB, "large_vehicle_door",
+            () -> new ItemDoorGeneric(ModBlocks.LARGE_VEHICLE_DOOR.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> QE_CONTAINMENT = register(MACHINE_TAB, "qe_containment",
+            () -> new ItemDoorGeneric(ModBlocks.QE_CONTAINMENT.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> QE_SLIDING_DOOR = register(MACHINE_TAB, "qe_sliding_door",
+            () -> new ItemDoorGeneric(ModBlocks.QE_SLIDING_DOOR.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> ROUND_AIRLOCK_DOOR = register(MACHINE_TAB, "round_airlock_door",
+            () -> new ItemDoorGeneric(ModBlocks.ROUND_AIRLOCK_DOOR.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> SLIDING_SEAL_DOOR = register(MACHINE_TAB, "sliding_seal_door",
+            () -> new ItemDoorGeneric(ModBlocks.SLIDING_SEAL_DOOR.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> WATER_DOOR = register(MACHINE_TAB, "water_door",
+            () -> new ItemDoorGeneric(ModBlocks.WATER_DOOR.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CARGO_DOOR = register(MACHINE_TAB, "cargo_door",
+            () -> new ItemDoorGeneric(ModBlocks.CARGO_DOOR.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> VAULT_DOOR = register(MACHINE_TAB, "vault_door",
+            () -> new ItemDoorGeneric(ModBlocks.VAULT_DOOR.get(), new Item.Properties()));
+
     public static final RegistryObject<Item> BATTERY_CREATIVE = register(PARTS_TAB, "battery_creative",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+            () -> new ItemBatteryCreative(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> NUCLEAR_WASTE_TINY = register(PARTS_TAB, "nuclear_waste_tiny",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
@@ -3538,44 +3715,7 @@ public class ModItems {
     public static final RegistryObject<Item> PELLET_CHARGED = register(PARTS_TAB, "pellet_charged",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> PELLET_RTG = register(PARTS_TAB, "pellet_rtg",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> PELLET_RTG_ACTINIUM = register(PARTS_TAB, "pellet_rtg_actinium",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> PELLET_RTG_AMERICIUM = register(PARTS_TAB, "pellet_rtg_americium",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> PELLET_RTG_AMERICIUM_TIER2 = register(PARTS_TAB, "pellet_rtg_americium_tier2",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> PELLET_RTG_BERKELIUM = register(PARTS_TAB, "pellet_rtg_berkelium",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> PELLET_RTG_COBALT = register(PARTS_TAB, "pellet_rtg_cobalt",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> PELLET_RTG_DEPLETED_BISMUTH = register(PARTS_TAB, "pellet_rtg_depleted.bismuth",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> PELLET_RTG_DEPLETED_LEAD = register(PARTS_TAB, "pellet_rtg_depleted.lead",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> PELLET_RTG_DEPLETED_MERCURY = register(PARTS_TAB, "pellet_rtg_depleted.mercury",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> PELLET_RTG_DEPLETED_NEPTUNIUM = register(PARTS_TAB, "pellet_rtg_depleted.neptunium",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> PELLET_RTG_DEPLETED_NICKEL = register(PARTS_TAB, "pellet_rtg_depleted.nickel",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> PELLET_RTG_DEPLETED_ZIRCONIUM = register(PARTS_TAB, "pellet_rtg_depleted.zirconium",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> PELLET_RTG_GOLD = register(PARTS_TAB, "pellet_rtg_gold",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> PELLET_RTG_LEAD = register(PARTS_TAB, "pellet_rtg_lead",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> PELLET_RTG_POLONIUM = register(PARTS_TAB, "pellet_rtg_polonium",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> PELLET_RTG_RADIUM = register(PARTS_TAB, "pellet_rtg_radium",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> PELLET_RTG_STRONTIUM = register(PARTS_TAB, "pellet_rtg_strontium",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
-
-    public static final RegistryObject<Item> PELLET_RTG_WEAK = register(PARTS_TAB, "pellet_rtg_weak",
-            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> PELLET_BUCKSHOT = register(PARTS_TAB, "pellet_buckshot",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
@@ -3776,52 +3916,82 @@ public class ModItems {
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     // Weapon Mod Specials
-    public static final RegistryObject<Item> WEAPON_MOD_SILENCER = register(PARTS_TAB, "weapon_mod_silencer",
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_SILENCER = register(PARTS_TAB, "weapon_mod_special_silencer",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_SCOPE = register(PARTS_TAB, "weapon_mod_scope",
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_SCOPE = register(PARTS_TAB, "weapon_mod_special_scope",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_SAW = register(PARTS_TAB, "weapon_mod_saw",
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_SAW = register(PARTS_TAB, "weapon_mod_special_saw",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_GREASEGUN = register(PARTS_TAB, "weapon_mod_greasegun",
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_GREASEGUN = register(PARTS_TAB, "weapon_mod_special_greasegun",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_SLOWDOWN = register(PARTS_TAB, "weapon_mod_slowdown",
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_SLOWDOWN = register(PARTS_TAB, "weapon_mod_special_slowdown",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_SPEEDUP = register(PARTS_TAB, "weapon_mod_speedup",
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_SPEEDUP = register(PARTS_TAB, "weapon_mod_special_speedup",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_CHOKE = register(PARTS_TAB, "weapon_mod_choke",
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_CHOKE = register(PARTS_TAB, "weapon_mod_special_choke",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_SPEEDLOADER = register(PARTS_TAB, "weapon_mod_speedloader",
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_SPEEDLOADER = register(PARTS_TAB, "weapon_mod_special_speedloader",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_FURNITURE_GREEN = register(PARTS_TAB, "weapon_mod_furniture_green",
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_FURNITURE_GREEN = register(PARTS_TAB, "weapon_mod_special_furniture_green",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_FURNITURE_BLACK = register(PARTS_TAB, "weapon_mod_furniture_black",
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_FURNITURE_BLACK = register(PARTS_TAB, "weapon_mod_special_furniture_black",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_BAYONET = register(PARTS_TAB, "weapon_mod_bayonet",
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_BAYONET = register(PARTS_TAB, "weapon_mod_special_bayonet",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_STACK_MAG = register(PARTS_TAB, "weapon_mod_stack_mag",
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_STACK_MAG = register(PARTS_TAB, "weapon_mod_special_stack_mag",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_SKIN_SATURNITE = register(PARTS_TAB, "weapon_mod_skin_saturnite",
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_SKIN_SATURNITE = register(PARTS_TAB, "weapon_mod_special_skin_saturnite",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_LAS_SHOTGUN = register(PARTS_TAB, "weapon_mod_las_shotgun",
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_LAS_SHOTGUN = register(PARTS_TAB, "weapon_mod_special_las_shotgun",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_LAS_CAPACITOR = register(PARTS_TAB, "weapon_mod_las_capacitor",
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_LAS_CAPACITOR = register(PARTS_TAB, "weapon_mod_special_las_capacitor",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_LAS_AUTO = register(PARTS_TAB, "weapon_mod_las_auto",
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_LAS_AUTO = register(PARTS_TAB, "weapon_mod_special_las_auto",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_NICKEL = register(PARTS_TAB, "weapon_mod_special_nickel",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_DOUBLOONS = register(PARTS_TAB, "weapon_mod_special_doubloons",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_DRILL_HSS = register(PARTS_TAB, "weapon_mod_special_drill_hss",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_DRILL_WEAPONSTEEL = register(PARTS_TAB, "weapon_mod_special_drill_weaponsteel",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_DRILL_TCALLOY = register(PARTS_TAB, "weapon_mod_special_drill_tcalloy",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_DRILL_SATURNITE = register(PARTS_TAB, "weapon_mod_special_drill_saturnite",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_ENGINE_DIESEL = register(PARTS_TAB, "weapon_mod_special_engine_diesel",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_ENGINE_AVIATION = register(PARTS_TAB, "weapon_mod_special_engine_aviation",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_ENGINE_ELECTRIC = register(PARTS_TAB, "weapon_mod_special_engine_electric",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> WEAPON_MOD_SPECIAL_ENGINE_TURBO = register(PARTS_TAB, "weapon_mod_special_engine_turbo",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> SECRET_CANISTER = register(PARTS_TAB, "secret_canister",
@@ -3839,58 +4009,58 @@ public class ModItems {
     public static final RegistryObject<Item> SECRET_FOLLY = register(PARTS_TAB, "secret_folly",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_IRON_DAMAGE = register(PARTS_TAB, "weapon_mod_iron_damage",
+    public static final RegistryObject<Item> WEAPON_MOD_GENERIC_IRON_DAMAGE = register(PARTS_TAB, "weapon_mod_generic_iron_damage",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_IRON_DURA = register(PARTS_TAB, "weapon_mod_iron_dura",
+    public static final RegistryObject<Item> WEAPON_MOD_GENERIC_IRON_DURA = register(PARTS_TAB, "weapon_mod_generic_iron_dura",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_STEEL_DAMAGE = register(PARTS_TAB, "weapon_mod_steel_damage",
+    public static final RegistryObject<Item> WEAPON_MOD_GENERIC_STEEL_DAMAGE = register(PARTS_TAB, "weapon_mod_generic_steel_damage",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_STEEL_DURA = register(PARTS_TAB, "weapon_mod_steel_dura",
+    public static final RegistryObject<Item> WEAPON_MOD_GENERIC_STEEL_DURA = register(PARTS_TAB, "weapon_mod_generic_steel_dura",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_DURA_DAMAGE = register(PARTS_TAB, "weapon_mod_dura_damage",
+    public static final RegistryObject<Item> WEAPON_MOD_GENERIC_DURA_DAMAGE = register(PARTS_TAB, "weapon_mod_generic_dura_damage",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_DURA_DURA = register(PARTS_TAB, "weapon_mod_dura_dura",
+    public static final RegistryObject<Item> WEAPON_MOD_GENERIC_DURA_DURA = register(PARTS_TAB, "weapon_mod_generic_dura_dura",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_DESH_DAMAGE = register(PARTS_TAB, "weapon_mod_desh_damage",
+    public static final RegistryObject<Item> WEAPON_MOD_GENERIC_DESH_DAMAGE = register(PARTS_TAB, "weapon_mod_generic_desh_damage",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_DESH_DURA = register(PARTS_TAB, "weapon_mod_desh_dura",
+    public static final RegistryObject<Item> WEAPON_MOD_GENERIC_DESH_DURA = register(PARTS_TAB, "weapon_mod_generic_desh_dura",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_WSTEEL_DAMAGE = register(PARTS_TAB, "weapon_mod_wsteel_damage",
+    public static final RegistryObject<Item> WEAPON_MOD_GENERIC_WSTEEL_DAMAGE = register(PARTS_TAB, "weapon_mod_generic_wsteel_damage",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_WSTEEL_DURA = register(PARTS_TAB, "weapon_mod_wsteel_dura",
+    public static final RegistryObject<Item> WEAPON_MOD_GENERIC_WSTEEL_DURA = register(PARTS_TAB, "weapon_mod_generic_wsteel_dura",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_FERRO_DAMAGE = register(PARTS_TAB, "weapon_mod_ferro_damage",
+    public static final RegistryObject<Item> WEAPON_MOD_GENERIC_FERRO_DAMAGE = register(PARTS_TAB, "weapon_mod_generic_ferro_damage",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_FERRO_DURA = register(PARTS_TAB, "weapon_mod_ferro_dura",
+    public static final RegistryObject<Item> WEAPON_MOD_GENERIC_FERRO_DURA = register(PARTS_TAB, "weapon_mod_generic_ferro_dura",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_TCALLOY_DAMAGE = register(PARTS_TAB, "weapon_mod_tcalloy_damage",
+    public static final RegistryObject<Item> WEAPON_MOD_GENERIC_TCALLOY_DAMAGE = register(PARTS_TAB, "weapon_mod_generic_tcalloy_damage",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_TCALLOY_DURA = register(PARTS_TAB, "weapon_mod_tcalloy_dura",
+    public static final RegistryObject<Item> WEAPON_MOD_GENERIC_TCALLOY_DURA = register(PARTS_TAB, "weapon_mod_generic_tcalloy_dura",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_BIGMT_DAMAGE = register(PARTS_TAB, "weapon_mod_bigmt_damage",
+    public static final RegistryObject<Item> WEAPON_MOD_GENERIC_BIGMT_DAMAGE = register(PARTS_TAB, "weapon_mod_generic_bigmt_damage",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_BIGMT_DURA = register(PARTS_TAB, "weapon_mod_bigmt_dura",
+    public static final RegistryObject<Item> WEAPON_MOD_GENERIC_BIGMT_DURA = register(PARTS_TAB, "weapon_mod_generic_bigmt_dura",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_BRONZE_DAMAGE = register(PARTS_TAB, "weapon_mod_bronze_damage",
+    public static final RegistryObject<Item> WEAPON_MOD_GENERIC_BRONZE_DAMAGE = register(PARTS_TAB, "weapon_mod_generic_bronze_damage",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
-    public static final RegistryObject<Item> WEAPON_MOD_BRONZE_DURA = register(PARTS_TAB, "weapon_mod_bronze_dura",
+    public static final RegistryObject<Item> WEAPON_MOD_GENERIC_BRONZE_DURA = register(PARTS_TAB, "weapon_mod_generic_bronze_dura",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> MISSILE_CUSTOM = register(MISSILE_TAB, "missile_custom",
@@ -4655,8 +4825,7 @@ public class ModItems {
             () -> new ItemN2(ModBlocks.NUKE_N2.get(), new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> DET_NUKE = register(BLOCK_TAB, "det_nuke",
-            () -> new BlockItem(ModBlocks.DET_NUKE.get(), new Item.Properties()),
-            ItemModelType.GENERATED);
+            () -> new BlockItem(ModBlocks.DET_NUKE.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> ARC_ELECTRODE_GRAPHITE = register(MACHINE_TAB, "arc_electrode_graphite",
             () -> new ItemArcElectrode(new Item.Properties(), 10),
@@ -4753,6 +4922,10 @@ public class ModItems {
             () -> new TurretSentryItem(ModBlocks.TURRET_SENTRY.get(), new Item.Properties()));
     public static final RegistryObject<Item> TURRET_SENTRY_DAMAGED = ModItems.register(WEAPON_TAB, "turrets/turret_sentry_damaged",
             () -> new TurretSentryDamagedItem(ModBlocks.TURRET_SENTRY_DAMAGED.get(), new Item.Properties()));
+    public static final RegistryObject<Item> TURRET_HOWARD = register(WEAPON_TAB,"turrets/turret_howard",
+            () -> new ItemBlockTurretHoward(ModBlocks.TURRET_HOWARD.get(), new Item.Properties()));
+    public static final RegistryObject<Item> TURRET_HOWARD_DAMAGED = register(WEAPON_TAB,"turrets/turret_howard_damaged",
+            () -> new ItemBlockTurretHowardDamaged(ModBlocks.TURRET_HOWARD_DAMAGED.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> MACHINE_TRANSFORMER = ModItems.register(MACHINE_TAB, "machine_transformer",
             () -> new BlockItem(ModBlocks.MACHINE_TRANSFORMER.get(), new Item.Properties()));
@@ -4770,7 +4943,7 @@ public class ModItems {
             () -> new BlockItem(ModBlocks.FLOAT_BOMB.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> STEEL_CHAIN = ModItems.register(NUKE_TAB, "steel_chain",
-            () -> new BlockItem(ModBlocks.STEEL_CHAIN.get(), new Item.Properties()));
+            () -> new ItemBlockChain(ModBlocks.STEEL_CHAIN.get(), new Item.Properties()), ItemModelType.OBJ_ITEM, "models/block/steel_chain");
 
     public static final RegistryObject<Item> CRATE_ITEM = ModItems.register(MACHINE_TAB, "storage/crate",
             () -> new BlockItem(ModBlocks.CRATE.get(), new Item.Properties()));
@@ -4800,7 +4973,7 @@ public class ModItems {
     public static final RegistryObject<Item> CRATE_TEMPLATE_ITEM = ModItems.register(MACHINE_TAB, "storage/crate_template",
             () -> new BlockItem(ModBlocks.CRATE_TEMPLATE.get(), new Item.Properties()));
     public static final RegistryObject<Item> SAFE_ITEM = ModItems.register(MACHINE_TAB, "storage/safe",
-            () -> new BlockItem(ModBlocks.SAFE.get(), new Item.Properties()));
+            () -> new ItemBlockStorageCrate(ModBlocks.SAFE.get(), new Item.Properties()));
 
 
     public static final RegistryObject<Item> TURRET_CHIP = register(WEAPON_TAB, "turret_chip",
@@ -6338,6 +6511,15 @@ public class ModItems {
     public static final RegistryObject<Item> PLANT_TALL_CD4 = register(BLOCK_TAB, "plant_tall_cd4",
             () -> new BlockItem(ModBlocks.PLANT_TALL_CD4.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> REEDS_BOTTOM = register(BLOCK_TAB, "reeds_bottom",
+            () -> new BlockItem(ModBlocks.REEDS_BOTTOM.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> REEDS_MID = register(BLOCK_TAB, "reeds_mid",
+            () -> new BlockItem(ModBlocks.REEDS_MID.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> REEDS_TOP = register(BLOCK_TAB, "reeds_top",
+            () -> new BlockItem(ModBlocks.REEDS_TOP.get(), new Item.Properties()));
+
     public static final RegistryObject<Item> PLUSHIE = register("plushie",
             () -> new ItemPlushie(ModBlocks.PLUSHIE.get(), new Item.Properties()));
 
@@ -6614,10 +6796,68 @@ public class ModItems {
     public static final RegistryObject<Item> INGOT_SCHRABIDIUM_FUEL = register(PARTS_TAB, "ingot_schrabidium_fuel",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
+
+    public static final RegistryObject<Item> PELLET_RTG_RADIUM = register(CONTROL_TAB, "pellet_rtg_radium",
+            () -> new ItemRTGPellet(3, new Item.Properties())
+                    .setDecays(ItemRTGPelletDepleted.DepletedRTGMaterial.LEAD, (long) (RTGUtil.getLifespan(16.0F, ICustomWarhead.SaltedFuel.HalfLifeType.LONG, false) * 1.5)), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> PELLET_RTG_WEAK = register(CONTROL_TAB, "pellet_rtg_weak",
+            () -> new ItemRTGPellet(5, new Item.Properties())
+                    .setDecays(ItemRTGPelletDepleted.DepletedRTGMaterial.LEAD, (long) (RTGUtil.getLifespan(1.0F, ICustomWarhead.SaltedFuel.HalfLifeType.LONG, false) * 1.5)), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> PELLET_RTG = register(CONTROL_TAB, "pellet_rtg",
+            () -> new ItemRTGPellet(10, new Item.Properties())
+                    .setDecays(ItemRTGPelletDepleted.DepletedRTGMaterial.LEAD, (long) (RTGUtil.getLifespan(87.7F, ICustomWarhead.SaltedFuel.HalfLifeType.MEDIUM, false) * 1.5)), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> PELLET_RTG_STRONTIUM = register(CONTROL_TAB, "pellet_rtg_strontium",
+            () -> new ItemRTGPellet(15, new Item.Properties())
+                    .setDecays(ItemRTGPelletDepleted.DepletedRTGMaterial.ZIRCONIUM, (long) (RTGUtil.getLifespan(29.0F, ICustomWarhead.SaltedFuel.HalfLifeType.MEDIUM, false) * 1.5)), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> PELLET_RTG_COBALT = register(CONTROL_TAB, "pellet_rtg_cobalt",
+            () -> new ItemRTGPellet(15, new Item.Properties())
+                    .setDecays(ItemRTGPelletDepleted.DepletedRTGMaterial.NICKEL, (long) (RTGUtil.getLifespan(5.3F, ICustomWarhead.SaltedFuel.HalfLifeType.MEDIUM, false) * 1.5)), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> PELLET_RTG_ACTINIUM = register(CONTROL_TAB, "pellet_rtg_actinium",
+            () -> new ItemRTGPellet(20, new Item.Properties())
+                    .setDecays(ItemRTGPelletDepleted.DepletedRTGMaterial.LEAD, (long) (RTGUtil.getLifespan(21.8F, ICustomWarhead.SaltedFuel.HalfLifeType.MEDIUM, false) * 1.5)), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> PELLET_RTG_AMERICIUM = register(CONTROL_TAB, "pellet_rtg_americium",
+            () -> new ItemRTGPellet(20, new Item.Properties())
+                    .setDecays(ItemRTGPelletDepleted.DepletedRTGMaterial.NEPTUNIUM, (long) (RTGUtil.getLifespan(4.7F, ICustomWarhead.SaltedFuel.HalfLifeType.LONG, false) * 1.5)), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> PELLET_RTG_POLONIUM = register(CONTROL_TAB, "pellet_rtg_polonium",
+            () -> new ItemRTGPellet(50, new Item.Properties())
+                    .setDecays(ItemRTGPelletDepleted.DepletedRTGMaterial.LEAD, (long) (RTGUtil.getLifespan(138.0F, ICustomWarhead.SaltedFuel.HalfLifeType.SHORT, false) * 1.5)), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> PELLET_RTG_GOLD = register(CONTROL_TAB, "pellet_rtg_gold",
+            () -> new ItemRTGPellet(VersatileConfig.rtgDecay() ? 200 : 100, new Item.Properties())
+                    .setDecays(ItemRTGPelletDepleted.DepletedRTGMaterial.MERCURY, (long) (RTGUtil.getLifespan(2.7F, ICustomWarhead.SaltedFuel.HalfLifeType.SHORT, false) * 1.5)), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> PELLET_RTG_LEAD = register(CONTROL_TAB, "pellet_rtg_lead",
+            () -> new ItemRTGPellet(VersatileConfig.rtgDecay() ? 600 : 200, new Item.Properties())
+                    .setDecays(ItemRTGPelletDepleted.DepletedRTGMaterial.BISMUTH, (long) (RTGUtil.getLifespan(0.3F, ICustomWarhead.SaltedFuel.HalfLifeType.SHORT, false) * 1.5)), ItemModelType.GENERATED);
+
+
     public static final RegistryObject<Item> PELLET_RTG_DEPLETED = register("pellet_rtg_depleted",
             () -> new ItemRTGPelletDepleted(new Item.Properties()),
             ItemModelType.ENUM_ITEM,
             ItemRTGPelletDepleted.DepletedRTGMaterial.class);
+    public static final RegistryObject<Item> PELLET_RTG_AMERICIUM_TIER2 = register(PARTS_TAB, "pellet_rtg_americium_tier2",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> PELLET_RTG_BERKELIUM = register(PARTS_TAB, "pellet_rtg_berkelium",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> PELLET_RTG_DEPLETED_BISMUTH = register(PARTS_TAB, "pellet_rtg_depleted.bismuth",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> PELLET_RTG_DEPLETED_LEAD = register(PARTS_TAB, "pellet_rtg_depleted.lead",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> PELLET_RTG_DEPLETED_MERCURY = register(PARTS_TAB, "pellet_rtg_depleted.mercury",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> PELLET_RTG_DEPLETED_NEPTUNIUM = register(PARTS_TAB, "pellet_rtg_depleted.neptunium",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> PELLET_RTG_DEPLETED_NICKEL = register(PARTS_TAB, "pellet_rtg_depleted.nickel",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> PELLET_RTG_DEPLETED_ZIRCONIUM = register(PARTS_TAB, "pellet_rtg_depleted.zirconium",
+            () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
     public static final RegistryObject<Item> BLOCK_FLUORITE = register(BLOCK_TAB, "block_fluorite",
             () -> new BlockItem(ModBlocks.BLOCK_FLUORITE.get(), new Item.Properties()));
@@ -6736,10 +6976,734 @@ public class ModItems {
     public static final RegistryObject<Item> MACHINE_AMMO_PRESS = register(MACHINE_TAB, "machines/machine_ammo_press",
             () -> new ItemAmmoPress(ModBlocks.MACHINE_AMMO_PRESS.get(), new Item.Properties()));
 
+    /** Пластиковый пакет — дроп мусорного пакета (EntityPlasticBag). */
+    public static final RegistryObject<Item> PLASTIC_BAG = register(CONSUMABLE_TAB, "plastic_bag",
+            () -> new Item(new Item.Properties()),
+            ItemModelType.GENERATED);
+    // Яйца призыва: цвета взяты из текстур мобов (pigeon.png, plasticbag.png).
+    public static final RegistryObject<Item> PIGEON_SPAWN_EGG = register(CONSUMABLE_TAB, "pigeon_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.PIGEON, 0x858894, 0x4E4755, new Item.Properties()),
+            ItemModelType.SPAWN_EGG);
+
+    public static final RegistryObject<Item> PLASTIC_BAG_SPAWN_EGG = register(CONSUMABLE_TAB, "plastic_bag_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.PLASTIC_BAG, 0x808080, 0x0026FF, new Item.Properties()),
+            ItemModelType.SPAWN_EGG);
     public static final RegistryObject<Item> SCRAP_PLASTIC = register("scrap_plastic",
             () -> new ItemPlasticScrap(new Item.Properties()),
-            ItemModelType.ENUM_ITEM,
-            ItemPlasticScrap.ScrapType.class);
+            ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> CLAY_TABLET = register(BLOCK_TAB, "clay_tablet",
+            () -> new ItemClayTablet(new Item.Properties().stacksTo(1)),
+            ItemModelType.GENERATED,
+            "clay_tablet");
+
+    public static final RegistryObject<Item> SKELETON_HOLDER = register(BLOCK_TAB, "skeleton_holder",
+            () -> new ItemSkeletonHolder(ModBlocks.SKELETON_HOLDER.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DUNGEON_SPAWNER = register(BLOCK_TAB, "dungeon_spawner",
+            () -> new BlockItem(ModBlocks.DUNGEON_SPAWNER.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LIGHTSTONE_UNREFINED = register(BLOCK_TAB, "lightstone_unrefined",
+            () -> new BlockItem(ModBlocks.LIGHTSTONE_UNREFINED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LIGHTSTONE_TILE = register(BLOCK_TAB, "lightstone_tile",
+            () -> new BlockItem(ModBlocks.LIGHTSTONE_TILE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LIGHTSTONE_BRICKS = register(BLOCK_TAB, "lightstone_bricks",
+            () -> new BlockItem(ModBlocks.LIGHTSTONE_BRICKS.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LIGHTSTONE_BRICKS_CHISELED = register(BLOCK_TAB, "lightstone_bricks_chiseled",
+            () -> new BlockItem(ModBlocks.LIGHTSTONE_BRICKS_CHISELED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LIGHTSTONE_CHISELED = register(BLOCK_TAB, "lightstone_chiseled",
+            () -> new BlockItem(ModBlocks.LIGHTSTONE_CHISELED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_SMOOTH_STAIRS = register(BLOCK_TAB, "concrete_smooth_stairs",
+            () -> new BlockItem(ModBlocks.CONCRETE_SMOOTH_STAIRS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_STAIRS = register(BLOCK_TAB, "concrete_stairs",
+            () -> new BlockItem(ModBlocks.CONCRETE_STAIRS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CONCRETE_ASBESTOS_STAIRS = register(BLOCK_TAB, "concrete_asbestos_stairs",
+            () -> new BlockItem(ModBlocks.CONCRETE_ASBESTOS_STAIRS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> DUCRETE_SMOOTH_STAIRS = register(BLOCK_TAB, "ducrete_smooth_stairs",
+            () -> new BlockItem(ModBlocks.DUCRETE_SMOOTH_STAIRS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> DUCRETE_STAIRS = register(BLOCK_TAB, "ducrete_stairs",
+            () -> new BlockItem(ModBlocks.DUCRETE_STAIRS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> BRICK_CONCRETE_STAIRS = register(BLOCK_TAB, "brick_concrete_stairs",
+            () -> new BlockItem(ModBlocks.BRICK_CONCRETE_STAIRS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> BRICK_CONCRETE_MOSSY_STAIRS = register(BLOCK_TAB, "brick_concrete_mossy_stairs",
+            () -> new BlockItem(ModBlocks.BRICK_CONCRETE_MOSSY_STAIRS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> BRICK_CONCRETE_CRACKED_STAIRS = register(BLOCK_TAB, "brick_concrete_cracked_stairs",
+            () -> new BlockItem(ModBlocks.BRICK_CONCRETE_CRACKED_STAIRS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> BRICK_CONCRETE_BROKEN_STAIRS = register(BLOCK_TAB, "brick_concrete_broken_stairs",
+            () -> new BlockItem(ModBlocks.BRICK_CONCRETE_BROKEN_STAIRS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> BRICK_DUCRETE_STAIRS = register(BLOCK_TAB, "brick_ducrete_stairs",
+            () -> new BlockItem(ModBlocks.BRICK_DUCRETE_STAIRS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> REINFORCED_STONE_STAIRS = register(BLOCK_TAB, "reinforced_stone_stairs",
+            () -> new BlockItem(ModBlocks.REINFORCED_STONE_STAIRS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> REINFORCED_BRICK_STAIRS = register(BLOCK_TAB, "reinforced_brick_stairs",
+            () -> new BlockItem(ModBlocks.REINFORCED_BRICK_STAIRS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> BRICK_OBSIDIAN_STAIRS = register(BLOCK_TAB, "brick_obsidian_stairs",
+            () -> new BlockItem(ModBlocks.BRICK_OBSIDIAN_STAIRS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> BRICK_LIGHT_STAIRS = register(BLOCK_TAB, "brick_light_stairs",
+            () -> new BlockItem(ModBlocks.BRICK_LIGHT_STAIRS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> BRICK_COMPOUND_STAIRS = register(BLOCK_TAB, "brick_compound_stairs",
+            () -> new BlockItem(ModBlocks.BRICK_COMPOUND_STAIRS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> BRICK_ASBESTOS_STAIRS = register(BLOCK_TAB, "brick_asbestos_stairs",
+            () -> new BlockItem(ModBlocks.BRICK_ASBESTOS_STAIRS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> BRICK_FIRE_STAIRS = register(BLOCK_TAB, "brick_fire_stairs",
+            () -> new BlockItem(ModBlocks.BRICK_FIRE_STAIRS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> ASPHALT_STAIRS = register(BLOCK_TAB, "asphalt_stairs",
+            () -> new BlockItem(ModBlocks.ASPHALT_STAIRS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> LIGHTSTONE_TILE_STAIRS = register(BLOCK_TAB, "lightstone_tile_stairs",
+            () -> new BlockItem(ModBlocks.LIGHTSTONE_TILE_STAIRS.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LIGHTSTONE_BRICKS_STAIRS = register(BLOCK_TAB, "lightstone_bricks_stairs",
+            () -> new BlockItem(ModBlocks.LIGHTSTONE_BRICKS_STAIRS.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BARBED_WIRE = register(BLOCK_TAB, "barbed_wire",
+            () -> new SimpleOBJItem(ModBlocks.BARBED_WIRE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BARBED_WIRE_FIRE = register(BLOCK_TAB, "barbed_wire_fire",
+            () -> new SimpleOBJItem(ModBlocks.BARBED_WIRE_FIRE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BARBED_WIRE_POISON = register(BLOCK_TAB, "barbed_wire_poison",
+            () -> new SimpleOBJItem(ModBlocks.BARBED_WIRE_POISON.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BARBED_WIRE_ACID = register(BLOCK_TAB, "barbed_wire_acid",
+            () -> new SimpleOBJItem(ModBlocks.BARBED_WIRE_ACID.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BARBED_WIRE_WITHER = register(BLOCK_TAB, "barbed_wire_wither",
+            () -> new SimpleOBJItem(ModBlocks.BARBED_WIRE_WITHER.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BARBED_WIRE_ULTRA_DEATH = register(BLOCK_TAB, "barbed_wire_ultradeath",
+            () -> new SimpleOBJItem(ModBlocks.BARBED_WIRE_ULTRA_DEATH.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> SCRAP_NUCLEAR = register(PARTS_TAB, "scrap_nuclear",
+            () -> new Item(new Item.Properties()),
+            ItemModelType.GENERATED,
+            "scrap_nuclear");
+
+    public static final RegistryObject<Item> CONCRETE_BRICK_SLAB_BRICK_CONCRETE = register(BLOCK_TAB, "concrete_brick_slab_brick_concrete",
+            () -> new BlockItem(ModBlocks.CONCRETE_BRICK_SLAB_BRICK_CONCRETE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_BRICK_SLAB_BRICK_CONCRETE_MOSSY = register(BLOCK_TAB, "concrete_brick_slab_brick_concrete_mossy",
+            () -> new BlockItem(ModBlocks.CONCRETE_BRICK_SLAB_BRICK_CONCRETE_MOSSY.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_BRICK_SLAB_BRICK_CONCRETE_CRACKED = register(BLOCK_TAB, "concrete_brick_slab_brick_concrete_cracked",
+            () -> new BlockItem(ModBlocks.CONCRETE_BRICK_SLAB_BRICK_CONCRETE_CRACKED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_BRICK_SLAB_BRICK_CONCRETE_BROKEN = register(BLOCK_TAB, "concrete_brick_slab_brick_concrete_broken",
+            () -> new BlockItem(ModBlocks.CONCRETE_BRICK_SLAB_BRICK_CONCRETE_BROKEN.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_BRICK_SLAB_BRICK_DUCRETE = register(BLOCK_TAB, "concrete_brick_slab_brick_ducrete",
+            () -> new BlockItem(ModBlocks.CONCRETE_BRICK_SLAB_BRICK_DUCRETE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_SLAB_CONCRETE_SMOOTH = register(BLOCK_TAB, "concrete_slab_concrete_smooth",
+            () -> new BlockItem(ModBlocks.CONCRETE_SLAB_CONCRETE_SMOOTH.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_SLAB_CONCRETE = register(BLOCK_TAB, "concrete_slab_concrete",
+            () -> new BlockItem(ModBlocks.CONCRETE_SLAB_CONCRETE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_SLAB_CONCRETE_ASBESTOS = register(BLOCK_TAB, "concrete_slab_concrete_asbestos",
+            () -> new BlockItem(ModBlocks.CONCRETE_SLAB_CONCRETE_ASBESTOS.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_SLAB_DUCRETE_SMOOTH = register(BLOCK_TAB, "concrete_slab_ducrete_smooth",
+            () -> new BlockItem(ModBlocks.CONCRETE_SLAB_DUCRETE_SMOOTH.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_SLAB_DUCRETE = register(BLOCK_TAB, "concrete_slab_ducrete",
+            () -> new BlockItem(ModBlocks.CONCRETE_SLAB_DUCRETE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_SLAB_ASPHALT = register(BLOCK_TAB, "concrete_slab_asphalt",
+            () -> new BlockItem(ModBlocks.CONCRETE_SLAB_ASPHALT.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_DOUBLE_SLAB_CONCRETE_SMOOTH = register(BLOCK_TAB, "concrete_double_slab_concrete_smooth",
+            () -> new BlockItem(ModBlocks.CONCRETE_DOUBLE_SLAB_CONCRETE_SMOOTH.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_DOUBLE_SLAB_CONCRETE = register(BLOCK_TAB, "concrete_double_slab_concrete",
+            () -> new BlockItem(ModBlocks.CONCRETE_DOUBLE_SLAB_CONCRETE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_DOUBLE_SLAB_CONCRETE_ASBESTOS = register(BLOCK_TAB, "concrete_double_slab_concrete_asbestos",
+            () -> new BlockItem(ModBlocks.CONCRETE_DOUBLE_SLAB_CONCRETE_ASBESTOS.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_DOUBLE_SLAB_DUCRETE_SMOOTH = register(BLOCK_TAB, "concrete_double_slab_ducrete_smooth",
+            () -> new BlockItem(ModBlocks.CONCRETE_DOUBLE_SLAB_DUCRETE_SMOOTH.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_DOUBLE_SLAB_DUCRETE = register(BLOCK_TAB, "concrete_double_slab_ducrete",
+            () -> new BlockItem(ModBlocks.CONCRETE_DOUBLE_SLAB_DUCRETE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_DOUBLE_SLAB_ASPHALT = register(BLOCK_TAB, "concrete_double_slab_asphalt",
+            () -> new BlockItem(ModBlocks.CONCRETE_DOUBLE_SLAB_ASPHALT.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_BRICK_DOUBLE_SLAB_BRICK_CONCRETE = register(BLOCK_TAB, "concrete_brick_double_slab_brick_concrete",
+            () -> new BlockItem(ModBlocks.CONCRETE_BRICK_DOUBLE_SLAB_BRICK_CONCRETE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_BRICK_DOUBLE_SLAB_BRICK_CONCRETE_MOSSY = register(BLOCK_TAB, "concrete_brick_double_slab_brick_concrete_mossy",
+            () -> new BlockItem(ModBlocks.CONCRETE_BRICK_DOUBLE_SLAB_BRICK_CONCRETE_MOSSY.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_BRICK_DOUBLE_SLAB_BRICK_CONCRETE_CRACKED = register(BLOCK_TAB, "concrete_brick_double_slab_brick_concrete_cracked",
+            () -> new BlockItem(ModBlocks.CONCRETE_BRICK_DOUBLE_SLAB_BRICK_CONCRETE_CRACKED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_BRICK_DOUBLE_SLAB_BRICK_CONCRETE_BROKEN = register(BLOCK_TAB, "concrete_brick_double_slab_brick_concrete_broken",
+            () -> new BlockItem(ModBlocks.CONCRETE_BRICK_DOUBLE_SLAB_BRICK_CONCRETE_BROKEN.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CONCRETE_BRICK_DOUBLE_SLAB_BRICK_DUCRETE = register(BLOCK_TAB, "concrete_brick_double_slab_brick_ducrete",
+            () -> new BlockItem(ModBlocks.CONCRETE_BRICK_DOUBLE_SLAB_BRICK_DUCRETE.get(), new Item.Properties()));
+
+    // === DUCRETE ===
+    public static final RegistryObject<Item> DUCRETE_SMOOTH = register(BLOCK_TAB, "ducrete_smooth",
+            () -> new BlockItem(ModBlocks.DUCRETE_SMOOTH.get(), new Item.Properties()));
+    public static final RegistryObject<Item> DUCRETE = register(BLOCK_TAB, "ducrete",
+            () -> new BlockItem(ModBlocks.DUCRETE.get(), new Item.Properties()));
+
+    // === BRICK CONCRETE MOSSY ===
+    public static final RegistryObject<Item> BRICK_CONCRETE_MOSSY = register(BLOCK_TAB, "brick_concrete_mossy",
+            () -> new BlockItem(ModBlocks.BRICK_CONCRETE_MOSSY.get(), new Item.Properties()));
+
+    // === BRICK DUCRETE ===
+    public static final RegistryObject<Item> BRICK_DUCRETE = register(BLOCK_TAB, "brick_ducrete",
+            () -> new BlockItem(ModBlocks.BRICK_DUCRETE.get(), new Item.Properties()));
+
+    // === REINFORCED BRICK ===
+    public static final RegistryObject<Item> REINFORCED_BRICK = register(BLOCK_TAB, "reinforced_brick",
+            () -> new BlockItem(ModBlocks.REINFORCED_BRICK.get(), new Item.Properties()));
+
+    // === BRICK COMPOUND ===
+    public static final RegistryObject<Item> BRICK_COMPOUND = register(BLOCK_TAB, "brick_compound",
+            () -> new BlockItem(ModBlocks.BRICK_COMPOUND.get(), new Item.Properties()));
+
+    // === BRICK FIRE ===
+    public static final RegistryObject<Item> BRICK_FIRE = register(BLOCK_TAB, "brick_fire",
+            () -> new BlockItem(ModBlocks.BRICK_FIRE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> ASPHALT = register(BLOCK_TAB, "asphalt",
+            () -> new BlockItem(ModBlocks.ASPHALT.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> ASPHALT_LIGHT = register(BLOCK_TAB, "asphalt_light",
+            () -> new BlockItem(ModBlocks.ASPHALT_LIGHT.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> WAND_LOOT = register("wand_loot",
+            () -> new BlockItem(ModBlocks.WAND_LOOT.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE = register(BLOCK_TAB, "deco_pipe",
+            () -> new PipeItem(ModBlocks.DECO_PIPE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_RUSTED = register(BLOCK_TAB, "deco_pipe_rusted",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_RUSTED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_GREEN = register(BLOCK_TAB, "deco_pipe_green",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_GREEN.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_GREEN_RUSTED = register(BLOCK_TAB, "deco_pipe_green_rusted",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_GREEN_RUSTED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_RED = register(BLOCK_TAB, "deco_pipe_red",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_RED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_MARKED = register(BLOCK_TAB, "deco_pipe_marked",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_MARKED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_RIM = register(BLOCK_TAB, "deco_pipe_rim",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_RIM.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_RIM_RUSTED = register(BLOCK_TAB, "deco_pipe_rim_rusted",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_RIM_RUSTED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_RIM_GREEN = register(BLOCK_TAB, "deco_pipe_rim_green",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_RIM_GREEN.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_RIM_GREEN_RUSTED = register(BLOCK_TAB, "deco_pipe_rim_green_rusted",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_RIM_GREEN_RUSTED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_RIM_RED = register(BLOCK_TAB, "deco_pipe_rim_red",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_RIM_RED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_RIM_MARKED = register(BLOCK_TAB, "deco_pipe_rim_marked",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_RIM_MARKED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_QUAD = register(BLOCK_TAB, "deco_pipe_quad",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_QUAD.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_QUAD_RUSTED = register(BLOCK_TAB, "deco_pipe_quad_rusted",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_QUAD_RUSTED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_QUAD_GREEN = register(BLOCK_TAB, "deco_pipe_quad_green",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_QUAD_GREEN.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_QUAD_GREEN_RUSTED = register(BLOCK_TAB, "deco_pipe_quad_green_rusted",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_QUAD_GREEN_RUSTED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_QUAD_RED = register(BLOCK_TAB, "deco_pipe_quad_red",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_QUAD_RED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_QUAD_MARKED = register(BLOCK_TAB, "deco_pipe_quad_marked",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_QUAD_MARKED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_FRAMED = register(BLOCK_TAB, "deco_pipe_framed",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_FRAMED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_FRAMED_RUSTED = register(BLOCK_TAB, "deco_pipe_framed_rusted",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_FRAMED_RUSTED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_FRAMED_GREEN = register(BLOCK_TAB, "deco_pipe_framed_green",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_FRAMED_GREEN.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_FRAMED_GREEN_RUSTED = register(BLOCK_TAB, "deco_pipe_framed_green_rusted",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_FRAMED_GREEN_RUSTED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_FRAMED_RED = register(BLOCK_TAB, "deco_pipe_framed_red",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_FRAMED_RED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_PIPE_FRAMED_MARKED = register(BLOCK_TAB, "deco_pipe_framed_marked",
+            () -> new PipeItem(ModBlocks.DECO_PIPE_FRAMED_MARKED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BRICK_SLAB_REINFORCED_STONE = register(BLOCK_TAB, "brick_slab_reinforced_stone",
+            () -> new BlockItem(ModBlocks.BRICK_SLAB_REINFORCED_STONE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BRICK_SLAB_REINFORCED_BRICK = register(BLOCK_TAB, "brick_slab_reinforced_brick",
+            () -> new BlockItem(ModBlocks.BRICK_SLAB_REINFORCED_BRICK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BRICK_SLAB_BRICK_OBSIDIAN = register(BLOCK_TAB, "brick_slab_brick_obsidian",
+            () -> new BlockItem(ModBlocks.BRICK_SLAB_BRICK_OBSIDIAN.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BRICK_SLAB_BRICK_LIGHT = register(BLOCK_TAB, "brick_slab_brick_light",
+            () -> new BlockItem(ModBlocks.BRICK_SLAB_BRICK_LIGHT.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BRICK_SLAB_BRICK_COMPOUND = register(BLOCK_TAB, "brick_slab_brick_compound",
+            () -> new BlockItem(ModBlocks.BRICK_SLAB_BRICK_COMPOUND.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BRICK_SLAB_BRICK_ASBESTOS = register(BLOCK_TAB, "brick_slab_brick_asbestos",
+            () -> new BlockItem(ModBlocks.BRICK_SLAB_BRICK_ASBESTOS.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BRICK_SLAB_BRICK_FIRE = register(BLOCK_TAB, "brick_slab_brick_fire",
+            () -> new BlockItem(ModBlocks.BRICK_SLAB_BRICK_FIRE.get(), new Item.Properties()));
+
+    // === BRICK DOUBLE SLAB ===
+    public static final RegistryObject<Item> BRICK_DOUBLE_SLAB_REINFORCED_STONE = register(BLOCK_TAB, "brick_double_slab_reinforced_stone",
+            () -> new BlockItem(ModBlocks.BRICK_DOUBLE_SLAB_REINFORCED_STONE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BRICK_DOUBLE_SLAB_REINFORCED_BRICK = register(BLOCK_TAB, "brick_double_slab_reinforced_brick",
+            () -> new BlockItem(ModBlocks.BRICK_DOUBLE_SLAB_REINFORCED_BRICK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BRICK_DOUBLE_SLAB_BRICK_OBSIDIAN = register(BLOCK_TAB, "brick_double_slab_brick_obsidian",
+            () -> new BlockItem(ModBlocks.BRICK_DOUBLE_SLAB_BRICK_OBSIDIAN.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BRICK_DOUBLE_SLAB_BRICK_LIGHT = register(BLOCK_TAB, "brick_double_slab_brick_light",
+            () -> new BlockItem(ModBlocks.BRICK_DOUBLE_SLAB_BRICK_LIGHT.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BRICK_DOUBLE_SLAB_BRICK_COMPOUND = register(BLOCK_TAB, "brick_double_slab_brick_compound",
+            () -> new BlockItem(ModBlocks.BRICK_DOUBLE_SLAB_BRICK_COMPOUND.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BRICK_DOUBLE_SLAB_BRICK_ASBESTOS = register(BLOCK_TAB, "brick_double_slab_brick_asbestos",
+            () -> new BlockItem(ModBlocks.BRICK_DOUBLE_SLAB_BRICK_ASBESTOS.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BRICK_DOUBLE_SLAB_BRICK_FIRE = register(BLOCK_TAB, "brick_double_slab_brick_fire",
+            () -> new BlockItem(ModBlocks.BRICK_DOUBLE_SLAB_BRICK_FIRE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> REINFORCED_GLASS = register(BLOCK_TAB, "reinforced_glass",
+            () -> new BlockItem(ModBlocks.REINFORCED_GLASS.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> RED_WIRE_COATED = register(BLOCK_TAB, "red_wire_coated",
+            () -> new BlockItem(ModBlocks.RED_WIRE_COATED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_COMPUTER = register(BLOCK_TAB, "deco/deco_computer",
+            () -> new ItemDecoComputer(ModBlocks.DECO_COMPUTER.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> FENCE_METAL = register(BLOCK_TAB, "fence_metal",
+            () -> new BlockItem(ModBlocks.FENCE_METAL.get(), new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> FENCE_METAL_POST = register(BLOCK_TAB, "fence_metal_post",
+            () -> new BlockItem(ModBlocks.FENCE_METAL_POST.get(), new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> MACHINE_FUNNEL = register(MACHINE_TAB, "machines/machine_funnel",
+            () -> new FunnelItem(ModBlocks.MACHINE_FUNNEL.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> SPIKES = register(BLOCK_TAB, "spikes",
+            () -> new SpikeItem(ModBlocks.SPIKES.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> MACHINE_ELECTRIC_FURNACE = register(MACHINE_TAB, "machines/machine_electric_furnace",
+            () -> new ItemBlockElectricFurnace(ModBlocks.MACHINE_ELECTRIC_FURNACE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LADDER_STURDY = register(BLOCK_TAB, "ladder_sturdy",
+            () -> new BlockItem(ModBlocks.LADDER_STURDY.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LADDER_IRON = register(BLOCK_TAB, "ladder_iron",
+            () -> new BlockItem(ModBlocks.LADDER_IRON.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LADDER_GOLD = register(BLOCK_TAB, "ladder_gold",
+            () -> new BlockItem(ModBlocks.LADDER_GOLD.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LADDER_ALUMINIUM = register(BLOCK_TAB, "ladder_aluminium",
+            () -> new BlockItem(ModBlocks.LADDER_ALUMINIUM.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LADDER_COPPER = register(BLOCK_TAB, "ladder_copper",
+            () -> new BlockItem(ModBlocks.LADDER_COPPER.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LADDER_TITANIUM = register(BLOCK_TAB, "ladder_titanium",
+            () -> new BlockItem(ModBlocks.LADDER_TITANIUM.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LADDER_LEAD = register(BLOCK_TAB, "ladder_lead",
+            () -> new BlockItem(ModBlocks.LADDER_LEAD.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LADDER_COBALT = register(BLOCK_TAB, "ladder_cobalt",
+            () -> new BlockItem(ModBlocks.LADDER_COBALT.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LADDER_STEEL = register(BLOCK_TAB, "ladder_steel",
+            () -> new BlockItem(ModBlocks.LADDER_STEEL.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LADDER_TUNGSTEN = register(BLOCK_TAB, "ladder_tungsten",
+            () -> new BlockItem(ModBlocks.LADDER_TUNGSTEN.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> REINFORCED_LAMP = register(MACHINE_TAB,"reinforced_lamp",
+            () -> new BlockItem(ModBlocks.REINFORCED_LAMP.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> REINFORCED_GLASS_PANE = register(BLOCK_TAB,"reinforced_glass_pane",
+            () -> new BlockItem(ModBlocks.REINFORCED_GLASS_PANE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> REINFORCED_LAMINATE_PANE = register(BLOCK_TAB,"reinforced_laminate_pane",
+            () -> new BlockItem(ModBlocks.REINFORCED_LAMINATE_PANE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CHARGER = register(MACHINE_TAB, "machines/charger",
+            () -> new ItemCharger(ModBlocks.CHARGER.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> MACHINE_MICROWAVE = register(MACHINE_TAB, "machines/machine_microwave",
+            () -> new ItemMachineMicrowave(ModBlocks.MACHINE_MICROWAVE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DECO_TOASTER_IRON = register(BLOCK_TAB, "deco/deco_toaster_iron",
+            () -> new ItemDecoToaster(ModBlocks.DECO_TOASTER_IRON.get(), new Item.Properties()));
+    public static final RegistryObject<Item> DECO_TOASTER_STEEL = register(BLOCK_TAB, "deco/deco_toaster_steel",
+            () -> new ItemDecoToaster(ModBlocks.DECO_TOASTER_STEEL.get(), new Item.Properties()));
+    public static final RegistryObject<Item> DECO_TOASTER_WOOD = register(BLOCK_TAB, "deco/deco_toaster_wood",
+            () -> new ItemDecoToaster(ModBlocks.DECO_TOASTER_WOOD.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> RAIL_WOOD = register(TRANSPORT_TAB, "rail_wood",
+            () -> new BlockItem(ModBlocks.RAIL_WOOD.get(), new Item.Properties()));
+    public static final RegistryObject<Item> RAIL_NARROW = register(TRANSPORT_TAB, "rail_narrow",
+            () -> new BlockItem(ModBlocks.RAIL_NARROW.get(), new Item.Properties()));
+    public static final RegistryObject<Item> RAIL_HIGHSPEED = register(TRANSPORT_TAB, "rail_highspeed",
+            () -> new BlockItem(ModBlocks.RAIL_HIGHSPEED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> ORE_OIL_SAND = register(BLOCK_TAB, "ore_oil_sand",
+            () -> new BlockItem(ModBlocks.ORE_OIL_SAND.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> MACHINE_RTG_GREY = register(MACHINE_TAB, "machines/machine_rtg_grey",
+            () -> new ItemMachineRTG(ModBlocks.MACHINE_RTG_GREY.get(), new Item.Properties()));
+    public static final RegistryObject<Item> MACHINE_POWERRTG = register(MACHINE_TAB, "machines/machine_powerrtg",
+            () -> new ItemMachineMiniRTG(ModBlocks.MACHINE_POWERRTG.get(), new Item.Properties()));
+    public static final RegistryObject<Item> MACHINE_MINIRTG = register(MACHINE_TAB, "machines/machine_minirtg",
+            () -> new ItemMachineMiniRTG(ModBlocks.MACHINE_MINIRTG.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> STALACTITE_SULFUR = register("stalactite_sulfur",
+            () -> new BlockItem(ModBlocks.STALACTITE_SULFUR.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> STALACTITE_ASBESTOS = register("stalactite_asbestos",
+            () -> new BlockItem(ModBlocks.STALACTITE_ASBESTOS.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> STALAGMITE_SULFUR = register("stalagmite_sulfur",
+            () -> new BlockItem(ModBlocks.STALAGMITE_SULFUR.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> STALAGMITE_ASBESTOS = register("stalagmite_asbestos",
+            () -> new BlockItem(ModBlocks.STALAGMITE_ASBESTOS.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> PLATEMETAL_BASE = register(BLOCK_TAB, "platemetal_base",
+            () -> new BlockItem(ModBlocks.PLATEMETAL_BASE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> PLATEMETAL_BLACK = register(BLOCK_TAB, "platemetal_black",
+            () -> new BlockItem(ModBlocks.PLATEMETAL_BLACK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> PLATEMETAL_WHITE = register(BLOCK_TAB, "platemetal_white",
+            () -> new BlockItem(ModBlocks.PLATEMETAL_WHITE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> PLATEMETAL_RED = register(BLOCK_TAB, "platemetal_red",
+            () -> new BlockItem(ModBlocks.PLATEMETAL_RED.get(), new Item.Properties()));
+    public static final RegistryObject<Item> PLATEMETAL_GREEN = register(BLOCK_TAB, "platemetal_green",
+            () -> new BlockItem(ModBlocks.PLATEMETAL_GREEN.get(), new Item.Properties()));
+    public static final RegistryObject<Item> PLATEMETAL_LIGHT_GRAY = register(BLOCK_TAB, "platemetal_light_gray",
+            () -> new BlockItem(ModBlocks.PLATEMETAL_LIGHT_GRAY.get(), new Item.Properties()));
+    public static final RegistryObject<Item> PLATEMETAL_BLUE = register(BLOCK_TAB, "platemetal_blue",
+            () -> new BlockItem(ModBlocks.PLATEMETAL_BLUE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> PLATEMETAL_PURPLE = register(BLOCK_TAB, "platemetal_purple",
+            () -> new BlockItem(ModBlocks.PLATEMETAL_PURPLE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> PLATEMETAL_CYAN = register(BLOCK_TAB, "platemetal_cyan",
+            () -> new BlockItem(ModBlocks.PLATEMETAL_CYAN.get(), new Item.Properties()));
+    public static final RegistryObject<Item> PLATEMETAL_PINK = register(BLOCK_TAB, "platemetal_pink",
+            () -> new BlockItem(ModBlocks.PLATEMETAL_PINK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> PLATEMETAL_LIME = register(BLOCK_TAB, "platemetal_lime",
+            () -> new BlockItem(ModBlocks.PLATEMETAL_LIME.get(), new Item.Properties()));
+    public static final RegistryObject<Item> PLATEMETAL_YELLOW = register(BLOCK_TAB, "platemetal_yellow",
+            () -> new BlockItem(ModBlocks.PLATEMETAL_YELLOW.get(), new Item.Properties()));
+    public static final RegistryObject<Item> PLATEMETAL_LIGHT_BLUE = register(BLOCK_TAB, "platemetal_light_blue",
+            () -> new BlockItem(ModBlocks.PLATEMETAL_LIGHT_BLUE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> PLATEMETAL_MAGENTA = register(BLOCK_TAB, "platemetal_magenta",
+            () -> new BlockItem(ModBlocks.PLATEMETAL_MAGENTA.get(), new Item.Properties()));
+    public static final RegistryObject<Item> PLATEMETAL_ORANGE = register(BLOCK_TAB, "platemetal_orange",
+            () -> new BlockItem(ModBlocks.PLATEMETAL_ORANGE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> WOOD_BARRIER = register(BLOCK_TAB, "wood_barrier",
+            () -> new ItemWoodBarrier(ModBlocks.WOOD_BARRIER.get(), new Item.Properties()),
+            ItemModelType.BUILTIN_ENTITY,
+            "wood_barrier");
+
+    public static final RegistryObject<Item> WOOD_STRUCTURE_ROOF = register(BLOCK_TAB, "wood_structure_roof",
+            () -> new ItemWoodStructure(ModBlocks.WOOD_STRUCTURE_ROOF.get(), new Item.Properties()),
+            ItemModelType.BUILTIN_ENTITY, "wood_structure_roof");
+
+    public static final RegistryObject<Item> WOOD_STRUCTURE_SCAFFOLD = register(BLOCK_TAB, "wood_structure_scaffold",
+            () -> new ItemWoodStructure(ModBlocks.WOOD_STRUCTURE_SCAFFOLD.get(), new Item.Properties()),
+            ItemModelType.BUILTIN_ENTITY, "wood_structure_scaffold");
+
+    public static final RegistryObject<Item> WOOD_STRUCTURE_CEILING = register(BLOCK_TAB, "wood_structure_ceiling",
+            () -> new ItemWoodStructure(ModBlocks.WOOD_STRUCTURE_CEILING.get(), new Item.Properties()),
+            ItemModelType.BUILTIN_ENTITY, "wood_structure_ceiling");
+
+    public static final RegistryObject<Item> VENDING_MACHINE_SODA = register(MACHINE_TAB, "vending_machine_soda",
+            () -> new ItemVendingMachine(ModBlocks.VENDING_MACHINE_SODA.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> VENDING_MACHINE_OBAMNA = register(MACHINE_TAB, "vending_machine_obamna",
+            () -> new ItemVendingMachine(ModBlocks.VENDING_MACHINE_OBAMNA.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> SANDBAGS = register(BLOCK_TAB, "sandbags",
+            () -> new ItemSandbags(ModBlocks.SANDBAGS.get(), new Item.Properties()),
+            ItemModelType.BUILTIN_ENTITY, "sandbags");
+
+    public static final RegistryObject<Item> RADIO_TELEX = register(MACHINE_TAB, "machines/radio_telex",
+            () -> new ItemMachineRadioTelex(ModBlocks.RADIO_TELEX.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> HEV_BATTERY_BLOCK = register(MACHINE_TAB, "hev_battery_block",
+            () -> new ItemHEVBattery(ModBlocks.HEV_BATTERY.get(), new Item.Properties()),
+            ItemModelType.BUILTIN_ENTITY, "hev_battery");
+
+    public static final RegistryObject<Item> WAND_LOGIC = register(MACHINE_TAB, "wand_logic",
+            () -> new BlockItem(ModBlocks.WAND_LOGIC.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LOGIC_BLOCK = register(MACHINE_TAB, "logic_block",
+            () -> new BlockItem(ModBlocks.LOGIC_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LOGIC_BLOCK_INVIS = register(MACHINE_TAB, "logic_block_invis",
+            () -> new BlockItem(ModBlocks.LOGIC_BLOCK_INVIS.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> PEDESTAL = register(MACHINE_TAB, "pedestal",
+            () -> new BlockItem(ModBlocks.PEDESTAL.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CHARGE_DYNAMITE = register(NUKE_TAB, "charge_dynamite",
+            () -> new ItemBlockCharge(ModBlocks.CHARGE_DYNAMITE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CHARGE_MINER = register(NUKE_TAB, "charge_miner",
+            () -> new ItemBlockCharge(ModBlocks.CHARGE_MINER.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CHARGE_C4 = register(NUKE_TAB, "charge_c4",
+            () -> new ItemBlockCharge(ModBlocks.CHARGE_C4.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CHARGE_SEMTEX = register(NUKE_TAB, "charge_semtex",
+            () -> new ItemBlockCharge(ModBlocks.CHARGE_SEMTEX.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BATTERY_PACK_BATTERY_REDSTONE = register(PARTS_TAB, "battery_pack_battery_redstone",
+            () -> new ItemBatteryPack(ItemBatteryPack.EnumBatteryPack.BATTERY_REDSTONE, new Item.Properties()),
+            ItemModelType.OBJ_ITEM, "models/item/machines/battery_socket");
+
+    public static final RegistryObject<Item> BATTERY_PACK_BATTERY_LEAD = register(PARTS_TAB, "battery_pack_battery_lead",
+            () -> new ItemBatteryPack(ItemBatteryPack.EnumBatteryPack.BATTERY_LEAD, new Item.Properties()),
+            ItemModelType.OBJ_ITEM, "models/item/machines/battery_socket");
+
+    public static final RegistryObject<Item> BATTERY_PACK_BATTERY_LITHIUM = register(PARTS_TAB, "battery_pack_battery_lithium",
+            () -> new ItemBatteryPack(ItemBatteryPack.EnumBatteryPack.BATTERY_LITHIUM, new Item.Properties()),
+            ItemModelType.OBJ_ITEM, "models/item/machines/battery_socket");
+
+    public static final RegistryObject<Item> BATTERY_PACK_BATTERY_SODIUM = register(PARTS_TAB, "battery_pack_battery_sodium",
+            () -> new ItemBatteryPack(ItemBatteryPack.EnumBatteryPack.BATTERY_SODIUM, new Item.Properties()),
+            ItemModelType.OBJ_ITEM, "models/item/machines/battery_socket");
+
+    public static final RegistryObject<Item> BATTERY_PACK_BATTERY_SCHRABIDIUM = register(PARTS_TAB, "battery_pack_battery_schrabidium",
+            () -> new ItemBatteryPack(ItemBatteryPack.EnumBatteryPack.BATTERY_SCHRABIDIUM, new Item.Properties()),
+            ItemModelType.OBJ_ITEM, "models/item/machines/battery_socket");
+
+    public static final RegistryObject<Item> BATTERY_PACK_BATTERY_QUANTUM = register(PARTS_TAB, "battery_pack_battery_quantum",
+            () -> new ItemBatteryPack(ItemBatteryPack.EnumBatteryPack.BATTERY_QUANTUM, new Item.Properties()),
+            ItemModelType.OBJ_ITEM, "models/item/machines/battery_socket");
+
+    public static final RegistryObject<Item> BATTERY_PACK_CAPACITOR_COPPER = register(PARTS_TAB, "battery_pack_capacitor_copper",
+            () -> new ItemBatteryPack(ItemBatteryPack.EnumBatteryPack.CAPACITOR_COPPER, new Item.Properties()),
+            ItemModelType.OBJ_ITEM, "models/item/machines/battery_socket");
+
+    public static final RegistryObject<Item> BATTERY_PACK_CAPACITOR_GOLD = register(PARTS_TAB, "battery_pack_capacitor_gold",
+            () -> new ItemBatteryPack(ItemBatteryPack.EnumBatteryPack.CAPACITOR_GOLD, new Item.Properties()),
+            ItemModelType.OBJ_ITEM, "models/item/machines/battery_socket");
+
+    public static final RegistryObject<Item> BATTERY_PACK_CAPACITOR_NIOBIUM = register(PARTS_TAB, "battery_pack_capacitor_niobium",
+            () -> new ItemBatteryPack(ItemBatteryPack.EnumBatteryPack.CAPACITOR_NIOBIUM, new Item.Properties()),
+            ItemModelType.OBJ_ITEM, "models/item/machines/battery_socket");
+
+    public static final RegistryObject<Item> BATTERY_PACK_CAPACITOR_TANTALUM = register(PARTS_TAB, "battery_pack_capacitor_tantalum",
+            () -> new ItemBatteryPack(ItemBatteryPack.EnumBatteryPack.CAPACITOR_TANTALUM, new Item.Properties()),
+            ItemModelType.OBJ_ITEM, "models/item/machines/battery_socket");
+
+    public static final RegistryObject<Item> BATTERY_PACK_CAPACITOR_BISMUTH = register(PARTS_TAB, "battery_pack_capacitor_bismuth",
+            () -> new ItemBatteryPack(ItemBatteryPack.EnumBatteryPack.CAPACITOR_BISMUTH, new Item.Properties()),
+            ItemModelType.OBJ_ITEM, "models/item/machines/battery_socket");
+
+    public static final RegistryObject<Item> BATTERY_PACK_CAPACITOR_SPARK = register(PARTS_TAB, "battery_pack_capacitor_spark",
+            () -> new ItemBatteryPack(ItemBatteryPack.EnumBatteryPack.CAPACITOR_SPARK, new Item.Properties()),
+            ItemModelType.OBJ_ITEM, "models/item/machines/battery_socket");
+
+    public static final RegistryObject<Item> SOYUZ_CAPSULE_ITEM = register(MISSILE_TAB, "soyuz_capsule",
+            () -> new ItemBlockSoyuzCapsule(ModBlocks.SOYUZ_CAPSULE.get(), new Item.Properties()), ItemModelType.BUILTIN_ENTITY);
+
+    public static final RegistryObject<Item> LANTERN = register(BLOCK_TAB, "lantern",
+            () -> new ItemBlockLantern(ModBlocks.LANTERN.get(), new Item.Properties()), ItemModelType.BUILTIN_ENTITY);
+
+    public static final RegistryObject<Item> LANTERN_BEHEMOTH = register(BLOCK_TAB, "lantern_behemoth",
+            () -> new ItemBlockLanternBehemoth(ModBlocks.LANTERN_BEHEMOTH.get(), new Item.Properties()), ItemModelType.BUILTIN_ENTITY);
+
+    public static final RegistryObject<Item> MACHINE_KEYFORGE = register(MACHINE_TAB, "machine_keyforge",
+            () -> new BlockItem(ModBlocks.MACHINE_KEYFORGE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> KEY_KIT = register(CONSUMABLE_TAB, "key_kit",
+            () -> new ItemCounterfeitKeys(new Item.Properties().stacksTo(1)), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> STONE_KEYHOLE_ITEM = register(BLOCK_TAB, "stone_keyhole",
+            () -> new BlockItem(ModBlocks.STONE_KEYHOLE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> STONE_KEYHOLE_META_ITEM = register(BLOCK_TAB, "stone_keyhole_meta",
+            () -> new BlockItem(ModBlocks.STONE_KEYHOLE_META.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> BRICK_RED_ITEM = register(BLOCK_TAB, "brick_red",
+            () -> new BlockItem(ModBlocks.BRICK_RED.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> RECORD_LC = register(CONSUMABLE_TAB, "record_lc",
+            () -> new ItemModRecord("lc", ModSounds.RECORD_LAMBDA_CORE.get(),
+                    new Item.Properties().stacksTo(1).rarity(Rarity.RARE)), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> RECORD_SS = register(CONSUMABLE_TAB, "record_ss",
+            () -> new ItemModRecord("ss", ModSounds.RECORD_SECTOR_SWEEP.get(),
+                    new Item.Properties().stacksTo(1).rarity(Rarity.RARE)), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> RECORD_VC = register(CONSUMABLE_TAB, "record_vc",
+            () -> new ItemModRecord("vc", ModSounds.RECORD_VORTAL_COMBAT.get(),
+                    new Item.Properties().stacksTo(1).rarity(Rarity.RARE)), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> RECORD_GLASS = register(CONSUMABLE_TAB, "record_glass",
+            () -> new ItemModRecord("glass", ModSounds.RECORD_TRANSMISSION.get(),
+                    new Item.Properties().stacksTo(1).rarity(Rarity.RARE)), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> PWR_FUEL_ITEM = register(MACHINE_TAB, "pwr_fuel",
+            () -> new BlockItem(ModBlocks.PWR_FUEL.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> PWR_CONTROL_ITEM = register(MACHINE_TAB, "pwr_control",
+            () -> new BlockItem(ModBlocks.PWR_CONTROL.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> PWR_CHANNEL_ITEM = register(MACHINE_TAB, "pwr_channel",
+            () -> new BlockItem(ModBlocks.PWR_CHANNEL.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> FUSION_HATCH_ITEM = register(MACHINE_TAB, "fusion_hatch",
+            () -> new BlockItem(ModBlocks.FUSION_HATCH.get(), new Item.Properties()));
+
+    // === Hadron Coils ===
+
+    public static final RegistryObject<Item> HADRON_COIL_ALLOY_ITEM = register(MACHINE_TAB, "hadron_coil_alloy",
+            () -> new BlockItem(ModBlocks.HADRON_COIL_ALLOY.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> HADRON_COIL_GOLD_ITEM = register(MACHINE_TAB, "hadron_coil_gold",
+            () -> new BlockItem(ModBlocks.HADRON_COIL_GOLD.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> HADRON_COIL_NEODYMIUM_ITEM = register(MACHINE_TAB, "hadron_coil_neodymium",
+            () -> new BlockItem(ModBlocks.HADRON_COIL_NEODYMIUM.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> HADRON_COIL_MAGTUNG_ITEM = register(MACHINE_TAB, "hadron_coil_magtung",
+            () -> new BlockItem(ModBlocks.HADRON_COIL_MAGTUNG.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> HADRON_COIL_SCHRABIDIUM_ITEM = register(MACHINE_TAB, "hadron_coil_schrabidium",
+            () -> new BlockItem(ModBlocks.HADRON_COIL_SCHRABIDIUM.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> HADRON_COIL_SCHRABIDATE_ITEM = register(MACHINE_TAB, "hadron_coil_schrabidate",
+            () -> new BlockItem(ModBlocks.HADRON_COIL_SCHRABIDATE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> HADRON_COIL_STARMETAL_ITEM = register(MACHINE_TAB, "hadron_coil_starmetal",
+            () -> new BlockItem(ModBlocks.HADRON_COIL_STARMETAL.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> HADRON_COIL_CHLOROPHYTE_ITEM = register(MACHINE_TAB, "hadron_coil_chlorophyte",
+            () -> new BlockItem(ModBlocks.HADRON_COIL_CHLOROPHYTE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> HADRON_COIL_MESE_ITEM = register(MACHINE_TAB, "hadron_coil_mese",
+            () -> new BlockItem(ModBlocks.HADRON_COIL_MESE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> NUKE_MAN = register(NUKE_TAB, "nuke_man",
+            () -> new ItemBlockNukeMan(ModBlocks.NUKE_MAN.get(), new Item.Properties()), ItemModelType.BUILTIN_ENTITY);
+
+    public static final RegistryObject<Item> UNDEFINED = register(PARTS_TAB, "undefined",
+            () -> new ItemCustomLore(new Item.Properties())
+                    .setScramblingName(), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> EARLY_EXPLOSIVE_LENSES = register(NUKE_TAB, "early_explosive_lenses",
+            () -> new ItemCustomLore(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> EXPLOSIVE_LENSES = register(NUKE_TAB, "explosive_lenses",
+            () -> new ItemCustomLore(new Item.Properties()), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> GADGET_WIREING = register(NUKE_TAB, "gadget_wireing",
+            () -> new Item(new Item.Properties().stacksTo(1)), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> GADGET_CORE = register(NUKE_TAB, "gadget_core",
+            () -> new ItemCustomLore(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> MAN_IGNITER = register(NUKE_TAB, "man_igniter",
+            () -> new Item(new Item.Properties().stacksTo(1)), ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> MACHINE_UF6_TANK_ITEM = register(BLOCK_TAB, "machine_uf6_tank",
+            () -> new ItemBlockUF6Tank(ModBlocks.MACHINE_UF6_TANK.get(), new Item.Properties()), ItemModelType.BUILTIN_ENTITY);
+
+    public static final RegistryObject<Item> MACHINE_PUF6_TANK_ITEM = register(BLOCK_TAB, "machine_puf6_tank",
+            () -> new ItemBlockUF6Tank(ModBlocks.MACHINE_PUF6_TANK.get(), new Item.Properties()), ItemModelType.BUILTIN_ENTITY);
+
+    public static final RegistryObject<Item> VINYL_TILE_LARGE_ITEM = register(BLOCK_TAB, "vinyl_tile_large",
+            () -> new BlockItem(ModBlocks.VINYL_TILE_LARGE.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> VINYL_TILE_SMALL_ITEM = register(BLOCK_TAB, "vinyl_tile_small",
+            () -> new BlockItem(ModBlocks.VINYL_TILE_SMALL.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> FAN_ITEM = register(MACHINE_TAB, "fan",
+            () -> new ItemBlockMachineFan(ModBlocks.FAN.get(), new Item.Properties()),
+            ItemModelType.BUILTIN_ENTITY);
+
+    public static final RegistryObject<Item> MACHINE_CONDENSER_ITEM = register(MACHINE_TAB, "machine_condenser",
+            () -> new BlockItem(ModBlocks.MACHINE_CONDENSER.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CABLE_DETECTOR_ITEM = register(MACHINE_TAB, "cable_detector",
+            () -> new BlockItem(ModBlocks.CABLE_DETECTOR.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CABLE_DIODE_ITEM = register(MACHINE_TAB, "cable_diode",
+            () -> new ItemBlockCableDiode(ModBlocks.CABLE_DIODE.get(), new Item.Properties()),
+            ItemModelType.BUILTIN_ENTITY);
+
+    public static final RegistryObject<Item> RADIO_TORCH_SENDER_ITEM = register(MACHINE_TAB, "radio_torch_sender",
+            () -> new ItemBlockRadioTorch(ModBlocks.RADIO_TORCH_SENDER.get(), new Item.Properties(),
+                    ResLocation(RefStrings.MODID, "textures/block/rtty_sender_off.png")),
+            ItemModelType.BUILTIN_ENTITY);
+
+    public static final RegistryObject<Item> RADIO_TORCH_RECEIVER_ITEM = register(MACHINE_TAB, "radio_torch_receiver",
+            () -> new ItemBlockRadioTorch(ModBlocks.RADIO_TORCH_RECEIVER.get(), new Item.Properties(),
+                    ResLocation(RefStrings.MODID, "textures/block/rtty_rec_off.png")),
+            ItemModelType.BUILTIN_ENTITY);
+
+    public static final RegistryObject<Item> RADIO_TORCH_LOGIC_ITEM = register(MACHINE_TAB, "radio_torch_logic",
+            () -> new ItemBlockRadioTorch(ModBlocks.RADIO_TORCH_LOGIC.get(), new Item.Properties(),
+                    ResLocation(RefStrings.MODID, "textures/block/rtty_logic_off.png")),
+            ItemModelType.BUILTIN_ENTITY);
+
+    public static final RegistryObject<Item> RADIO_TORCH_COUNTER_ITEM = register(MACHINE_TAB, "radio_torch_counter",
+            () -> new ItemBlockRadioTorch(ModBlocks.RADIO_TORCH_COUNTER.get(), new Item.Properties(),
+                    ResLocation(RefStrings.MODID, "textures/block/rtty_counter.png")),
+            ItemModelType.BUILTIN_ENTITY);
+
+    public static final RegistryObject<Item> RADIO_TORCH_READER_ITEM = register(MACHINE_TAB, "radio_torch_reader",
+            () -> new ItemBlockRadioTorch(ModBlocks.RADIO_TORCH_READER.get(), new Item.Properties(),
+                    ResLocation(RefStrings.MODID, "textures/block/rtty_reader.png")),
+            ItemModelType.BUILTIN_ENTITY);
+
+    public static final RegistryObject<Item> RADIO_TORCH_CONTROLLER_ITEM = register(MACHINE_TAB, "radio_torch_controller",
+            () -> new ItemBlockRadioTorch(ModBlocks.RADIO_TORCH_CONTROLLER.get(), new Item.Properties(),
+                    ResLocation(RefStrings.MODID, "textures/block/rtty_controller.png")),
+            ItemModelType.BUILTIN_ENTITY);
+
+    // Новые книги регистрируем В КОНЦЕ: вставка в середину сдвигает числовые ID
+    // всех последующих предметов и ломает совместимость сохранений.
+    public static final RegistryObject<Item> BOOK_GUIDE_RBMK = register(CONSUMABLE_TAB, "book_guide_rbmk",
+            ItemGuideBooks.Rbmk::new, ItemModelType.GENERATED);
+
+    public static final RegistryObject<Item> BOOK_GUIDE_HADRON = register(CONSUMABLE_TAB, "book_guide_hadron",
+            ItemGuideBooks.Hadron::new, ItemModelType.GENERATED);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

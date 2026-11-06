@@ -1,0 +1,9 @@
+{
+  "type": "hbm:biome_cave",
+  "config": {
+    "max_range": 4,
+    "range_mult": 3,
+    "threshold": 2,
+    "y_level": 30
+  }
+}

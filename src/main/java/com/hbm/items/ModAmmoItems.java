@@ -297,16 +297,16 @@ public class ModAmmoItems {
 
 
     // Shells
-    public static final RegistryObject<Item> AMMO_SHELL = register(CONSUMABLE_TAB, "ammo/ammo_shell",
-            () -> new ItemAmmo(GunFactory.EnumAmmo.SHELL, new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> AMMO_SHELL_EXPLOSIVE = register(CONSUMABLE_TAB, "ammo/ammo_shell_explosive",
-            () -> new ItemAmmo(GunFactory.EnumAmmo.SHELL_EXPLOSIVE, new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> AMMO_SHELL_APFSDS_T = register(CONSUMABLE_TAB, "ammo/ammo_shell_apfsds_t",
-            () -> new ItemAmmo(GunFactory.EnumAmmo.SHELL_APFSDS_T, new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> AMMO_SHELL_APFSDS_DU = register(CONSUMABLE_TAB, "ammo/ammo_shell_apfsds_du",
-            () -> new ItemAmmo(GunFactory.EnumAmmo.SHELL_APFSDS_DU, new Item.Properties()), ItemModelType.GENERATED);
-    public static final RegistryObject<Item> AMMO_SHELL_W9 = register(CONSUMABLE_TAB, "ammo/ammo_shell_w9",
-            () -> new ItemAmmo(GunFactory.EnumAmmo.SHELL_W9, new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> AMMO_240_SHELL = register(CONSUMABLE_TAB, "ammo/ammo_shell",
+            () -> new ItemAmmo(GunFactory.EnumAmmo.SHELL_240_NORMAL, new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> AMMO_240_SHELL_EXPLOSIVE = register(CONSUMABLE_TAB, "ammo/ammo_shell_explosive",
+            () -> new ItemAmmo(GunFactory.EnumAmmo.SHELL_240_EXPLOSIVE, new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> AMMO_240_SHELL_APFSDS_T = register(CONSUMABLE_TAB, "ammo/ammo_shell_apfsds_t",
+            () -> new ItemAmmo(GunFactory.EnumAmmo.SHELL_240_APFSDS_T, new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> AMMO_240_SHELL_APFSDS_DU = register(CONSUMABLE_TAB, "ammo/ammo_shell_apfsds_du",
+            () -> new ItemAmmo(GunFactory.EnumAmmo.SHELL_240_APFSDS_DU, new Item.Properties()), ItemModelType.GENERATED);
+    public static final RegistryObject<Item> AMMO_240_SHELL_W9 = register(CONSUMABLE_TAB, "ammo/ammo_shell_w9",
+            () -> new ItemAmmo(GunFactory.EnumAmmo.SHELL_240_W9, new Item.Properties()), ItemModelType.GENERATED);
 
     // Artillery
     public static final RegistryObject<Item> AMMO_ARTY_STANDARD = register(CONSUMABLE_TAB, "ammo/ammo_arty_standard",

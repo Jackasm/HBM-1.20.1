@@ -3,7 +3,6 @@ package com.hbm.blocks;
 import com.hbm.handler.ThreeInts;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.tileentity.IPersistentNBT;
-import com.hbm.datagen.worldgen.nbt.INBTBlockTransformable;
 import com.hbm.tileentity.TileEntityProxyBase;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,9 +21,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -38,8 +35,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
@@ -50,27 +45,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class BlockDummyable extends BaseEntityBlock
-        implements ICustomBlockHighlight, ICopiable, INBTBlockTransformable {
+public abstract class BlockDummyable extends BaseEntityBlock implements ICopiable {
 
-    // Свойства состояния блока
-    public static final IntegerProperty DUMMY_STATE = IntegerProperty.create("dummy_state", 0, 2); // 0=dummy,1=extra,2=core
+    public static final IntegerProperty DUMMY_STATE = IntegerProperty.create("dummy_state", 0, 2);
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
     protected static final Set<BlockPos> NEW_STRUCTURES = new HashSet<>();
 
-
-    // Статический флаг безопасного удаления (как в оригинале)
     public static boolean safeRem = false;
 
     public abstract ItemStack getMachineItem();
 
     public static void setSafeRem(boolean value) {
         safeRem = value;
-    }
-
-    public static boolean isSafeRem() {
-        return safeRem;
     }
 
     public BlockDummyable(Properties properties) {
@@ -102,34 +89,22 @@ public abstract class BlockDummyable extends BaseEntityBlock
         return state.getValue(DUMMY_STATE) == 2;
     }
 
-    /**
-     * Для dummy-блоков возвращает направление к ядру (противоположно FACING)
-     */
     protected Direction getDummyFacing(BlockState state) {
         return state.getValue(FACING);
     }
 
-    /**
-     * Создаёт состояние для dummy-блока с заданным направлением (от ядра к заглушке)
-     */
     public BlockState getDummyState(Direction facing) {
         return defaultBlockState()
                 .setValue(DUMMY_STATE, 0)
                 .setValue(FACING, facing.getOpposite());
     }
 
-    /**
-     * Создаёт состояние для extra-блока
-     */
     public BlockState getExtraState(Direction facing) {
         return defaultBlockState()
                 .setValue(DUMMY_STATE, 1)
                 .setValue(FACING, facing.getOpposite());
     }
 
-    /**
-     * Создаёт состояние для ядра
-     */
     public BlockState getCoreState(Direction facing) {
         return defaultBlockState()
                 .setValue(DUMMY_STATE, 2)
@@ -137,88 +112,58 @@ public abstract class BlockDummyable extends BaseEntityBlock
     }
 
     // ---------- Поиск ядра ----------
-    private final List<ThreeInts> positions = new ArrayList<>();
-
     public BlockPos findCore(LevelAccessor world, BlockPos pos) {
-        positions.clear();
-        return findCoreRec(world, pos);
+        List<ThreeInts> visited = new ArrayList<>();
+        return findCoreRec(world, pos, visited);
     }
 
-    private BlockPos findCoreRec(LevelAccessor world, BlockPos pos) {
+    private BlockPos findCoreRec(LevelAccessor world, BlockPos pos, List<ThreeInts> visited) {
         ThreeInts tp = new ThreeInts(pos.getX(), pos.getY(), pos.getZ());
-        if (positions.contains(tp)) return null;
+        if (visited.contains(tp)) return null;
 
         BlockState state = world.getBlockState(pos);
         if (!state.is(this)) return null;
 
-        if (isCore(state))
-            return pos;
+        if (isCore(state)) return pos;
 
         Direction dir = getDummyFacing(state);
         BlockPos nextPos = pos.relative(dir);
-        if (!world.isAreaLoaded(nextPos, 1)) return null;
 
-        positions.add(tp);
-        return findCoreRec(world, nextPos);
+        visited.add(tp);
+        return findCoreRec(world, nextPos, visited);
     }
 
-    // ---------- Проверка целостности (сиротство) ----------
+    // ---------- Размещение ----------
     @Override
-    public void neighborChanged(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Block block, @NotNull BlockPos fromPos, boolean isMoving) {
-        super.neighborChanged(state, level, pos, block, fromPos, isMoving);
-        if (!level.isClientSide) {
-            //destroyIfOrphan(level, pos, state);
-        }
-    }
-
-    @Override
-    public void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
-        super.randomTick(state, level, pos, random);
-    }
-
-    // ---------- Размещение структуры ----------
-    @Override
-    public void setPlacedBy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @Nullable LivingEntity placer, @NotNull ItemStack stack) {
+    public void setPlacedBy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state,
+                            @Nullable LivingEntity placer, @NotNull ItemStack stack) {
         if (!(placer instanceof Player player)) return;
+        if (level.isClientSide) return;
 
-        if (level.isClientSide) {
-            return;
-        }
-
-        // Удаляем временный блок, который поставил игрок (это заглушка, её заменят ядром)
         level.removeBlock(pos, false);
 
-        // Определяем направление взгляда игрока
         int yaw = Math.floorMod((int) player.getYRot(), 360);
-        Direction dir = Direction.fromYRot(yaw); // примерно
+        Direction dir = getDirModified(Direction.fromYRot(yaw));
 
-        // Модифицируем направление (если нужно)
-        dir = getDirModified(dir);
-
-        int offset = -getZOffset(); // отрицательное смещение (ядро сдвинуто назад)
-
+        int offset = -getZOffset();
         int heightOffset = getHeightOffset();
-        BlockPos corePos = pos
-                .relative(dir, offset)
-                .above(heightOffset);
+        BlockPos corePos = pos.relative(dir, offset).above(heightOffset);
 
         if (!checkRequirement(level, pos, corePos, dir)) {
             if (!player.isCreative()) {
                 ItemStack dropStack = stack.copy();
                 dropStack.setCount(1);
-                ItemEntity itemEntity = new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, dropStack);
+                ItemEntity itemEntity = new ItemEntity(level,
+                        pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, dropStack);
                 level.addFreshEntity(itemEntity);
             }
             return;
         }
 
-        // Устанавливаем ядро
-        BlockState coreState = getCoreStateForPlacement(level, corePos, dir, player, stack);
+        BlockState coreState = getCoreStateForPlacement(dir);
         level.setBlock(corePos, coreState, 3);
-        // Восстанавливаем NBT данные TileEntity из предмета
         IPersistentNBT.restoreData(level, corePos, stack);
 
-        // Заполняем пространство заглушками
         fillSpace(level, pos, corePos, dir);
 
         NEW_STRUCTURES.add(corePos);
@@ -228,36 +173,33 @@ public abstract class BlockDummyable extends BaseEntityBlock
     @Override
     public void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         super.tick(state, level, pos, random);
-        // Убираем защиту для запланированных блоков
         NEW_STRUCTURES.remove(pos);
     }
 
-    /**
-     * Возвращает состояние для ядра, учитывая возможные особенности размещения.
-     * По умолчанию просто getCoreState(dir).
-     */
-    protected BlockState getCoreStateForPlacement(Level level, BlockPos corePos, Direction facing, Player player, ItemStack stack) {
+    protected BlockState getCoreStateForPlacement(Direction facing) {
         return getCoreState(facing);
     }
 
-    protected boolean checkRequirement(Level level, BlockPos originalPos, BlockPos corePos, Direction dir) {
+    public boolean checkRequirement(Level level, BlockPos originalPos, BlockPos corePos, Direction dir) {
         return MultiblockUtil.checkSpace(level, corePos, getDimensions(), originalPos, dir);
     }
 
-    protected void fillSpace(Level level, BlockPos originalPos, BlockPos corePos, Direction dir) {
+    protected void fillSpace(LevelAccessor level, BlockPos originalPos, BlockPos corePos, Direction dir) {
         MultiblockUtil.fillSpace(level, corePos, getDimensions(), this, dir);
     }
 
-    /**
-     * Позволяет изменить направление размещения (например, ограничить)
-     */
+    public void placeMultiblock(LevelAccessor level, BlockPos corePos, Direction facing) {
+        fillSpace(level, corePos, corePos, facing);
+    }
+
     protected Direction getDirModified(Direction dir) {
         return dir;
     }
 
-    // ---------- Взаимодействие с игроком ----------
+    // ---------- Взаимодействие ----------
     @Override
-    public @NotNull InteractionResult use(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
+    public @NotNull InteractionResult use(@NotNull BlockState state, Level level, @NotNull BlockPos pos,
+                                          @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
         if (level.isClientSide) return InteractionResult.SUCCESS;
         return standardOpenBehavior(level, pos, player, getGuiID()) ? InteractionResult.CONSUME : InteractionResult.PASS;
     }
@@ -275,36 +217,30 @@ public abstract class BlockDummyable extends BaseEntityBlock
         return true;
     }
 
-    protected abstract int getGuiID(); // должен быть реализован в потомках, если используется
+    protected abstract int getGuiID();
 
     // ---------- Разрушение ----------
     @Override
     public void onRemove(BlockState state, @NotNull Level level, @NotNull BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!state.is(newState.getBlock())) {
-            if (safeRem) {
-                return;
-            }
-            if (isCore(state)) {
-                // Обрабатываем дроп и удаление всех частей
-                handleDrops(level, pos, state);
-                removeAllDummies(level, pos, state.getValue(FACING));
-                // Удаляем само ядро
-                level.removeBlock(pos, false);
-            } else {
-                // Для dummy/extra – удаляем ядро, которое вызовет onRemove ядра
-                Direction dir = getDummyFacing(state);
-                BlockPos corePos = pos.relative(dir);
-                if (level.getBlockState(corePos).is(this)) {
-                    level.removeBlock(corePos, false);
-                }
+        if (state.is(newState.getBlock())) return;
+        if (safeRem) return;
+
+        if (isCore(state)) {
+            handleDrops(level, pos, state);
+            removeAllDummies(level, pos, state.getValue(FACING));
+            level.removeBlockEntity(pos);
+            level.removeBlock(pos, false);
+        } else {
+            Direction dir = getDummyFacing(state);
+            BlockPos corePos = pos.relative(dir);
+            if (level.getBlockState(corePos).is(this)) {
+                level.removeBlock(corePos, false);
             }
         }
-        // super.onRemove НЕ вызываем, чтобы избежать повторного дропа
     }
 
     protected void handleDrops(Level level, BlockPos pos, BlockState state) {
         BlockEntity be = level.getBlockEntity(pos);
-        // Дроп инвентаря, если есть
         if (be != null) {
             be.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
                 for (int i = 0; i < handler.getSlots(); i++) {
@@ -317,9 +253,7 @@ public abstract class BlockDummyable extends BaseEntityBlock
         }
     }
 
-
     protected void removeAllDummies(Level level, BlockPos corePos, Direction facing) {
-        // Перебираем все возможные позиции заглушек и удаляем их
         int[] dim = getDimensions();
         int[] rot = MultiblockUtil.rotate(dim, facing);
 
@@ -329,6 +263,7 @@ public abstract class BlockDummyable extends BaseEntityBlock
                     BlockPos p = new BlockPos(a, b, c);
                     if (p.equals(corePos)) continue;
                     if (level.getBlockState(p).is(this)) {
+                        level.removeBlockEntity(p);
                         level.removeBlock(p, false);
                     }
                 }
@@ -339,18 +274,13 @@ public abstract class BlockDummyable extends BaseEntityBlock
     // ---------- Рендер и формы ----------
     @Override
     public @NotNull RenderShape getRenderShape(@NotNull BlockState state) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
+        return RenderShape.INVISIBLE;
     }
 
-    /**
-     * Детализированная форма для коллизии/выделения (если нужна).
-     * По умолчанию возвращает полную форму из bounding (см. ниже).
-     */
-    public VoxelShape getDetailedShape(BlockState state, BlockGetter level, BlockPos corePos, CollisionContext context) {
+    public VoxelShape getDetailedShape(BlockState state, CollisionContext context) {
         if (bounding.isEmpty()) return Shapes.block();
-        // Собираем из списка AABB (которые нужно будет преобразовать в VoxelShape)
         VoxelShape shape = Shapes.empty();
-        Direction rot = state.getValue(FACING); // используем Direction напрямую
+        Direction rot = state.getValue(FACING);
         for (AABB aabb : bounding) {
             AABB rotated = getAABBRotationOffset(aabb, 0, 0, 0, rot);
             shape = Shapes.or(shape, Shapes.create(rotated));
@@ -358,51 +288,44 @@ public abstract class BlockDummyable extends BaseEntityBlock
         return shape.optimize();
     }
 
-    // Для обратной совместимости с оригинальным bounding
     protected List<AABB> bounding = new ArrayList<>();
 
     public boolean useDetailedHitbox() {
         return !bounding.isEmpty();
     }
 
-    @Override
-    public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    @Nullable
+    private VoxelShape getMultiblockShape(BlockGetter level, BlockPos pos, BlockState state, CollisionContext context) {
         if (useDetailedHitbox() && level instanceof LevelAccessor accessor) {
             BlockPos core = findCore(accessor, pos);
             if (core != null) {
-                return getDetailedShape(state, level, core, context);
+                return getDetailedShape(state, context);
             }
         }
-        return super.getShape(state, level, pos, context);
+        return null;
     }
 
     @Override
-    public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
-        if (useDetailedHitbox() && level instanceof LevelAccessor accessor) {
-            BlockPos core = findCore(accessor, pos);
-            if (core != null) {
-                return getDetailedShape(state, level, core, context);
-            }
-        }
-        return super.getCollisionShape(state, level, pos, context);
+    public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level,
+                                        @NotNull BlockPos pos, @NotNull CollisionContext context) {
+        VoxelShape shape = getMultiblockShape(level, pos, state, context);
+        return shape != null ? shape : super.getShape(state, level, pos, context);
     }
 
-    // ---------- Вспомогательные методы для поворота AABB ----------
+    @Override
+    public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level,
+                                                 @NotNull BlockPos pos, @NotNull CollisionContext context) {
+        VoxelShape shape = getMultiblockShape(level, pos, state, context);
+        return shape != null ? shape : super.getCollisionShape(state, level, pos, context);
+    }
+
     public static AABB getAABBRotationOffset(AABB aabb, double x, double y, double z, Direction dir) {
         return switch (dir) {
-            case NORTH -> aabb.move(x, y, z);
             case SOUTH -> new AABB(-aabb.maxX, aabb.minY, -aabb.maxZ, -aabb.minX, aabb.maxY, -aabb.minZ).move(x, y, z);
             case EAST -> new AABB(aabb.minZ, aabb.minY, -aabb.maxX, aabb.maxZ, aabb.maxY, -aabb.minX).move(x, y, z);
             case WEST -> new AABB(-aabb.maxZ, aabb.minY, aabb.minX, -aabb.minZ, aabb.maxY, aabb.maxX).move(x, y, z);
-            default -> aabb.move(x, y, z);
+            case NORTH, UP, DOWN -> aabb.move(x, y, z);
         };
-    }
-
-    // ---------- ICustomBlockHighlight ----------
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean shouldDrawHighlight(Level world, BlockPos pos) {
-        return useDetailedHitbox();
     }
 
     // ---------- ICopiable ----------
@@ -432,63 +355,82 @@ public abstract class BlockDummyable extends BaseEntityBlock
         return null;
     }
 
-    // ---------- INBTBlockTransformable ----------
-    @Override
-    public BlockState transformState(BlockState state, int rotation) {
-        // Поворачиваем FACING
-        Direction newFacing = state.getValue(FACING);
-        for (int i = 0; i < rotation; i++) {
-            newFacing = newFacing.getClockWise();
-        }
-        return state.setValue(FACING, newFacing);
-    }
-
-    // ---------- Прочие переопределения ----------
     @Override
     public PushReaction getPistonPushReaction(BlockState state) {
         return PushReaction.BLOCK;
     }
 
-    // ---------- Абстрактные методы для потомков ----------
-    public abstract int[] getDimensions(); // {up, down, north, south, west, east} в блоках
-    public abstract int getZOffset(); // смещение ядра от места установки (обычно положительное)
-    public int getXOffset() {return 0;}
-    public int getHeightOffset() { return 0; } // смещение по высоте
+    // ---------- Абстрактные методы ----------
+    public abstract int[] getDimensions();
+    public abstract int getZOffset();
+    public int getHeightOffset() { return 0; }
 
-
-
-    // Для совместимости с оригинальным кодом, где использовалась мета-логика
-    // Можно оставить заглушки
-    public void makeExtra(Level world, BlockPos pos) {
+    // ---------- Утилиты ----------
+    public void makeExtra(LevelAccessor world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
+        if (!state.is(this)) return;
+        if (state.getValue(DUMMY_STATE) != 0) return;
 
-        // Проверяем, что это наш блок
-        if (!state.is(this))
-            return;
-
-        // Получаем текущее состояние
-        int dummyState = state.getValue(DUMMY_STATE);
-
-        // Проверяем, что это обычный dummy (не extra и не core)
-        if (dummyState != 0)
-            return;
-
-        // Устанавливаем safeRem для предотвращения рекурсивного удаления
         setSafeRem(true);
-
-        // Создаём новое состояние с DUMMY_STATE = 1 (extra)
         BlockState newState = state.setValue(DUMMY_STATE, 1);
+        world.setBlock(pos, newState, 3);
+
+        // В генерации block entity ещё нет: WorldGenRegion.setBlock кладёт на заглушку
+        // отложенный тег DUMMY, а getBlockEntity сразу после него пишет
+        // «Tried to access a block entity before it was created». Прокси-сущности там
+        // не бывает вовсе, поэтому тег снимаем, а BE не спрашиваем (#204).
+        if (world instanceof Level level && !level.isClientSide) {
+            BlockEntity be = level.getBlockEntity(pos);
+            if (be instanceof TileEntityProxyBase proxy) {
+                proxy.setExtra(true);
+            }
+        } else {
+            world.getChunk(pos).removeBlockEntity(pos);
+        }
+        setSafeRem(false);
+    }
+
+    /**
+     * Возвращает боксы для подсветки мультиблока (мировые координаты).
+     * Наследники могут переопределять для своей формы.
+     */
+    public List<AABB> getHighlightBoxes(Level level, BlockPos corePos, Direction rotation) {
+        List<AABB> boxes = new ArrayList<>();
+        int[] dim = getDimensions();
+        double minX = -dim[4];
+        double maxX = dim[5] + 1;
+        double minY = -dim[1];
+        double maxY = dim[0] + 1;
+        double minZ = -dim[2];
+        double maxZ = dim[3] + 1;
+
+        AABB box;
+        switch (rotation) {
+            case WEST, EAST -> box = new AABB(minZ, minY, minX, maxZ, maxY, maxX)
+                    .move(corePos.getX(), corePos.getY(), corePos.getZ());
+            default -> box = new AABB(minX, minY, minZ, maxX, maxY, maxZ)
+                    .move(corePos.getX(), corePos.getY(), corePos.getZ());
+        }
+        boxes.add(box);
+        return boxes;
+    }
+
+    public void removeExtra(Level world, BlockPos pos) {
+        BlockState state = world.getBlockState(pos);
+        if (!state.is(this)) return;
+        if (state.getValue(DUMMY_STATE) != 1) return;
+
+        setSafeRem(true);
+        BlockState newState = state.setValue(DUMMY_STATE, 0);
         world.setBlock(pos, newState, 3);
 
         BlockEntity be = world.getBlockEntity(pos);
         if (be instanceof TileEntityProxyBase proxy) {
-            proxy.setExtra(true);
+            proxy.setExtra(false);
         }
-
         setSafeRem(false);
     }
 
-    public void removeExtra(Level world, BlockPos pos) {}
     public boolean hasExtra(BlockState state) { return isExtra(state); }
 
     public static Properties createProperties() {
@@ -497,5 +439,15 @@ public abstract class BlockDummyable extends BaseEntityBlock
                 .strength(5.0F, 10.0F)
                 .noOcclusion()
                 .requiresCorrectToolForDrops();
+    }
+
+    @Override
+    public BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+    }
+
+    @Override
+    public BlockState mirror(BlockState state, Mirror mirror) {
+        return state.setValue(FACING, mirror.mirror(state.getValue(FACING)));
     }
 }

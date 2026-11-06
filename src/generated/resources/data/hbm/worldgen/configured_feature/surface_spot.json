@@ -1,0 +1,8 @@
+{
+  "type": "hbm:surface_spot",
+  "config": {
+    "block": "minecraft:sandstone",
+    "chance": 0.4,
+    "radius": 6
+  }
+}

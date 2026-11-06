@@ -15,7 +15,7 @@
     "I I"
   ],
   "result": {
-    "item": "hbm:weapon_mod_slowdown"
+    "item": "hbm:weapon_mod_special_slowdown"
   },
   "show_notification": true
 }

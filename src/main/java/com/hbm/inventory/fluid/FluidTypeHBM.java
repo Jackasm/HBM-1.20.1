@@ -15,10 +15,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidType;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 import static com.hbm.util.ResLocation.ResLocation;
 
@@ -35,6 +37,8 @@ public class FluidTypeHBM extends FluidType {
     private int temperature = ROOM_TEMPERATURE;
     private final ResourceLocation texture;
     private int guiTint = 0xffffff;
+    /** Forge-жидкость-носитель для FluidStack (см. FluidHBM), ставится при регистрации. */
+    private net.minecraftforge.registries.RegistryObject<net.minecraft.world.level.material.Fluid> forgeFluid;
     private final List<FluidTrait> traits = new ArrayList<>();
     private final Map<Class<? extends FluidTrait>, FluidTrait> traitMap = new HashMap<>();
 
@@ -174,6 +178,14 @@ public class FluidTypeHBM extends FluidType {
         return NETWORK_PROVIDER;
     }
 
+    public net.minecraft.world.level.material.Fluid getForgeFluid() {
+        return forgeFluid == null ? null : forgeFluid.get();
+    }
+
+    public void setForgeFluid(net.minecraftforge.registries.RegistryObject<net.minecraft.world.level.material.Fluid> forgeFluid) {
+        this.forgeFluid = forgeFluid;
+    }
+
     public void onFluidRelease(BlockEntity te, FluidTankHBM tank, int overflowAmount) {
         this.onFluidRelease(te.getLevel(), te.getBlockPos(), tank, overflowAmount);
     }
@@ -230,5 +242,37 @@ public class FluidTypeHBM extends FluidType {
 
     public boolean needsLeadContainer() {
         return this.traitMap.containsKey(FT_LeadContainer.class);
+    }
+
+    /** Клиентские текстуры для чужих интерфейсов (JEI, трубы других модов). */
+    @Override
+    public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
+        consumer.accept(new IClientFluidTypeExtensions() {
+            @Override
+            public ResourceLocation getStillTexture() {
+                return blockTexture();
+            }
+
+            @Override
+            public ResourceLocation getFlowingTexture() {
+                return blockTexture();
+            }
+
+            @Override
+            public int getTintColor() {
+                return 0xFF000000 | color;
+            }
+        });
+    }
+
+    private ResourceLocation blockTexture() {
+        String path = texture.getPath();
+        if (path.endsWith(".png")) {
+            path = path.substring(0, path.length() - 4);
+        }
+        if (path.startsWith("textures/")) {
+            path = path.substring("textures/".length());
+        }
+        return new ResourceLocation(texture.getNamespace(), path);
     }
 }

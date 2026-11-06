@@ -14,7 +14,8 @@ public class HBMEnums {
         MISSILE_TAB,
         NUKE_TAB,
         TEMPLATE_TAB,
-        WEAPON_TAB
+        WEAPON_TAB,
+        DepletedRTGMaterial, TRANSPORT_TAB
     }
 
     public enum EnumPages {

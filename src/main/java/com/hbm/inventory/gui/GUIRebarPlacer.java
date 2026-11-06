@@ -3,9 +3,7 @@ package com.hbm.inventory.gui;
 import com.hbm.inventory.container.ContainerRebarPlacer;
 import com.hbm.items.tool.ItemRebarPlacer;
 import com.hbm.items.tool.ItemRebarPlacer.InventoryRebarPlacer;
-
 import com.hbm.util.RefStrings;
-import com.hbm.util.Tuple.Pair;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -44,10 +42,8 @@ public class GUIRebarPlacer extends AbstractContainerScreen<ContainerRebarPlacer
         // Тултип для слота с бетоном
         if (this.isHovering(53, 36, 18, 18, mouseX, mouseY) && !this.menu.getSlot(0).hasItem()) {
             List<ItemStack> list = new ArrayList<>();
-            for (Pair<Block, Integer> conk : ItemRebarPlacer.acceptableConk) {
-                ItemStack stack = new ItemStack(conk.key(), 1);
-                stack.setDamageValue(conk.value());
-                list.add(stack);
+            for (Block block : ItemRebarPlacer.acceptableConk) {
+                list.add(new ItemStack(block.asItem()));
             }
 
             ItemStack selected = list.get(0);
@@ -88,7 +84,7 @@ public class GUIRebarPlacer extends AbstractContainerScreen<ContainerRebarPlacer
 
         ItemStack concrete = inventory.getItem(0);
         boolean hasValidConk = concrete != null && !concrete.isEmpty() &&
-                ItemRebarPlacer.isValidConk(concrete.getItem(), concrete.getDamageValue());
+                ItemRebarPlacer.isValidConk(concrete.getItem());
 
         if (!hasValidConk) {
             graphics.blit(TEXTURE, leftPos + 87, topPos + 17, 176, 0, 56, 56);

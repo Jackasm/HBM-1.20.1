@@ -44,6 +44,27 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
             }
         }
 
+        this.tag(BlockTags.CLIMBABLE)
+                .add(
+                        ModBlocks.LADDER_STURDY.get(),
+                        ModBlocks.LADDER_IRON.get(),
+                        ModBlocks.LADDER_GOLD.get(),
+                        ModBlocks.LADDER_ALUMINIUM.get(),
+                        ModBlocks.LADDER_COPPER.get(),
+                        ModBlocks.LADDER_TITANIUM.get(),
+                        ModBlocks.LADDER_LEAD.get(),
+                        ModBlocks.LADDER_COBALT.get(),
+                        ModBlocks.LADDER_STEEL.get(),
+                        ModBlocks.LADDER_TUNGSTEN.get()
+                );
+
+        this.tag(BlockTags.IMPERMEABLE)
+                .add(
+                        ModBlocks.REINFORCED_GLASS.get(),
+                        ModBlocks.REINFORCED_GLASS_PANE.get(),
+                        ModBlocks.REINFORCED_LAMINATE_PANE.get()
+                );
+
         // Тег для добычи лопатой
         this.tag(BlockTags.MINEABLE_WITH_SHOVEL)
                 .add(
@@ -65,6 +86,16 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
                 .add(
                         ModBlocks.ORE_BEDROCK.get()
 
+                );
+
+        // Ванильный RailState соединяет рельсы только через #minecraft:rails
+        // (BaseRailBlock.isRail), поэтому без этого тега HBM-рельсы не образуют
+        // ни поворотов, ни уклонов.
+        this.tag(BlockTags.RAILS)
+                .add(
+                        ModBlocks.RAIL_WOOD.get(),
+                        ModBlocks.RAIL_NARROW.get(),
+                        ModBlocks.RAIL_HIGHSPEED.get()
                 );
 
         // Общие теги для совместимости

@@ -13,11 +13,6 @@ import com.hbm.tileentity.IRepairable;
 import com.hbm.tileentity.ModTileEntity;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.storage.TileEntityMachineFluidTank;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -29,6 +24,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -41,7 +37,6 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -344,44 +339,6 @@ public class MachineFluidTank extends BlockDummyable implements ILookOverlay {
         return -1; // смещение ядра от места установки
     }
 
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void drawHighlight(PoseStack poseStack, MultiBufferSource bufferSource, Level level, BlockPos pos) {
-        // Находим ядро мультиблока
-        BlockPos core = findCore(level, pos);
-        if (core == null) return;
-
-        BlockState state = level.getBlockState(core);
-        Direction rot = state.getValue(FACING);
-
-        // Получаем позицию камеры для правильного смещения
-        Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
-
-        poseStack.pushPose();
-        // Смещаемся относительно камеры (рендер в мировых координатах)
-        poseStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
-
-        // Получаем консьюмер для линий
-        VertexConsumer consumer = bufferSource.getBuffer(RenderType.lines());
-
-        // Получаем боксы для выделения
-        List<AABB> boxes = getHighlightBoxes(level, core, rot);
-
-        // Рендерим каждый бокс
-        for (AABB box : boxes) {
-            ICustomBlockHighlight.renderAABB(poseStack, consumer, box, 0.0F, 1.0F, 0.0F, 0.4F);
-        }
-
-        poseStack.popPose();
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean shouldDrawHighlight(Level level, BlockPos pos) {
-        return true;
-    }
-
-    @OnlyIn(Dist.CLIENT)
     public List<AABB> getHighlightBoxes(Level level, BlockPos corePos, Direction rotation) {
         List<AABB> boxes = new ArrayList<>();
 
@@ -403,7 +360,7 @@ public class MachineFluidTank extends BlockDummyable implements ILookOverlay {
     }
 
     @Override
-    protected void fillSpace(Level level, BlockPos pos, BlockPos corePos, Direction dir) {
+    protected void fillSpace(LevelAccessor level, BlockPos pos, BlockPos corePos, Direction dir) {
         super.fillSpace(level, pos, corePos, dir);
 
         int y = corePos.getY();

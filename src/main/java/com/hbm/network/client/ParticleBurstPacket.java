@@ -1,5 +1,8 @@
 package com.hbm.network.client;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import com.hbm.network.PacketBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -42,27 +45,31 @@ public class ParticleBurstPacket extends PacketBase implements PacketBase.Decoda
     }
 
     @Override
-    public void process(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            if (Minecraft.getInstance().level == null) return;
-            var level = Minecraft.getInstance().level;
+    public void process(Supplier<NetworkEvent.Context> context) {
+        context.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> this::handleClient));
+        context.get().setPacketHandled(true);
+    }
 
-            if (block != null) {
-                BlockState state = block.defaultBlockState();
-                // В 1.20.1 эффект разрушения блока
-                for (int i = 0; i < 4; i++) {
-                    double x = pos.getX() + level.random.nextDouble();
-                    double y = pos.getY() + level.random.nextDouble();
-                    double z = pos.getZ() + level.random.nextDouble();
-                    double speedX = (level.random.nextDouble() - 0.5) * 0.5;
-                    double speedY = (level.random.nextDouble() - 0.5) * 0.5;
-                    double speedZ = (level.random.nextDouble() - 0.5) * 0.5;
+    @OnlyIn(Dist.CLIENT)
+    private void handleClient() {
+        if (Minecraft.getInstance().level == null) return;
+        var level = Minecraft.getInstance().level;
 
-                    level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state),
-                            x, y, z, speedX, speedY, speedZ);
-                }
+        if (block != null) {
+            BlockState state = block.defaultBlockState();
+            // В 1.20.1 эффект разрушения блока
+            for (int i = 0; i < 4; i++) {
+                double x = pos.getX() + level.random.nextDouble();
+                double y = pos.getY() + level.random.nextDouble();
+                double z = pos.getZ() + level.random.nextDouble();
+                double speedX = (level.random.nextDouble() - 0.5) * 0.5;
+                double speedY = (level.random.nextDouble() - 0.5) * 0.5;
+                double speedZ = (level.random.nextDouble() - 0.5) * 0.5;
+
+                level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state),
+                        x, y, z, speedX, speedY, speedZ);
             }
-        });
-        ctx.get().setPacketHandled(true);
+        }
+    
     }
 }

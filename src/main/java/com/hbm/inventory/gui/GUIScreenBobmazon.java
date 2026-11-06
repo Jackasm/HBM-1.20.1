@@ -1,5 +1,7 @@
 package com.hbm.inventory.gui;
 
+import com.hbm.inventory.container.ContainerCatalog;
+import com.hbm.items.BobmazonOfferFactory;
 import com.hbm.items.ModItems;
 
 import com.hbm.network.PacketDispatcher;
@@ -10,11 +12,12 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -29,7 +32,7 @@ import java.util.List;
 import static com.hbm.util.ResLocation.ResLocation;
 
 @OnlyIn(Dist.CLIENT)
-public class GUIScreenBobmazon extends Screen {
+public class GUIScreenBobmazon extends AbstractContainerScreen<ContainerCatalog> {
 
     protected static final ResourceLocation TEXTURE = ResLocation(RefStrings.MODID, "textures/gui/book/gui_bobmazon.png");
     protected int imageWidth = 176 + 41;
@@ -41,10 +44,19 @@ public class GUIScreenBobmazon extends Screen {
     List<FolderButton> buttons = new ArrayList<>();
     private final Player player;
 
-    public GUIScreenBobmazon(Player player, List<Offer> offers) {
-        super(Component.translatable("gui.bobmazon"));
-        this.player = player;
-        this.offers = offers;
+    public GUIScreenBobmazon(ContainerCatalog menu, Inventory inv, Component title) {
+        super(menu, inv, title);
+        this.imageWidth = 176 + 41;
+        this.imageHeight = 229;
+        this.player = Minecraft.getInstance().player;
+        this.inventoryLabelY = 10000;
+        this.titleLabelY = 10000;
+
+        // Загружаем offers на клиенте
+        if (player != null) {
+            List<Offer> loaded = BobmazonOfferFactory.getOffers(player.getMainHandItem());
+            if (loaded != null) this.offers = loaded;
+        }
     }
 
     int getPageCount() {
@@ -52,12 +64,13 @@ public class GUIScreenBobmazon extends Screen {
     }
 
     @Override
-    public void tick() {
+    protected void containerTick() {
+        super.containerTick();
         if (currentPage < 0) currentPage = 0;
         if (currentPage > getPageCount()) currentPage = getPageCount();
 
-        if (this.player.getMainHandItem() != null && this.player.getMainHandItem().getItem() == ModItems.BOBMAZON_HIDDEN.get() &&
-                this.player.getName().getString().equals("SolsticeUnlimitd")) {
+        if (player != null && player.getMainHandItem().getItem() == ModItems.BOBMAZON_HIDDEN.get() &&
+                player.getName().getString().equals("SolsticeUnlimitd")) {
             this.onClose();
         }
     }
@@ -287,8 +300,8 @@ public class GUIScreenBobmazon extends Screen {
             if (advancementId == null) return true;
 
             Advancement advancement = player.server.getAdvancements().getAdvancement(
-                    ResourceLocation.parse(advancementId)
-            );
+                    new ResourceLocation(advancementId));
+
             if (advancement == null) return false;
 
             return player.getAdvancements().getOrStartProgress(advancement).isDone();

@@ -39,7 +39,7 @@ public class FluidContainerRegistry {
         registerContainer(new FluidContainer(new ItemStack(ModBlocks.LOX_BARREL.get()), new ItemStack(ModItems.TANK_STEEL.get()), Fluids.OXYGEN.get(), 10000));
 
         registerContainer(new FluidContainer(new ItemStack(ModBlocks.ORE_OIL.get()), null, Fluids.OIL.get(), 250));
-        registerContainer(new FluidContainer(new ItemStack(ModBlocks.ORE_GNEISS_GAS.get()), null, Fluids.PETROLEUM.get(), GeneralConfig.enable528.get() ? 50 : 250));
+        registerContainer(new FluidContainer(new ItemStack(ModBlocks.ORE_GNEISS_GAS.get()), null, Fluids.PETROLEUM.get(), GeneralConfig.enable528Value ? 50 : 250));
 
         registerContainer(new FluidContainer(new ItemStack(ModItems.CELL_DEUTERIUM.get()), new ItemStack(ModItems.CELL_EMPTY.get()), Fluids.DEUTERIUM.get(), 1000));
         registerContainer(new FluidContainer(new ItemStack(ModItems.CELL_TRITIUM.get()), new ItemStack(ModItems.CELL_EMPTY.get()), Fluids.TRITIUM.get(), 1000));

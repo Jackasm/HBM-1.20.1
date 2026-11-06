@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/block",
+  "elements": [],
   "textures": {
-    "all": "hbm:block/glyphid_spawner"
+    "particle": "hbm:block/glyphid_eggs"
   }
 }

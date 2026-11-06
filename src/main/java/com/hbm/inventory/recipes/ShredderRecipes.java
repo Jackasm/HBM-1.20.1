@@ -217,6 +217,11 @@ public class ShredderRecipes {
         }
 
         registerVanillaOreRecipes(dustMap);
+
+        // Тектит: в эталоне 1.7.10 руда дробится в powder_tektite, порошка «osmiridium» нет.
+        // Ставим явно и для руды, и для raw, чтобы цепочка «руда → порошок → центрифуга» работала.
+        setRecipe(ModBlocks.ORE_TEKTITE_OSMIRIDIUM.get(), new ItemStack(ModItems.POWDER_TEKTITE.get(), 1));
+        setRecipe(ModItems.RAW_OSMIRIDIUM.get(), new ItemStack(ModItems.POWDER_TEKTITE.get(), 1));
     }
 
     private static void registerVanillaOreRecipes(Map<String, Item> dustMap) {

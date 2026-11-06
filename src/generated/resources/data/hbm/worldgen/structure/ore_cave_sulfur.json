@@ -1,0 +1,10 @@
+{
+  "type": "hbm:ore_cave",
+  "cave_type": "sulfur",
+  "settings": {
+    "biomes": "#hbm:ore_caves_biomes",
+    "spawn_overrides": {},
+    "step": "underground_ores",
+    "terrain_adaptation": "none"
+  }
+}

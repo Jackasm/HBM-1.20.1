@@ -17,6 +17,7 @@ import com.hbm.sound.ModSounds;
 import com.hbm.tileentity.*;
 import com.hbm.util.Library;
 import com.hbm.util.Library.PosDir;
+import com.hbm.util.MathHelper;
 import com.hbm.util.Tuple.Triplet;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
@@ -574,13 +575,4 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements
         });
     }
 
-    private static class MathHelper {
-        public static int clamp(int value, int min, int max) {
-            return Math.max(min, Math.min(max, value));
-        }
-
-        public static int clamp(double value, int min, int max) {
-            return (int) Math.max(min, Math.min(max, value));
-        }
-    }
 }

@@ -153,6 +153,10 @@ public class ModDamageSource {
 
     // Фабричные методы для создания DamageSource с сущностями
 
+    public static DamageSource pc(Level level) {
+        return createDamageSource(PC, null, null, level);
+    }
+
     public static DamageSource nuclearBlast(Level level) {
         return createDamageSource(NUCLEAR_BLAST, null, null, level);
     }

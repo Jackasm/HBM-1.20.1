@@ -148,31 +148,31 @@ public class PressRecipes {
                 new ItemStack(ModItems.PLATE_DURA_STEEL.get()));
 
         // === WIRE STAMP RECIPES ===
-        addRecipe(StampType.WIRE, ModItemTags.INGOTS_COPPER, new ItemStack(ModItems.WIRE_COPPER.get(), 8));
-        addRecipe(StampType.WIRE, ModItemTags.INGOTS_GOLD, new ItemStack(ModItems.WIRE_GOLD.get(), 8));
+        addRecipe(StampType.WIRE, ModItemTags.INGOTS_COPPER, new ItemStack(ModItems.WIRE_FINE_COPPER.get(), 8));
+        addRecipe(StampType.WIRE, ModItemTags.INGOTS_GOLD, new ItemStack(ModItems.WIRE_FINE_GOLD.get(), 8));
 
 
         // Конкретные предметы для специальных проводов
         addRecipe(StampType.WIRE, ForgeRegistries.ITEMS.getKey(ModItems.INGOT_TUNGSTEN.get()),
-                new ItemStack(ModItems.WIRE_TUNGSTEN.get(), 8));
+                new ItemStack(ModItems.WIRE_FINE_TUNGSTEN.get(), 8));
         addRecipe(StampType.WIRE, ForgeRegistries.ITEMS.getKey(ModItems.INGOT_GRAPHITE.get()),
-                new ItemStack(ModItems.WIRE_CARBON.get(), 8));
+                new ItemStack(ModItems.WIRE_FINE_CARBON.get(), 8));
         addRecipe(StampType.WIRE, ForgeRegistries.ITEMS.getKey(ModItems.INGOT_ADVANCED_ALLOY.get()),
-                new ItemStack(ModItems.WIRE_ADVANCED_ALLOY.get(), 8));
+                new ItemStack(ModItems.WIRE_FINE_ADVANCED_ALLOY.get(), 8));
         addRecipe(StampType.WIRE, ForgeRegistries.ITEMS.getKey(ModItems.INGOT_RED_COPPER.get()),
-                new ItemStack(ModItems.WIRE_RED_COPPER.get(), 8));
+                new ItemStack(ModItems.WIRE_FINE_RED_COPPER.get(), 8));
         addRecipe(StampType.WIRE, ForgeRegistries.ITEMS.getKey(ModItems.INGOT_STEEL.get()),
-                new ItemStack(ModItems.WIRE_STEEL.get(), 8));
+                new ItemStack(ModItems.WIRE_FINE_STEEL.get(), 8));
         addRecipe(StampType.WIRE, ForgeRegistries.ITEMS.getKey(ModItems.INGOT_ALUMINIUM.get()),
-                new ItemStack(ModItems.WIRE_ALUMINIUM.get(), 8));
+                new ItemStack(ModItems.WIRE_FINE_ALUMINIUM.get(), 8));
         addRecipe(StampType.WIRE, ForgeRegistries.ITEMS.getKey(ModItems.INGOT_LEAD.get()),
-                new ItemStack(ModItems.WIRE_LEAD.get(), 8));
+                new ItemStack(ModItems.WIRE_FINE_LEAD.get(), 8));
         addRecipe(StampType.WIRE, ForgeRegistries.ITEMS.getKey(ModItems.INGOT_ZIRCONIUM.get()),
-                new ItemStack(ModItems.WIRE_ZIRCONIUM.get(), 8));
+                new ItemStack(ModItems.WIRE_FINE_ZIRCONIUM.get(), 8));
         addRecipe(StampType.WIRE, ForgeRegistries.ITEMS.getKey(ModItems.INGOT_SCHRABIDIUM.get()),
-                new ItemStack(ModItems.WIRE_SCHRABIDIUM.get(), 8));
+                new ItemStack(ModItems.WIRE_FINE_SCHRABIDIUM.get(), 8));
         addRecipe(StampType.WIRE, ForgeRegistries.ITEMS.getKey(ModItems.INGOT_MAGNETIZED_TUNGSTEN.get()),
-                new ItemStack(ModItems.WIRE_MAGNETIZED_TUNGSTEN.get(), 8));
+                new ItemStack(ModItems.WIRE_FINE_MAGNETIZED_TUNGSTEN.get(), 8));
 
 
         // === CIRCUIT STAMP RECIPES ===

@@ -1,0 +1,13 @@
+{
+  "type": "hbm:simple_nbt",
+  "height_offset": -20,
+  "max_height": 12,
+  "min_height": 11,
+  "nbt_file": "oil_rig",
+  "settings": {
+    "biomes": "#hbm:ocean_biomes",
+    "spawn_overrides": {},
+    "step": "surface_structures",
+    "terrain_adaptation": "none"
+  }
+}

@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 import static com.hbm.items.armor.MaskItem.*;
-import static com.hbm.util.HBMEnums.CreativeTabRegistry.PARTS_TAB;
 import static com.hbm.util.HBMEnums.CreativeTabRegistry.WEAPON_TAB;
 
 
@@ -1002,6 +1001,37 @@ public class ModArmorItems {
             () -> new ArmorTrenchmaster(ModArmorMaterials.TRENCH, ArmorItem.Type.BOOTS,
                     new Item.Properties().stacksTo(1).durability(1950))
                     .cloneStats((ArmorFSB) TRENCHMASTER_HELMET.get()),
+            ItemModelType.BUILTIN_ENTITY);
+
+    public static final RegistryObject<Item> TAURUN_HELMET = register(
+            WEAPON_TAB,
+            "armor/taurun_helmet",
+            () -> new ArmorTaurun(ModArmorMaterials.TRENCH, ArmorItem.Type.HELMET,
+                    new Item.Properties().stacksTo(1).durability(150)), // 150 * 11 = 1650
+            ItemModelType.BUILTIN_ENTITY);
+
+    public static final RegistryObject<Item> TAURUN_CHESTPLATE = register(
+            WEAPON_TAB,
+            "armor/taurun_chestplate",
+            () -> new ArmorTaurun(ModArmorMaterials.TRENCH, ArmorItem.Type.CHESTPLATE,
+                    new Item.Properties().stacksTo(1).durability(2400))
+                    .cloneStats((ArmorFSB) TAURUN_HELMET.get()),
+            ItemModelType.BUILTIN_ENTITY);
+
+    public static final RegistryObject<Item> TAURUN_LEGGINGS = register(
+            WEAPON_TAB,
+            "armor/taurun_leggings",
+            () -> new ArmorTaurun(ModArmorMaterials.TRENCH, ArmorItem.Type.LEGGINGS,
+                    new Item.Properties().stacksTo(1).durability(2250))
+                    .cloneStats((ArmorFSB) TAURUN_HELMET.get()),
+            ItemModelType.BUILTIN_ENTITY);
+
+    public static final RegistryObject<Item> TAURUN_BOOTS = register(
+            WEAPON_TAB,
+            "armor/taurun_boots",
+            () -> new ArmorTaurun(ModArmorMaterials.TRENCH, ArmorItem.Type.BOOTS,
+                    new Item.Properties().stacksTo(1).durability(1950))
+                    .cloneStats((ArmorFSB) TAURUN_HELMET.get()),
             ItemModelType.BUILTIN_ENTITY);
 
     public static final RegistryObject<Item> BJ_HELMET = register(WEAPON_TAB, "armor/bj_helmet",

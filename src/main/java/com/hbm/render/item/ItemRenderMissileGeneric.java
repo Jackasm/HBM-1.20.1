@@ -105,10 +105,6 @@ public class ItemRenderMissileGeneric {
         return generateWithScale(texture, model, 1.5F);
     }
 
-    public static Consumer<RenderContext> generateDouble(ResourceLocation texture, HFRWavefrontObject model) {
-        return generateWithScale(texture, model, 2F);
-    }
-
     public static Consumer<RenderContext> generateWithScale(ResourceLocation texture, HFRWavefrontObject model, float scale) {
         return ctx -> {
             ctx.poseStack().scale(scale, scale, scale);

@@ -1,18 +1,37 @@
 package com.hbm.handler;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.hbm.items.ModArmorItems;
 import com.hbm.items.armor.ItemModCladding;
 import com.hbm.potion.HbmPotion;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class HazmatRegistry {
 
+    private static final Logger LOGGER = LogManager.getLogger("hbm/HazmatRegistry");
     private static final HashMap<Item, Double> entries = new HashMap<>();
     private static final Gson gson = new Gson();
 
@@ -282,7 +301,97 @@ public class HazmatRegistry {
     }
 
     public static double coefficientToPercentage(double coefficient) {
-        // В оригинале: real_coefficient = 5, формула: percentage = 1 - 1/(1 + coefficient*5)
-        return 1.0 - 1.0 / (1.0 + coefficient * 5.0);
+        // Доза умножается на 10^(-res), значит защита = 1 - 10^(-res).
+        // Раньше стояла 1 - 1/(1 + 5c) — другая кривая, которая врала тем
+        // сильнее, чем сильнее броня: для c=2 давала 91% вместо 99%.
+        return 1.0 - Math.pow(10.0, -coefficient);
+    }
+
+    // ========== Конфиг из файла ==========
+
+    /**
+     * Читает {@code hbmRadResist.json} из папки конфигов и, если файл есть,
+     * полностью заменяет встроенную таблицу — как в эталоне 1.7.10
+     * ({@code ref:handler/HazmatRegistry.java:221-239}). Если файла нет, рядом
+     * кладётся шаблон {@code _hbmRadResist.json}: убрать подчёркивание, чтобы
+     * включить конфиг.
+     */
+    public static void loadConfig() {
+        Path dir = FMLPaths.CONFIGDIR.get();
+        Path config = dir.resolve("hbmRadResist.json");
+        Path template = dir.resolve("_hbmRadResist.json");
+
+        initDefault();
+
+        if (!Files.exists(config)) {
+            writeTemplate(template);
+            return;
+        }
+
+        HashMap<Item, Double> conf = readConfig(config);
+        if (conf != null) {
+            entries.clear();
+            entries.putAll(conf);
+            LOGGER.info("Hazmat config: hbmRadResist.json заменил встроенную таблицу ({} записей)", conf.size());
+        }
+    }
+
+    private static HashMap<Item, Double> readConfig(Path config) {
+        try (Reader reader = Files.newBufferedReader(config)) {
+            JsonArray array = JsonParser.parseReader(reader).getAsJsonObject().getAsJsonArray("entries");
+            if (array == null) {
+                LOGGER.error("Hazmat config: в {} нет массива 'entries', оставляю встроенную таблицу", config.getFileName());
+                return null;
+            }
+
+            HashMap<Item, Double> conf = new HashMap<>();
+            for (JsonElement element : array) {
+                try {
+                    JsonObject object = element.getAsJsonObject();
+                    String name = object.get("item").getAsString();
+                    double resistance = object.get("resistance").getAsDouble();
+                    Item item = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(name));
+                    if (item == null) {
+                        LOGGER.error("Hazmat config: неизвестный предмет '{}', пропускаю", name);
+                        continue;
+                    }
+                    if (resistance <= 0.0D) {
+                        // Отрицательное сопротивление усиливает дозу — это почти наверняка ошибка
+                        LOGGER.warn("Hazmat config: сопротивление {} для '{}' не положительное — ставлю 0", resistance, name);
+                        resistance = 0.0D;
+                    }
+                    conf.put(item, resistance);
+                } catch (Exception ex) {
+                    LOGGER.error("Hazmat config: ошибка в записи {} — {}", element, ex.toString());
+                }
+            }
+            return conf;
+        } catch (Exception ex) {
+            LOGGER.error("Hazmat config: {} не разобран, оставляю встроенную таблицу", config.getFileName(), ex);
+            return null;
+        }
+    }
+
+    private static void writeTemplate(Path template) {
+        try (Writer writer = Files.newBufferedWriter(template)) {
+            JsonObject root = new JsonObject();
+            root.addProperty("comment", "Template file, remove the underscore ('_') from the name to enable the config.");
+
+            List<Map.Entry<Item, Double>> sorted = new ArrayList<>(entries.entrySet());
+            sorted.sort(Comparator.comparing(e -> String.valueOf(ForgeRegistries.ITEMS.getKey(e.getKey()))));
+
+            JsonArray array = new JsonArray();
+            for (Map.Entry<Item, Double> entry : sorted) {
+                JsonObject object = new JsonObject();
+                ResourceLocation id = ForgeRegistries.ITEMS.getKey(entry.getKey());
+                object.addProperty("item", id == null ? "minecraft:air" : id.toString());
+                object.addProperty("resistance", entry.getValue());
+                array.add(object);
+            }
+            root.add("entries", array);
+            gson.toJson(root, writer);
+        } catch (IOException ex) {
+            LOGGER.error("Hazmat config: не удалось записать шаблон {}", template.getFileName(), ex);
+        }
     }
 }

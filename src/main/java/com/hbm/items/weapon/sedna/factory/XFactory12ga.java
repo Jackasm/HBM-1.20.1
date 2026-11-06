@@ -172,9 +172,9 @@ public class XFactory12ga {
             }
 
             if(block == ModBlocks.DECO_CRT.get()) {
-                int meta = state.getValue(BlockDecoCRT.META);
-                int newMeta = (meta % 4) + 4;
-                bullet.level().setBlock(pos, state.setValue(BlockDecoCRT.META, newMeta), 3);
+                int type = state.getValue(BlockDecoCRT.TYPE);
+                int newType = (type + 1) & 3;
+                bullet.level().setBlock(pos, state.setValue(BlockDecoCRT.TYPE, newType), 3);
             }
 
             Direction dir = blockHit.getDirection();

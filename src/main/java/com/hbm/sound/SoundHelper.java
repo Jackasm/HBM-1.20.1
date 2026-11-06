@@ -2,7 +2,6 @@ package com.hbm.sound;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -11,8 +10,6 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import static com.hbm.util.ResLocation.ResLocation;
-
 public class SoundHelper {
 
     // === СТАТИЧЕСКИЕ МЕТОДЫ ДЛЯ ЗВУКОВ ===
@@ -20,10 +17,12 @@ public class SoundHelper {
     /**
      * Проигрывает звук в мире (серверная сторона)
      */
-    public static void playSound(Level world, double x, double y, double z,
-                                 SoundEvent sound, SoundSource category,
-                                 float volume, float pitch) {
-        if (!world.isClientSide && sound != null) {
+    public static void playSound(Level world, double x, double y, double z, SoundEvent sound,
+                                 SoundSource category, float volume, float pitch) {
+        if (world == null || sound == null) return;
+        if (world.isClientSide) {
+            world.playLocalSound(x, y, z, sound, category, volume, pitch, false);
+        } else {
             world.playSound(null, x, y, z, sound, category, volume, pitch);
         }
     }

@@ -55,7 +55,7 @@ public class PollutionHandler {
 
     // ========== Утилиты ==========
     public static void incrementPollution(Level level, BlockPos pos, PollutionType type, float amount) {
-        if (!RadiationConfig.enablePollution.get() || level.isClientSide) return;
+        if (!RadiationConfig.ENABLE_POLLUTION || level.isClientSide) return;
         ChunkPos cp = new ChunkPos(pos);
         IPollutionData data = PollutionCapability.getChunkData(level, cp);
         if (data != null) {
@@ -68,7 +68,7 @@ public class PollutionHandler {
     }
 
     public static void setPollution(Level level, BlockPos pos, PollutionType type, float amount) {
-        if (!RadiationConfig.enablePollution.get() || level.isClientSide) return;
+        if (!RadiationConfig.ENABLE_POLLUTION || level.isClientSide) return;
         ChunkPos cp = new ChunkPos(pos);
         IPollutionData data = PollutionCapability.getChunkData(level, cp);
         if (data != null) {
@@ -77,14 +77,14 @@ public class PollutionHandler {
     }
 
     public static float getPollution(Level level, BlockPos pos, PollutionType type) {
-        if (!RadiationConfig.enablePollution.get() || level.isClientSide) return 0;
+        if (!RadiationConfig.ENABLE_POLLUTION || level.isClientSide) return 0;
         ChunkPos cp = new ChunkPos(pos);
         IPollutionData data = PollutionCapability.getChunkData(level, cp);
         return data != null ? data.getPollution(type) : 0;
     }
 
     public static IPollutionData getPollutionData(Level level, BlockPos pos) {
-        if (!RadiationConfig.enablePollution.get() || level.isClientSide) return null;
+        if (!RadiationConfig.ENABLE_POLLUTION || level.isClientSide) return null;
         ChunkPos cp = new ChunkPos(pos);
         return PollutionCapability.getChunkData(level, cp);
     }
@@ -99,7 +99,7 @@ public class PollutionHandler {
 
         // Обновление загрязнения в чанках, где есть игроки
         for (ServerLevel level : event.getServer().getAllLevels()) {
-            if (!RadiationConfig.enablePollution.get()) continue;
+            if (!RadiationConfig.ENABLE_POLLUTION) continue;
 
             Set<ChunkPos> activeChunks = new HashSet<>();
             for (ServerPlayer player : level.players()) {
@@ -125,7 +125,7 @@ public class PollutionHandler {
 
     private void handleWorldDestruction(Iterable<ServerLevel> levels) {
         for (ServerLevel level : levels) {
-            if (!RadiationConfig.enablePollution.get()) continue;
+            if (!RadiationConfig.ENABLE_POLLUTION) continue;
 
             // Собираем все загруженные чанки с высоким poison
             List<ChunkPos> highPoisonChunks = new ArrayList<>();
@@ -185,7 +185,7 @@ public class PollutionHandler {
     // ========== Мобы и эффекты ==========
     @SubscribeEvent
     public void decorateMob(MobSpawnEvent.FinalizeSpawn event) {
-        if (!RadiationConfig.enablePollution.get()) return;
+        if (!RadiationConfig.ENABLE_POLLUTION) return;
         LevelAccessor levelAccessor = event.getLevel();
         if (levelAccessor == null || levelAccessor.isClientSide()) return;
         if (!(levelAccessor instanceof Level level)) return;
@@ -197,7 +197,7 @@ public class PollutionHandler {
 
         if (entity instanceof Mob && !(entity instanceof EntityGlyphid)) {
             float soot = data.getPollution(PollutionType.SOOT);
-            if (soot > RadiationConfig.buffMobThreshold.get()) {
+            if (soot > RadiationConfig.BUFF_MOB_THRESHOLD) {
                 AttributeInstance maxHealthAttr = entity.getAttribute(Attributes.MAX_HEALTH);
                 if (maxHealthAttr != null && maxHealthAttr.getModifier(MAX_HEALTH_MODIFIER) == null) {
                     maxHealthAttr.addTransientModifier(new AttributeModifier(MAX_HEALTH_MODIFIER, "Soot Anger Health Increase", 1.0D, AttributeModifier.Operation.ADDITION));

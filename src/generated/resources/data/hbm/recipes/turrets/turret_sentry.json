@@ -18,7 +18,7 @@
       "item": "hbm:plate_steel"
     },
     "S": {
-      "item": "hbm:deco/steel_scaffold"
+      "tag": "hbm:any_steel_scaffold"
     }
   },
   "pattern": [

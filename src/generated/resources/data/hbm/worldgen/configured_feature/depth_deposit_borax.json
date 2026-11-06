@@ -1,0 +1,17 @@
+{
+  "type": "hbm:depth_deposit",
+  "config": {
+    "fill": 0.8,
+    "filler": {
+      "Name": "hbm:stone_depth"
+    },
+    "ore": {
+      "Name": "hbm:ore_depth_borax"
+    },
+    "replace_bedrock": true,
+    "size": 5,
+    "target": {
+      "Name": "minecraft:stone"
+    }
+  }
+}

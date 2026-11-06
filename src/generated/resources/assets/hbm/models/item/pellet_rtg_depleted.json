@@ -30,6 +30,12 @@
       "predicate": {
         "custom_model_data": 4
       }
+    },
+    {
+      "model": "hbm:item/pellet_rtg_depleted_nickel",
+      "predicate": {
+        "custom_model_data": 5
+      }
     }
   ],
   "textures": {

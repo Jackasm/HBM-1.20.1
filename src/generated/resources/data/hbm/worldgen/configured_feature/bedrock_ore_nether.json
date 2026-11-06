@@ -1,0 +1,7 @@
+{
+  "type": "hbm:bedrock_ore",
+  "config": {
+    "chance": 10,
+    "nether": true
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "hbm:ore_layer_3d",
+  "config": {
+    "id": 1,
+    "scale_h": 0.03,
+    "scale_v": 0.15,
+    "state": {
+      "Name": "hbm:stone_resource",
+      "Properties": {
+        "type": "bauxite"
+      }
+    },
+    "threshold": 300.0
+  }
+}

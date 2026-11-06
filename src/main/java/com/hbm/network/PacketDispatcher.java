@@ -7,7 +7,6 @@ import com.hbm.inventory.recipes.RecipeType;
 import com.hbm.network.client.*;
 
 import com.hbm.network.server.*;
-import com.hbm.quests.QuestInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -67,10 +66,6 @@ public class PacketDispatcher {
                     new ModelDataUpdatePacket(pos)
             );
         }
-    }
-
-    public static void sendQuestSync(ServerPlayer player, Map<String, QuestInstance> activeQuests, Set<String> completedQuests) {
-        PacketHandler.sendToPlayer(new QuestSyncPacket(activeQuests, completedQuests), player);
     }
 
     public static void sendToServer(PacketBase packet) {

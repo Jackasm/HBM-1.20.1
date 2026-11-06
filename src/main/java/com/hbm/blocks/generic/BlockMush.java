@@ -140,7 +140,7 @@ public class BlockMush extends BushBlock implements BonemealableBlock, IPlantabl
             return;
         }
 
-        if (GeneralConfig.enableMycelium.get() && level.getBlockState(pos.below()).getBlock() == ModBlocks.WASTE_EARTH.get() && rand.nextInt(5) == 0) {
+        if (GeneralConfig.enableMyceliumValue && level.getBlockState(pos.below()).getBlock() == ModBlocks.WASTE_EARTH.get() && rand.nextInt(5) == 0) {
             level.setBlock(pos.below(), ModBlocks.WASTE_MYCELIUM.get().defaultBlockState(), 3);
         }
 

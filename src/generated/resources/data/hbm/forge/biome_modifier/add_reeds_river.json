@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_river",
+  "features": "hbm:reeds_river_placed",
+  "step": "vegetal_decoration"
+}

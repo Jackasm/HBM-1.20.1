@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "hbm:block/deco/statue_elb_f"
-  }
+  "parent": "builtin/entity"
 }

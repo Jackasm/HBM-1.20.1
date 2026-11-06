@@ -1,0 +1,7 @@
+{
+  "loader": "hbm:ct_geometry",
+  "textures": {
+    "particle": "hbm:block/hadron_coil_alloy",
+    "texture": "hbm:block/hadron_coil_alloy"
+  }
+}

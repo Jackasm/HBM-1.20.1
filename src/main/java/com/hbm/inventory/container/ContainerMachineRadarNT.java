@@ -63,7 +63,7 @@ public class ContainerMachineRadarNT extends AbstractContainerMenu {
                     return ItemStack.EMPTY;
                 }
             } else {
-                if (stack.getItem() instanceof IBatteryItem || stack.getItem() == ModItems.BATTERY_CREATIVE.get()) {
+                if (stack.getItem() instanceof IBatteryItem) {
                     if (!this.moveItemStackTo(stack, 9, 10, false)) {
                         return ItemStack.EMPTY;
                     }

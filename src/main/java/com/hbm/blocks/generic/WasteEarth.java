@@ -89,7 +89,7 @@ public class WasteEarth extends Block {
     public void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         super.randomTick(state, level, pos, random);
 
-        if (this == ModBlocks.WASTE_MYCELIUM.get() && GeneralConfig.enableMycelium.get()) {
+        if (this == ModBlocks.WASTE_MYCELIUM.get() && GeneralConfig.enableMyceliumValue) {
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
                     for (int k = -1; k <= 1; k++) {
@@ -157,7 +157,7 @@ public class WasteEarth extends Block {
 
         if (this == ModBlocks.WASTE_EARTH.get() || this == ModBlocks.WASTE_MYCELIUM.get()) {
             BlockPos abovePos = pos.above();
-            if (RadiationConfig.cleanupDeadDirt.get() ||
+            if (RadiationConfig.CLEANUP_DEAD_DIRT ||
                     (level.getMaxLocalRawBrightness(abovePos) < 4 &&
                             !level.getBlockState(abovePos).canOcclude())) {
                 level.setBlock(pos, Blocks.DIRT.defaultBlockState(), 3);

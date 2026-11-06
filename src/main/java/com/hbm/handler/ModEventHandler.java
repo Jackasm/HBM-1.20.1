@@ -25,6 +25,7 @@ import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModArmorItems;
 import com.hbm.items.ModGunItems;
 import com.hbm.items.ModItems;
+import com.hbm.items.ModToolItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ArmorNo9;
 import com.hbm.items.armor.ItemArmorMod;
@@ -36,6 +37,7 @@ import com.hbm.sound.ModSounds;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ModDamageSource;
+
 import com.hbm.world.generator.TimedGenerator;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementProgress;
@@ -88,10 +90,8 @@ import static com.hbm.util.ResLocation.ResLocation;
 @Mod.EventBusSubscriber
 public class ModEventHandler {
 
-    private static final String FIRST_JOIN_TAG = "firstJoin";
-    private static final String WORLD_DATA_KEY = "hbm_quests";
-
     private static final Random rand = new Random();
+
 
     @SubscribeEvent
     public static void onLevelTick(TickEvent.LevelTickEvent event) {
@@ -103,7 +103,6 @@ public class ModEventHandler {
 
         // ===== PHASE START =====
         if (event.phase == TickEvent.Phase.START) {
-            // Боссы и генераторы
             BossSpawnHandler.rollTheDice(level);
             TimedGenerator.automaton(level, 100);
         }
@@ -185,6 +184,9 @@ public class ModEventHandler {
         // Обработка скелетов
         if (entity instanceof Skeleton skeleton) {
             // Проверяем тип сущности напрямую
+            if (skeleton instanceof CustomSkeleton) {
+                return;
+            }
             if (skeleton.getType() == EntityType.SKELETON) {
                 // Это обычный скелет, заменяем на кастомного
                 replaceWithCustomSkeleton(skeleton, event);
@@ -195,6 +197,11 @@ public class ModEventHandler {
         }
     }
 
+    /**
+     * Стартовый набор: медные инструменты порта (в 1.7.10 их не было — это
+     * добавление автора порта). Раньше здесь выдавались ванильные каменные,
+     * хотя медные уже были в игре.
+     */
     private static void giveStarterKit(Player player) {
         int freeSlots = 0;
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
@@ -203,14 +210,18 @@ public class ModEventHandler {
             }
         }
 
+        ItemStack pickaxe = new ItemStack(ModToolItems.COPPER_PICKAXE.get());
+        ItemStack axe = new ItemStack(ModToolItems.COPPER_AXE.get());
+        ItemStack shovel = new ItemStack(ModToolItems.COPPER_SHOVEL.get());
+
         if (freeSlots >= 3) {
-            player.getInventory().add(new ItemStack(Items.STONE_PICKAXE));
-            player.getInventory().add(new ItemStack(Items.STONE_AXE));
-            player.getInventory().add(new ItemStack(Items.STONE_SHOVEL));
+            player.getInventory().add(pickaxe);
+            player.getInventory().add(axe);
+            player.getInventory().add(shovel);
         } else {
-            player.drop(new ItemStack(Items.STONE_PICKAXE), false);
-            player.drop(new ItemStack(Items.STONE_AXE), false);
-            player.drop(new ItemStack(Items.STONE_SHOVEL), false);
+            player.drop(pickaxe, false);
+            player.drop(axe, false);
+            player.drop(shovel, false);
         }
     }
 
@@ -259,9 +270,15 @@ public class ModEventHandler {
         newData.putBoolean("hasDucked", oldData.getBoolean("hasDucked"));
     }
 
+    /**
+     * Книга-гайд при первом входе — как задумано в 1.7.10 (там выдача была
+     * закомментирована, но висел ровно этот код): стартовая книга под флагом
+     * {@code enableGuideBook}. Раньше здесь выдавалась отладочная TEST через
+     * damage — теперь тип задаёт сам предмет.
+     */
     private static void giveStarterItems(Player player) {
+        if (!GeneralConfig.enableGuideBookValue) return;
         ItemStack guideBook = new ItemStack(ModItems.BOOK_GUIDE.get());
-        guideBook.setDamageValue(ItemGuideBook.BookType.TEST.ordinal());
         if (!player.getInventory().add(guideBook)) {
             player.drop(guideBook, false);
         }
@@ -324,7 +341,7 @@ public class ModEventHandler {
             return;
         }
         // Обычная экипировка
-        MobUtil.assignItemsToEntity(zombie, MobUtil.COMMON_ARMOR_POOLS, rand);
+        MobUtil.assignItemsToEntity(zombie, MobUtil.COMMON_ARMOR_POOLS_SOOT, rand);
     }
 
     public static void decorateSkeleton(AbstractSkeleton skeleton) {
@@ -334,7 +351,7 @@ public class ModEventHandler {
         RandomSource rand = skeleton.getRandom();
 
         // Сначала назначаем броню из ranged пулов
-        MobUtil.assignItemsToEntity(skeleton, MobUtil.RANGED_ARMOR_POOLS, rand);
+        MobUtil.assignItemsToEntity(skeleton, MobUtil.RANGED_ARMOR_POOLS_SOOT, rand);
 
         // Затем оружие
         ItemStack gun = getSkelegun(soot, rand);
@@ -347,6 +364,8 @@ public class ModEventHandler {
 
     public static ItemStack getSkelegun(float soot, RandomSource rand) {
         if (!MobConfig.enableMobWeapons) return null;
+
+        soot -= MobConfig.mobWeaponSootReduction;
 
         // Шанс получить оружие зависит от логарифма сажи
         if (rand.nextDouble() > Math.log(soot) * 0.25) return null;
@@ -373,6 +392,11 @@ public class ModEventHandler {
 
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {
+            // Redstone over Radio: очередь рассылки переезжает в читаемую карту
+            // до тика мира — как в эталоне (ref:main/ModEventHandler.java:1054).
+            com.hbm.tileentity.network.RTTYSystem.updateBroadcastQueue();
+        }
         if (event.phase == TickEvent.Phase.END) {
             UniNodespace.tick();
         }
@@ -557,7 +581,7 @@ public class ModEventHandler {
         if (level.isClientSide) return;
 
         // Катаклизм
-        if (GeneralConfig.enableCataclysm.get()) {
+        if (GeneralConfig.enableCataclysmValue) {
             EntityBurningFOEQ foeq = new EntityBurningFOEQ(ModEntities.BURNING_FOEQ.get(), level);
             foeq.setPos(entity.getX(), 500, entity.getZ());
             level.addFreshEntity(foeq);
@@ -688,7 +712,7 @@ public class ModEventHandler {
             }
         }
 
-        if (RadiationConfig.enablePollution.get() && RadiationConfig.enableLeadFromBlocks.get()) {
+        if (RadiationConfig.ENABLE_POLLUTION && RadiationConfig.ENABLE_LEAD_FROM_BLOCKS) {
             if (!ArmorRegistry.hasProtection(player, 3, ArmorRegistry.HazardClass.PARTICLE_FINE)) {
 
                 float metal = PollutionHandler.getPollution(level, pos, PollutionType.HEAVYMETAL);

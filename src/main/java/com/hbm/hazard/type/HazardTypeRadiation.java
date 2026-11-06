@@ -40,7 +40,7 @@ public class HazardTypeRadiation extends HazardTypeBase {
         if (level > 0) {
             float rad = level / 20.0F;
 
-            if (GeneralConfig.enable528.get() && reacher) {
+            if (GeneralConfig.enable528Value && reacher) {
                 rad = rad / 49.0F; // More realistic function for 528: x / distance^2
             } else if (reacher) {
                 rad = (float) BobMathUtil.squirt(rad); // Reworked radiation function: sqrt(x+1/(x+2)^2)-1/(x+2)

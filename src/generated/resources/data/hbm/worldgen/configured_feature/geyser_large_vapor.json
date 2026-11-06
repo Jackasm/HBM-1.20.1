@@ -1,0 +1,6 @@
+{
+  "type": "hbm:geyser_large",
+  "config": {
+    "geyser_block": "hbm:geysir_vapor"
+  }
+}

@@ -2,11 +2,11 @@ package com.hbm.entity.logic;
 
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.item.EntityParachuteCrate;
+import com.hbm.itempool.ItemPool;
 import com.hbm.itempool.ItemPoolsC130;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.sound.SoundHelper;
 import com.hbm.util.EnumUtil;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -99,11 +99,15 @@ public class EntityC130 extends EntityPlaneBase {
         EntityParachuteCrate crate = new EntityParachuteCrate(ModEntities.PARACHUTE_CRATE.get(), level());
         crate.setPos(getX() - getDeltaMovement().x * 7, getY() - 10, getZ() - getDeltaMovement().z * 7);
         crate.payload = payload;
+
         if (payload == C130PayloadType.SUPPLIES) {
-            crate.items.addAll(ItemPoolsC130.getSuppliesPool().generate(random, 5));
+            ItemPool pool = ItemPool.getPool(ItemPoolsC130.POOL_SUPPLIES);
+            crate.items.addAll(pool.generate(random, 5));
         } else if (payload == C130PayloadType.WEAPONS) {
-            crate.items.addAll(ItemPoolsC130.getWeaponsPool().generate(random, 1 + random.nextInt(2)));
-            crate.items.addAll(ItemPoolsC130.getAmmoPool().generate(random, 6));
+            ItemPool weapons = ItemPool.getPool(ItemPoolsC130.POOL_WEAPONS);
+            ItemPool ammo = ItemPool.getPool(ItemPoolsC130.POOL_AMMO);
+            crate.items.addAll(weapons.generate(random, 1 + random.nextInt(2)));
+            crate.items.addAll(ammo.generate(random, 6));
         }
 
         level().addFreshEntity(crate);

@@ -8,6 +8,36 @@
           "type": "minecraft:item",
           "conditions": [
             {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "enchantments": [
+                  {
+                    "enchantment": "minecraft:silk_touch",
+                    "levels": {
+                      "min": 1
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "functions": [
+            {
+              "function": "minecraft:explosion_decay"
+            }
+          ],
+          "name": "hbm:ore_sellafield_schrabidium"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
               "condition": "minecraft:inverted",
               "term": {
                 "condition": "minecraft:match_tool",
@@ -33,9 +63,17 @@
                 "min": 1.0
               },
               "function": "minecraft:set_count"
+            },
+            {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops",
+              "function": "minecraft:apply_bonus"
+            },
+            {
+              "function": "minecraft:explosion_decay"
             }
           ],
-          "name": "hbm:ore_sellafield_schrabidium"
+          "name": "hbm:raw_schrabidium"
         }
       ],
       "rolls": 1.0

@@ -259,7 +259,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
     public long getMaxPower() { return maxPower; }
 
     @Override
-    public long getReceiverSpeed() { return 10000; }
+    public long getReceiverSpeed() { return maxPower; }
 
     @Override
     public long transferPower(long power) {

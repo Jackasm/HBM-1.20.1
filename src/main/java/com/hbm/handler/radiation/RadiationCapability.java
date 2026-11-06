@@ -28,9 +28,11 @@ public class RadiationCapability {
     private static final ResourceLocation KEY = ResLocation(RefStrings.MODID, "radiation");
     private static final String NBT_KEY = "radiation_data_4x4";
 
-    public static IRadiationData createRadiationData() {
-        //return new RadiationDataSimple();
-        return new RadiationDataPrism();
+    public static IRadiationData createRadiationData(LevelChunk chunk) {
+        Level level = chunk.getLevel();
+        int minY = level != null ? level.getMinBuildHeight() : -64;
+        int height = level != null ? level.getHeight() : 384;
+        return new RadiationDataPrism(level, chunk.getPos(), minY, height);
     }
 
     @SubscribeEvent
@@ -48,18 +50,6 @@ public class RadiationCapability {
     }
 
     @SubscribeEvent
-    public static void onChunkLoad(ChunkEvent.Load event) {
-        if (!(event.getLevel() instanceof ServerLevel)) return;
-        if (!(event.getChunk() instanceof LevelChunk chunk)) return;
-
-        chunk.getCapability(RADIATION_CAPABILITY).ifPresent(cap -> {
-            if (cap instanceof RadiationDataPrism prism) {
-                prism.calculateResistances(chunk);
-            }
-        });
-    }
-
-    @SubscribeEvent
     public static void onChunkDataLoad(ChunkDataEvent.Load event) {
         if (!(event.getLevel() instanceof ServerLevel)) return;
         if (!(event.getChunk() instanceof LevelChunk chunk)) return;
@@ -68,6 +58,9 @@ public class RadiationCapability {
             CompoundTag chunkNbt = event.getData();
             if (chunkNbt.contains(NBT_KEY)) {
                 cap.deserializeNBT(chunkNbt.getCompound(NBT_KEY));
+            }
+            if (cap.maxRadiation() >= RadiationDataPrism.ACTIVE_THRESHOLD) {
+                RadiationTicker.markRadiationArrived(chunk.getLevel(), chunk.getPos());
             }
         });
     }
@@ -99,7 +92,7 @@ public class RadiationCapability {
         private final LazyOptional<IRadiationData> optional;
 
         public RadiationChunkProvider(LevelChunk chunk) {
-            this.data = createRadiationData();
+            this.data = createRadiationData(chunk);
             this.optional = LazyOptional.of(() -> data);
         }
 

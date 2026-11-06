@@ -32,6 +32,8 @@
     "hbm:sellafield_bedrock",
     "hbm:block_schrabidium_cluster",
     "hbm:block_euphemium_cluster",
-    "hbm:concrete_super"
+    "hbm:concrete_super",
+    "hbm:brick_obsidian_stairs",
+    "hbm:ladder_tungsten"
   ]
 }

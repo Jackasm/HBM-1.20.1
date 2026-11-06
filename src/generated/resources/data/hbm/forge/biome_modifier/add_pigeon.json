@@ -1,0 +1,12 @@
+{
+  "type": "hbm:mob_spawn_biome_modifier",
+  "biomes": [
+    "minecraft:plains",
+    "minecraft:sunflower_plains"
+  ],
+  "category": "creature",
+  "entity_type": "hbm:pigeon",
+  "max_count": 10,
+  "min_count": 5,
+  "weight": 1
+}

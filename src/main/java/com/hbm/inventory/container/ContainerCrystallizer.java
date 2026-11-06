@@ -70,7 +70,7 @@ public class ContainerCrystallizer extends AbstractContainerMenu {
                 }
             } else {
                 // Battery
-                if (stack.getItem() instanceof IBatteryItem || stack.getItem() == ModItems.BATTERY_CREATIVE.get()) {
+                if (stack.getItem() instanceof IBatteryItem) {
                     if (!this.moveItemStackTo(stack, 1, 2, false)) return ItemStack.EMPTY;
                 }
                 // Fluid identifier

@@ -1,8 +1,5 @@
 package com.hbm.blocks.generic;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.entity.logic.EntityC130;
 import com.hbm.itempool.ItemPool;
 import com.hbm.itempool.ItemPoolsC130;
@@ -10,7 +7,6 @@ import com.hbm.items.ModToolItems;
 import com.hbm.sound.ModSounds;
 import com.hbm.tileentity.storage.TileEntitySupplyCrate;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.util.RandomSource;
@@ -20,7 +16,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -28,14 +23,13 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BlockSupplyCrate extends Block implements EntityBlock {
 
@@ -134,10 +128,13 @@ public class BlockSupplyCrate extends Block implements EntityBlock {
 
     private void generateContents(TileEntitySupplyCrate crate, RandomSource random) {
         if (payload == EntityC130.C130PayloadType.SUPPLIES) {
-            crate.items.addAll(ItemPoolsC130.getSuppliesPool().generate(random, 5));
+            ItemPool pool = ItemPool.getPool(ItemPoolsC130.POOL_SUPPLIES);
+            crate.items.addAll(pool.generate(random, 5));
         } else if (payload == EntityC130.C130PayloadType.WEAPONS) {
-            crate.items.addAll(ItemPoolsC130.getWeaponsPool().generate(random, 1 + random.nextInt(2)));
-            crate.items.addAll(ItemPoolsC130.getAmmoPool().generate(random, 6));
+            ItemPool weapons = ItemPool.getPool(ItemPoolsC130.POOL_WEAPONS);
+            ItemPool ammo = ItemPool.getPool(ItemPoolsC130.POOL_AMMO);
+            crate.items.addAll(weapons.generate(random, 1 + random.nextInt(2)));
+            crate.items.addAll(ammo.generate(random, 6));
         }
     }
 

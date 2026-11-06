@@ -11,6 +11,11 @@ public class FluidNet extends NodeNet<IFluidReceiver, IFluidProvider, FluidNode>
 
     public long fluidTracker = 0L;
 
+    @Override
+    public void resetTrackers() {
+        this.fluidTracker = 0L;
+    }
+
     protected static final int TIMEOUT = 3000;
     protected static long currentTime = 0;
     protected FluidTypeHBM type;

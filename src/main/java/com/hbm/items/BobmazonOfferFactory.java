@@ -2,14 +2,12 @@ package com.hbm.items;
 
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockConcreteColoredExt;
 import com.hbm.blocks.generic.BlockPlushie;
 import com.hbm.blocks.generic.BlockSnowglobe;
 import com.hbm.inventory.fluid.FluidTypeHBM;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GUIScreenBobmazon.Offer;
 import com.hbm.inventory.gui.GUIScreenBobmazon.Requirement;
-import com.hbm.items.block.ItemBlockConcreteColoredExt;
 import com.hbm.items.block.ItemPlushie;
 import com.hbm.items.block.ItemSnowglobe;
 import com.hbm.items.fluid.ItemFluidBarrel;
@@ -54,9 +52,15 @@ public class BobmazonOfferFactory {
         standard.add(new Offer(new ItemStack(ModBlocks.PLANT_FLOWER_CD0.get().asItem(), 1), Requirement.NUCLEAR, 64, 8));
 
         // deco
-        for (BlockConcreteColoredExt.EnumConcreteType conc : BlockConcreteColoredExt.EnumConcreteType.values()) {
-            standard.add(new Offer(ItemBlockConcreteColoredExt.withType(conc.ordinal(), 16), Requirement.CHEMICS, 4));
-        }
+        standard.add(new Offer(new ItemStack(ModItems.CONCRETE_COLORED_EXT_MACHINE.get(), 16), Requirement.CHEMICS, 4));
+        standard.add(new Offer(new ItemStack(ModItems.CONCRETE_COLORED_EXT_MACHINE_STRIPE.get(), 16), Requirement.CHEMICS, 4));
+        standard.add(new Offer(new ItemStack(ModItems.CONCRETE_COLORED_EXT_INDIGO.get(), 16), Requirement.CHEMICS, 4));
+        standard.add(new Offer(new ItemStack(ModItems.CONCRETE_COLORED_EXT_PURPLE.get(), 16), Requirement.CHEMICS, 4));
+        standard.add(new Offer(new ItemStack(ModItems.CONCRETE_COLORED_EXT_PINK.get(), 16), Requirement.CHEMICS, 4));
+        standard.add(new Offer(new ItemStack(ModItems.CONCRETE_COLORED_EXT_HAZARD.get(), 16), Requirement.CHEMICS, 4));
+        standard.add(new Offer(new ItemStack(ModItems.CONCRETE_COLORED_EXT_SAND.get(), 16), Requirement.CHEMICS, 4));
+        standard.add(new Offer(new ItemStack(ModItems.CONCRETE_COLORED_EXT_BRONZE.get(), 16), Requirement.CHEMICS, 4));
+
         for (BlockSnowglobe.SnowglobeType globe : BlockSnowglobe.SnowglobeType.values()) {
             if (globe != BlockSnowglobe.SnowglobeType.NONE) {
                 standard.add(new Offer(ItemSnowglobe.withType(globe), Requirement.CHEMICS, 128));

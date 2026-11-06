@@ -1,5 +1,8 @@
 package com.hbm.network.client;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import com.hbm.network.PacketBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -33,63 +36,67 @@ public class ParticlePacket extends PacketBase implements PacketBase.DecodablePa
     }
 
     @Override
-    public void process(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            if (Minecraft.getInstance().level == null) return;
-            var level = Minecraft.getInstance().level;
-            var entity = level.getEntity(this.entityId); // Используем this.entityId вместо msg.entityId
-            if (entity == null) return;
+    public void process(Supplier<NetworkEvent.Context> context) {
+        context.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> this::handleClient));
+        context.get().setPacketHandled(true);
+    }
 
-            // Получаем направление взгляда игрока
-            double lookX = entity.getLookAngle().x;
-            double lookY = entity.getLookAngle().y;
-            double lookZ = entity.getLookAngle().z;
+    @OnlyIn(Dist.CLIENT)
+    private void handleClient() {
+        if (Minecraft.getInstance().level == null) return;
+        var level = Minecraft.getInstance().level;
+        var entity = level.getEntity(this.entityId); // Используем this.entityId вместо msg.entityId
+        if (entity == null) return;
 
-            // Начальная позиция - рот игрока
-            double ix = entity.getX();
-            double iy = entity.getY() + entity.getEyeHeight() - 0.2; // немного ниже глаз
-            double iz = entity.getZ();
+        // Получаем направление взгляда игрока
+        double lookX = entity.getLookAngle().x;
+        double lookY = entity.getLookAngle().y;
+        double lookZ = entity.getLookAngle().z;
 
-            int count = "blood".equals(this.mode) ? 8 : 5; // Используем this.mode вместо msg.mode
+        // Начальная позиция - рот игрока
+        double ix = entity.getX();
+        double iy = entity.getY() + entity.getEyeHeight() - 0.2; // немного ниже глаз
+        double iz = entity.getZ();
 
-            for (int i = 0; i < count; i++) {
-                // Небольшой случайный разброс вокруг направления взгляда
-                double spread = 0.3; // угол разброса
-                double spreadX = (level.random.nextDouble() - 0.5) * spread;
-                double spreadY = (level.random.nextDouble() - 0.5) * spread;
-                double spreadZ = (level.random.nextDouble() - 0.5) * spread;
+        int count = "blood".equals(this.mode) ? 8 : 5; // Используем this.mode вместо msg.mode
 
-                // Основное направление + случайный разброс
-                double dirX = lookX + spreadX;
-                double dirY = lookY + spreadY;
-                double dirZ = lookZ + spreadZ;
+        for (int i = 0; i < count; i++) {
+            // Небольшой случайный разброс вокруг направления взгляда
+            double spread = 0.3; // угол разброса
+            double spreadX = (level.random.nextDouble() - 0.5) * spread;
+            double spreadY = (level.random.nextDouble() - 0.5) * spread;
+            double spreadZ = (level.random.nextDouble() - 0.5) * spread;
 
-                // Нормализуем вектор направления (чтобы скорость была одинаковой)
-                double length = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-                dirX /= length;
-                dirY /= length;
-                dirZ /= length;
+            // Основное направление + случайный разброс
+            double dirX = lookX + spreadX;
+            double dirY = lookY + spreadY;
+            double dirZ = lookZ + spreadZ;
 
-                // Скорость частиц
-                double speed = "blood".equals(this.mode) ? 0.3 : 0.2; // Используем this.mode
+            // Нормализуем вектор направления (чтобы скорость была одинаковой)
+            double length = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+            dirX /= length;
+            dirY /= length;
+            dirZ /= length;
 
-                // Случайное смещение для начальной позиции (чтобы частицы не из одной точки)
-                double offsetX = (level.random.nextDouble() - 0.5) * 0.2;
-                double offsetY = (level.random.nextDouble() - 0.5) * 0.2;
-                double offsetZ = (level.random.nextDouble() - 0.5) * 0.2;
+            // Скорость частиц
+            double speed = "blood".equals(this.mode) ? 0.3 : 0.2; // Используем this.mode
 
-                if ("blood".equals(this.mode)) { // Используем this.mode
-                    level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK,
-                                    Blocks.REDSTONE_BLOCK.defaultBlockState()),
-                            ix + offsetX, iy + offsetY, iz + offsetZ,
-                            dirX * speed, dirY * speed, dirZ * speed);
-                } else if ("smoke".equals(this.mode)) { // Используем this.mode
-                    level.addParticle(ParticleTypes.SMOKE,
-                            ix + offsetX, iy + offsetY, iz + offsetZ,
-                            dirX * speed, dirY * speed, dirZ * speed);
-                }
+            // Случайное смещение для начальной позиции (чтобы частицы не из одной точки)
+            double offsetX = (level.random.nextDouble() - 0.5) * 0.2;
+            double offsetY = (level.random.nextDouble() - 0.5) * 0.2;
+            double offsetZ = (level.random.nextDouble() - 0.5) * 0.2;
+
+            if ("blood".equals(this.mode)) { // Используем this.mode
+                level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK,
+                                Blocks.REDSTONE_BLOCK.defaultBlockState()),
+                        ix + offsetX, iy + offsetY, iz + offsetZ,
+                        dirX * speed, dirY * speed, dirZ * speed);
+            } else if ("smoke".equals(this.mode)) { // Используем this.mode
+                level.addParticle(ParticleTypes.SMOKE,
+                        ix + offsetX, iy + offsetY, iz + offsetZ,
+                        dirX * speed, dirY * speed, dirZ * speed);
             }
-        });
-        ctx.get().setPacketHandled(true);
+        }
+    
     }
 }

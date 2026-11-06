@@ -22,7 +22,7 @@ public class EntityGlyphidBlaster extends EntityGlyphidBombardier {
     public static AttributeSupplier.Builder createAttributes() {
         return EntityGlyphid.createAttributes()
                 .add(Attributes.MAX_HEALTH, GlyphidStats.getStats().getBlaster().health)
-                .add(Attributes.MOVEMENT_SPEED, GlyphidStats.getStats().getBlaster().speed)
+                .add(Attributes.MOVEMENT_SPEED, GlyphidStats.getStats().getBlaster().speed * EntityGlyphid.SPEED_FACTOR)
                 .add(Attributes.ATTACK_DAMAGE, GlyphidStats.getStats().getBlaster().damage);
     }
 

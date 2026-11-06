@@ -41,15 +41,16 @@ public class EntityOrangeFX extends EntityModFX {
         this((EntityType<? extends EntityOrangeFX>) BuiltInRegistries.ENTITY_TYPE.byId(spawnEntity.getTypeId()), level);
     }
 
+    public void setMaxAge(int age) {
+        this.maxAge = age;
+        this.particleAge = 0;
+    }
+
     @Override
     public void tick() {
         this.xo = this.getX();
         this.yo = this.getY();
         this.zo = this.getZ();
-
-        if (maxAge < 900) {
-            maxAge = random.nextInt(301) + 900;
-        }
 
         if (!this.level().isClientSide && random.nextInt(50) == 0) {
             BlockPos pos = BlockPos.containing(this.getX(), this.getY(), this.getZ());

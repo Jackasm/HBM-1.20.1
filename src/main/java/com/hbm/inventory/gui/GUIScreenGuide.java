@@ -1,31 +1,33 @@
 package com.hbm.inventory.gui;
 
+import com.hbm.api.quest.QuestHooks;
+import com.hbm.inventory.container.ContainerGuideBook;
 import com.hbm.items.tool.ItemGuideBook;
 import com.hbm.network.PacketDispatcher;
-import com.hbm.network.server.QuestActionPacket;
-import com.hbm.quests.QuestManager;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.hbm.util.RefStrings.MODID;
 import static com.hbm.util.ResLocation.ResLocation;
 
-public class GUIScreenGuide extends Screen {
+public class GUIScreenGuide extends AbstractContainerScreen<ContainerGuideBook> {
 
     private static final ResourceLocation TEXTURE = ResLocation(MODID, "textures/gui/book/book.png");
     private static final ResourceLocation TEXTURE_COVER = ResLocation(MODID, "textures/gui/book/book_cover.png");
@@ -68,9 +70,13 @@ public class GUIScreenGuide extends Screen {
         }
     }
 
-    public GUIScreenGuide(ItemGuideBook.BookType type) {
-        super(Component.translatable(type.title));
-        this.type = type;
+    public GUIScreenGuide(ContainerGuideBook menu, Inventory inv, Component title) {
+        super(menu, inv, title);
+        // Размер книги, а не стандартные 176×166 контейнера: от него считаются leftPos/topPos.
+        this.imageWidth = 272;
+        this.imageHeight = 182;
+        // Тип берём из меню: его прислал предмет, которым открыли книгу
+        this.type = menu.getBookType();
         this.page = -1;
         this.maxPage = (int) Math.ceil(type.pages.size() / 2D) - 1;
     }
@@ -78,7 +84,7 @@ public class GUIScreenGuide extends Screen {
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(guiGraphics);
-        renderBg(guiGraphics, mouseX, mouseY);
+        super.render(guiGraphics, mouseX, mouseY, partialTicks);
         renderForeground(guiGraphics, mouseX, mouseY);
 
         if (!hoverStack.isEmpty() && hoverSlotX != -1 && hoverSlotY != -1) {
@@ -88,11 +94,18 @@ public class GUIScreenGuide extends Screen {
                 hoverStack = ItemStack.EMPTY;
             }
         }
-
-        super.render(guiGraphics, mouseX, mouseY, partialTicks);
     }
 
-    private void renderBg(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    /**
+     * Книга — не контейнер: слотов нет, и подписей «Inventory» и заголовка окна быть не должно.
+     * {@code AbstractContainerScreen} рисует их всегда, поэтому подпись перекрывается пустой.
+     * Заголовок страницы книга рисует сама.
+     */
+    @Override
+    protected void renderLabels(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    }
+
+    protected void renderBg(@NotNull GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         int guiLeft = (this.width - 272) / 2;
@@ -132,7 +145,9 @@ public class GUIScreenGuide extends Screen {
         if (this.page < 0) {
             float scale = this.type.titleScale;
             Component titleComp = Component.translatable(this.type.title);
-            String[] coverLines = titleComp.getString().split("\n");
+            // В lang NTM перенос строки — символ '$' (I18nUtil.resolveKeyArray в 1.7.10);
+            // '\n' оставлен для переводов, где уже поставили нормальный перенос.
+            String[] coverLines = titleComp.getString().split("[\\n$]");
 
             poseStack.pushPose();
             poseStack.scale(scale, scale, 1F);
@@ -157,104 +172,67 @@ public class GUIScreenGuide extends Screen {
             ItemGuideBook.GuidePage page = this.type.pages.get(defacto);
 
             // Автоматическое принятие квеста
-            if (page.autoAccept && page.questId != null && !autoQuestAccepted && player != null) {
-                if (!QuestManager.hasActiveQuest(player, page.questId) && !QuestManager.hasCompletedQuest(player, page.questId)) {
+            if (QuestHooks.get().isAvailable() && page.autoAccept && page.questId != null && !autoQuestAccepted && player != null) {
+                if (!QuestHooks.get().hasActiveQuest(player, page.questId) && !QuestHooks.get().hasCompletedQuest(player, page.questId)) {
                     if (player.level().isClientSide()) {
-                        PacketDispatcher.sendToServer(new QuestActionPacket(QuestActionPacket.Action.ACCEPT, page.questId));
-                        QuestManager.addLocalActiveQuest(page.questId);
+                        QuestHooks.get().accept(player, page.questId);
                     }
                 }
                 autoQuestAccepted = true;
             }
 
-            // Отрисовка заголовка
-            int currentY = guiTop + 15;
-
+            // Отрисовка заголовка — как в эталоне: одна строка по центру столбца шириной 100 px,
+            // кегль 1/titleScale (в 1.7.10 было glScalef(1F/tScale)). Языковой коэффициент
+            // применяется и здесь: длинный русский заголовок иначе уезжает в соседнюю страницу.
+            float langScale = LangScale.getScale(Minecraft.getInstance().getLanguageManager().getSelected());
             if (page.title != null) {
+                float titleScale = page.titleScale <= 0F ? 1F : page.titleScale;
+                float drawScale = langScale / titleScale;
                 String titleLoc = Component.translatable(page.title).getString();
-                int maxWidth = 100;
-                List<String> titleLines = new ArrayList<>();
-                String[] words = titleLoc.split(" ");
-                StringBuilder line = new StringBuilder();
+                int textWidth = font.width(titleLoc);
 
-                for (String word : words) {
-                    String testLine = line.isEmpty() ? word : line + " " + word;
-                    if (font.width(testLine) <= maxWidth) {
-                        if (line.isEmpty()) {
-                            line = new StringBuilder(word);
-                        } else {
-                            line.append(" ").append(word);
-                        }
-                    } else {
-                        if (!line.isEmpty()) {
-                            titleLines.add(line.toString());
-                            line = new StringBuilder(word);
-                        } else {
-                            titleLines.add(word);
-                        }
-                    }
-                }
-                if (!line.isEmpty()) {
-                    titleLines.add(line.toString());
-                }
-
-                int startX = guiLeft + 20 + i * sideOffset;
-                int y = currentY;
-
-                for (String lineStr : titleLines) {
-                    int stringWidth = font.width(lineStr);
-                    int x = startX + (100 - stringWidth) / 2;
-                    guiGraphics.drawString(font, lineStr, x, y, page.titleColor, false);
-                    y += font.lineHeight + 2;
-                }
-
-                currentY += titleLines.size() * (font.lineHeight + 2) + 5;
+                poseStack.pushPose();
+                poseStack.translate(guiLeft + 20 + i * sideOffset, guiTop + 20, 0);
+                poseStack.scale(drawScale, drawScale, 1F);
+                guiGraphics.drawString(font, titleLoc,
+                        (int) (50F / drawScale - textWidth / 2F), 0, page.titleColor, false);
+                poseStack.popPose();
             }
 
             // Отрисовка текстов
             for (ItemGuideBook.GuideText textBox : page.texts) {
                 String text = Component.translatable(textBox.text).getString();
-                int maxWidth = textBox.width;
-                float scale = LangScale.getScale(Minecraft.getInstance().getLanguageManager().getSelected());
+
+                // Масштаб из эталона: 2F означает «вдвое мельче», а не «вдвое крупнее» —
+                // в 1.7.10 рисовали под glScalef(1F/scale), умножая координаты на scale.
+                float textScale = textBox.scale <= 0F ? 1F : textBox.scale;
+                float drawScale = langScale / textScale;
+                // Столбец задан в экранных пикселях: в единицах шрифта он шире.
+                int wrapWidth = Math.max(1, (int) (textBox.width / drawScale));
 
                 List<String> lines = new ArrayList<>();
-                String[] words = text.split(" ");
-                StringBuilder line = new StringBuilder();
+                // '$' — ручной перенос из 1.7.10 (autoBreakWithParagraphs): каждый абзац
+                // переносится отдельно, строки идут подряд, без пустой строки между ними.
+                for (String paragraph : text.split("\\$")) {
+                    lines.addAll(wrapText(paragraph, wrapWidth));
+                }
 
-                for (String word : words) {
-                    String testLine = line.isEmpty() ? word : line + " " + word;
-                    int testWidth = (int)(font.width(testLine) * scale);
-                    if (testWidth <= maxWidth) {
-                        if (line.isEmpty()) {
-                            line = new StringBuilder(word);
-                        } else {
-                            line.append(" ").append(word);
-                        }
-                    } else {
-                        if (!line.isEmpty()) {
-                            lines.add(line.toString());
-                            line = new StringBuilder(word);
-                        } else {
-                            lines.add(word);
-                        }
-                    }
-                }
-                if (!line.isEmpty()) {
-                    lines.add(line.toString());
-                }
+                float titleScale = page.titleScale <= 0F ? 1F : page.titleScale;
+                float topOffset = textBox.yOffset == -1
+                        ? (page.title == null ? -10F : 6F / titleScale)
+                        : textBox.yOffset;
 
                 poseStack.pushPose();
-                poseStack.scale(scale, scale, 1F);
+                poseStack.scale(drawScale, drawScale, 1F);
 
-                int y = (int)(currentY / scale);
+                int x = (int) ((guiLeft + 20 + i * sideOffset + textBox.xOffset) / drawScale);
+                int y = (int) ((guiTop + 30 + topOffset) / drawScale);
                 for (String lineStr : lines) {
-                    int x = (int)((guiLeft + 20 + i * sideOffset + textBox.xOffset) / scale);
                     guiGraphics.drawString(font, lineStr, x, y, 4210752, false);
-                    y += (int)((font.lineHeight + 2) / scale);
+                    y += 12; // шаг строки 12 в масштабированных координатах, как в оригинале
                 }
 
                 poseStack.popPose();
-                currentY = (int)(y * scale) + 5;
             }
 
             // Отрисовка изображений
@@ -386,9 +364,9 @@ public class GUIScreenGuide extends Screen {
             }
 
             // Кнопка "Принять"
-            if (page.showAcceptButton && page.questId != null && player != null) {
-                boolean alreadyAccepted = QuestManager.hasActiveQuest(player, page.questId);
-                boolean alreadyCompleted = QuestManager.hasCompletedQuest(player, page.questId);
+            if (QuestHooks.get().isAvailable() && page.showAcceptButton && page.questId != null && player != null) {
+                boolean alreadyAccepted = QuestHooks.get().hasActiveQuest(player, page.questId);
+                boolean alreadyCompleted = QuestHooks.get().hasCompletedQuest(player, page.questId);
 
                 int btnW = 50;
                 int btnH = 15;
@@ -476,8 +454,7 @@ public class GUIScreenGuide extends Screen {
         if (showingAcceptButton && pendingQuestId != null && player != null) {
             if (mouseX >= buttonX && mouseX <= buttonX + buttonW && mouseY >= buttonY && mouseY <= buttonY + buttonH) {
                 if (player.level().isClientSide()) {
-                    PacketDispatcher.sendToServer(new QuestActionPacket(QuestActionPacket.Action.ACCEPT, pendingQuestId));
-                    QuestManager.addLocalActiveQuest(pendingQuestId);
+                    QuestHooks.get().accept(player, pendingQuestId);
                 }
                 showingAcceptButton = false;
                 pendingQuestId = null;
@@ -508,10 +485,10 @@ public class GUIScreenGuide extends Screen {
             if (!lastPageQuestCompleted && player != null && page == maxPage) {
                 for (ItemGuideBook.GuidePage p : type.pages) {
                     if (p.completeOnLastPage && p.questId != null) {
-                        if (QuestManager.hasActiveQuest(player, p.questId)) {
+                        if (QuestHooks.get().hasActiveQuest(player, p.questId)) {
                             player.getPersistentData().putBoolean("survival_guide_completed", true);
                             if (player.level().isClientSide()) {
-                                PacketDispatcher.sendToServer(new QuestActionPacket(QuestActionPacket.Action.COMPLETE, p.questId));
+                                QuestHooks.get().complete(player, p.questId);
                             }
                             lastPageQuestCompleted = true;
                         }
@@ -537,5 +514,38 @@ public class GUIScreenGuide extends Screen {
     @Override
     public boolean isPauseScreen() {
         return false;
+    }
+
+    /**
+     * Перенос по словам в пределах ширины — как {@code autoBreak} в 1.7.10.
+     * Ширина уже в единицах шрифта, масштаб сюда не входит.
+     * Абзацы режет вызывающий: разделитель в lang — символ {@code $}.
+     */
+    private List<String> wrapText(String text, int maxWidth) {
+        List<String> lines = new ArrayList<>();
+        StringBuilder line = new StringBuilder();
+
+        for (String word : text.split(" ")) {
+            if (word.isEmpty()) continue;
+            String testLine = line.isEmpty() ? word : line + " " + word;
+            if (font.width(testLine) <= maxWidth) {
+                if (line.isEmpty()) {
+                    line = new StringBuilder(word);
+                } else {
+                    line.append(" ").append(word);
+                }
+            } else {
+                if (!line.isEmpty()) {
+                    lines.add(line.toString());
+                    line = new StringBuilder(word);
+                } else {
+                    lines.add(word);
+                }
+            }
+        }
+        if (!line.isEmpty()) {
+            lines.add(line.toString());
+        }
+        return lines;
     }
 }

@@ -1,5 +1,8 @@
 package com.hbm.network.client;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.network.PacketBase;
 import net.minecraft.network.FriendlyByteBuf;
@@ -78,30 +81,30 @@ public class SyncLivingPropsPacket extends PacketBase implements PacketBase.Deco
 
     @Override
     public void process(Supplier<NetworkEvent.Context> context) {
-        NetworkEvent.Context ctx = context.get();
-        ctx.enqueueWork(() -> {
-            // Проверяем, что мы на клиенте
-            if (ctx.getDirection().getReceptionSide().isClient()) {
-                net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getInstance();
-                if (mc.level == null) return;
+        context.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> this::handleClient));
+        context.get().setPacketHandled(true);
+    }
 
-                LivingEntity entity = (LivingEntity) mc.level.getEntity(entityId);
-                if (entity != null) {
-                    // Используем клиентские методы
-                    HbmLivingProps.clientSetFire(entity, fire);
-                    HbmLivingProps.clientSetPhosphorus(entity, phosphorus);
-                    HbmLivingProps.clientSetBalefire(entity, balefire);
-                    HbmLivingProps.clientSetBlackFire(entity, blackFire);
-                    HbmLivingProps.clientSetBlackLung(entity, blackLung);
-                    HbmLivingProps.clientSetAsbestos(entity, asbestos);
-                    HbmLivingProps.clientSetRadiation(entity, radiation);
-                    HbmLivingProps.clientSetDigamma(entity, digamma);
-                    HbmLivingProps.clientSetOil(entity, oil);
-                    HbmLivingProps.clientSetContagion(entity, contagion);
-                    HbmLivingProps.clientSetTimer(entity, timer);
-                }
-            }
-        });
-        ctx.setPacketHandled(true);
+    @OnlyIn(Dist.CLIENT)
+    private void handleClient() {
+        net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getInstance();
+        if (mc.level == null) return;
+
+        LivingEntity entity = (LivingEntity) mc.level.getEntity(entityId);
+        if (entity != null) {
+            // Используем клиентские методы
+            HbmLivingProps.clientSetFire(entity, fire);
+            HbmLivingProps.clientSetPhosphorus(entity, phosphorus);
+            HbmLivingProps.clientSetBalefire(entity, balefire);
+            HbmLivingProps.clientSetBlackFire(entity, blackFire);
+            HbmLivingProps.clientSetBlackLung(entity, blackLung);
+            HbmLivingProps.clientSetAsbestos(entity, asbestos);
+            HbmLivingProps.clientSetRadiation(entity, radiation);
+            HbmLivingProps.clientSetDigamma(entity, digamma);
+            HbmLivingProps.clientSetOil(entity, oil);
+            HbmLivingProps.clientSetContagion(entity, contagion);
+            HbmLivingProps.clientSetTimer(entity, timer);
+        }
+    
     }
 }

@@ -31,7 +31,7 @@ public class EntityGlyphidBombardier extends EntityGlyphid {
     public static AttributeSupplier.Builder createAttributes() {
         return EntityGlyphid.createAttributes()
                 .add(Attributes.MAX_HEALTH, GlyphidStats.getStats().getBombardier().health)
-                .add(Attributes.MOVEMENT_SPEED, GlyphidStats.getStats().getBombardier().speed)
+                .add(Attributes.MOVEMENT_SPEED, GlyphidStats.getStats().getBombardier().speed * EntityGlyphid.SPEED_FACTOR)
                 .add(Attributes.ATTACK_DAMAGE, GlyphidStats.getStats().getBombardier().damage);
     }
 

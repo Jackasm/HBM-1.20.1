@@ -32,7 +32,7 @@ public class EntityGlyphidBrenda extends EntityGlyphid {
     public static AttributeSupplier.Builder createAttributes() {
         return EntityGlyphid.createAttributes()
                 .add(Attributes.MAX_HEALTH, GlyphidStats.getStats().getBrenda().health)
-                .add(Attributes.MOVEMENT_SPEED, GlyphidStats.getStats().getBrenda().speed)
+                .add(Attributes.MOVEMENT_SPEED, GlyphidStats.getStats().getBrenda().speed * EntityGlyphid.SPEED_FACTOR)
                 .add(Attributes.ATTACK_DAMAGE, GlyphidStats.getStats().getBrenda().damage);
     }
 

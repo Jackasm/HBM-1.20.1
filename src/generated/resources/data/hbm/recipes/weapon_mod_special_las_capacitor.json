@@ -17,7 +17,7 @@
     "PIP"
   ],
   "result": {
-    "item": "hbm:weapon_mod_las_capacitor"
+    "item": "hbm:weapon_mod_special_las_capacitor"
   },
   "show_notification": true
 }

@@ -15,17 +15,16 @@ import org.jetbrains.annotations.NotNull;
 import static com.hbm.util.ResLocation.ResLocation;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderFBI extends HumanoidMobRenderer<Mob, ModelFBI> {
+public class RenderFBI extends HumanoidMobRenderer<Mob, ModelFBI<Mob>> {
 
     private static final ResourceLocation TEXTURE = ResLocation(RefStrings.MODID, "textures/entity/fbi.png");
 
     public RenderFBI(EntityRendererProvider.Context context) {
-        super(context, new ModelFBI(context.bakeLayer(ModelFBI.LAYER_LOCATION)), 0.5F);
+        super(context, new ModelFBI<>(context.bakeLayer(ModelFBI.LAYER_LOCATION)), 0.5F);
         this.addLayer(new HumanoidArmorLayer<>(this,
-                new ModelFBI(context.bakeLayer(ModelFBI.LAYER_LOCATION)),
-                new ModelFBI(context.bakeLayer(ModelFBI.LAYER_LOCATION)),
+                new ModelFBI<>(context.bakeLayer(ModelFBI.LAYER_LOCATION)),
+                new ModelFBI<>(context.bakeLayer(ModelFBI.LAYER_LOCATION)),
                 context.getModelManager()));
-        // ItemInHandLayer уже добавляется в HumanoidMobRenderer, но если нужно добавить свой:
         this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer()));
     }
 
@@ -33,4 +32,4 @@ public class RenderFBI extends HumanoidMobRenderer<Mob, ModelFBI> {
     public @NotNull ResourceLocation getTextureLocation(@NotNull Mob entity) {
         return TEXTURE;
     }
-}
+                                               }

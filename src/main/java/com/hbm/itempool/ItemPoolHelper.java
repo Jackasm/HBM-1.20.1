@@ -29,6 +29,12 @@ public class ItemPoolHelper {
         return weighted(item, count, count, weight);
     }
 
+    public static ItemPool.PoolEntry weightedDamaged(Item item, int damage, int minCount, int maxCount, int weight) {
+        ItemStack stack = new ItemStack(item);
+        stack.setDamageValue(damage);
+        return weighted(stack, minCount, maxCount, weight);
+    }
+
     public static ItemPool.PoolEntry empty(int weight) {
         return new ItemPool.PoolEntry(ItemStack.EMPTY, weight, 0, 0);
     }

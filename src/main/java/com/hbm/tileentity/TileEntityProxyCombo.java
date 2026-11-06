@@ -27,7 +27,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 
-public class TileEntityProxyCombo extends TileEntityProxyBase implements WorldlyContainer, IFluidHandler, IFluidReceiver, IEnergyProvider, IEnergyReceiver {
+public class TileEntityProxyCombo extends TileEntityProxyBase implements WorldlyContainer, IFluidHandler, IFluidReceiver, IEnergyProvider, IEnergyReceiver,
+        com.hbm.api.redstoneoverradio.IRORValueProvider, com.hbm.api.redstoneoverradio.IRORInteractive {
 
     public long power;
     // Флаги возможностей
@@ -455,6 +456,32 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements Worldly
         } else {
             this.power -= power;
         }
+    }
+
+    // === Redstone-over-Radio ===
+
+    /**
+     * Заглушка мультиблока пробрасывает ROR-запросы к ядру — как в эталоне
+     * ({@code ref:tileentity/TileEntityProxyCombo.java}): без этого читатель и
+     * контроллер не могут стоять на мультиблочных машинах, потому что ядро
+     * окружено заглушками и свободной грани у него нет.
+     */
+    @Override
+    public String provideRORValue(String name) {
+        return getCore() instanceof com.hbm.api.redstoneoverradio.IRORValueProvider provider
+                ? provider.provideRORValue(name) : null;
+    }
+
+    @Override
+    public String[] getFunctionInfo() {
+        return getCore() instanceof com.hbm.api.redstoneoverradio.IRORInfo info
+                ? info.getFunctionInfo() : new String[0];
+    }
+
+    @Override
+    public String runRORFunction(String name, String[] params) {
+        return getCore() instanceof com.hbm.api.redstoneoverradio.IRORInteractive interactive
+                ? interactive.runRORFunction(name, params) : null;
     }
 
 }

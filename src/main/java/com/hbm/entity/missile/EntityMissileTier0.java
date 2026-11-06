@@ -12,6 +12,7 @@ import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.items.ModAmmoItems;
 import com.hbm.items.ModItems;
 
+import com.hbm.util.MathHelper;
 import com.hbm.world.WorldUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -39,7 +40,7 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
     @Override
     public List<ItemStack> getDebris() {
         List<ItemStack> list = new ArrayList<>();
-        list.add(new ItemStack(ModItems.WIRE_ALUMINIUM.get(), 4));
+        list.add(new ItemStack(ModItems.WIRE_FINE_ALUMINIUM.get(), 4));
         list.add(new ItemStack(ModItems.PLATE_TITANIUM.get(), 4));
         list.add(new ItemStack(ModItems.SHELL_ALUMINIUM.get(), 2));
         list.add(new ItemStack(ModItems.DUCTTAPE.get(), 1));
@@ -139,7 +140,7 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 
         @Override
         public void onMissileImpact(HitResult mop) {
-            EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija((ServerLevel) level(), getX(), getY(), getZ(), BombConfig.aSchrabRadius.get());
+            EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija((ServerLevel) level(), getX(), getY(), getZ(), BombConfig.A_SCHRAB_RADIUS);
             if (!ex.isRemoved()) {
                 WorldUtil.loadAndSpawnEntityInWorld(ex);
                 EntityCloudFleija cloud = new EntityCloudFleija(ModEntities.CLOUD_FLEIJA.get(), level());
@@ -250,12 +251,6 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
         @Override
         public ItemStack getMissileItemForInfo() {
             return new ItemStack(ModItems.MISSILE_EMP.get());
-        }
-    }
-
-    private static class MathHelper {
-        public static double clamp(double value, double min, double max) {
-            return Math.max(min, Math.min(max, value));
         }
     }
 }

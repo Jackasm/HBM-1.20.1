@@ -42,7 +42,7 @@ public class BlockGraphiteFuel extends BlockGraphiteDrilledTE implements IToolab
         int meta = getMeta(state);
         TileEntityPileFuel pile = new TileEntityPileFuel(pos, state);
         if ((meta & 8) != 0) {
-            pile.progress = TileEntityPileFuel.maxProgress - 1000;
+            pile.progress = TileEntityPileFuel.getMaxProgress() - 1000;
         }
         return pile;
     }
@@ -76,7 +76,7 @@ public class BlockGraphiteFuel extends BlockGraphiteDrilledTE implements IToolab
     @Override
     public int getAnalogOutputSignal(@NotNull BlockState state, Level level, @NotNull BlockPos pos) {
         if (level.getBlockEntity(pos) instanceof TileEntityPileFuel pile) {
-            return (int) Math.min((pile.progress * 15.0F) / (TileEntityPileFuel.maxProgress - 1000), 15);
+            return (int) Math.min((pile.progress * 15.0F) / (TileEntityPileFuel.getMaxProgress() - 1000), 15);
         }
         return 0;
     }
@@ -101,7 +101,7 @@ public class BlockGraphiteFuel extends BlockGraphiteDrilledTE implements IToolab
                             .withStyle(ChatFormatting.GOLD));
                     player.sendSystemMessage(Component.literal("HEAT: " + pile.heat + "/" + TileEntityPileFuel.maxHeat)
                             .withStyle(ChatFormatting.YELLOW));
-                    player.sendSystemMessage(Component.literal("DEPLETION: " + pile.progress + "/" + TileEntityPileFuel.maxProgress)
+                    player.sendSystemMessage(Component.literal("DEPLETION: " + pile.progress + "/" + TileEntityPileFuel.getMaxProgress())
                             .withStyle(ChatFormatting.YELLOW));
                     player.sendSystemMessage(Component.literal("FLUX: " + pile.lastNeutrons)
                             .withStyle(ChatFormatting.YELLOW));

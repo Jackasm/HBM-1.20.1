@@ -2,7 +2,6 @@ package com.hbm.blocks.machine;
 
 import com.hbm.api.block.IToolable;
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.fluid.FluidTypeHBM;
@@ -13,11 +12,6 @@ import com.hbm.render.overlay.OverlaySection;
 import com.hbm.tileentity.ModTileEntity;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityHeaterOilburner;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -26,9 +20,8 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -39,7 +32,6 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
@@ -116,7 +108,7 @@ public class HeaterOilburner extends BlockDummyable implements ILookOverlay, ITo
     }
 
     @Override
-    protected void fillSpace(Level level, BlockPos pos, BlockPos corePos, Direction dir) {
+    protected void fillSpace(LevelAccessor level, BlockPos pos, BlockPos corePos, Direction dir) {
         super.fillSpace(level, pos, corePos, dir);
 
         int x = corePos.getX();
@@ -129,14 +121,6 @@ public class HeaterOilburner extends BlockDummyable implements ILookOverlay, ITo
         makeExtra(level, new BlockPos(x, y, z + 1));
         makeExtra(level, new BlockPos(x, y, z - 1));
         makeExtra(level, new BlockPos(x, y + 1, z));
-    }
-
-    @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        Player player = Minecraft.getInstance().player;
-        if (player != null) {
-            addStandardInfo(stack, player, tooltip, flag.isAdvanced());
-        }
     }
 
     @Override
@@ -181,41 +165,6 @@ public class HeaterOilburner extends BlockDummyable implements ILookOverlay, ITo
         return new ItemStack(this);
     }
 
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void drawHighlight(PoseStack poseStack, MultiBufferSource bufferSource, Level level, BlockPos pos) {
-        // Находим ядро мультиблока
-        BlockPos core = findCore(level, pos);
-        if (core == null) return;
-
-        BlockState state = level.getBlockState(core);
-        Direction rot = state.getValue(FACING);
-
-        // Получаем позицию камеры для правильного смещения
-        Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
-
-        poseStack.pushPose();
-        poseStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
-
-        VertexConsumer consumer = bufferSource.getBuffer(RenderType.lines());
-
-        // Получаем боксы для выделения
-        List<AABB> boxes = getHighlightBoxes(level, core, rot);
-
-        for (AABB box : boxes) {
-            ICustomBlockHighlight.renderAABB(poseStack, consumer, box, 0.0F, 1.0F, 0.0F, 0.4F);
-        }
-
-        poseStack.popPose();
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean shouldDrawHighlight(Level level, BlockPos pos) {
-        return true;
-    }
-
-    @OnlyIn(Dist.CLIENT)
     public List<AABB> getHighlightBoxes(Level level, BlockPos corePos, Direction rotation) {
         List<AABB> boxes = new ArrayList<>();
 
@@ -247,11 +196,6 @@ public class HeaterOilburner extends BlockDummyable implements ILookOverlay, ITo
         }
 
         return boxes;
-    }
-
-    @Override
-    public void addInformation(ItemStack stack, Player player, List list, boolean ext) {
-        this.addStandardInfo(stack, player, list, ext);
     }
 
     public static Block.Properties createProperties() {

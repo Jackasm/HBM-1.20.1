@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class RenderBlastFurnace implements BlockEntityRenderer<TileEntityBlastFurnace> {
 
-    public RenderBlastFurnace(BlockEntityRendererProvider.Context context) {}
+    public RenderBlastFurnace(BlockEntityRendererProvider.Context ignoredContext) {}
 
     @Override
     public void render(@NotNull TileEntityBlastFurnace furnace, float partialTick, @NotNull PoseStack poseStack,
@@ -34,7 +34,7 @@ public class RenderBlastFurnace implements BlockEntityRenderer<TileEntityBlastFu
             case EAST -> 180f;
             default -> 270f;
         };
-        //packedLight = 0xF000F0;
+
 
         // Выбираем текстуру в зависимости от состояния
         ResourceLocation furnaceTex = isLit ?

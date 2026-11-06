@@ -34,6 +34,8 @@ public class EntityShrapnel extends ThrowableItemProjectile {
     public static final byte TYPE_WATZ = 3;
     public static final byte TYPE_RAD_VOLCANO = 4;
 
+    private int maxAge = 200;
+
     public EntityShrapnel(EntityType<? extends EntityShrapnel> type, Level level) {
         super(type, level);
         this.setNoGravity(true);
@@ -68,9 +70,18 @@ public class EntityShrapnel extends ThrowableItemProjectile {
         this.entityData.define(TRAIL_TYPE, (byte) 0);
     }
 
+    public void setMaxAge(int age) {
+        this.maxAge = age;
+    }
+
     @Override
     public void tick() {
         super.tick();
+
+        if (this.tickCount >= maxAge) {
+            this.discard();
+            return;
+        }
 
         if (level().isClientSide && this.getTrailType() == 1) {
             level().addParticle(net.minecraft.core.particles.ParticleTypes.FLAME,

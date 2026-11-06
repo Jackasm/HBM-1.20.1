@@ -155,7 +155,7 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
         ServerLevel prevWorld = player.server.getLevel(player.level().dimension());
         ServerLevel newWorld = player.server.getLevel(net.minecraft.resources.ResourceKey.create(
                 net.minecraft.core.registries.Registries.DIMENSION,
-                ResourceLocation.parse("minecraft:overworld")
+                new ResourceLocation("minecraft:overworld")
         ));
 
         // Ищем мир по хешу измерения

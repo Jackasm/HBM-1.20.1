@@ -1,8 +1,6 @@
 package com.hbm.items.tool;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockConcreteColoredExt;
-
 import com.hbm.inventory.container.ContainerRebarPlacer;
 import com.hbm.inventory.recipes.common.ComparableStack;
 import com.hbm.items.ItemInventory;
@@ -10,7 +8,6 @@ import com.hbm.tileentity.block.TileEntityRebar;
 import com.hbm.util.ChatBuilder;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.ItemStackUtil;
-import com.hbm.util.Tuple.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -42,30 +39,50 @@ import java.util.Objects;
 
 public class ItemRebarPlacer extends Item {
 
-    public static List<Pair<Block, Integer>> acceptableConk = new ArrayList<>();
+    public static List<Block> acceptableConk = new ArrayList<>();
 
     static {
-        acceptableConk.add(new Pair<>(ModBlocks.CONCRETE.get(), 0));
-        acceptableConk.add(new Pair<>(ModBlocks.CONCRETE_REBAR.get(), 0));
-        acceptableConk.add(new Pair<>(ModBlocks.CONCRETE_SMOOTH.get(), 0));
-        acceptableConk.add(new Pair<>(ModBlocks.CONCRETE_PILLAR.get(), 0));
-        for (int i = 0; i < 16; i++) {
-            acceptableConk.add(new Pair<>(ModBlocks.CONCRETE_COLORED.get(), i));
-        }
-        for (int i = 0; i < BlockConcreteColoredExt.EnumConcreteType.values().length; i++) {
-            acceptableConk.add(new Pair<>(ModBlocks.CONCRETE_COLORED_EXT.get(), i));
-        }
+        acceptableConk.add(ModBlocks.CONCRETE.get());
+        acceptableConk.add(ModBlocks.CONCRETE_REBAR.get());
+        acceptableConk.add(ModBlocks.CONCRETE_SMOOTH.get());
+        acceptableConk.add(ModBlocks.CONCRETE_PILLAR.get());
+
+        // обычный бетон, 16 цветов
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_WHITE.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_ORANGE.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_MAGENTA.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_LIGHT_BLUE.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_YELLOW.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_LIME.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_PINK.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_GRAY.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_LIGHT_GRAY.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_CYAN.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_PURPLE.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_BLUE.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_BROWN.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_GREEN.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_RED.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_BLACK.get());
+
+        // ext, 8 типов
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_EXT_MACHINE.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_EXT_MACHINE_STRIPE.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_EXT_INDIGO.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_EXT_PURPLE.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_EXT_PINK.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_EXT_HAZARD.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_EXT_SAND.get());
+        acceptableConk.add(ModBlocks.CONCRETE_COLORED_EXT_BRONZE.get());
     }
 
     public ItemRebarPlacer(Properties properties) {
         super(properties);
     }
 
-    public static boolean isValidConk(Item item, int meta) {
-        for (Pair<Block, Integer> conk : acceptableConk) {
-            if (item == conk.key().asItem() && meta == conk.value()) {
-                return true;
-            }
+    public static boolean isValidConk(Item item) {
+        for (Block block : acceptableConk) {
+            if (item == block.asItem()) return true;
         }
         return false;
     }
@@ -76,7 +93,7 @@ public class ItemRebarPlacer extends Item {
         CompoundTag tag = stack.getTag();
         if (Objects.requireNonNull(tag).contains("pos")) {
             ItemStack theConk = Objects.requireNonNull(ItemStackUtil.readStacksFromNBT(stack, 1))[0];
-            if (!selected || theConk == null || !isValidConk(theConk.getItem(), theConk.getDamageValue())) {
+            if (!selected || theConk.isEmpty() || !isValidConk(theConk.getItem())) {
                 tag.remove("pos");
             }
         }
@@ -117,7 +134,7 @@ public class ItemRebarPlacer extends Item {
         }
 
         ItemStack theConk = Objects.requireNonNull(ItemStackUtil.readStacksFromNBT(stack, 1))[0];
-        boolean hasConk = theConk != null && isValidConk(theConk.getItem(), theConk.getDamageValue());
+        boolean hasConk = !theConk.isEmpty() && isValidConk(theConk.getItem());
 
         if (!hasConk) {
             player.displayClientMessage(
@@ -175,7 +192,7 @@ public class ItemRebarPlacer extends Item {
                             level.setBlock(currentPos, ModBlocks.REBAR.get().defaultBlockState(), 3);
                             BlockEntity te = level.getBlockEntity(currentPos);
                             if (te instanceof TileEntityRebar rebarTile) {
-                                rebarTile.setup(Block.byItem(theConk.getItem()), theConk.getDamageValue());
+                                rebarTile.setup(Block.byItem(theConk.getItem()));
                             }
                             rebarUsed++;
                             rebarLeft--;

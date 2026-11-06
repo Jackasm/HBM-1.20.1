@@ -1,0 +1,8 @@
+{
+  "values": [
+    "hbm:deco/steel_scaffold_steel",
+    "hbm:deco/steel_scaffold_red",
+    "hbm:deco/steel_scaffold_white",
+    "hbm:deco/steel_scaffold_yellow"
+  ]
+}

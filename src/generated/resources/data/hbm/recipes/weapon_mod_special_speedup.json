@@ -18,7 +18,7 @@
     "PIP"
   ],
   "result": {
-    "item": "hbm:weapon_mod_speedup"
+    "item": "hbm:weapon_mod_special_speedup"
   },
   "show_notification": true
 }

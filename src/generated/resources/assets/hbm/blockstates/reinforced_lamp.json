@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "hbm:block/reinforced_lamp_off"
+    },
+    "powered=true": {
+      "model": "hbm:block/reinforced_lamp_on"
+    }
+  }
+}

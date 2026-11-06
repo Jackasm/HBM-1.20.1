@@ -2,8 +2,6 @@ package com.hbm.entity.item;
 
 import com.hbm.blocks.ModBlocks;
 
-import com.hbm.handler.radiation.RadiationEvents;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -38,12 +36,12 @@ public class EntityItemWaste extends ItemEntity {
 
     @Override
     public boolean isInvulnerable() {
-        return true; // Полная неуязвимость
+        return true; // РџРѕР»РЅР°СЏ РЅРµСѓСЏР·РІРёРјРѕСЃС‚СЊ
     }
 
     @Override
     public boolean hurt(@NotNull DamageSource source, float amount) {
-        return false; // Никакой урон не проходит
+        return false; // РќРёРєР°РєРѕР№ СѓСЂРѕРЅ РЅРµ РїСЂРѕС…РѕРґРёС‚
     }
 
     @Override
@@ -54,9 +52,9 @@ public class EntityItemWaste extends ItemEntity {
             int age = this.entityData.get(AGE);
             this.entityData.set(AGE, age + 1);
 
-            // Радиация
-            BlockPos pos = BlockPos.containing(this.getX(), this.getY(), this.getZ());
-            RadiationEvents.incrementRadiation(this.level(), pos, 0.5F);
+            // Р Р°РґРёР°С†РёРё РѕС‚ Р»РµР¶Р°С‰РµРіРѕ РјСѓСЃРѕСЂР° РЅРµС‚: РІ 1.7.10 EntityItemWaste С‚РѕР»СЊРєРѕ
+            // Р±РµСЃСЃРјРµСЂС‚РµРЅ, Р° РїРѕР»Рµ РґР°С‘С‚ РїСЂРµРґРјРµС‚ РІ РёРЅРІРµРЅС‚Р°СЂРµ Рё Р±Р»РѕРє РїРѕСЃР»Рµ РѕСЃС‚С‹РІР°РЅРёСЏ.
+            // РџРѕСЂС‚ РґРѕР±Р°РІР»СЏР» +0.5 РІ С‚РёРє СЃРІРµСЂС… РѕСЂРёРіРёРЅР°Р»Р° (#61).
 
             if (age > 10 * 60 * 20) {
                 ItemStack stack = new ItemStack(ModBlocks.WASTE_TRINITITE.get().asItem());

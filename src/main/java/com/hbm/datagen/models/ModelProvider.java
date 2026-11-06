@@ -1,5 +1,6 @@
 package com.hbm.datagen.models;
 
+import com.google.gson.JsonObject;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModAmmoItems;
 import com.hbm.items.ModArmorItems;
@@ -13,7 +14,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -40,6 +43,14 @@ public class ModelProvider implements DataProvider {
 
             switch (type) {
                 case AIR -> generator.generateAir(block);
+                case RAIL -> {
+                    String texture = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
+                    generator.generateRail(block, texture);
+                }
+                case LADDER -> {
+                    String texture = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
+                    generator.generateLadder(block, texture);
+                }
                 case MULTIBLOCK -> {
                     String objPath = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
                     String texturePath = data.length > 1 ? (String) data[1] : objPath;
@@ -58,7 +69,33 @@ public class ModelProvider implements DataProvider {
                     String particleTex = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
                     generator.generateModelItemStatic(block, particleTex);
                 }
-                case ENTITYBLOCK_ANIMATED -> generator.generateEntityBlockAnimated(block);
+                case CHAIN -> {
+                    String texture = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
+                    generator.generateChain(block, texture);
+                }
+                case TRAPDOOR -> {
+                    String texture = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
+                    generator.generateTrapdoor(block, texture);
+                }
+                case ENTITYBLOCK_ANIMATED -> {
+                    String texture = data.length > 0 && data[0] instanceof String
+                            ? (String) data[0]
+                            : Objects.requireNonNull(blockReg.getId()).getPath();
+
+                    Class<? extends Enum<?>> enumClass = null;
+                    for (Object o : data) {
+                        if (o instanceof Class<?> c && c.isEnum()) {
+                            enumClass = (Class<? extends Enum<?>>) c;
+                            break;
+                        }
+                    }
+
+                    if (enumClass != null) {
+                        generator.generateEntityBlockAnimatedEnum(block, texture, enumClass);
+                    } else {
+                        generator.generateEntityBlockAnimated(block, texture);
+                    }
+                }
                 case CUBE_ALL -> {
                     String texture = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
                     generator.generateCubeAll(new Object[][]{{block, texture}});
@@ -70,6 +107,13 @@ public class ModelProvider implements DataProvider {
                     String bottomTex = data.length > 3 ? (String) data[3] : sideTex;
                     generator.generateCubeFrontSide(block, frontTex, sideTex, topTex, bottomTex);
                 }
+                case CUBE_FRONT_SIDE_HORIZONTAL -> {
+                    String frontTex = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath() + "_front";
+                    String sideTex = data.length > 1 ? (String) data[1] : Objects.requireNonNull(blockReg.getId()).getPath() + "_side";
+                    String topTex = data.length > 2 ? (String) data[2] : Objects.requireNonNull(blockReg.getId()).getPath() + "_top";
+                    String bottomTex = data.length > 3 ? (String) data[3] : sideTex;
+                    generator.generateCubeFrontSideHorizontal(block, frontTex, sideTex, topTex, bottomTex);
+                }
                 case CUBE_ALL_TRANSLUCENT -> {
                     String texture = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
                     generator.generateCubeAllTranslucent(new Object[][]{{block, texture}});
@@ -78,6 +122,12 @@ public class ModelProvider implements DataProvider {
                     String offTex = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath() + "_off";
                     String onTex = data.length > 1 ? (String) data[1] : Objects.requireNonNull(blockReg.getId()).getPath() + "_on";
                     generator.generateCubeAllSwitch(block, offTex, onTex);
+                }
+                case PANE -> {
+                    String paneTex = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
+                    String edgeTex = data.length > 1 ? (String) data[1] : paneTex + "_edge";
+                    String renderType = data.length > 2 ? (String) data[2] : null;
+                    generator.generatePane(block, paneTex, edgeTex, renderType);
                 }
                 case BLAST_FURNACE -> {
                     String side = data.length > 0 ? (String) data[0] : "blast_furnace_side_alt";
@@ -100,9 +150,13 @@ public class ModelProvider implements DataProvider {
                     String texture = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
                     generator.generateCross(block, texture);
                 }
-                case DECO_CT -> {
+                case DECO_CT, CT -> {
                     String texture = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
-                    generator.generateDecoCT(block, texture);
+                    generator.generateCT(block, texture);
+                }
+                case CT_TRANSLUCENT -> {
+                    String texture = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
+                    generator.generateCT(block, texture, true);
                 }
                 case CUBE_TOP_BOTTOM -> {
                     String sideTex = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath() + "_side";
@@ -131,8 +185,10 @@ public class ModelProvider implements DataProvider {
                     generator.generateEnumObj(block, objPrefix, enumClass);
                 }
                 case STATIC_OBJ -> {
-                    String objName = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
-                    generator.generateStaticObjBlock(block, objName);
+                    String blockName = Objects.requireNonNull(blockReg.getId()).getPath();
+                    String objName = data.length > 0 ? (String) data[0] : blockName;
+                    String particleTexture = data.length > 1 ? (String) data[1] : blockName;
+                    generator.generateStaticObjBlock(block, objName, particleTexture);
                 }
                 case DOOR -> {
                     String texName = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
@@ -188,6 +244,14 @@ public class ModelProvider implements DataProvider {
                     generator.generateBedrockOre(block, baseTex, overlayPrefix);
                 }
                 case CONCRETE_SUPER -> generator.generateConcreteSuper(block);
+                case STAIRS -> {
+                    String textureName = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
+                    generator.generateStairs(block, textureName);
+                }
+                case SLAB -> {
+                    String texture = data.length > 0 ? (String) data[0] : Objects.requireNonNull(blockReg.getId()).getPath();
+                    generator.generateSlab(block, texture);
+                }
                 case NONE -> {}
             }
         }
@@ -197,12 +261,24 @@ public class ModelProvider implements DataProvider {
         processItemModels(ModToolItems.TOOLS_MODELS, ModToolItems.TOOLS_MODEL_DATA, itemGen);
         processItemModels(ModArmorItems.ARMOR_MODELS, ModArmorItems.ARMOR_MODEL_DATA, itemGen);
 
-        List<CompletableFuture<?>> futures = new ArrayList<>();
+        // Один путь — одна запись. Item-модель осознанно перекрывает блочную
+        // (например, FALLOUT: блок без BlockItem, а предмету нужна своя иконка),
+        // вместо асинхронной гонки двух записей в один файл.
+        Map<Path, JsonObject> models = new LinkedHashMap<>();
         for (BlockModelGenerator.JsonEntry entry : generator.getEntries()) {
-            futures.add(DataProvider.saveStable(cache, entry.json(), entry.path()));
+            models.put(entry.path().toAbsolutePath().normalize(), entry.json());
         }
         for (ItemModelGenerator.JsonEntry entry : itemGen.getEntries()) {
-            futures.add(DataProvider.saveStable(cache, entry.json(), entry.path()));
+            Path path = entry.path().toAbsolutePath().normalize();
+            if (models.containsKey(path)) {
+                System.out.println("[HBM][Models] item model overrides block model: " + path);
+            }
+            models.put(path, entry.json());
+        }
+
+        List<CompletableFuture<?>> futures = new ArrayList<>();
+        for (Map.Entry<Path, JsonObject> entry : models.entrySet()) {
+            futures.add(DataProvider.saveStable(cache, entry.getValue(), entry.getKey()));
         }
 
         return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));

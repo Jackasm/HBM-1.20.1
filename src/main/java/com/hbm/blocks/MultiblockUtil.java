@@ -2,7 +2,7 @@ package com.hbm.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -25,7 +25,7 @@ public class MultiblockUtil {
      * @param dir      направление взгляда
      * @return true если место свободно
      */
-    public static boolean checkSpace(Level level, BlockPos corePos, int[] dim, BlockPos source, Direction dir) {
+    public static boolean checkSpace(LevelAccessor level, BlockPos corePos, int[] dim, BlockPos source, Direction dir) {
         if (dim == null || dim.length != 6) return false;
 
         int count = 0;
@@ -45,7 +45,6 @@ public class MultiblockUtil {
 
                     count++;
                     if (count > 2000) {
-                        System.out.println("checkspace: ded " + checkPos);
                         return false;
                     }
                 }
@@ -63,9 +62,7 @@ public class MultiblockUtil {
      * @param block    блок-заглушка (обычно BlockDummyable)
      * @param dir      направление
      */
-    public static void fillSpace(Level level, BlockPos corePos, int[] dim, Block block, Direction dir) {
-
-        if (level.isClientSide) return;
+    public static void fillSpace(LevelAccessor level, BlockPos corePos, int[] dim, Block block, Direction dir) {
         if (dim == null || dim.length != 6) return;
 
         int count = 0;
@@ -84,15 +81,22 @@ public class MultiblockUtil {
                     Direction side = getSide(corePos, pos);
 
                     if (side != null) {
-                        // Устанавливаем заглушку с правильным направлением
                         BlockState dummyState = ((BlockDummyable) block).getDummyState(side);
                         level.setBlock(pos, dummyState, 3);
 
+                        // Заглушке своя BE не нужна, но «висячая» появляется двумя путями:
+                        // 1) в живом мире setBlock не удаляет BE, если тип блока не менялся
+                        //    (ядро, ставшее заглушкой);
+                        // 2) при генерации WorldGenRegion.setBlock пишет на любое состояние с
+                        //    hasBlockEntity() отложенный тег id=DUMMY, а newBlockEntity у
+                        //    заглушек возвращает null — на загрузке чанка это давало
+                        //    «Tried to load a block entity … but failed» на каждую заглушку (#204).
+                        // Чистим ПОСЛЕ setBlock: до него убирать нечего, тег пишет сам setBlock.
+                        level.getChunk(pos).removeBlockEntity(pos);
                     }
 
                     count++;
                     if (count > 2000) {
-                        System.out.println("fillspace: ded " + pos);
                         BlockDummyable.setSafeRem(false);
                         return;
                     }

@@ -1,7 +1,6 @@
 package com.hbm.blocks.generic;
 
 import com.hbm.blocks.IBlockMulti;
-import com.hbm.datagen.worldgen.nbt.INBTBlockTransformable;
 import com.hbm.items.block.ItemPlushie;
 import com.hbm.sound.ModSounds;
 import com.hbm.tileentity.ModTileEntity;
@@ -46,7 +45,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class BlockPlushie extends BaseEntityBlock implements IBlockMulti, INBTBlockTransformable {
+public class BlockPlushie extends BaseEntityBlock implements IBlockMulti {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     private static final VoxelShape SHAPE = Shapes.box(0.25D, 0.0D, 0.25D, 0.75D, 0.75D, 0.75D);
@@ -198,14 +197,6 @@ public class BlockPlushie extends BaseEntityBlock implements IBlockMulti, INBTBl
         }
     }
 
-    @Override
-    public BlockState transformState(BlockState state, int rotation) {
-        Direction facing = state.getValue(FACING);
-        for (int i = 0; i < rotation; i++) {
-            facing = facing.getClockWise();
-        }
-        return state.setValue(FACING, facing);
-    }
 
     public static Properties createProperties() {
         return Properties.of()

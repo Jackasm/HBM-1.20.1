@@ -1,0 +1,15 @@
+{
+  "type": "hbm:ore_layer_3d",
+  "config": {
+    "id": 2,
+    "scale_h": 0.1,
+    "scale_v": 0.15,
+    "state": {
+      "Name": "hbm:stone_resource",
+      "Properties": {
+        "type": "malachite"
+      }
+    },
+    "threshold": 275.0
+  }
+}

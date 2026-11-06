@@ -1,7 +1,9 @@
 package com.hbm.creativetabs;
 
+import com.hbm.blocks.generic.BlockBobble;
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.items.ModItems;
+import com.hbm.items.deco.ItemBobble;
 import com.hbm.items.special.ItemBedrockOreNew;
 import com.hbm.util.HBMEnums;
 import net.minecraft.network.chat.Component;
@@ -14,6 +16,11 @@ public class PartsTab {
                 .icon(() -> ModItems.INGOT_URANIUM.get().getDefaultInstance())
                 .displayItems((parameters, output) -> {
                     TabContentProvider.addItemsToTab(HBMEnums.CreativeTabRegistry.PARTS_TAB, output);
+
+                    for (BlockBobble.BobbleType type : BlockBobble.BobbleType.values()) {
+                        if (type == BlockBobble.BobbleType.NONE) continue;
+                        output.accept(ItemBobble.withType(type));
+                    }
 
                     ItemEnumMulti powderAsh = (ItemEnumMulti) ModItems.POWDER_ASH.get();
                     for (Object enumConstant : powderAsh.theEnum.getEnumConstants()) {

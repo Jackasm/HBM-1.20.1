@@ -1,0 +1,15 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 123456789,
+    "separation": 0,
+    "spacing": 1,
+    "spread_type": "linear"
+  },
+  "structures": [
+    {
+      "structure": "hbm:ore_cave_sulfur",
+      "weight": 1
+    }
+  ]
+}

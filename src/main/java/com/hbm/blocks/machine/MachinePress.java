@@ -2,16 +2,10 @@ package com.hbm.blocks.machine;
 
 import com.hbm.api.block.IToolable;
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.items.tool.ItemTooling;
 import com.hbm.tileentity.ModTileEntity;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachinePress;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -34,12 +28,9 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -188,37 +179,6 @@ public class MachinePress extends BlockDummyable implements IToolable {
         return 0; // ядро на месте установки (не смещено)
     }
 
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void drawHighlight(PoseStack poseStack, MultiBufferSource bufferSource, Level level, BlockPos pos) {
-        BlockPos core = findCore(level, pos);
-        if (core == null) return;
-
-        BlockState state = level.getBlockState(core);
-        Direction rot = state.getValue(FACING);
-
-        Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
-
-        poseStack.pushPose();
-        poseStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
-
-        VertexConsumer consumer = bufferSource.getBuffer(RenderType.lines());
-        List<AABB> boxes = getHighlightBoxes(level, core, rot);
-
-        for (AABB box : boxes) {
-            ICustomBlockHighlight.renderAABB(poseStack, consumer, box, 0.0F, 1.0F, 0.0F, 0.4F);
-        }
-
-        poseStack.popPose();
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean shouldDrawHighlight(Level level, BlockPos pos) {
-        return true;
-    }
-
-    @OnlyIn(Dist.CLIENT)
     public List<AABB> getHighlightBoxes(Level level, BlockPos corePos, Direction rotation) {
         List<AABB> boxes = new ArrayList<>();
         // Пресс 1×3×1 (ширина 1, высота 3, глубина 1) - просто вертикальная колонна

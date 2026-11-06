@@ -148,6 +148,14 @@ public abstract class NodeNet<R, P, L extends GenNode> {
     }
 
     /**
+     * Сбрасывает счётчики трафика сети. Вызывается каждый тик до {@link #tick()};
+     * сети переопределяют под свои счётчики — без этого гейджи показывают
+     * накопленное значение и растут квадратично.
+     */
+    public void resetTrackers() {
+    }
+
+    /**
      * Called every tick to update network state
      */
     public abstract void tick();

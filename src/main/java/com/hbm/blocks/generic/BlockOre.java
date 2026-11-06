@@ -1,5 +1,6 @@
 package com.hbm.blocks.generic;
 
+import com.hbm.blocks.IRadiationSource;
 import com.hbm.blocks.ModBlocks;
 
 
@@ -38,7 +39,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 
-public class BlockOre extends Block {
+public class BlockOre extends Block implements IRadiationSource {
 
     private float rad = 0.0F;
     private boolean radChecked = false;
@@ -236,16 +237,30 @@ public class BlockOre extends Block {
 
     @Override
     public void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
-        if (!radChecked) {
-            ItemStack stack = new ItemStack(this);
-            this.rad = HazardSystem.getHazardLevelFromStack(stack, HazardRegistry.RADIATION) * 0.2F;
-            radChecked = true;
-        }
+        checkRad();
 
         if (this.rad > 0) {
             RadiationEvents.incrementRadiation(level, pos, rad);
             level.scheduleTick(pos, this, this.getTickRate(level));
         }
+    }
+
+    /** Радиация блока считается один раз по реестру hazard, а не в каждом тике. */
+    private void checkRad() {
+        if (radChecked) return;
+        ItemStack stack = new ItemStack(this);
+        this.rad = HazardSystem.getHazardLevelFromStack(stack, HazardRegistry.RADIATION) * 0.2F;
+        radChecked = true;
+    }
+
+    /**
+     * #198: блоки, поставленные генерацией, не получают {@code onPlace} —
+     * {@code RadiationSourceTicker} спрашивает этот флаг при загрузке чанка.
+     */
+    @Override
+    public boolean emitsRadiation() {
+        checkRad();
+        return this.rad > 0;
     }
 
     @Override

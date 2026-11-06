@@ -1,0 +1,14 @@
+{
+  "type": "hbm:simple_nbt",
+  "conform": true,
+  "height_offset": -1,
+  "max_height": 128,
+  "min_height": 1,
+  "nbt_file": "ntmruins_c",
+  "settings": {
+    "biomes": "#hbm:ruins_biomes",
+    "spawn_overrides": {},
+    "step": "surface_structures",
+    "terrain_adaptation": "none"
+  }
+}

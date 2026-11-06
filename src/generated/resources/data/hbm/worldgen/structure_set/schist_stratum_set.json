@@ -1,0 +1,15 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 777777777,
+    "separation": 0,
+    "spacing": 1,
+    "spread_type": "linear"
+  },
+  "structures": [
+    {
+      "structure": "hbm:schist_stratum",
+      "weight": 1
+    }
+  ]
+}

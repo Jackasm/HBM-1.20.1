@@ -19,6 +19,7 @@ import com.hbm.entity.particle.EntityOrangeFX;
 import com.hbm.entity.particle.EntityPinkCloudFX;
 import com.hbm.entity.projectile.*;
 import com.hbm.util.RefStrings;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.registries.DeferredRegister;
@@ -607,6 +608,18 @@ public class ModEntities {
                     .clientTrackingRange(64)
                     .build("quackos"));
 
+    public static final RegistryObject<EntityType<EntityPigeon>> PIGEON = ENTITIES.register("pigeon",
+            () -> EntityType.Builder.<EntityPigeon>of(EntityPigeon::new, MobCategory.CREATURE)
+                    .sized(0.5F, 1.0F)
+                    .clientTrackingRange(10)
+                    .build("pigeon"));
+
+    public static final RegistryObject<EntityType<EntityPlasticBag>> PLASTIC_BAG = ENTITIES.register("plastic_bag",
+            () -> EntityType.Builder.<EntityPlasticBag>of(EntityPlasticBag::new, MobCategory.WATER_CREATURE)
+                    .sized(0.45F, 0.45F)
+                    .clientTrackingRange(10)
+                    .build("plastic_bag"));
+
     public static final RegistryObject<EntityType<EntityDuck>> DUCK = ENTITIES.register("duck",
             () -> EntityType.Builder.<EntityDuck>of(EntityDuck::new, MobCategory.CREATURE)
                     .sized(0.4F, 0.7F)
@@ -773,120 +786,104 @@ public class ModEntities {
                     .build("bot_prime_body")
     );
 
-    // Tier 0
+    // ============================================================
+    // TIER 0
+    // ============================================================
     public static final RegistryObject<EntityType<EntityMissileTest>> MISSILE_TEST =
-            ENTITIES.register("missile_test", () -> EntityType.Builder.<EntityMissileTest>of(
-                    EntityMissileTest::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_test"));
+            registerMissile("missile_test", EntityMissileTest::new);
 
     public static final RegistryObject<EntityType<EntityMissileMicro>> MISSILE_MICRO =
-            ENTITIES.register("missile_micro", () -> EntityType.Builder.<EntityMissileMicro>of(
-                    EntityMissileMicro::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_micro"));
+            registerMissile("missile_micro", EntityMissileMicro::new);
 
     public static final RegistryObject<EntityType<EntityMissileSchrabidium>> MISSILE_SCHRABIDIUM =
-            ENTITIES.register("missile_schrabidium", () -> EntityType.Builder.<EntityMissileSchrabidium>of(
-                    EntityMissileSchrabidium::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_schrabidium"));
+            registerMissile("missile_schrabidium", EntityMissileSchrabidium::new);
 
     public static final RegistryObject<EntityType<EntityMissileBHole>> MISSILE_BHOLE =
-            ENTITIES.register("missile_bhole", () -> EntityType.Builder.<EntityMissileBHole>of(
-                    EntityMissileBHole::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_bhole"));
+            registerMissile("missile_bhole", EntityMissileBHole::new);
 
     public static final RegistryObject<EntityType<EntityMissileTaint>> MISSILE_TAINT =
-            ENTITIES.register("missile_taint", () -> EntityType.Builder.<EntityMissileTaint>of(
-                    EntityMissileTaint::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_taint"));
+            registerMissile("missile_taint", EntityMissileTaint::new);
 
     public static final RegistryObject<EntityType<EntityMissileEMP>> MISSILE_EMP =
-            ENTITIES.register("missile_emp", () -> EntityType.Builder.<EntityMissileEMP>of(
-                    EntityMissileEMP::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_emp"));
+            registerMissile("missile_emp", EntityMissileEMP::new);
 
-    // Tier 1
+    // ============================================================
+    // TIER 1
+    // ============================================================
     public static final RegistryObject<EntityType<EntityMissileGeneric>> MISSILE_GENERIC =
-            ENTITIES.register("missile_generic", () -> EntityType.Builder.<EntityMissileGeneric>of(
-                    EntityMissileGeneric::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_generic"));
+            registerMissile("missile_generic", EntityMissileGeneric::new);
 
     public static final RegistryObject<EntityType<EntityMissileDecoy>> MISSILE_DECOY =
-            ENTITIES.register("missile_decoy", () -> EntityType.Builder.<EntityMissileDecoy>of(
-                    EntityMissileDecoy::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_decoy"));
+            registerMissile("missile_decoy", EntityMissileDecoy::new);
 
     public static final RegistryObject<EntityType<EntityMissileIncendiary>> MISSILE_INCENDIARY =
-            ENTITIES.register("missile_incendiary", () -> EntityType.Builder.<EntityMissileIncendiary>of(
-                    EntityMissileIncendiary::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_incendiary"));
+            registerMissile("missile_incendiary", EntityMissileIncendiary::new);
 
     public static final RegistryObject<EntityType<EntityMissileCluster>> MISSILE_CLUSTER =
-            ENTITIES.register("missile_cluster", () -> EntityType.Builder.<EntityMissileCluster>of(
-                    EntityMissileCluster::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_cluster"));
+            registerMissile("missile_cluster", EntityMissileCluster::new);
 
     public static final RegistryObject<EntityType<EntityMissileBunkerBuster>> MISSILE_BUSTER =
-            ENTITIES.register("missile_buster", () -> EntityType.Builder.<EntityMissileBunkerBuster>of(
-                    EntityMissileBunkerBuster::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_buster"));
+            registerMissile("missile_buster", EntityMissileBunkerBuster::new);
 
-    // Tier 2
+    // ============================================================
+    // TIER 2
+    // ============================================================
     public static final RegistryObject<EntityType<EntityMissileStrong>> MISSILE_STRONG =
-            ENTITIES.register("missile_strong", () -> EntityType.Builder.<EntityMissileStrong>of(
-                    EntityMissileStrong::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_strong"));
+            registerMissile("missile_strong", EntityMissileStrong::new);
 
     public static final RegistryObject<EntityType<EntityMissileIncendiaryStrong>> MISSILE_INCENDIARY_STRONG =
-            ENTITIES.register("missile_incendiary_strong", () -> EntityType.Builder.<EntityMissileIncendiaryStrong>of(
-                    EntityMissileIncendiaryStrong::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_incendiary_strong"));
+            registerMissile("missile_incendiary_strong", EntityMissileIncendiaryStrong::new);
 
     public static final RegistryObject<EntityType<EntityMissileClusterStrong>> MISSILE_CLUSTER_STRONG =
-            ENTITIES.register("missile_cluster_strong", () -> EntityType.Builder.<EntityMissileClusterStrong>of(
-                    EntityMissileClusterStrong::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_cluster_strong"));
+            registerMissile("missile_cluster_strong", EntityMissileClusterStrong::new);
 
     public static final RegistryObject<EntityType<EntityMissileBusterStrong>> MISSILE_BUSTER_STRONG =
-            ENTITIES.register("missile_buster_strong", () -> EntityType.Builder.<EntityMissileBusterStrong>of(
-                    EntityMissileBusterStrong::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_buster_strong"));
+            registerMissile("missile_buster_strong", EntityMissileBusterStrong::new);
 
-    public static final RegistryObject<EntityType<EntityMissileTier2.EntityMissileEMPStrong>> MISSILE_EMP_STRONG =
-            ENTITIES.register("missile_emp_strong", () -> EntityType.Builder.<EntityMissileTier2.EntityMissileEMPStrong>of(
-                    EntityMissileEMPStrong::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_emp_strong"));
+    public static final RegistryObject<EntityType<EntityMissileEMPStrong>> MISSILE_EMP_STRONG =
+            registerMissile("missile_emp_strong", EntityMissileEMPStrong::new);
 
-    // Tier 3
-    public static final RegistryObject<EntityType<EntityMissileTier3.EntityMissileBurst>> MISSILE_BURST =
-            ENTITIES.register("missile_burst", () -> EntityType.Builder.<EntityMissileTier3.EntityMissileBurst>of(
-                    EntityMissileBurst::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_burst"));
+    // ============================================================
+    // TIER 3
+    // ============================================================
+    public static final RegistryObject<EntityType<EntityMissileBurst>> MISSILE_BURST =
+            registerMissile("missile_burst", EntityMissileBurst::new);
 
-    public static final RegistryObject<EntityType<EntityMissileTier3.EntityMissileInferno>> MISSILE_INFERNO =
-            ENTITIES.register("missile_inferno", () -> EntityType.Builder.<EntityMissileTier3.EntityMissileInferno>of(
-                    EntityMissileInferno::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_inferno"));
+    public static final RegistryObject<EntityType<EntityMissileInferno>> MISSILE_INFERNO =
+            registerMissile("missile_inferno", EntityMissileInferno::new);
 
-    public static final RegistryObject<EntityType<EntityMissileTier3.EntityMissileRain>> MISSILE_RAIN =
-            ENTITIES.register("missile_rain", () -> EntityType.Builder.<EntityMissileTier3.EntityMissileRain>of(
-                    EntityMissileRain::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_rain"));
+    public static final RegistryObject<EntityType<EntityMissileRain>> MISSILE_RAIN =
+            registerMissile("missile_rain", EntityMissileRain::new);
 
-    public static final RegistryObject<EntityType<EntityMissileTier3.EntityMissileDrill>> MISSILE_DRILL =
-            ENTITIES.register("missile_drill", () -> EntityType.Builder.<EntityMissileTier3.EntityMissileDrill>of(
-                    EntityMissileDrill::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_drill"));
+    public static final RegistryObject<EntityType<EntityMissileDrill>> MISSILE_DRILL =
+            registerMissile("missile_drill", EntityMissileDrill::new);
 
-    // Tier 4
-    public static final RegistryObject<EntityType<EntityMissileTier4.EntityMissileNuclear>> MISSILE_NUCLEAR =
-            ENTITIES.register("missile_nuclear", () -> EntityType.Builder.<EntityMissileTier4.EntityMissileNuclear>of(
-                    EntityMissileNuclear::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_nuclear"));
+    // ============================================================
+    // TIER 4
+    // ============================================================
+    public static final RegistryObject<EntityType<EntityMissileNuclear>> MISSILE_NUCLEAR =
+            registerMissile("missile_nuclear", EntityMissileNuclear::new);
 
-    public static final RegistryObject<EntityType<EntityMissileTier4.EntityMissileMirv>> MISSILE_NUCLEAR_CLUSTER =
-            ENTITIES.register("missile_nuclear_cluster", () -> EntityType.Builder.<EntityMissileTier4.EntityMissileMirv>of(
-                    EntityMissileMirv::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_nuclear_cluster"));
+    public static final RegistryObject<EntityType<EntityMissileMirv>> MISSILE_NUCLEAR_CLUSTER =
+            registerMissile("missile_nuclear_cluster", EntityMissileMirv::new);
 
-    public static final RegistryObject<EntityType<EntityMissileTier4.EntityMissileVolcano>> MISSILE_VOLCANO =
-            ENTITIES.register("missile_volcano", () -> EntityType.Builder.<EntityMissileTier4.EntityMissileVolcano>of(
-                    EntityMissileVolcano::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_volcano"));
+    public static final RegistryObject<EntityType<EntityMissileVolcano>> MISSILE_VOLCANO =
+            registerMissile("missile_volcano", EntityMissileVolcano::new);
 
-    public static final RegistryObject<EntityType<EntityMissileTier4.EntityMissileDoomsday>> MISSILE_DOOMSDAY =
-            ENTITIES.register("missile_doomsday", () -> EntityType.Builder.<EntityMissileTier4.EntityMissileDoomsday>of(
-                    EntityMissileDoomsday::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_doomsday"));
+    public static final RegistryObject<EntityType<EntityMissileDoomsday>> MISSILE_DOOMSDAY =
+            registerMissile("missile_doomsday", EntityMissileDoomsday::new);
 
-    public static final RegistryObject<EntityType<EntityMissileTier4.EntityMissileDoomsdayRusted>> MISSILE_DOOMSDAY_RUSTED =
-            ENTITIES.register("missile_doomsday_rusted", () -> EntityType.Builder.<EntityMissileTier4.EntityMissileDoomsdayRusted>of(
-                    EntityMissileDoomsdayRusted::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_doomsday_rusted"));
+    public static final RegistryObject<EntityType<EntityMissileDoomsdayRusted>> MISSILE_DOOMSDAY_RUSTED =
+            registerMissile("missile_doomsday_rusted", EntityMissileDoomsdayRusted::new);
 
-    // Special
+    // ============================================================
+    // SPECIAL
+    // ============================================================
     public static final RegistryObject<EntityType<EntityMissileStealth>> MISSILE_STEALTH =
-            ENTITIES.register("missile_stealth", () -> EntityType.Builder.<EntityMissileStealth>of(
-                    EntityMissileStealth::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_stealth"));
+            registerMissile("missile_stealth", EntityMissileStealth::new);
 
     public static final RegistryObject<EntityType<EntityMissileShuttle>> MISSILE_SHUTTLE =
-            ENTITIES.register("missile_shuttle", () -> EntityType.Builder.<EntityMissileShuttle>of(
-                    EntityMissileShuttle::new, MobCategory.MISC).sized(1.5F, 1.5F).build("missile_shuttle"));
-
+            registerMissile("missile_shuttle", EntityMissileShuttle::new);
 
 
     public static final RegistryObject<EntityType<EntityWaterSplash>> WATER_SPLASH =
@@ -907,4 +904,24 @@ public class ModEntities {
                             .clientTrackingRange(10)
                             .build("flame_pony_painting")
             );
+
+    public static final RegistryObject<EntityType<EntityUndeadSoldier>> UNDEAD_SOLDIER =
+            ENTITIES.register("undead_soldier",
+                    () -> EntityType.Builder.of(EntityUndeadSoldier::new, MobCategory.MONSTER)
+                            .sized(0.6F, 1.95F)
+                            .build(RefStrings.MODID + ":undead_soldier")
+            );
+
+
+
+    private static <T extends Entity> RegistryObject<EntityType<T>> registerMissile(
+            String name, EntityType.EntityFactory<T> factory) {
+        return ENTITIES.register(name, () -> EntityType.Builder
+                .of(factory, MobCategory.MISC)
+                .sized(1.5F, 1.5F)
+                .setTrackingRange(128)
+                .setUpdateInterval(1)
+                .setShouldReceiveVelocityUpdates(true)
+                .build(name));
+    }
 }

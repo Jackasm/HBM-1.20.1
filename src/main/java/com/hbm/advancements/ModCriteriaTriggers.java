@@ -25,6 +25,7 @@ public class ModCriteriaTriggers {
     public static final DeshTrigger DESH = new DeshTrigger();
     public static final TechnetiumTrigger TECHNETIUM = new TechnetiumTrigger();
     public static final BobHiddenTrigger BOB_HIDDEN = new BobHiddenTrigger();
+    public static final RedRoomTrigger RED_ROOM = new RedRoomTrigger();
 
     public static void register() {
         CriteriaTriggers.register(NUCLEAR_CREEPER_DEATH);
@@ -49,5 +50,6 @@ public class ModCriteriaTriggers {
         CriteriaTriggers.register(DESH);
         CriteriaTriggers.register(TECHNETIUM);
         CriteriaTriggers.register(BOB_HIDDEN);
+        CriteriaTriggers.register(RED_ROOM);
     }
 }

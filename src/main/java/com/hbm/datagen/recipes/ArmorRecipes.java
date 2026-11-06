@@ -630,7 +630,7 @@ public class ArmorRecipes {
                 .pattern("PCP")
                 .pattern("SFS")
                 .define('R', ModItems.CRYSTAL_RARE.get())
-                .define('W', ModItems.WIRE_GOLD.get())
+                .define('W', ModItems.WIRE_FINE_GOLD.get())
                 .define('P', ModItems.PLATE_BISMUTH.get())
                 .define('C', ModItems.LASER_CRYSTAL_BISMUTH.get())
                 .define('S', ModItems.RING_STARMETAL.get())
@@ -650,7 +650,7 @@ public class ArmorRecipes {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModArmorItems.BISMUTH_BOOTS.get(), 1)
                 .pattern("W W")
                 .pattern("P P")
-                .define('W', ModItems.WIRE_GOLD.get())
+                .define('W', ModItems.WIRE_FINE_GOLD.get())
                 .define('P', ModItems.PLATE_BISMUTH.get())
                 .unlockedBy("has_bismuth_plate", pHas.apply(ModItems.PLATE_BISMUTH.get()))
                 .save(pWriter, MODID + ":bismuth_boots");

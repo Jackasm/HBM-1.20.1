@@ -1,19 +1,15 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.ModTileEntity;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityBlastFurnace;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -29,9 +26,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
@@ -99,7 +96,7 @@ public class MachineBlastFurnace extends BlockDummyable {
     }
 
     @Override
-    protected void fillSpace(Level level, BlockPos originalPos, BlockPos corePos, Direction dir) {
+    protected void fillSpace(LevelAccessor level, BlockPos originalPos, BlockPos corePos, Direction dir) {
         makeExtra(level, corePos.above());
     }
 
@@ -157,36 +154,8 @@ public class MachineBlastFurnace extends BlockDummyable {
         super.onRemove(state, level, pos, newState, isMoving);
     }
 
-    // ========== HIGHLIGHT ==========
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean shouldDrawHighlight(Level level, BlockPos pos) {
-        return true;
-    }
 
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void drawHighlight(PoseStack poseStack, MultiBufferSource bufferSource, Level level, BlockPos pos) {
-        BlockPos core = findCore(level, pos);
-        if (core == null) return;
-
-        Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
-
-        poseStack.pushPose();
-        poseStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
-
-        VertexConsumer consumer = bufferSource.getBuffer(RenderType.lines());
-        List<AABB> boxes = getHighlightBoxes(level, core);
-
-        for (AABB box : boxes) {
-            ICustomBlockHighlight.renderAABB(poseStack, consumer, box, 0.0F, 1.0F, 0.0F, 0.4F);
-        }
-
-        poseStack.popPose();
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private List<AABB> getHighlightBoxes(Level level, BlockPos corePos) {
+    public List<AABB> getHighlightBoxes(Level level, BlockPos corePos) {
         List<AABB> boxes = new ArrayList<>();
         int[] dim = getDimensions(); // {1, 0, 0, 0, 0, 0}
 
@@ -210,9 +179,47 @@ public class MachineBlastFurnace extends BlockDummyable {
     }
 
     // ========== PARTICLES ==========
-    // Можно оставить пустым, так как частицы лучше рисовать в рендере
+
     @Override
-    public void animateTick(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull net.minecraft.util.RandomSource random) {
-        // Частицы в рендере
+    @OnlyIn(Dist.CLIENT)
+    public void animateTick(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+        if (!state.getValue(LIT)) return;
+
+        Direction facing = state.getValue(FACING);
+        double d0 = pos.getX() + 0.5D;
+        double d1 = pos.getY() + 0.0D + random.nextDouble() * 6.0D / 16.0D;
+        double d2 = pos.getZ() + 0.5D;
+        double d3 = 0.52D;
+        double d4 = random.nextDouble() * 0.6D - 0.3D;
+
+        switch (facing) {
+            case EAST:
+                level.addParticle(ParticleTypes.SMOKE, d0 - d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
+                level.addParticle(ParticleTypes.FLAME, d0 - d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
+                break;
+            case WEST:
+                level.addParticle(ParticleTypes.SMOKE, d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
+                level.addParticle(ParticleTypes.FLAME, d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
+                break;
+            case SOUTH:
+                level.addParticle(ParticleTypes.SMOKE, d0 + d4, d1, d2 - d3, 0.0D, 0.0D, 0.0D);
+                level.addParticle(ParticleTypes.FLAME, d0 + d4, d1, d2 - d3, 0.0D, 0.0D, 0.0D);
+                break;
+            case NORTH:
+                level.addParticle(ParticleTypes.SMOKE, d0 + d4, d1, d2 + d3, 0.0D, 0.0D, 0.0D);
+                level.addParticle(ParticleTypes.FLAME, d0 + d4, d1, d2 + d3, 0.0D, 0.0D, 0.0D);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public static Properties createProperties() {
+        return Properties.of()
+                .mapColor(MapColor.METAL)
+                .strength(5.0F, 10.0F)
+                .requiresCorrectToolForDrops()
+                .noOcclusion()
+                .lightLevel(state -> state.getValue(LIT) ? 13 : 0);
     }
 }

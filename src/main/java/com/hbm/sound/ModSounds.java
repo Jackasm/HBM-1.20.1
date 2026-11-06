@@ -13,6 +13,8 @@ public class ModSounds {
     public static final DeferredRegister<SoundEvent> SOUNDS =
             DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, RefStrings.MODID);
 
+    private static final java.util.Map<String, SoundEvent> SOUND_CACHE = new java.util.HashMap<>();
+
 
     public static final RegistryObject<SoundEvent> FILING_CABINET_OPEN =
             SOUNDS.register("block.filing_cabinet.open",
@@ -263,6 +265,11 @@ public class ModSounds {
             SOUNDS.register("turret.howardreload",
                     () -> SoundEvent.createVariableRangeEvent(
                             ResLocation(RefStrings.MODID, "turret.howardreload")));
+
+    public static final RegistryObject<SoundEvent> TURRET_HOWARD_FIRE =
+            SOUNDS.register("turret.howardfire",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "turret.howardfire")));
 
     public static final RegistryObject<SoundEvent> EXPLOSION_SMALL_NEAR =
             SOUNDS.register("weapon.explosionsmallnear",
@@ -608,9 +615,177 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> BALLS_LASER = SOUNDS.register("balls_laser",
             () -> SoundEvent.createVariableRangeEvent(ResLocation(RefStrings.MODID, "balls_laser")));
 
+    public static final RegistryObject<SoundEvent> ITEM_BATTERY = SOUNDS.register("item_battery",
+            () -> SoundEvent.createVariableRangeEvent(ResLocation(RefStrings.MODID, "item_battery")));
+
+    public static final RegistryObject<SoundEvent> PIN_BREAK = SOUNDS.register("pin_break",
+            () -> SoundEvent.createVariableRangeEvent(ResLocation(RefStrings.MODID, "pin_break")));
+
+    public static final RegistryObject<SoundEvent> FSTBMB_PING = SOUNDS.register("fstbmb_ping",
+            () -> SoundEvent.createVariableRangeEvent(ResLocation(RefStrings.MODID, "fstbmb_ping")));
+
+    // ==================== DOORS ====================
+
+    // Transition Seal
+    public static final RegistryObject<SoundEvent> DOOR_TRANSITION_SEAL_OPEN =
+            SOUNDS.register("door.transition_seal_open",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "door.transition_seal_open")));
+
+    // Sliding Blast Door
+    public static final RegistryObject<SoundEvent> DOOR_SLIDING_DOOR_OPENING =
+            SOUNDS.register("door.sliding_door_opening",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "door.sliding_door_opening")));
+
+    public static final RegistryObject<SoundEvent> DOOR_SLIDING_DOOR_OPENED =
+            SOUNDS.register("door.sliding_door_opened",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "door.sliding_door_opened")));
+
+    public static final RegistryObject<SoundEvent> DOOR_SLIDING_DOOR_SHUT =
+            SOUNDS.register("door.sliding_door_shut",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "door.sliding_door_shut")));
+
+    // Fire Door
+    public static final RegistryObject<SoundEvent> DOOR_WGH_STOP =
+            SOUNDS.register("door.wgh_stop",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "door.wgh_stop")));
+
+    public static final RegistryObject<SoundEvent> DOOR_WGH_START =
+            SOUNDS.register("door.wgh_start",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "door.wgh_start")));
+
+    public static final RegistryObject<SoundEvent> DOOR_ALARM6 =
+            SOUNDS.register("door.alarm6",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "door.alarm6")));
+
+    // Sliding Seal Door
+    public static final RegistryObject<SoundEvent> DOOR_SLIDING_SEAL_STOP =
+            SOUNDS.register("door.sliding_seal_stop",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "door.sliding_seal_stop")));
+
+    public static final RegistryObject<SoundEvent> DOOR_SLIDING_SEAL_OPEN =
+            SOUNDS.register("door.sliding_seal_open",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "door.sliding_seal_open")));
+
+    // Garage/Vehicle/Cargo/Secure
+    public static final RegistryObject<SoundEvent> DOOR_GARAGE_MOVE =
+            SOUNDS.register("door.garage_move",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "door.garage_move")));
+
+    public static final RegistryObject<SoundEvent> DOOR_GARAGE_STOP =
+            SOUNDS.register("door.garage_stop",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "door.garage_stop")));
+
+    // QE Sliding
+    public static final RegistryObject<SoundEvent> DOOR_QE_SLIDING_OPENED =
+            SOUNDS.register("door.qe_sliding_opened",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "door.qe_sliding_opened")));
+
+    public static final RegistryObject<SoundEvent> DOOR_QE_SLIDING_SHUT =
+            SOUNDS.register("door.qe_sliding_shut",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "door.qe_sliding_shut")));
+
+    public static final RegistryObject<SoundEvent> DOOR_QE_SLIDING_OPENING =
+            SOUNDS.register("door.qe_sliding_opening",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "door.qe_sliding_opening")));
+
+    // Water Door / Silo Hatches
+    public static final RegistryObject<SoundEvent> DOOR_WGH_BIG_STOP =
+            SOUNDS.register("door.wgh_big_stop",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "door.wgh_big_stop")));
+
+    public static final RegistryObject<SoundEvent> DOOR_WGH_BIG_START =
+            SOUNDS.register("door.wgh_big_start",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "door.wgh_big_start")));
+
+    public static final RegistryObject<SoundEvent> DOOR_LEVER =
+            SOUNDS.register("door.lever",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "door.lever")));
+
+    // Vault Door
+    public static final RegistryObject<SoundEvent> BLOCK_VAULT_SCRAPE_NEW =
+            SOUNDS.register("block.vault_scrape_new",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "block.vault_scrape_new")));
+
+    public static final RegistryObject<SoundEvent> BLOCK_VAULT_THUD_NEW =
+            SOUNDS.register("block.vault_thud_new",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "block.vault_thud_new")));
+
+    public static final RegistryObject<SoundEvent> CAL_SHOOT =
+            SOUNDS.register("weapon.cal_shoot",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "weapon.cal_shoot")));
+
+    public static final RegistryObject<SoundEvent> TESLA_SHOOT =
+            SOUNDS.register("weapon.tesla_shoot",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "weapon.tesla_shoot")));
+
+    public static final RegistryObject<SoundEvent> HK_SHOOT =
+            SOUNDS.register("weapon.hk_shoot",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "weapon.hk_shoot")));
+
+    public static final RegistryObject<SoundEvent> PADLOCK =
+            SOUNDS.register("block.padlock",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResLocation(RefStrings.MODID, "block.padlock")));
+
+    public static final RegistryObject<SoundEvent> RECORD_LAMBDA_CORE =
+            SOUNDS.register("music.record_lambda_core",
+                    () -> SoundEvent.createVariableRangeEvent(ResLocation(RefStrings.MODID, "music.record_lambda_core")));
+
+    public static final RegistryObject<SoundEvent> RECORD_SECTOR_SWEEP =
+            SOUNDS.register("music.record_sector_sweep",
+                    () -> SoundEvent.createVariableRangeEvent(ResLocation(RefStrings.MODID, "music.record_sector_sweep")));
+
+    public static final RegistryObject<SoundEvent> RECORD_VORTAL_COMBAT =
+            SOUNDS.register("music.record_vortal_combat",
+                    () -> SoundEvent.createVariableRangeEvent(ResLocation(RefStrings.MODID, "music.record_vortal_combat")));
+
+    public static final RegistryObject<SoundEvent> RECORD_TRANSMISSION =
+            SOUNDS.register("music.transmission",
+                    () -> SoundEvent.createVariableRangeEvent(ResLocation(RefStrings.MODID, "music.transmission")));
+
+    public static final RegistryObject<SoundEvent> BLOCK_HORN_NEAR_SINGLE =
+            SOUNDS.register("block.horn_near_single",
+                    () -> SoundEvent.createVariableRangeEvent(ResLocation(RefStrings.MODID, "block.horn_near_single")));
+
+    public static final RegistryObject<SoundEvent> BLOCK_HORN_FAR_SINGLE =
+            SOUNDS.register("block.horn_far_single",
+                    () -> SoundEvent.createVariableRangeEvent(ResLocation(RefStrings.MODID, "block.horn_far_single")));
+
+    public static final RegistryObject<SoundEvent> BLOCK_HORN_NEAR_DUAL =
+            SOUNDS.register("block.horn_near_dual",
+                    () -> SoundEvent.createVariableRangeEvent(ResLocation(RefStrings.MODID, "block.horn_near_dual")));
+
+    public static final RegistryObject<SoundEvent> BLOCK_HORN_FAR_DUAL =
+            SOUNDS.register("block.horn_far_dual",
+                    () -> SoundEvent.createVariableRangeEvent(ResLocation(RefStrings.MODID, "block.horn_far_dual")));
+
+    public static final RegistryObject<SoundEvent> REACTOR_START =
+            SOUNDS.register("block.reactor_start",
+                    () -> SoundEvent.createVariableRangeEvent(ResLocation(RefStrings.MODID, "block.reactor_start")));
 
 
-    private static final java.util.Map<String, SoundEvent> SOUND_CACHE = new java.util.HashMap<>();
 
     public static SoundEvent getCachedSound(String soundName) {
         return SOUND_CACHE.computeIfAbsent(soundName, key -> {

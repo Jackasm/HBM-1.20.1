@@ -81,12 +81,12 @@ public class BlockCrateSimple extends Block {
 
     private ItemPool getItemPool() {
         return switch (type) {
-            case SUPPLY -> ItemPoolsCrate.getSupplyPool();
-            case WEAPON -> ItemPoolsCrate.getWeaponPool();
-            case LEAD -> ItemPoolsCrate.getLeadPool();
-            case METAL -> ItemPoolsCrate.getMetalPool();
-            case RED -> ItemPoolsCrate.getRedPool();
-            case JUNGLE -> ItemPoolsCrate.getJunglePool();
+            case SUPPLY -> ItemPool.getPool(ItemPoolsCrate.POOL_CRATE_SUPPLY);
+            case WEAPON -> ItemPool.getPool(ItemPoolsCrate.POOL_CRATE_WEAPON);
+            case LEAD -> ItemPool.getPool(ItemPoolsCrate.POOL_CRATE_LEAD);
+            case METAL -> ItemPool.getPool(ItemPoolsCrate.POOL_CRATE_METAL);
+            case RED -> ItemPool.getPool(ItemPoolsCrate.POOL_CRATE_RED);
+            case JUNGLE -> ItemPool.getPool(ItemPoolsCrate.POOL_CRATE_JUNGLE);
         };
     }
 }

@@ -3,6 +3,7 @@ package com.hbm.entity.missile;
 import com.hbm.entity.ModEntities;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.network.PacketDispatcher;
+import com.hbm.sound.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -11,13 +12,13 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
@@ -54,16 +55,18 @@ public class EntityBobmazon extends Entity {
         this.zo = this.getZ();
 
         for (int i = 0; i < 4; i++) {
+            // Проверка блока ВНУТРИ шаттла (как в оригинале: posY + 1)
             BlockPos pos = BlockPos.containing(this.getX() - 0.5, this.getY() + 1, this.getZ() - 0.5);
             BlockState blockState = level().getBlockState(pos);
-            FluidState fluidState = level().getFluidState(pos);
 
-            if (!blockState.isAir() && !fluidState.isEmpty() && !level().isClientSide && this.getEntityData().get(STATE) != 1) {
+            // Приземление: любой не-воздух (включая жидкости)
+            if (!blockState.isAir() && !level().isClientSide && this.getEntityData().get(STATE) != 1) {
                 ExplosionLarge.spawnParticles(level(), this.getX(), this.getY() + 1, this.getZ(), 50);
 
+                // Звук из мода
                 level().playSound(null, this.getX(), this.getY(), this.getZ(),
-                        net.minecraft.sounds.SoundEvents.GENERIC_EXPLODE,
-                        net.minecraft.sounds.SoundSource.PLAYERS, 10.0F, 0.5F + this.random.nextFloat() * 0.1F);
+                        ModSounds.OLD_EXPLOSION.get(),
+                        SoundSource.PLAYERS, 10.0F, 0.5F + this.random.nextFloat() * 0.1F);
 
                 if (payload != null && !payload.isEmpty()) {
                     ItemEntity pack = new ItemEntity(level(), this.getX(), this.getY() + 2, this.getZ(), payload);

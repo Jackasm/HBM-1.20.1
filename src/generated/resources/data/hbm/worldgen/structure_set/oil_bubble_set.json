@@ -1,0 +1,15 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 111111111,
+    "separation": 0,
+    "spacing": 1,
+    "spread_type": "linear"
+  },
+  "structures": [
+    {
+      "structure": "hbm:oil_bubble",
+      "weight": 1
+    }
+  ]
+}

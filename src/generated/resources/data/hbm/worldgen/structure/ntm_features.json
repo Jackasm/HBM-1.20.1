@@ -1,0 +1,9 @@
+{
+  "type": "hbm:ntm_features",
+  "settings": {
+    "biomes": "#hbm:ntm_features_biomes",
+    "spawn_overrides": {},
+    "step": "surface_structures",
+    "terrain_adaptation": "none"
+  }
+}

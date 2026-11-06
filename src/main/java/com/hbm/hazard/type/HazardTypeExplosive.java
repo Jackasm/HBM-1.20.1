@@ -19,7 +19,7 @@ public class HazardTypeExplosive extends HazardTypeBase {
 
     @Override
     public void onUpdate(@NotNull LivingEntity target, float level, @NotNull ItemStack stack) {
-        if (RadiationConfig.disableExplosive.get()) return;
+        if (RadiationConfig.DISABLE_EXPLOSIVE) return;
 
         if (!target.level().isClientSide && target.isOnFire() && !stack.isEmpty()) {
             Level world = target.level();
@@ -31,7 +31,7 @@ public class HazardTypeExplosive extends HazardTypeBase {
 
     @Override
     public void updateEntity(@NotNull ItemEntity item, float level) {
-        if (RadiationConfig.disableExplosive.get()) return;
+        if (RadiationConfig.DISABLE_EXPLOSIVE) return;
 
         if (item.isOnFire()) {
             Level world = item.level();

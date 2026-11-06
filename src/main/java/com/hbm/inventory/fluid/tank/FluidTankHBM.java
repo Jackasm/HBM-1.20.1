@@ -114,12 +114,18 @@ public class FluidTankHBM implements IFluidTank, IFluidHandler {
     }
 
 
+    // Forge IFluidTank/IFluidHandler: у каждого HBM-типа есть Forge-жидкость-носитель
+    // (FluidHBM, см. Fluids.register), поэтому наружу отдаём настоящий FluidStack.
+    // Тип не подменяется: принимаем и отдаём только свою жидкость.
+
     // IFluidTank implementation
     @Nonnull
     @Override
     public FluidStack getFluid() {
-        // Пока возвращаем пустой стек, позже реализуем конвертацию
-        return FluidStack.EMPTY;
+        if (fluid <= 0 || type == null || type.getForgeFluid() == null) {
+            return FluidStack.EMPTY;
+        }
+        return new FluidStack(type.getForgeFluid(), fluid);
     }
 
     @Override
@@ -134,8 +140,9 @@ public class FluidTankHBM implements IFluidTank, IFluidHandler {
 
     @Override
     public boolean isFluidValid(FluidStack stack) {
-        // Позже добавим проверку по типу
-        return true;
+        return stack != null && !stack.isEmpty()
+                && type != null && type.getForgeFluid() != null
+                && stack.getFluid() == type.getForgeFluid();
     }
 
     @Override
@@ -145,7 +152,10 @@ public class FluidTankHBM implements IFluidTank, IFluidHandler {
         }
 
         int filled = Math.min(capacity - fluid, resource.getAmount());
-        if (action.execute() && filled > 0) {
+        if (filled <= 0) {
+            return 0;
+        }
+        if (action.execute()) {
             fluid += filled;
         }
         return filled;
@@ -154,18 +164,20 @@ public class FluidTankHBM implements IFluidTank, IFluidHandler {
     @Nonnull
     @Override
     public FluidStack drain(int maxDrain, FluidAction action) {
+        if (fluid <= 0 || maxDrain <= 0 || type == null || type.getForgeFluid() == null) {
+            return FluidStack.EMPTY;
+        }
         int drained = Math.min(fluid, maxDrain);
-        if (action.execute() && drained > 0) {
+        if (action.execute()) {
             fluid -= drained;
         }
-        // Позже реализуем создание правильного FluidStack
-        return new FluidStack(net.minecraft.world.level.material.Fluids.WATER, drained);
+        return new FluidStack(type.getForgeFluid(), drained);
     }
 
     @Nonnull
     @Override
     public FluidStack drain(FluidStack resource, FluidAction action) {
-        if (resource.isEmpty() || resource.getAmount() <= 0) {
+        if (resource.isEmpty() || !isFluidValid(resource)) {
             return FluidStack.EMPTY;
         }
         return drain(resource.getAmount(), action);
@@ -194,13 +206,13 @@ public class FluidTankHBM implements IFluidTank, IFluidHandler {
     }
 
     public void readFromNBT(CompoundTag nbt, String prefix) {
-        fluid = nbt.getInt(prefix + "_fill");
-        capacity = nbt.getInt(prefix + "_capacity");
+        int savedCapacity = nbt.getInt(prefix + "_capacity");
+        if (savedCapacity > 0) {
+            capacity = savedCapacity;
+        }
+        fluid = Math.max(0, Math.min(nbt.getInt(prefix + "_fill"), capacity));
         type = Fluids.fromName(nbt.getString(prefix + "_type"));
-        pressure = nbt.getInt(prefix + "_pressure");
-
-        // Ensure fluid doesn't exceed capacity
-        fluid = Math.min(fluid, capacity);
+        pressure = Math.max(0, nbt.getInt(prefix + "_pressure"));
     }
 
     // IFluidHandler implementation
@@ -269,7 +281,7 @@ public class FluidTankHBM implements IFluidTank, IFluidHandler {
 
         ResourceLocation texture = type.getTexture();
 
-        int fillHeight = (fluid * height) / capacity;
+        int fillHeight = capacity > 0 ? (fluid * height) / capacity : 0;
 
         if (orientation == 0) {
             // Вертикальный бак (снизу вверх)
@@ -281,7 +293,7 @@ public class FluidTankHBM implements IFluidTank, IFluidHandler {
             );
         } else if (orientation == 1) {
             // Горизонтальный бак (слева направо)
-            int fillWidth = (fluid * width) / capacity;
+            int fillWidth = capacity > 0 ? (fluid * width) / capacity : 0;
             graphics.blit(texture,
                     x, y,                          // x, y
                     0, 0,                         // u, v

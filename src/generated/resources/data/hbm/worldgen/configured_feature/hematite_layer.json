@@ -1,0 +1,15 @@
+{
+  "type": "hbm:ore_layer_3d",
+  "config": {
+    "id": 0,
+    "scale_h": 0.04,
+    "scale_v": 0.25,
+    "state": {
+      "Name": "hbm:stone_resource",
+      "Properties": {
+        "type": "hematite"
+      }
+    },
+    "threshold": 230.0
+  }
+}

@@ -33,8 +33,11 @@ public class EntityFallingBlockNT extends Entity {
 
     private static final EntityDataAccessor<Integer> DATA_BLOCK_ID = SynchedEntityData.defineId(EntityFallingBlockNT.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_META = SynchedEntityData.defineId(EntityFallingBlockNT.class, EntityDataSerializers.INT);
+    /** Полное состояние блока: id состояния в глобальном реестре (Block.getId). */
+    private static final EntityDataAccessor<Integer> DATA_STATE_ID = SynchedEntityData.defineId(EntityFallingBlockNT.class, EntityDataSerializers.INT);
 
     private Block fallingBlock;
+    private BlockState fallingState;
     private int fallingMeta = 0;
     public int fallingTicks;
     public boolean canDrop = true;
@@ -53,7 +56,9 @@ public class EntityFallingBlockNT extends Entity {
     public EntityFallingBlockNT(EntityType<?> type, Level level, double x, double y, double z, BlockState state) {
         super(type, level);
         this.fallingBlock = state.getBlock();
+        this.fallingState = state;
         this.entityData.set(DATA_BLOCK_ID, BuiltInRegistries.BLOCK.getId(this.fallingBlock));
+        this.entityData.set(DATA_STATE_ID, Block.getId(state));
         this.blocksBuilding = true;
         this.setPos(x, y, z);
         this.setDeltaMovement(Vec3.ZERO);
@@ -66,6 +71,7 @@ public class EntityFallingBlockNT extends Entity {
     protected void defineSynchedData() {
         this.entityData.define(DATA_BLOCK_ID, 0);
         this.entityData.define(DATA_META, 0);
+        this.entityData.define(DATA_STATE_ID, 0);
     }
 
     public Block getBlock() {
@@ -74,6 +80,20 @@ public class EntityFallingBlockNT extends Entity {
         int blockId = this.entityData.get(DATA_BLOCK_ID);
         this.fallingBlock = BuiltInRegistries.BLOCK.byId(blockId);
         return this.fallingBlock;
+    }
+
+    /**
+     * Состояние блока, которое упадёт на землю. В 1.7.10 падающая сущность несла блок
+     * вместе с метаданными; здесь то же самое, только состоянием. Раньше на приземлении
+     * ставился {@code defaultBlockState()}, и все ориентированные блоки (steel_corner и т.п.)
+     * после обвала смотрели в одну сторону.
+     */
+    public BlockState getState() {
+        if (this.fallingState != null) return this.fallingState;
+        int id = this.entityData.get(DATA_STATE_ID);
+        if (id != 0) return Block.stateById(id);
+        Block block = this.getBlock();
+        return block == null ? Blocks.AIR.defaultBlockState() : block.defaultBlockState();
     }
 
     public int getMeta() {
@@ -121,19 +141,19 @@ public class EntityFallingBlockNT extends Entity {
 
                     if (!this.destroyOnLand && this.replacementCheck(pos)) {
 
-                        boolean blockPlaced = this.level().setBlock(pos, this.getBlock().defaultBlockState(), 3);
+                        boolean blockPlaced = this.level().setBlock(pos, this.getState(), 3);
 
                         if (blockPlaced) {
 
                             Block block = this.getBlock();
 
                             if (block instanceof BlockFallingNT falling) {
-                                falling.onLand(this.level(), pos, this.getBlock().defaultBlockState(),
+                                falling.onLand(this.level(), pos, this.getState(),
                                         this.level().getBlockState(pos), this);
                             }
 
                             if (this.tileNBT != null && block instanceof EntityBlock entityBlock) {
-                                BlockEntity tile = entityBlock.newBlockEntity(pos, this.getBlock().defaultBlockState());
+                                BlockEntity tile = entityBlock.newBlockEntity(pos, this.getState());
                                 if (tile != null) {
                                     CompoundTag nbt = tile.saveWithoutMetadata();
                                     for (String key : this.tileNBT.getAllKeys()) {
@@ -169,7 +189,7 @@ public class EntityFallingBlockNT extends Entity {
     }
 
     public boolean replacementCheck(BlockPos pos) {
-        return this.level().getBlockState(pos).canBeReplaced() && this.getBlock().defaultBlockState().canSurvive(this.level(), pos);
+        return this.level().getBlockState(pos).canBeReplaced() && this.getState().canSurvive(this.level(), pos);
     }
 
     @Override
@@ -209,6 +229,7 @@ public class EntityFallingBlockNT extends Entity {
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
         tag.putInt("TileID", BuiltInRegistries.BLOCK.getId(this.fallingBlock));
+        tag.put("BlockState", net.minecraft.nbt.NbtUtils.writeBlockState(this.getState()));
         tag.putInt("Data", this.fallingMeta);
         tag.putInt("Time", this.fallingTicks);
         tag.putBoolean("DropItem", this.canDrop);
@@ -226,6 +247,12 @@ public class EntityFallingBlockNT extends Entity {
         if (tag.contains("TileID")) {
             int blockId = tag.getInt("TileID");
             this.fallingBlock = BuiltInRegistries.BLOCK.byId(blockId);
+        }
+
+        if (tag.contains("BlockState")) {
+            this.fallingState = net.minecraft.nbt.NbtUtils.readBlockState(BuiltInRegistries.BLOCK.asLookup(), tag.getCompound("BlockState"));
+            this.fallingBlock = this.fallingState.getBlock();
+            this.entityData.set(DATA_STATE_ID, Block.getId(this.fallingState));
         }
 
         this.fallingMeta = tag.getInt("Data");

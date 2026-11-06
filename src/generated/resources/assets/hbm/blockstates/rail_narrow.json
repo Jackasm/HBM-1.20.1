@@ -1,0 +1,90 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "hbm:block/rail_narrow"
+      },
+      "when": {
+        "shape": "north_south"
+      }
+    },
+    {
+      "apply": {
+        "model": "hbm:block/rail_narrow",
+        "y": 90
+      },
+      "when": {
+        "shape": "east_west"
+      }
+    },
+    {
+      "apply": {
+        "model": "hbm:block/rail_narrow_raised_ne",
+        "y": 90
+      },
+      "when": {
+        "shape": "ascending_east"
+      }
+    },
+    {
+      "apply": {
+        "model": "hbm:block/rail_narrow_raised_sw",
+        "y": 90
+      },
+      "when": {
+        "shape": "ascending_west"
+      }
+    },
+    {
+      "apply": {
+        "model": "hbm:block/rail_narrow_raised_ne"
+      },
+      "when": {
+        "shape": "ascending_north"
+      }
+    },
+    {
+      "apply": {
+        "model": "hbm:block/rail_narrow_raised_sw"
+      },
+      "when": {
+        "shape": "ascending_south"
+      }
+    },
+    {
+      "apply": {
+        "model": "hbm:block/rail_narrow_corner"
+      },
+      "when": {
+        "shape": "south_east"
+      }
+    },
+    {
+      "apply": {
+        "model": "hbm:block/rail_narrow_corner",
+        "y": 90
+      },
+      "when": {
+        "shape": "south_west"
+      }
+    },
+    {
+      "apply": {
+        "model": "hbm:block/rail_narrow_corner",
+        "y": 180
+      },
+      "when": {
+        "shape": "north_west"
+      }
+    },
+    {
+      "apply": {
+        "model": "hbm:block/rail_narrow_corner",
+        "y": 270
+      },
+      "when": {
+        "shape": "north_east"
+      }
+    }
+  ]
+}

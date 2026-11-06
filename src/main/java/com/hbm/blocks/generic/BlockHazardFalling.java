@@ -15,7 +15,7 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import org.jetbrains.annotations.NotNull;
 
-public class BlockHazardFalling extends FallingBlock {
+public class BlockHazardFalling extends FallingBlock implements com.hbm.blocks.IRadiationSource {
 
     private float rad = 0.0F;
     private boolean beaconable = false;
@@ -59,11 +59,18 @@ public class BlockHazardFalling extends FallingBlock {
     public void onPlace(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean isMoving) {
         super.onPlace(state, level, pos, oldState, isMoving);
 
-        this.rad = HazardSystem.getHazardLevelFromStack(new ItemStack(this), HazardRegistry.RADIATION) * 0.1F;
-
-        if (this.rad > 0) {
+        if (emitsRadiation()) {
             level.scheduleTick(pos, this, this.getDelayAfterPlace());
         }
+    }
+
+    /** #198: генерация не зовёт {@code onPlace}; флаг спрашивает загрузка чанка. */
+    @Override
+    public boolean emitsRadiation() {
+        if (this.rad <= 0) {
+            this.rad = HazardSystem.getHazardLevelFromStack(new ItemStack(this), HazardRegistry.RADIATION) * 0.1F;
+        }
+        return this.rad > 0;
     }
 
     // Статический метод для создания свойств

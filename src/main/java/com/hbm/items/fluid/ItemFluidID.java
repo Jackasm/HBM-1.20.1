@@ -4,6 +4,7 @@ import com.hbm.inventory.fluid.FluidTypeHBM;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -54,25 +55,29 @@ public class ItemFluidID extends Item implements IItemFluidIdentifier {
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         FluidTypeHBM fluid = getFluidType(stack);
 
-        if (fluid != Fluids.NONE.get()) {
-            tooltip.add(Component.translatable("item.hbm.fluid_identifier.fluid", fluid.getLocalizedName()));
-            if (fluid.isHot()) {
-                tooltip.add(Component.literal("§6Temperature: " + fluid.getTemperature() + "°C"));
-            }
-            if (fluid.isFlammable()) {
-                tooltip.add(Component.literal("§cFlammable"));
-            }
-            if (fluid.isCorrosive()) {
-                tooltip.add(Component.literal("§2Corrosive"));
-            }
-            if (fluid.isRadioactive()) {
-                tooltip.add(Component.literal("§aRadioactive"));
-            }
-        } else {
-            tooltip.add(Component.translatable("item.hbm.fluid_identifier.empty"));
+        if (fluid.isHot()) {
+            tooltip.add(Component.literal("§6Temperature: " + fluid.getTemperature() + "°C"));
+        }
+        if (fluid.isFlammable()) {
+            tooltip.add(Component.literal("§cFlammable"));
+        }
+        if (fluid.isCorrosive()) {
+            tooltip.add(Component.literal("§2Corrosive"));
+        }
+        if (fluid.isRadioactive()) {
+            tooltip.add(Component.literal("§aRadioactive"));
         }
 
-        tooltip.add(Component.literal("§7" + Component.translatable("item.hbm.fluid_identifier.hint").getString()));
+        // Проверяем зажат ли Shift
+        boolean shiftDown = Screen.hasShiftDown();
+
+        if (shiftDown) {
+            // Полная информация
+            tooltip.add(Component.literal("§7" + Component.translatable("item.hbm.fluid_identifier.info").getString()));
+        } else {
+            // Краткая подсказка
+            tooltip.add(Component.literal("§6§o" + Component.translatable("item.hbm.fluid_identifier.hint").getString()));
+        }
     }
 
     @Override

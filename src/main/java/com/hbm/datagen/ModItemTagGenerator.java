@@ -237,7 +237,11 @@ public class ModItemTagGenerator extends ItemTagsProvider {
                 .add(ModItems.RAW_COBALT.get())
                 .add(ModItems.RAW_URANIUM.get())
                 .add(ModItems.RAW_PLUTONIUM.get())
-                .add(ModItems.RAW_THORIUM.get());
+                .add(ModItems.RAW_THORIUM.get())
+                .add(ModItems.RAW_AUSTRALIUM.get())
+                .add(ModItems.RAW_SCHRABIDIUM.get())
+                .add(ModItems.RAW_TIKITE.get())
+                .add(ModItems.RAW_OSMIRIDIUM.get());
 
         // Горючие предметы
         tag(ModItemTags.FUELS)
@@ -428,6 +432,12 @@ public class ModItemTagGenerator extends ItemTagsProvider {
                 .add(Items.QUARTZ_STAIRS)
                 .add(Items.QUARTZ_SLAB);
 
+        tag(ModItemTags.ANY_STEEL_SCAFFOLD)
+                .add(ModBlocks.STEEL_SCAFFOLD_STEEL.get().asItem())
+                .add(ModBlocks.STEEL_SCAFFOLD_RED.get().asItem())
+                .add(ModBlocks.STEEL_SCAFFOLD_WHITE.get().asItem())
+                .add(ModBlocks.STEEL_SCAFFOLD_YELLOW.get().asItem());
+
     }
 
     private void registerFluidContainers() {
@@ -461,18 +471,18 @@ public class ModItemTagGenerator extends ItemTagsProvider {
 
 
         this.tag(ModItemTags.WIRE_FINE)
-                .add(ModItems.WIRE_COPPER.get())
-                .add(ModItems.WIRE_CARBON.get())
-                .add(ModItems.WIRE_ALUMINIUM.get())
-                .add(ModItems.WIRE_RED_COPPER.get())
-                .add(ModItems.WIRE_GOLD.get())
-                .add(ModItems.WIRE_LEAD.get())
-                .add(ModItems.WIRE_ZIRCONIUM.get())
-                .add(ModItems.WIRE_TUNGSTEN.get())
-                .add(ModItems.WIRE_ADVANCED_ALLOY.get())
-                .add(ModItems.WIRE_STEEL.get())
-                .add(ModItems.WIRE_SCHRABIDIUM.get())
-                .add(ModItems.WIRE_MAGNETIZED_TUNGSTEN.get());
+                .add(ModItems.WIRE_FINE_COPPER.get())
+                .add(ModItems.WIRE_FINE_CARBON.get())
+                .add(ModItems.WIRE_FINE_ALUMINIUM.get())
+                .add(ModItems.WIRE_FINE_RED_COPPER.get())
+                .add(ModItems.WIRE_FINE_GOLD.get())
+                .add(ModItems.WIRE_FINE_LEAD.get())
+                .add(ModItems.WIRE_FINE_ZIRCONIUM.get())
+                .add(ModItems.WIRE_FINE_TUNGSTEN.get())
+                .add(ModItems.WIRE_FINE_ADVANCED_ALLOY.get())
+                .add(ModItems.WIRE_FINE_STEEL.get())
+                .add(ModItems.WIRE_FINE_SCHRABIDIUM.get())
+                .add(ModItems.WIRE_FINE_MAGNETIZED_TUNGSTEN.get());
 
         this.tag(ModItemTags.GLASS)
                 // Ванильные стёкла

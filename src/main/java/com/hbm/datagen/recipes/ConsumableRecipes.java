@@ -226,7 +226,7 @@ public class ConsumableRecipes {
                 .requires(ModItems.POWDER_DIAMOND.get())
                 .requires(Items.WHEAT)
                 .requires(ModItems.BOLT_STEEL.get())
-                .requires(ModItems.WIRE_COPPER.get())
+                .requires(ModItems.WIRE_FINE_COPPER.get())
                 .requires(ModItems.PLATE_STEEL.get())
                 .unlockedBy("has_steel", has.apply(ModItems.PLATE_STEEL.get()))
                 .save(pWriter, MODID + ":pancake_0");
@@ -236,7 +236,7 @@ public class ConsumableRecipes {
                 .requires(ModItems.POWDER_EMERALD.get())
                 .requires(Items.WHEAT)
                 .requires(ModItems.BOLT_STEEL.get())
-                .requires(ModItems.WIRE_COPPER.get())
+                .requires(ModItems.WIRE_FINE_COPPER.get())
                 .requires(ModItems.PLATE_STEEL.get())
                 .unlockedBy("has_steel", has.apply(ModItems.PLATE_STEEL.get()))
                 .save(pWriter, MODID + ":pancake_1");
@@ -281,7 +281,7 @@ public class ConsumableRecipes {
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.COFFEE_RADIUM.get(), 1)
                 .requires(ModItems.COFFEE.get())
-                .requires(ModItems.NUGGET_RA_226.get())
+                .requires(ModItems.NUGGET_RA226.get())
                 .unlockedBy("has_coffee", has.apply(ModItems.COFFEE.get()))
                 .save(pWriter);
 
@@ -1185,7 +1185,7 @@ public class ConsumableRecipes {
                 .pattern("GTG")
                 .pattern("DGD")
                 .define('D', ModItems.DUCTTAPE.get())
-                .define('G', ModItems.WIRE_GOLD.get())
+                .define('G', ModItems.WIRE_FINE_GOLD.get())
                 .define('T', ModBlocks.TESLA.get().asItem())
                 .unlockedBy("has_tesla", has.apply(ModBlocks.TESLA.get().asItem()))
                 .save(pWriter);
@@ -1284,7 +1284,7 @@ public class ConsumableRecipes {
                 .pattern(" WS")
                 .pattern("WRS")
                 .pattern(" RS")
-                .define('W', ModItems.WIRE_COPPER.get())
+                .define('W', ModItems.WIRE_FINE_COPPER.get())
                 .define('R', ModItems.RING_STARMETAL.get())
                 .define('S', ModItems.PLATE_STEEL.get())
                 .unlockedBy("has_ring_starmetal", has.apply(ModItems.RING_STARMETAL.get()))

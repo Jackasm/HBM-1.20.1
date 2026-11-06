@@ -7,7 +7,7 @@ import com.hbm.items.weapon.sedna.GunItem;
 import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.impl.ItemGunNI4NI;
 import com.hbm.items.weapon.sedna.mags.MagazineBelt;
-import com.hbm.main.ClientProxy;
+import com.hbm.client.ClientProxy;
 import com.hbm.render.anim.AnimationEnums;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;

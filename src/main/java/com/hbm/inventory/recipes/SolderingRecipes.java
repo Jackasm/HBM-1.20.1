@@ -24,7 +24,7 @@ public class SolderingRecipes {
     public static HashSet<AStack> solder = new HashSet<>();
 
     public static void register() {
-        boolean lbsm = GeneralConfig.enableLBSM.get() && GeneralConfig.enableLBSMSimpleCrafting.get();
+        boolean lbsm = GeneralConfig.ENABLE_LBSM && GeneralConfig.ENABLE_LBSM_SIMPLE_CRAFTING;
 
         /*
          * CIRCUITS
@@ -37,7 +37,7 @@ public class SolderingRecipes {
                 new AStack[]{
                         new ComparableStack(ModItems.CIRCUIT_PCB.get(), 4)},
                 new AStack[]{
-                        new ComparableStack(ModItems.WIRE_LEAD.get(), 4)}
+                        new ComparableStack(ModItems.WIRE_FINE_LEAD.get(), 4)}
         ));
 
         recipes.add(new SolderingRecipe(new ItemStack(ModItems.CIRCUIT_BASIC.get()), 200, 250,
@@ -46,7 +46,7 @@ public class SolderingRecipes {
                 new AStack[]{
                         new ComparableStack(ModItems.CIRCUIT_PCB.get(), 4)},
                 new AStack[]{
-                        new ComparableStack(ModItems.WIRE_LEAD.get(), 4)}
+                        new ComparableStack(ModItems.WIRE_FINE_LEAD.get(), 4)}
         ));
 
         recipes.add(new SolderingRecipe(new ItemStack(ModItems.CIRCUIT_ADVANCED.get()), 300, 1000,
@@ -58,7 +58,7 @@ public class SolderingRecipes {
                         new ComparableStack(ModItems.CIRCUIT_PCB.get(), 8),
                         new ComparableStack(ModItems.INGOT_RUBBER.get(), 2)},
                 new AStack[]{
-                        new ComparableStack(ModItems.WIRE_LEAD.get(), 8)}
+                        new ComparableStack(ModItems.WIRE_FINE_LEAD.get(), 8)}
         ));
 
         recipes.add(new SolderingRecipe(new ItemStack(ModItems.CIRCUIT_CAPACITOR_BOARD.get()), 200, 300,
@@ -68,7 +68,7 @@ public class SolderingRecipes {
                 new AStack[]{
                         new ComparableStack(ModItems.CIRCUIT_PCB.get())},
                 new AStack[]{
-                        new ComparableStack(ModItems.WIRE_LEAD.get(), 3)}
+                        new ComparableStack(ModItems.WIRE_FINE_LEAD.get(), 3)}
         ));
 
         recipes.add(new SolderingRecipe(new ItemStack(ModItems.CIRCUIT_BISMOID.get()), 400, 10000,
@@ -81,7 +81,7 @@ public class SolderingRecipes {
                         new ComparableStack(ModItems.CIRCUIT_PCB.get()),
                         new TagStack(ModItemTags.ANY_HARDPLASTIC_INGOT, 2)},
                 new AStack[]{
-                        new ComparableStack(ModItems.WIRE_LEAD.get(), 12)}
+                        new ComparableStack(ModItems.WIRE_FINE_LEAD.get(), 12)}
         ));
 
         recipes.add(new SolderingRecipe(new ItemStack(ModItems.CIRCUIT_QUANTUM.get()), 400, 100000,
@@ -94,7 +94,7 @@ public class SolderingRecipes {
                         new ComparableStack(ModItems.CIRCUIT_PCB.get(), 16),
                         new TagStack(ModItemTags.ANY_HARDPLASTIC_INGOT, 4)},
                 new AStack[]{
-                        new ComparableStack(ModItems.WIRE_LEAD.get(), 16)}
+                        new ComparableStack(ModItems.WIRE_FINE_LEAD.get(), 16)}
         ));
 
         /*
@@ -111,7 +111,7 @@ public class SolderingRecipes {
                         new ComparableStack(ModItems.CIRCUIT_CONTROLLER_CHASSIS.get()),
                         new ComparableStack(ModItems.UPGRADE_SPEED_1.get())},
                 new AStack[]{
-                        new ComparableStack(ModItems.WIRE_LEAD.get(), 16)}
+                        new ComparableStack(ModItems.WIRE_FINE_LEAD.get(), 16)}
         ));
 
         recipes.add(new SolderingRecipe(new ItemStack(ModItems.CIRCUIT_CONTROLLER_ADVANCED.get()), 600, 25000,
@@ -124,7 +124,7 @@ public class SolderingRecipes {
                         new ComparableStack(ModItems.CIRCUIT_CONTROLLER_CHASSIS.get()),
                         new ComparableStack(ModItems.UPGRADE_SPEED_3.get())},
                 new AStack[]{
-                        new ComparableStack(ModItems.WIRE_LEAD.get(), 24)}
+                        new ComparableStack(ModItems.WIRE_FINE_LEAD.get(), 24)}
         ));
 
         recipes.add(new SolderingRecipe(new ItemStack(ModItems.CIRCUIT_CONTROLLER_QUANTUM.get()), 600, 250000,
@@ -137,7 +137,7 @@ public class SolderingRecipes {
                         new ComparableStack(ModItems.CIRCUIT_CONTROLLER_ADVANCED.get(), 2),
                         new ComparableStack(ModItems.UPGRADE_OVERDRIVE_1.get())},
                 new AStack[]{
-                        new ComparableStack(ModItems.WIRE_LEAD.get(), 32)}
+                        new ComparableStack(ModItems.WIRE_FINE_LEAD.get(), 32)}
         ));
 
         /*
@@ -214,7 +214,7 @@ public class SolderingRecipes {
     }
 
     private static void addFirstUpgrade(Item lower, Item higher) {
-        boolean lbsm = GeneralConfig.enableLBSM.get() && GeneralConfig.enableLBSMSimpleCrafting.get();
+        boolean lbsm = GeneralConfig.ENABLE_LBSM && GeneralConfig.ENABLE_LBSM_SIMPLE_CRAFTING;
         recipes.add(new SolderingRecipe(new ItemStack(higher), 300, 10000,
                 new AStack[]{new ComparableStack(ModItems.CIRCUIT_CHIP.get(), lbsm ? 4 : 8),
                         new ComparableStack(ModItems.CIRCUIT_CAPACITOR.get(), lbsm ? 2 : 4),},
@@ -224,7 +224,7 @@ public class SolderingRecipes {
     }
 
     private static void addSecondUpgrade(Item lower, Item higher) {
-        boolean lbsm = GeneralConfig.enableLBSM.get() && GeneralConfig.enableLBSMSimpleCrafting.get();
+        boolean lbsm = GeneralConfig.ENABLE_LBSM && GeneralConfig.ENABLE_LBSM_SIMPLE_CRAFTING;
         recipes.add(new SolderingRecipe(new ItemStack(higher), 400, 25000,
                 new FluidStackHBM(Fluids.SOLVENT.get(), 500),
                 new AStack[]{new ComparableStack(ModItems.CIRCUIT_CHIP.get(), lbsm ? 6 : 16),

@@ -1,12 +1,12 @@
 package com.hbm.creativetabs;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.*;
 import com.hbm.items.ModItems;
 import com.hbm.items.block.*;
 import com.hbm.util.HBMEnums;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 
 public class BlockTab {
@@ -24,16 +24,21 @@ public class BlockTab {
                         output.accept(stack);
                     }
 
-                    for (DyeColor color : DyeColor.values()) {
-                        output.accept(ItemBlockConcreteColored.withColor(color));
-                    }
-
-                    for (BlockConcreteColoredExt.EnumConcreteType type : BlockConcreteColoredExt.EnumConcreteType.values()) {
-                        output.accept(ItemBlockConcreteColoredExt.withType(type));
-                    }
-
                     for (BlockResourceStone.EnumStoneType type : BlockResourceStone.EnumStoneType.values()) {
                         output.accept(ItemBlockResourceStone.withType(type));
+                    }
+
+                    for (BlockGlyphid.GlyphidType type : BlockGlyphid.GlyphidType.values()) {
+                        output.accept(ItemGlyphid.withType(type));
+                    }
+
+                    for (int i = 0; i < 3; i++) {
+                        if (i == 0) continue;
+                        output.accept(ItemBlockGlyphidSpawner.withType(i));
+                    }
+
+                    for (int i = 0; i < BlockSellafield.SELLAFITE_LEVELS; i++) {
+                        output.accept(ItemBlockSellafield.withLevel(ModBlocks.SELLAFIELD.get(), i));
                     }
 
                     for (BlockSnowglobe.SnowglobeType type : BlockSnowglobe.SnowglobeType.values()) {

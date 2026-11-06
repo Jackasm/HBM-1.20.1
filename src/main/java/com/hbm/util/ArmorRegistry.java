@@ -7,6 +7,8 @@ import com.hbm.items.ModArmorItems;
 import com.hbm.items.armor.MaskItem;
 import com.hbm.items.armor.RespiratorItem;
 import com.hbm.items.ModItems;
+import com.hbm.handler.HazmatRegistry;
+import com.hbm.potion.HbmPotion;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
@@ -33,6 +35,44 @@ public class ArmorRegistry {
         COLD,                // Низкая температура
         CHEMICAL
     }
+
+    /**
+     * Комплекты, которые игра проверяет целиком: старые {@code ArmorUtil.checkFor*} (карточка #130).
+     *
+     * <p>Классы {@link HazardClass} отвечают на вопрос «от чего защищает эта деталь», а комплект —
+     * «надет ли на существо полный набор». Это разные вопросы, и свести их в один мешок нельзя:
+     * один и тот же класс (например {@code SAND}) висит на десятке разных предметов.
+     * Поэтому в реестре два раздела: классы по предметам и комплекты по слотам.</p>
+     */
+    public enum SuitClass {
+        HAZMAT,      // жёлтый, красный, серый, шраббидий + всё из HAZMAT2, плюс эффект мутации
+        HAZMAT2,     // PAA, ликвидатор, эвфемий, RPA, FAU, DNT
+        ASBESTOS,    // только асбестовый комплект
+        DIGAMMA,     // FAU или DNT, плюс эффект стабильности
+        DIGAMMA2,    // робы + стабильность + железный кладинг + здоровье меньше трёх
+        FARADAY      // не набор, а металл в каждом из четырёх слотов
+    }
+
+    /** Полный комплект: по предмету на каждый слот брони. */
+    private record SuitSet(Item helmet, Item chest, Item legs, Item boots) {
+    }
+
+    private static final Map<SuitClass, List<SuitSet>> SUIT_REGISTRY = new EnumMap<>(SuitClass.class);
+
+    private static final EquipmentSlot[] ARMOR_SLOTS = {
+            EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET
+    };
+
+    /**
+     * Металлы для фарадеевой защиты: проверка по подстроке в имени предмета, как в эталоне.
+     * Так было в 1.7.10, и менять это поведение — отдельная задача, не #130.
+     */
+    private static final String[] FARADAY_METALS = new String[]{
+            "chainmail", "iron", "silver", "gold", "platinum", "tin", "lead",
+            "liquidator", "schrabidium", "euphemium", "steel", "cmb", "titanium",
+            "alloy", "copper", "bronze", "electrum", "t45", "t51", "bj",
+            "starmetal", "hazmat", "rubber", "hev", "ajr", "rpa", "spacesuit"
+    };
 
     // Регистр защиты предметов
     public static final Map<Item, Set<HazardClass>> PROTECTION_REGISTRY = new HashMap<>();
@@ -236,7 +276,141 @@ public class ArmorRegistry {
         return hazards;
     }
 
+    /**
+     * Заполняет таблицу комплектов. Вызывается из {@link #registerAll()} — там, где предметы мода
+     * уже зарегистрированы, как и регистрация классов по предметам.
+     */
+    public static void registerSuits() {
+        SUIT_REGISTRY.clear();
+
+        SUIT_REGISTRY.put(SuitClass.HAZMAT, List.of(
+                suit(ModArmorItems.HAZMAT_HELMET.get(), ModArmorItems.HAZMAT_CHESTPLATE.get(),
+                        ModArmorItems.HAZMAT_LEGGINGS.get(), ModArmorItems.HAZMAT_BOOTS.get()),
+                suit(ModArmorItems.HAZMAT_HELMET_RED.get(), ModArmorItems.HAZMAT_CHESTPLATE_RED.get(),
+                        ModArmorItems.HAZMAT_LEGGINGS_RED.get(), ModArmorItems.HAZMAT_BOOTS_RED.get()),
+                suit(ModArmorItems.HAZMAT_HELMET_GREY.get(), ModArmorItems.HAZMAT_CHESTPLATE_GREY.get(),
+                        ModArmorItems.HAZMAT_LEGGINGS_GREY.get(), ModArmorItems.HAZMAT_BOOTS_GREY.get()),
+                suit(ModArmorItems.SCHRABIDIUM_HELMET.get(), ModArmorItems.SCHRABIDIUM_CHESTPLATE.get(),
+                        ModArmorItems.SCHRABIDIUM_LEGGINGS.get(), ModArmorItems.SCHRABIDIUM_BOOTS.get())));
+
+        SUIT_REGISTRY.put(SuitClass.HAZMAT2, List.of(
+                suit(ModArmorItems.HAZMAT_PAA_HELMET.get(), ModArmorItems.HAZMAT_PAA_CHESTPLATE.get(),
+                        ModArmorItems.HAZMAT_PAA_LEGGINGS.get(), ModArmorItems.HAZMAT_PAA_BOOTS.get()),
+                suit(ModArmorItems.LIQUIDATOR_HELMET.get(), ModArmorItems.LIQUIDATOR_CHESTPLATE.get(),
+                        ModArmorItems.LIQUIDATOR_LEGGINGS.get(), ModArmorItems.LIQUIDATOR_BOOTS.get()),
+                suit(ModArmorItems.EUPHEMIUM_HELMET.get(), ModArmorItems.EUPHEMIUM_CHESTPLATE.get(),
+                        ModArmorItems.EUPHEMIUM_LEGGINGS.get(), ModArmorItems.EUPHEMIUM_BOOTS.get()),
+                suit(ModArmorItems.RPA_HELMET.get(), ModArmorItems.RPA_CHESTPLATE.get(),
+                        ModArmorItems.RPA_LEGGINGS.get(), ModArmorItems.RPA_BOOTS.get()),
+                suit(ModArmorItems.FAU_HELMET.get(), ModArmorItems.FAU_CHESTPLATE.get(),
+                        ModArmorItems.FAU_LEGGINGS.get(), ModArmorItems.FAU_BOOTS.get()),
+                suit(ModArmorItems.DNT_HELMET.get(), ModArmorItems.DNT_CHESTPLATE.get(),
+                        ModArmorItems.DNT_LEGGINGS.get(), ModArmorItems.DNT_BOOTS.get())));
+
+        SUIT_REGISTRY.put(SuitClass.ASBESTOS, List.of(
+                suit(ModArmorItems.ASBESTOS_HELMET.get(), ModArmorItems.ASBESTOS_CHESTPLATE.get(),
+                        ModArmorItems.ASBESTOS_LEGGINGS.get(), ModArmorItems.ASBESTOS_BOOTS.get())));
+
+        SUIT_REGISTRY.put(SuitClass.DIGAMMA, List.of(
+                suit(ModArmorItems.FAU_HELMET.get(), ModArmorItems.FAU_CHESTPLATE.get(),
+                        ModArmorItems.FAU_LEGGINGS.get(), ModArmorItems.FAU_BOOTS.get()),
+                suit(ModArmorItems.DNT_HELMET.get(), ModArmorItems.DNT_CHESTPLATE.get(),
+                        ModArmorItems.DNT_LEGGINGS.get(), ModArmorItems.DNT_BOOTS.get())));
+
+        SUIT_REGISTRY.put(SuitClass.DIGAMMA2, List.of(
+                suit(ModArmorItems.ROBES_HELMET.get(), ModArmorItems.ROBES_CHESTPLATE.get(),
+                        ModArmorItems.ROBES_LEGGINGS.get(), ModArmorItems.ROBES_BOOTS.get())));
+    }
+
+    private static SuitSet suit(Item helmet, Item chest, Item legs, Item boots) {
+        return new SuitSet(helmet, chest, legs, boots);
+    }
+
+    /**
+     * Единая точка старых проверок брони: надет ли комплект. Условия, которые в эталоне жили
+     * рядом с наборами (зелья, кладинг, максимальное здоровье), переехали сюда же, чтобы таблица
+     * и её правила лежали в одном месте.
+     */
+    public static boolean isWearing(LivingEntity entity, SuitClass suit) {
+        return switch (suit) {
+            // checkForHazmat в эталоне включал в себя checkForHaz2 — поведение сохранено.
+            case HAZMAT -> wears(entity, SuitClass.HAZMAT)
+                    || wears(entity, SuitClass.HAZMAT2)
+                    || entity.hasEffect(HbmPotion.MUTATION.get());
+            case HAZMAT2 -> wears(entity, SuitClass.HAZMAT2);
+            case ASBESTOS -> wears(entity, SuitClass.ASBESTOS);
+            case DIGAMMA -> wears(entity, SuitClass.DIGAMMA)
+                    || entity.hasEffect(HbmPotion.STABILITY.get());
+            case DIGAMMA2 -> wearsRobes(entity);
+            case FARADAY -> wearsFaraday(entity);
+        };
+    }
+
+    private static boolean wears(LivingEntity entity, SuitClass suit) {
+        List<SuitSet> sets = SUIT_REGISTRY.get(suit);
+        if (sets == null) return false;
+
+        for (SuitSet set : sets) {
+            if (wearsExactSet(entity, set)) return true;
+        }
+        return false;
+    }
+
+    private static boolean wearsExactSet(LivingEntity entity, SuitSet set) {
+        return wearsPiece(entity, EquipmentSlot.HEAD, set.helmet())
+                && wearsPiece(entity, EquipmentSlot.CHEST, set.chest())
+                && wearsPiece(entity, EquipmentSlot.LEGS, set.legs())
+                && wearsPiece(entity, EquipmentSlot.FEET, set.boots());
+    }
+
+    private static boolean wearsPiece(LivingEntity entity, EquipmentSlot slot, Item item) {
+        ItemStack stack = entity.getItemBySlot(slot);
+        return !stack.isEmpty() && stack.getItem() == item;
+    }
+
+    /** Робы: полный набор, эффект стабильности, железный кладинг и здоровье меньше трёх. */
+    private static boolean wearsRobes(LivingEntity entity) {
+        List<SuitSet> sets = SUIT_REGISTRY.get(SuitClass.DIGAMMA2);
+        if (sets == null || sets.isEmpty() || !wearsExactSet(entity, sets.get(0))) return false;
+
+        if (!entity.hasEffect(HbmPotion.STABILITY.get())) return false;
+
+        for (EquipmentSlot slot : ARMOR_SLOTS) {
+            ItemStack armor = entity.getItemBySlot(slot);
+
+            if (!armor.isEmpty() && ArmorModHandler.hasMods(armor)) {
+                ItemStack[] mods = ArmorModHandler.pryMods(armor);
+                ItemStack cladding = mods[ArmorModHandler.CLADDING];
+
+                if (!(cladding != null && cladding.getItem() == ModItems.CLADDING_IRON.get())) return false;
+            }
+        }
+
+        return entity.getMaxHealth() < 3.0F;
+    }
+
+    /** Фарадей: все четыре слота заняты «металлом», набор как таковой не нужен. */
+    private static boolean wearsFaraday(LivingEntity entity) {
+        for (EquipmentSlot slot : ARMOR_SLOTS) {
+            if (!isFaradayArmor(entity.getItemBySlot(slot))) return false;
+        }
+        return true;
+    }
+
+    public static boolean isFaradayArmor(ItemStack item) {
+        if (item.isEmpty()) return false;
+
+        String name = item.getDescriptionId().toLowerCase(Locale.US);
+
+        for (String metal : FARADAY_METALS) {
+            if (name.contains(metal)) return true;
+        }
+
+        return HazmatRegistry.getCladding(item) > 0;
+    }
+
     public static void registerAll() {
+        registerSuits();
         
         registerHazard(ModItems.GAS_MASK_FILTER.get(),
                 HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE,

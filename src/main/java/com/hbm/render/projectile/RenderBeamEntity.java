@@ -3,6 +3,7 @@ package com.hbm.render.projectile;
 import com.hbm.entity.projectile.EntityBulletBeamBase;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -14,6 +15,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
+
+import java.util.function.BiConsumer;
 
 import static com.hbm.render.util.BeamPronter.WHITE_TEXTURE;
 
@@ -53,9 +56,15 @@ public class RenderBeamEntity extends EntityRenderer<EntityBulletBeamBase> {
         beam.setRenderPose(new Matrix4f(poseStack.last().pose()));
 
         // Сохраняем bufferSource для использования в LegoClient
-        beam.setBufferSource((MultiBufferSource.BufferSource) buffer);
+        // См. #167: под Oculus буфер — обёртка, а не BufferSource; каст ронял клиент.
+        MultiBufferSource.BufferSource beamBuffer = buffer instanceof MultiBufferSource.BufferSource source
+                ? source
+                : Minecraft.getInstance().renderBuffers().bufferSource();
+        beam.setBufferSource(beamBuffer);
 
-        beam.getConfig().rendererBeam.accept(beam, partialTicks);
+        BiConsumer<EntityBulletBeamBase, Float> renderer =
+                com.hbm.client.ClientBulletRenderers.getBeam(beam.getConfig());
+        if (renderer != null) renderer.accept(beam, partialTicks);
 
         if (buffer instanceof MultiBufferSource.BufferSource bufferSource) {
             bufferSource.endBatch(RenderType.entityTranslucentEmissive(WHITE_TEXTURE));

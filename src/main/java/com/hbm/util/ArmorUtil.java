@@ -2,12 +2,9 @@ package com.hbm.util;
 
 import com.hbm.api.item.IGasMask;
 import com.hbm.handler.ArmorModHandler;
-import com.hbm.handler.HazmatRegistry;
 import com.hbm.items.ModArmorItems;
-import com.hbm.items.ModItems;
 
 import com.hbm.items.ModToolItems;
-import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,34 +19,20 @@ import net.minecraftforge.event.ForgeEventFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class ArmorUtil {
 
 
 
+    /**
+     * Дигамма-защита: комплект FAU или DNT, либо эффект стабильности.
+     *
+     * @deprecated таблица комплектов живёт в {@link ArmorRegistry} (карточка #130);
+     *             метод оставлен тонкой обёрткой для существующих вызовов.
+     */
+    @Deprecated
     public static boolean checkForDigamma(Player player) {
-
-        // Проверка полного набора брони FAU
-        if(checkArmor(player,
-                ModArmorItems.FAU_HELMET.get(),
-                ModArmorItems.FAU_CHESTPLATE.get(),
-                ModArmorItems.FAU_LEGGINGS.get(),
-                ModArmorItems.FAU_BOOTS.get())) {
-            return true;
-        }
-
-        // Проверка полного набора брони DNS
-        if(checkArmor(player,
-                ModArmorItems.DNT_HELMET.get(),
-                ModArmorItems.DNT_CHESTPLATE.get(),
-                ModArmorItems.DNT_LEGGINGS.get(),
-                ModArmorItems.DNT_BOOTS.get())) {
-            return true;
-        }
-
-        // Проверка наличия эффекта стабильности
-        return player.hasEffect(HbmPotion.STABILITY.get());
+        return ArmorRegistry.isWearing(player, ArmorRegistry.SuitClass.DIGAMMA);
     }
 
     public static boolean checkArmor(LivingEntity entity, Item... armor) {
@@ -101,146 +84,62 @@ public class ArmorUtil {
         }
     }
 
+    /**
+     * Хазмат-защита: жёлтый, красный, серый или шраббидиевый комплект, любой из продвинутых
+     * костюмов ({@link #checkForHaz2}), либо эффект мутации.
+     *
+     * @deprecated таблица комплектов живёт в {@link ArmorRegistry} (карточка #130);
+     *             метод оставлен тонкой обёрткой для существующих вызовов.
+     */
     @Deprecated
     public static boolean checkForHazmat(LivingEntity player) {
-        // Проверка хазмат костюмов
-        if(     
-
-                checkArmor(player,
-                    ModArmorItems.HAZMAT_HELMET.get(),
-                    ModArmorItems.HAZMAT_CHESTPLATE.get(),
-                    ModArmorItems.HAZMAT_LEGGINGS.get(),
-                    ModArmorItems.HAZMAT_BOOTS.get()) ||
-
-                checkArmor(player,
-                        ModArmorItems.HAZMAT_HELMET_RED.get(),
-                        ModArmorItems.HAZMAT_CHESTPLATE_RED.get(),
-                        ModArmorItems.HAZMAT_LEGGINGS_RED.get(),
-                        ModArmorItems.HAZMAT_BOOTS_RED.get()) ||
-
-                checkArmor(player,
-                        ModArmorItems.HAZMAT_HELMET_GREY.get(),
-                        ModArmorItems.HAZMAT_CHESTPLATE_GREY.get(),
-                        ModArmorItems.HAZMAT_LEGGINGS_GREY.get(),
-                        ModArmorItems.HAZMAT_BOOTS_GREY.get()) ||
-
-                checkArmor(player,
-                        ModArmorItems.SCHRABIDIUM_HELMET.get(),
-                        ModArmorItems.SCHRABIDIUM_BOOTS.get(),
-                        ModArmorItems.SCHRABIDIUM_LEGGINGS.get(),
-                        ModArmorItems.SCHRABIDIUM_BOOTS.get()) ||
-
-                checkForHaz2(player)) {
-            return true;
-        }
-
-        return player.hasEffect(HbmPotion.MUTATION.get());
+        return ArmorRegistry.isWearing(player, ArmorRegistry.SuitClass.HAZMAT);
     }
 
+    /**
+     * Продвинутые костюмы: PAA, ликвидатор, эвфемий, RPA, FAU, DNT.
+     *
+     * @deprecated таблица комплектов живёт в {@link ArmorRegistry} (карточка #130);
+     *             метод оставлен тонкой обёрткой для существующих вызовов.
+     */
+    @Deprecated
     public static boolean checkForHaz2(LivingEntity player) {
-
-                return checkArmor(player,
-                ModArmorItems.HAZMAT_PAA_HELMET.get(),
-                ModArmorItems.HAZMAT_PAA_CHESTPLATE.get(),
-                ModArmorItems.HAZMAT_PAA_LEGGINGS.get(),
-                ModArmorItems.HAZMAT_PAA_BOOTS.get()) ||
-
-                checkArmor(player,
-                        ModArmorItems.LIQUIDATOR_HELMET.get(),
-                        ModArmorItems.LIQUIDATOR_CHESTPLATE.get(),
-                        ModArmorItems.LIQUIDATOR_LEGGINGS.get(),
-                        ModArmorItems.LIQUIDATOR_BOOTS.get()) ||
-
-                checkArmor(player,
-                        ModArmorItems.EUPHEMIUM_HELMET.get(),
-                        ModArmorItems.EUPHEMIUM_CHESTPLATE.get(),
-                        ModArmorItems.EUPHEMIUM_LEGGINGS.get(),
-                        ModArmorItems.EUPHEMIUM_BOOTS.get()) ||
-
-                checkArmor(player,
-                        ModArmorItems.RPA_HELMET.get(),
-                        ModArmorItems.RPA_CHESTPLATE.get(),
-                        ModArmorItems.RPA_LEGGINGS.get(),
-                        ModArmorItems.RPA_BOOTS.get()) ||
-
-                checkArmor(player,
-                        ModArmorItems.FAU_HELMET.get(),
-                        ModArmorItems.FAU_CHESTPLATE.get(),
-                        ModArmorItems.FAU_LEGGINGS.get(),
-                        ModArmorItems.FAU_BOOTS.get()) ||
-
-                checkArmor(player,
-                        ModArmorItems.DNT_HELMET.get(),
-                        ModArmorItems.DNT_CHESTPLATE.get(),
-                        ModArmorItems.DNT_LEGGINGS.get(),
-                        ModArmorItems.DNT_BOOTS.get());
-
+        return ArmorRegistry.isWearing(player, ArmorRegistry.SuitClass.HAZMAT2);
     }
 
+    /**
+     * Асбестовый комплект.
+     *
+     * @deprecated таблица комплектов живёт в {@link ArmorRegistry} (карточка #130);
+     *             метод оставлен тонкой обёрткой для существующих вызовов.
+     */
+    @Deprecated
     public static boolean checkForAsbestos(LivingEntity player) {
-        return checkArmor(player,
-                ModArmorItems.ASBESTOS_HELMET.get(),
-                ModArmorItems.ASBESTOS_CHESTPLATE.get(),
-                ModArmorItems.ASBESTOS_LEGGINGS.get(),
-                ModArmorItems.ASBESTOS_BOOTS.get());
+        return ArmorRegistry.isWearing(player, ArmorRegistry.SuitClass.ASBESTOS);
     }
 
 
+    /**
+     * Второй дигамма-набор: робы, эффект стабильности, железный кладинг и здоровье меньше трёх.
+     *
+     * @deprecated таблица комплектов живёт в {@link ArmorRegistry} (карточка #130);
+     *             метод оставлен тонкой обёрткой для существующих вызовов.
+     */
+    @Deprecated
     public static boolean checkForDigamma2(Player player) {
-        if(!checkArmor(player,
-                ModArmorItems.ROBES_HELMET.get(),
-                ModArmorItems.ROBES_CHESTPLATE.get(),
-                ModArmorItems.ROBES_LEGGINGS.get(),
-                ModArmorItems.ROBES_BOOTS.get()))
-            return false;
-
-        if(!player.hasEffect(HbmPotion.STABILITY.get()))
-            return false;
-
-        for(int i = 0; i < 4; i++) {
-            ItemStack armor = player.getItemBySlot(getEquipmentSlot(i));
-
-            if(!armor.isEmpty() && ArmorModHandler.hasMods(armor)) {
-                ItemStack[] mods = ArmorModHandler.pryMods(armor);
-                if(!(mods[ArmorModHandler.CLADDING] != null &&
-                        mods[ArmorModHandler.CLADDING].getItem() == ModItems.CLADDING_IRON.get()))
-                    return false;
-            }
-        }
-
-        return player.getMaxHealth() < 3;
+        return ArmorRegistry.isWearing(player, ArmorRegistry.SuitClass.DIGAMMA2);
     }
 
+    /**
+     * Фарадеева защита: металл в каждом из четырёх слотов. Это не набор, а проверка по имени
+     * предмета — так же, как в эталоне.
+     *
+     * @deprecated проверка живёт в {@link ArmorRegistry} (карточка #130);
+     *             метод оставлен тонкой обёрткой для существующих вызовов.
+     */
+    @Deprecated
     public static boolean checkForFaraday(Player player) {
-        ItemStack head = player.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.HEAD);
-        ItemStack chest = player.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.CHEST);
-        ItemStack legs = player.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.LEGS);
-        ItemStack feet = player.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.FEET);
-
-        if(head.isEmpty() || chest.isEmpty() || legs.isEmpty() || feet.isEmpty())
-            return false;
-
-        return isFaradayArmor(head) && isFaradayArmor(chest) &&
-                isFaradayArmor(legs) && isFaradayArmor(feet);
-    }
-
-    public static final String[] metals = new String[] {
-            "chainmail", "iron", "silver", "gold", "platinum", "tin", "lead",
-            "liquidator", "schrabidium", "euphemium", "steel", "cmb", "titanium",
-            "alloy", "copper", "bronze", "electrum", "t45", "t51", "bj",
-            "starmetal", "hazmat", "rubber", "hev", "ajr", "rpa", "spacesuit"
-    };
-
-    public static boolean isFaradayArmor(ItemStack item) {
-        if(item.isEmpty()) return false;
-
-        String name = item.getDescriptionId().toLowerCase(Locale.US);
-
-        for(String metal : metals) {
-            if(name.contains(metal)) return true;
-        }
-
-        return HazmatRegistry.getCladding(item) > 0;
+        return ArmorRegistry.isWearing(player, ArmorRegistry.SuitClass.FARADAY);
     }
 
 

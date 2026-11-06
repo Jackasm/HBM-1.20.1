@@ -1,28 +1,22 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.render.overlay.OverlaySection;
 import com.hbm.tileentity.ModTileEntity;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineRotaryFurnace;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
@@ -73,7 +67,7 @@ public class MachineRotaryFurnace extends BlockDummyable implements ILookOverlay
     }
 
     @Override
-    protected void fillSpace(Level level, BlockPos pos, BlockPos corePos, Direction dir) {
+    protected void fillSpace(LevelAccessor level, BlockPos pos, BlockPos corePos, Direction dir) {
         super.fillSpace(level, pos, corePos, dir);
 
         Direction forward = dir.getOpposite();
@@ -102,37 +96,8 @@ public class MachineRotaryFurnace extends BlockDummyable implements ILookOverlay
         return new ItemStack(this);
     }
 
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean shouldDrawHighlight(Level level, BlockPos pos) {
-        return true;
-    }
 
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void drawHighlight(PoseStack stack, MultiBufferSource buffer, Level level, BlockPos pos) {
-        BlockPos core = findCore(level, pos);
-        if (core == null) return;
-
-        BlockState state = level.getBlockState(core);
-        Direction dir = state.getValue(FACING);
-        Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
-
-        stack.pushPose();
-        stack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
-
-        VertexConsumer consumer = buffer.getBuffer(RenderType.lines());
-        List<AABB> boxes = getHighlightBoxes(dir, core);
-
-        for (AABB box : boxes) {
-            ICustomBlockHighlight.renderAABB(stack, consumer, box, 0.0F, 1.0F, 0.0F, 0.4F);
-        }
-
-        stack.popPose();
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private List<AABB> getHighlightBoxes(Direction dir, BlockPos core) {
+    public List<AABB> getHighlightBoxes(Direction dir, BlockPos core) {
         List<AABB> boxes = new ArrayList<>();
         int[] dim = getDimensions(); // {4, 0, 1, 1, 2, 2}
 

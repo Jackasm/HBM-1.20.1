@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "hbm:block/fluid_duct_gauge_side",
+    "east": "hbm:block/fluid_duct_gauge_side",
+    "north": "hbm:block/fluid_duct_gauge_front",
+    "particle": "hbm:block/fluid_duct_gauge_front",
+    "south": "hbm:block/fluid_duct_gauge_side",
+    "up": "hbm:block/fluid_duct_gauge_side",
+    "west": "hbm:block/fluid_duct_gauge_side"
+  }
+}

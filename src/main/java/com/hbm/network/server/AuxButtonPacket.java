@@ -4,10 +4,11 @@ import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.network.PacketBase;
 import com.hbm.tileentity.machine.TileEntityHeaterOilburner;
+import com.hbm.tileentity.machine.TileEntityMicrowave;
 import com.hbm.tileentity.storage.TileEntityBarrel;
 import com.hbm.tileentity.storage.TileEntityMachineBattery;
 import com.hbm.tileentity.storage.TileEntityMachineFluidTank;
-import com.hbm.tileentity.turret.TileEntityTurretSentry;
+import com.hbm.tileentity.turret.TileEntityTurretBaseNT;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -69,11 +70,14 @@ public class AuxButtonPacket extends PacketBase implements PacketBase.DecodableP
                 if (te instanceof TileEntityHeaterOilburner oilburner) {
                     oilburner.handleButtonPacket(button, data);
                 }
-                if (te instanceof TileEntityTurretSentry turret) {
-                    turret.handleButtonPacket(button, data);
+                if (te instanceof TileEntityTurretBaseNT turret) {
+                    turret.handleButtonPacket(data);
                 }
                 if (te instanceof TileEntityMachineBattery battery) {
                     battery.handleButtonPacket(button, data);
+                }
+                if (te instanceof TileEntityMicrowave microwave) {
+                    microwave.handleButtonPacket(button);
                 }
             }
         }

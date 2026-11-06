@@ -4,16 +4,14 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.deco.DecoPoleSatelliteReceiver;
 import com.hbm.blocks.deco.DecoSteelPoles;
 import com.hbm.blocks.deco.DecoTapeRecorder;
-import com.hbm.blocks.generic.BlockDecoCT;
-import com.hbm.entity.DecoCTBlockEntity;
-import com.hbm.itempool.ItemPoolsLegacy;
+import com.hbm.datagen.worldgen.feature.config.AntennaConfiguration;
+import com.hbm.itempool.ItemPool;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -22,6 +20,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+
+import static com.hbm.itempool.ItemPoolsLegacy.POOL_ANTENNA;
 
 public class AntennaFeature extends Feature<AntennaConfiguration> {
 
@@ -67,17 +67,14 @@ public class AntennaFeature extends Feature<AntennaConfiguration> {
         RandomSource rand = context.random();
 
         // Ищем подходящее место для спавна в пределах чанка
-        for (int i = 0; i < 16; i++) {
-            for (int j = 0; j < 16; j++) {
-                int x = origin.getX() + i;
-                int z = origin.getZ() + j;
-                int y = level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z);
-                BlockPos pos = new BlockPos(x, y, z);
-
-                if (isValidSpawn(level, pos)) {
-                    generateStructure(level, rand, pos);
-                    return true;
-                }
+        for (int attempt = 0; attempt < 20; attempt++) {
+            int x = origin.getX() + rand.nextInt(16);
+            int z = origin.getZ() + rand.nextInt(16);
+            int y = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z);
+            BlockPos pos = new BlockPos(x, y, z);
+            if (isValidSpawn(level, pos)) {
+                generateStructure(level, rand, pos);
+                return true;
             }
         }
         return false;
@@ -93,20 +90,6 @@ public class AntennaFeature extends Feature<AntennaConfiguration> {
         placeDecoSteel(level, new BlockPos(x + 1, y, z + 1));
         setBlock(level, x + 2, y, z + 1, ModBlocks.TAPE_RECORDER.get().defaultBlockState().setValue(DecoTapeRecorder.FACING, Direction.EAST));
         setBlock(level, x + 1, y, z + 2, ModBlocks.STEEL_POLES.get().defaultBlockState().setValue(DecoSteelPoles.FACING, Direction.NORTH));
-
-        //setBlock(level, x + 2, y, z + 2, Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING, Direction.EAST));
-        generateBonusChest(level, rand, new BlockPos(x + 2, y, z + 2));
-        BlockEntity te = level.getBlockEntity(new BlockPos(x + 2, y, z + 2));
-        if (te instanceof ChestBlockEntity chest) {
-            ItemPoolsLegacy.getAntennaPool().generate(rand, 8).forEach(stack -> {
-                for (int slot = 0; slot < chest.getContainerSize(); slot++) {
-                    if (chest.getItem(slot).isEmpty()) {
-                        chest.setItem(slot, stack);
-                        break;
-                    }
-                }
-            });
-        }
 
         for (int h = 1; h <= 3; h++) {
             setBlock(level, x + 1, y + h, z, ModBlocks.STEEL_POLES.get().defaultBlockState().setValue(DecoSteelPoles.FACING, Direction.EAST));
@@ -134,20 +117,6 @@ public class AntennaFeature extends Feature<AntennaConfiguration> {
         }
 
         setBlock(level, x + 1, y + 20, z + 1, ModBlocks.POLE_TOP.get().defaultBlockState());
-
-        // После завершения генерации структуры — несколько проходов для полного соединения
-        for (int pass = 0; pass < 3; pass++) {
-            for (int dx = -2; dx <= 2; dx++) {
-                for (int dy = -1; dy <= 22; dy++) {
-                    for (int dz = -2; dz <= 2; dz++) {
-                        BlockPos checkPos = new BlockPos(x + dx, y + dy, z + dz);
-                        if (isSameDecoSteel(level, checkPos)) {
-                            updateDecoSteelConnections(level, checkPos);
-                        }
-                    }
-                }
-            }
-        }
     }
 
     private void generateBonusChest(WorldGenLevel level, RandomSource rand, BlockPos pos) {
@@ -160,7 +129,7 @@ public class AntennaFeature extends Feature<AntennaConfiguration> {
 
             BlockEntity te = level.getBlockEntity(pos);
             if (te instanceof ChestBlockEntity chest) {
-                ItemPoolsLegacy.getAntennaPool().generate(rand, 8).forEach(stack -> {
+                ItemPool.getPool(POOL_ANTENNA).generate(rand, 8).forEach(stack -> {
                     for (int slot = 0; slot < chest.getContainerSize(); slot++) {
                         if (chest.getItem(slot).isEmpty()) {
                             chest.setItem(slot, stack);
@@ -199,54 +168,8 @@ public class AntennaFeature extends Feature<AntennaConfiguration> {
     }
 
     private void placeDecoSteel(WorldGenLevel level, BlockPos pos) {
-        BlockState state = ModBlocks.DECO_STEEL.get().defaultBlockState();
-
-        // Проверяем соседей
-        boolean north = isSameDecoSteel(level, pos.north());
-        boolean south = isSameDecoSteel(level, pos.south());
-        boolean east = isSameDecoSteel(level, pos.east());
-        boolean west = isSameDecoSteel(level, pos.west());
-        boolean up = isSameDecoSteel(level, pos.above());
-        boolean down = isSameDecoSteel(level, pos.below());
-
-        state = state.setValue(BlockDecoCT.NORTH, north)
-                .setValue(BlockDecoCT.SOUTH, south)
-                .setValue(BlockDecoCT.EAST, east)
-                .setValue(BlockDecoCT.WEST, west)
-                .setValue(BlockDecoCT.UP, up)
-                .setValue(BlockDecoCT.DOWN, down);
-
-        level.setBlock(pos, state, 3);
-    }
-
-    private boolean isSameDecoSteel(WorldGenLevel level, BlockPos pos) {
-        return level.getBlockState(pos).getBlock() == ModBlocks.DECO_STEEL.get();
-    }
-
-    private void updateDecoSteelConnections(WorldGenLevel level, BlockPos pos) {
-        BlockState currentState = level.getBlockState(pos);
-        if (!currentState.is(ModBlocks.DECO_STEEL.get())) return;
-
-        boolean north = isSameDecoSteel(level, pos.north());
-        boolean south = isSameDecoSteel(level, pos.south());
-        boolean east = isSameDecoSteel(level, pos.east());
-        boolean west = isSameDecoSteel(level, pos.west());
-        boolean up = isSameDecoSteel(level, pos.above());
-        boolean down = isSameDecoSteel(level, pos.below());
-
-        BlockState newState = currentState
-                .setValue(BlockDecoCT.NORTH, north)
-                .setValue(BlockDecoCT.SOUTH, south)
-                .setValue(BlockDecoCT.EAST, east)
-                .setValue(BlockDecoCT.WEST, west)
-                .setValue(BlockDecoCT.UP, up)
-                .setValue(BlockDecoCT.DOWN, down);
-
-        if (newState != currentState) {
-            level.setBlock(pos, newState, 3);
-            if (level.getBlockEntity(pos) instanceof DecoCTBlockEntity be) {
-                be.requestModelDataUpdate();
-            }
-        }
+        // Соединения CT-блок не хранит в состоянии: их считает клиент по миру,
+        // поэтому достаточно поставить блок, а не подгонять шесть булевых свойств.
+        level.setBlock(pos, ModBlocks.DECO_STEEL.get().defaultBlockState(), 3);
     }
 }

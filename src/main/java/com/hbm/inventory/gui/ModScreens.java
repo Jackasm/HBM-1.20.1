@@ -48,17 +48,38 @@ public class ModScreens {
             MenuScreens.register(ModContainers.CRATE_TUNGSTEN.get(), GUICrateTungsten::new);
             MenuScreens.register(ModContainers.SAFE.get(), GUISafe::new);
             MenuScreens.register(ModContainers.TURRET_SENTRY.get(), GUITurretSentry::new);
+            MenuScreens.register(ModContainers.TURRET_HOWARD.get(), GUITurretHoward::new);
             MenuScreens.register(ModContainers.CRYSTALLIZER.get(), GUICrystallizer::new);
             MenuScreens.register(ModContainers.SAT_DOCK.get(), GUISatDock::new);
             MenuScreens.register(ModContainers.LAUNCH_PAD_LARGE.get(), GUILaunchPadLarge::new);
             MenuScreens.register(ModContainers.TOOLBOX.get(), GUIToolBox::new);
             MenuScreens.register(ModContainers.REBAR_PLACER.get(), GUIRebarPlacer::new);
             MenuScreens.register(ModContainers.BOOK.get(), GUIBook::new);
+            MenuScreens.register(ModContainers.BOOK_LORE.get(), GUIBookLore::new);
             MenuScreens.register(ModContainers.COMPACT_LAUNCHER.get(), GUIMachineCompactLauncher::new);
             MenuScreens.register(ModContainers.LAUNCH_TABLE.get(), GUIMachineLaunchTable::new);
             MenuScreens.register(ModContainers.LAUNCH_PAD_RUSTED.get(), GUILaunchPadRusted::new);
             MenuScreens.register(ModContainers.MACHINE_BATTERY.get(), GUIMachineBattery::new);
             MenuScreens.register(ModContainers.MACHINE_AMMO_PRESS.get(), GUIMachineAmmoPress::new);
+            MenuScreens.register(ModContainers.FUNNEL.get(), GUIFunnel::new);
+            MenuScreens.register(ModContainers.ELECTRIC_FURNACE.get(), GUIMachineElectricFurnace::new);
+            MenuScreens.register(ModContainers.GUIDE_BOOK.get(), GUIScreenGuide::new);
+            MenuScreens.register(ModContainers.DESIGNATOR.get(), GUIScreenDesignator::new);
+            MenuScreens.register(ModContainers.CATALOG.get(), GUIScreenBobmazon::new);
+            MenuScreens.register(ModContainers.CLAY_TABLET.get(), GUIScreenClayTablet::new);
+            MenuScreens.register(ModContainers.BOBBLEHEAD.get(), GUIScreenBobble::new);
+            MenuScreens.register(ModContainers.MICROWAVE.get(), GUIMicrowave::new);
+            MenuScreens.register(ModContainers.MACHINE_RTG.get(), GUIMachineRTG::new);
+            MenuScreens.register(ModContainers.RADIO_TELEX.get(), GUIScreenRadioTelex::new);
+            MenuScreens.register(ModContainers.SOYUZ_CAPSULE.get(), GUISoyuzCapsule::new);
+            MenuScreens.register(ModContainers.MACHINE_KEY_FORGE.get(), GUIMachineKeyForge::new);
+            MenuScreens.register(ModContainers.NUKE_MAN.get(), GUINukeMan::new);
+
+            MenuScreens.register(ModContainers.RADIO_TORCH.get(), RadioTorchScreenBase::createRadioTorchScreen);
+            MenuScreens.register(ModContainers.RADIO_TORCH_COUNTER.get(), RadioTorchCounterScreen::new);
+
+
+
         });
     }
 }

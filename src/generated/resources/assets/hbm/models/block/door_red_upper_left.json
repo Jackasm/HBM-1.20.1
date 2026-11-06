@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/door_top_left",
   "textures": {
-    "bottom": "hbm:block/doors/door_red_lower",
-    "top": "hbm:block/doors/door_red_upper"
+    "bottom": "hbm:block/doors/door_red_bottom",
+    "top": "hbm:block/doors/door_red_top"
   }
 }

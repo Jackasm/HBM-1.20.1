@@ -151,7 +151,7 @@ public class TileEntityCargoContainer extends TileEntityMachineBase implements M
                 }
                 long count = buf.readLong();
 
-                ResourceLocation location = ResourceLocation.parse(itemId);
+                ResourceLocation location = new ResourceLocation(itemId);
                 Item item = net.minecraftforge.registries.ForgeRegistries.ITEMS.getValue(location);
                 if (item != null) {
                     ItemStack stack = new ItemStack(item, 1);

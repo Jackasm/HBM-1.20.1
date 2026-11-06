@@ -98,8 +98,8 @@ public class ExplosionVNT {
         boolean processBlocks = blockAllocator != null && blockProcessor != null;
         boolean processEntities = entityProcessor != null && playerProcessor != null;
 
-        HashSet<BlockPos> affectedBlocks = null;
-        HashMap<Player, Vec3> affectedPlayers = null;
+        HashSet<BlockPos> affectedBlocks;
+        HashMap<Player, Vec3> affectedPlayers;
 
         // Используем нашу логику для дополнительной обработки
         if (processBlocks) {
@@ -187,7 +187,7 @@ public class ExplosionVNT {
      * @return этот же объект ExplosionVNT для цепочечных вызовов
      */
 
-    public ExplosionVNT addAllAttrib(ExAttrib[] attribs) {
+    public ExplosionVNT addAllAttrib(ExAttrib... attribs) {
         return addAllAttrib(Arrays.asList(attribs));
     }
 

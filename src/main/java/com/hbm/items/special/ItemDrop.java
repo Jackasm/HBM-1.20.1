@@ -99,12 +99,12 @@ public class ItemDrop extends Item {
             }
             if (stack.getItem() == ModItems.CELL_ANTI_SCHRABIDIUM.get() && WeaponConfig.DROP_CELL) {
                 if (!entity.level().isClientSide && entity.level() instanceof ServerLevel serverLevel) {
-                    EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(serverLevel, entity.getX(), entity.getY(), entity.getZ(), BombConfig.aSchrabRadius.get());
+                    EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(serverLevel, entity.getX(), entity.getY(), entity.getZ(), BombConfig.A_SCHRAB_RADIUS);
                     if (ex != null && !ex.isRemoved()) {
                         entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 100.0F, entity.level().random.nextFloat() * 0.1F + 0.9F);
                         entity.level().addFreshEntity(ex);
 
-                        EntityCloudFleija cloud = new EntityCloudFleija(ModEntities.CLOUD_FLEIJA.get(), serverLevel, BombConfig.aSchrabRadius.get());
+                        EntityCloudFleija cloud = new EntityCloudFleija(ModEntities.CLOUD_FLEIJA.get(), serverLevel, BombConfig.A_SCHRAB_RADIUS);
                         cloud.setPos(entity.getX(), entity.getY(), entity.getZ());
                         entity.level().addFreshEntity(cloud);
                     }

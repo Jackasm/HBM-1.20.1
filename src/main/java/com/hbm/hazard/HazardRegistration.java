@@ -187,7 +187,7 @@ public class HazardRegistration {
     private static void registerNuggets() {
 
         HazardBuilder.ofItem(ModItems.NUGGET_ACTINIUM).rad(ac227 * nugget).register();
-        HazardBuilder.ofItem(ModItems.NUGGET_RA_226).rad(ra226 * nugget).register(); // уже есть
+        HazardBuilder.ofItem(ModItems.NUGGET_RA226).rad(ra226 * nugget).register(); // уже есть
         HazardBuilder.ofItem(ModItems.NUGGET_ARSENIC).rad(0).register();
         HazardBuilder.ofItem(ModItems.NUGGET_PU241).rad(pu241 * nugget).register();
         HazardBuilder.ofItem(ModItems.NUGGET_AM241).rad(am241 * nugget).register();
@@ -225,7 +225,7 @@ public class HazardRegistration {
 
         HazardBuilder.ofItem(ModItems.NUGGET_TECHNETIUM).rad(tc99 * nugget).register();
         HazardBuilder.ofItem(ModItems.NUGGET_POLONIUM).rad(po210 * nugget).register();
-        HazardBuilder.ofItem(ModItems.NUGGET_RA_226).rad(ra226 * nugget).register();
+        HazardBuilder.ofItem(ModItems.NUGGET_RA226).rad(ra226 * nugget).register();
         HazardBuilder.ofItem(ModItems.NUGGET_MOX_FUEL).rad(mox * nugget).register();
     }
 
@@ -365,6 +365,10 @@ public class HazardRegistration {
         HazardBuilder.ofBlock(ModBlocks.BLOCK_WASTE).rad(wst * block).register();
         HazardBuilder.ofBlock(ModBlocks.BLOCK_WASTE_PAINTED).rad(wst * block).register();
         HazardBuilder.ofBlock(ModBlocks.BLOCK_WASTE_VITRIFIED).rad(wstv * block).register();
+        // Паритет с эталоном (#198): эти блоки радиоактивны в 1.7.10, в порте записей не было.
+        HazardBuilder.ofBlock(ModBlocks.ANCIENT_SCRAP).rad(150F).register();
+        HazardBuilder.ofBlock(ModBlocks.BLOCK_CORIUM_COBBLE).rad(150F).register();
+        HazardBuilder.ofBlock(ModBlocks.YELLOW_BARREL).rad(wst * ingot * 10F).register();
         HazardBuilder.ofBlock(ModBlocks.BLOCK_LITHIUM).hydro(block).register();
         HazardBuilder.ofBlock(ModBlocks.ORE_GNEISS_LITHIUM).hydro(block).register();
         HazardBuilder.ofBlock(ModBlocks.BLOCK_ASBESTOS).asbestos(1F * block).register();

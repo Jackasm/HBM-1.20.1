@@ -1,0 +1,9 @@
+{
+  "type": "hbm:oil_bubble",
+  "settings": {
+    "biomes": "#hbm:oil_bubble_biomes",
+    "spawn_overrides": {},
+    "step": "underground_structures",
+    "terrain_adaptation": "none"
+  }
+}

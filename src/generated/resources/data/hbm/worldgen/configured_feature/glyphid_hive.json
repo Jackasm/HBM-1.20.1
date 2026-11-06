@@ -1,0 +1,7 @@
+{
+  "type": "hbm:glyphid_hive",
+  "config": {
+    "infected": false,
+    "loot": true
+  }
+}

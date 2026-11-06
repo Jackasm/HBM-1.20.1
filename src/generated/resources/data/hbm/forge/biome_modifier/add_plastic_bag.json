@@ -1,0 +1,9 @@
+{
+  "type": "hbm:mob_spawn_biome_modifier",
+  "biomes": "#minecraft:is_ocean",
+  "category": "water_creature",
+  "entity_type": "hbm:plastic_bag",
+  "max_count": 3,
+  "min_count": 1,
+  "weight": 1
+}

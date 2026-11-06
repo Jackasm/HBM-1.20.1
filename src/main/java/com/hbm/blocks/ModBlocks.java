@@ -4,16 +4,16 @@ import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.conduit.ConduitBlock;
 import com.hbm.blocks.deco.*;
 import com.hbm.blocks.fluid.*;
-import com.hbm.blocks.fluid.MudBlock;
 import com.hbm.blocks.gas.*;
 import com.hbm.blocks.generic.*;
-import com.hbm.blocks.generic.BlockDynamicSlag;
-import com.hbm.blocks.generic.DecoBlock;
+import com.hbm.blocks.generic.BlockPipe.PipeColor;
+import com.hbm.blocks.generic.BlockPipe.PipeType;
 import com.hbm.blocks.machine.*;
-import com.hbm.blocks.machine.MachineBlastFurnace;
 import com.hbm.blocks.machine.pile.*;
 import com.hbm.blocks.machine.rbmk.RBMKDebris;
 import com.hbm.blocks.network.*;
+import com.hbm.blocks.turret.TurretHoward;
+import com.hbm.blocks.turret.TurretHowardDamaged;
 import com.hbm.blocks.turret.TurretSentry;
 import com.hbm.blocks.turret.TurretSentryDamaged;
 import com.hbm.datagen.LootInfo;
@@ -21,11 +21,14 @@ import com.hbm.datagen.ToolInfo;
 import com.hbm.datagen.models.BlockModel;
 import com.hbm.entity.logic.EntityC130;
 import com.hbm.items.ModItems;
+import com.hbm.tileentity.DoorDecl;
 import com.hbm.util.HBMEnums;
 import com.hbm.util.RefStrings;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FallingBlock;
+import net.minecraft.world.level.block.LadderBlock;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -175,7 +178,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> ORE_TIKITE = registerBlock("ore_tikite",
             () -> new Block(ModBlockProperties.ORE_PROPERTIES()),
             BlockModel.ORE,
-            LootInfo.item(ModItems.ORE_TIKITE, 1, 1),
+            LootInfo.itemSilk(ModItems.RAW_TIKITE, 1, 1),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "ore_tikite");
 
@@ -186,7 +189,7 @@ public class ModBlocks {
                     .sound(SoundType.STONE)
                     .requiresCorrectToolForDrops()),
             BlockModel.ORE,
-            LootInfo.self(),
+            LootInfo.itemSilk(ModItems.RAW_AUSTRALIUM, 1, 1),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "ore_australium");
 
@@ -547,6 +550,16 @@ public class ModBlocks {
             ToolInfo.none(),
             "waste_leaves");
 
+    public static final RegistryObject<Block> STONE_CRACKED = registerBlock("stone_cracked",
+            () -> new FallingBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(0.5F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.shovel(ToolInfo.ToolLevel.IRON),
+            "stone_cracked");
+
     public static final RegistryObject<Block> SAND_DIRTY = registerBlock("sand_dirty",
             () -> new FallingBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.SAND)
@@ -870,9 +883,30 @@ public class ModBlocks {
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "deco/steel_beam");
 
-    public static final RegistryObject<Block> STEEL_SCAFFOLD = registerBlock("deco/steel_scaffold",
-            BlockSteelScaffold::new,
-            BlockModel.OBJ_MODEL_HORIZONTAL,
+    public static final RegistryObject<Block> STEEL_SCAFFOLD_STEEL = registerBlock("deco/steel_scaffold_steel",
+            () -> new BlockSteelScaffold(BlockSteelScaffold.ScaffoldType.STEEL),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "deco/steel_scaffold");
+
+    public static final RegistryObject<Block> STEEL_SCAFFOLD_RED = registerBlock("deco/steel_scaffold_red",
+            () -> new BlockSteelScaffold(BlockSteelScaffold.ScaffoldType.RED),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "deco/steel_scaffold");
+
+    public static final RegistryObject<Block> STEEL_SCAFFOLD_WHITE = registerBlock("deco/steel_scaffold_white",
+            () -> new BlockSteelScaffold(BlockSteelScaffold.ScaffoldType.WHITE),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "deco/steel_scaffold");
+
+    public static final RegistryObject<Block> STEEL_SCAFFOLD_YELLOW = registerBlock("deco/steel_scaffold_yellow",
+            () -> new BlockSteelScaffold(BlockSteelScaffold.ScaffoldType.YELLOW),
+            BlockModel.STATIC_OBJ,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "deco/steel_scaffold");
@@ -890,8 +924,6 @@ public class ModBlocks {
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "storage/filing_cabinet");
-
-
 
     public static final RegistryObject<Block> MACHINE_PRESS = registerBlock("machines/press",
             () -> new MachinePress(MachinePress.createProperties()),
@@ -990,28 +1022,35 @@ public class ModBlocks {
             BlockModel.ENTITYBLOCK_ANIMATED,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
-            "storage/fluid_duct_box_silver");
+            "storage/fluid_duct_box_silver_end");
 
     public static final RegistryObject<Block> FLUID_DUCT_BOX_COPPER = registerBlock("storage/fluid_duct_box_copper",
             () -> new FluidDuctBox(Block.Properties.of(), FluidDuctBox.FluidDuctBoxMaterial.COPPER),
             BlockModel.ENTITYBLOCK_ANIMATED,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
-            "storage/fluid_duct_box_copper");
+            "storage/fluid_duct_box_copper_end");
 
     public static final RegistryObject<Block> FLUID_DUCT_BOX_WHITE = registerBlock("storage/fluid_duct_box_white",
             () -> new FluidDuctBox(Block.Properties.of(), FluidDuctBox.FluidDuctBoxMaterial.WHITE),
             BlockModel.ENTITYBLOCK_ANIMATED,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
-            "storage/fluid_duct_box_white");
+            "storage/fluid_duct_box_white_end");
 
     public static final RegistryObject<Block> FLUID_DUCT_EXHAUST = registerBlock("storage/fluid_duct_exhaust",
             () -> new FluidDuctExhaust(Block.Properties.of(), FluidDuctExhaust.FluidDuctBoxMaterial.WHITE),
             BlockModel.ENTITYBLOCK_ANIMATED,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
-            "storage/fluid_duct_exhaust");
+            "storage/fluid_duct_exhaust_end");
+
+    public static final RegistryObject<Block> FLUID_DUCT_GAUGE = registerBlock("fluid_duct_gauge",
+            () -> new FluidDuctGauge(FluidDuctGauge.createProperties()),
+            BlockModel.CUBE_FRONT_SIDE,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "fluid_duct_gauge_front", "fluid_duct_gauge_side", "fluid_duct_gauge_side");
 
     public static final RegistryObject<Block> BARREL_PLASTIC = registerBlock("storage/barrel_plastic",
             () -> new BlockBarrel(
@@ -1126,18 +1165,16 @@ public class ModBlocks {
             "waste_planks");
 
     public static final RegistryObject<Block> GLYPHID_BASE = registerBlock("glyphid_base",
-            () -> new Block(ModBlockProperties.METAL_BLOCK_PROPERTIES()),
-            BlockModel.CUBE_ALL,
-            LootInfo.self(),
-            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            () -> new BlockGlyphid(BlockGlyphid.createProperties()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            ToolInfo.none(),
             "glyphid_base");
 
     public static final RegistryObject<Block> GLYPHID_SPAWNER = registerBlock("glyphid_spawner",
-            () -> new Block(ModBlockProperties.METAL_BLOCK_PROPERTIES()),
-            BlockModel.CUBE_ALL,
-            LootInfo.self(),
-            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
-            "glyphid_spawner");
+            () -> new BlockGlyphidSpawner(BlockGlyphidSpawner.createProperties()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            ToolInfo.none(),
+            "glyphid_eggs");
 
     public static final RegistryObject<Block> ORE_NETHER_URANIUM = registerBlock("ore_nether_uranium",
             () -> new BlockOutgas(BlockOutgas.createProperties(MapColor.NETHER, 0.4F, 10.0F, true), 5, true),
@@ -1149,7 +1186,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> ORE_NETHER_SCHRABIDIUM = registerBlock("ore_nether_schrabidium",
             () -> new BlockGeneric(BlockGeneric.createOreProperties(MapColor.NETHER, 15.0F, 600.0F).sound(SoundType.STONE)),
             BlockModel.ORE,
-            LootInfo.itemSilk(ModItems.ORE_SCHRABIDIUM, 1, 1),
+            LootInfo.itemSilk(ModItems.RAW_SCHRABIDIUM, 1, 1),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.DIAMOND),
             "ore_nether_schrabidium", "netherrack");
 
@@ -1181,7 +1218,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> ORE_SELLAFIELD_SCHRABIDIUM = registerBlock("ore_sellafield_schrabidium",
             () -> new BlockSellafieldOre(BlockSellafieldOre.createProperties()),
             BlockModel.ORE,
-            LootInfo.item(ModItems.ORE_SELLAFIELD_SCHRABIDIUM, 1, 1),
+            LootInfo.itemSilk(ModItems.RAW_SCHRABIDIUM, 1, 1),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.DIAMOND),
             "ore_overlay_schrabidium", "sellafield_base");
 
@@ -1299,7 +1336,7 @@ public class ModBlocks {
                     .requiresCorrectToolForDrops()
                     .sound(SoundType.STONE), 0.0F),
             BlockModel.ORE,
-            LootInfo.self(),
+            LootInfo.itemSilk(ModItems.RAW_SCHRABIDIUM, 1, 1),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.DIAMOND),
             "ore_schrabidium", "stone");
 
@@ -1665,7 +1702,7 @@ public class ModBlocks {
                     .sound(SoundType.STONE)
                     .randomTicks(), 0.1F),
             BlockModel.ORE,
-            LootInfo.self(),
+            LootInfo.itemSilk(ModItems.RAW_SCHRABIDIUM, 1, 1),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.DIAMOND),
             "ore_schrabidium", "stone");
 
@@ -2313,6 +2350,12 @@ public class ModBlocks {
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "sellafield_slaked");
 
+    public static final RegistryObject<Block> SELLAFIELD = registerBlock("sellafield",
+            () -> new BlockSellafield(BlockSellafield.createProperties().noLootTable()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "sellafield_0");
+
     public static final RegistryObject<Block> PWR_CASING = registerBlock("pwr_casing",
             () -> new Block(ModBlockProperties.ORE_PROPERTIES()), // new BlockGenericPWR(Material.iron).setBlockName("pwr_casing").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pwr_casing");
             BlockModel.CUBE_ALL,
@@ -2483,7 +2526,7 @@ public class ModBlocks {
             "ore_alexandrite");
 
     public static final RegistryObject<Block> ORE_OIL = registerBlock("ore_oil",
-            () -> new Block(ModBlockProperties.ORE_PROPERTIES()),
+            () -> new BlockOre(ModBlockProperties.ORE_PROPERTIES()),
             BlockModel.ORE,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
@@ -2594,6 +2637,13 @@ public class ModBlocks {
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "storage/barrel");
 
+    public static final RegistryObject<Block> VITRIFIED_BARREL = registerBlock("vitrified_barrel",
+            YellowBarrel::create,
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "storage/barrel");
+
     public static final RegistryObject<Block> LOX_BARREL = registerBlock("lox_barrel",
             RedBarrel::createNonFlammable,
             BlockModel.STATIC_OBJ,
@@ -2650,12 +2700,12 @@ public class ModBlocks {
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "block_slag");
 
-    public static final RegistryObject<Block> BOBBLEHEAD = registerBlock("bobble",
-            BlockBobble::new,
-            BlockModel.CUBE_ALL,
+    public static final RegistryObject<Block> BOBBLEHEAD = registerBlock("deco/bobblehead",
+            () -> new BlockBobble(BlockBobble.createProperties()),
+            BlockModel.STATIC_OBJ,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
-            "bobble");
+            "deco/bobble", "deco/vaultboy");
 
     public static final RegistryObject<Block> MACHINE_ARMOR_TABLE = registerBlock("machines/machine_armor_table",
             () -> new BlockArmorTable(BlockBehaviour.Properties.of().strength(5.0F).noOcclusion()),
@@ -2671,27 +2721,197 @@ public class ModBlocks {
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "machines/weapon_table_side", "machines/weapon_table_top", "machines/weapon_table_bottom");
 
-    public static final RegistryObject<Block> CONCRETE_COLORED = registerBlock("concrete_colored",
-            () -> new BlockConcreteColored(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.STONE)
+    public static final RegistryObject<Block> CONCRETE_COLORED_WHITE = registerBlock("concrete_colored_white",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SNOW)
                     .strength(15.0F, 140.0F)
                     .sound(SoundType.STONE)),
-            BlockModel.ENUM_BLOCK,
-            LootInfo.self(),
-            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
-            "concrete_colored",
-            DyeColor.class);
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_white");
 
-    public static final RegistryObject<Block> CONCRETE_COLORED_EXT = registerBlock("concrete_colored_ext",
-            () -> new BlockConcreteColoredExt(BlockBehaviour.Properties.of()
+    public static final RegistryObject<Block> CONCRETE_COLORED_ORANGE = registerBlock("concrete_colored_orange",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_ORANGE)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_orange");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_MAGENTA = registerBlock("concrete_colored_magenta",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_MAGENTA)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_magenta");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_LIGHT_BLUE = registerBlock("concrete_colored_light_blue",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_LIGHT_BLUE)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_light_blue");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_YELLOW = registerBlock("concrete_colored_yellow",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_YELLOW)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_yellow");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_LIME = registerBlock("concrete_colored_lime",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_LIGHT_GREEN)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_lime");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_PINK = registerBlock("concrete_colored_pink",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_PINK)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_pink");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_GRAY = registerBlock("concrete_colored_gray",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GRAY)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_gray");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_LIGHT_GRAY = registerBlock("concrete_colored_light_gray",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_LIGHT_GRAY)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_light_gray");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_CYAN = registerBlock("concrete_colored_cyan",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_CYAN)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_cyan");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_PURPLE = registerBlock("concrete_colored_purple",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_PURPLE)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_purple");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_BLUE = registerBlock("concrete_colored_blue",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLUE)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_blue");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_BROWN = registerBlock("concrete_colored_brown",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_brown");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_GREEN = registerBlock("concrete_colored_green",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GREEN)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_green");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_RED = registerBlock("concrete_colored_red",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_red");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_BLACK = registerBlock("concrete_colored_black",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLACK)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_black");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_EXT_MACHINE = registerBlock("concrete_colored_ext_machine",
+            () -> new Block(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.STONE)
                     .strength(15.0F, 140.0F)
                     .sound(SoundType.STONE)),
-            BlockModel.ENUM_BLOCK,
-            LootInfo.self(),
-            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
-            "concrete_colored_ext",
-            BlockConcreteColoredExt.EnumConcreteType.class);
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_ext_machine");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_EXT_MACHINE_STRIPE = registerBlock("concrete_colored_ext_machine_stripe",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_ext_machine_stripe");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_EXT_INDIGO = registerBlock("concrete_colored_ext_indigo",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLUE)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_ext_indigo");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_EXT_PURPLE = registerBlock("concrete_colored_ext_purple",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_PURPLE)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_ext_purple");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_EXT_PINK = registerBlock("concrete_colored_ext_pink",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_PINK)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_ext_pink");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_EXT_HAZARD = registerBlock("concrete_colored_ext_hazard",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_YELLOW)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_ext_hazard");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_EXT_SAND = registerBlock("concrete_colored_ext_sand",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SAND)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_ext_sand");
+
+    public static final RegistryObject<Block> CONCRETE_COLORED_EXT_BRONZE = registerBlock("concrete_colored_ext_bronze",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN)
+                    .strength(15.0F, 140.0F)
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_colored_ext_bronze");
 
     public static final RegistryObject<Block> CONCRETE_ASBESTOS = registerBlock("concrete_asbestos",
             () -> new Block(BlockBehaviour.Properties.of()
@@ -2742,17 +2962,6 @@ public class ModBlocks {
             BlockModel.PILLAR,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON));
-
-    public static final RegistryObject<Block> SANDBAG = registerBlock("sandbag",
-            () -> new SandbagBlock(Block.Properties.of()
-                    .mapColor(MapColor.SAND)
-                    .strength(0.5f)
-                    .sound(SoundType.SAND)
-                    .noOcclusion()),
-            BlockModel.CUBE_ALL,
-            LootInfo.self(),
-            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
-            "sandbag");
 
     public static final RegistryObject<Block> DOOR_METAL = registerBlock("door_metal",
             () -> new BlockModDoor(BlockModDoor.createDoorProperties(5.0F, 5.0F)),
@@ -3054,6 +3263,24 @@ public class ModBlocks {
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "ore_aluminium");
 
+    public static final RegistryObject<Block> OIL_SPILL = registerBlock("oil_spill",
+            () -> new BlockLayering(BlockLayering.createFoamProperties()
+                    .mapColor(MapColor.COLOR_BLACK)
+                    .sound(SoundType.SNOW)),
+            BlockModel.LAYERED,
+            LootInfo.self(),
+            ToolInfo.shovel(ToolInfo.ToolLevel.WOOD),
+            "oil_spill");
+
+    public static final RegistryObject<Block> LEAVES_LAYER = registerBlock("leaves_layer",
+            () -> new BlockLayering(BlockLayering.createFoamProperties()
+                    .mapColor(MapColor.PLANT)
+                    .sound(SoundType.GRASS)),
+            BlockModel.LAYERED,
+            LootInfo.self(),
+            ToolInfo.shovel(ToolInfo.ToolLevel.WOOD),
+            "waste_leaves");
+
     public static final RegistryObject<Block> TURRET_SENTRY = registerBlock("turrets/turret_sentry",
             () -> new TurretSentry(TurretSentry.createProperties()),
             BlockModel.OBJ_MODEL_HORIZONTAL,
@@ -3131,9 +3358,31 @@ public class ModBlocks {
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "meteor_brick");
 
+    public static final RegistryObject<Block> METEOR_BRICK_MOSSY = registerBlock("meteor_brick_mossy",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 360.0F)
+                    .sound(SoundType.STONE)
+                    .requiresCorrectToolForDrops()),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "meteor_brick_mossy");
+
+    public static final RegistryObject<Block> METEOR_BRICK_CRACKED = registerBlock("meteor_brick_cracked",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 360.0F)
+                    .sound(SoundType.STONE)
+                    .requiresCorrectToolForDrops()),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "meteor_brick_cracked");
+
     public static final RegistryObject<Block> STEEL_CHAIN = registerBlock("steel_chain",
-            () -> new ChainBlock(Block.Properties.of().strength(0.5F, 3.0F).noOcclusion()),
-            BlockModel.CROSS,
+            () -> new BlockChain(Block.Properties.of().strength(0.5F, 3.0F).noOcclusion()),
+            BlockModel.CHAIN,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "steel_chain");
@@ -3225,10 +3474,10 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> SAFE = registerBlock("storage/safe",
             () -> new BlockStorageCrate(BlockStorageCrate.createPropertiesSafe()),
-            BlockModel.CUBE_TOP_BOTTOM,
+            BlockModel.CUBE_FRONT_SIDE_HORIZONTAL,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
-            "storage/safe_side", "storage/safe_front", "storage/safe_front");
+            "storage/safe_front", "storage/safe_side", "storage/safe_side", "storage/safe_side");
 
     public static final RegistryObject<Block> MUSH_BLOCK = registerBlock("mush_block",
             () -> new BlockStorageCrate(BlockStorageCrate.createPropertiesMetal()),
@@ -3251,56 +3500,56 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> GLASS_BORON = registerBlock("glass_boron",
             () -> new BlockNTMGlass(BlockNTMGlass.createProperties(MapColor.COLOR_CYAN, 0.3F), false),
-            BlockModel.CUBE_ALL_TRANSLUCENT,
+            BlockModel.CT_TRANSLUCENT,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "glass_boron");
 
     public static final RegistryObject<Block> GLASS_LEAD = registerBlock("glass_lead",
             () -> new BlockNTMGlass(BlockNTMGlass.createProperties(MapColor.COLOR_GRAY, 0.3F), false),
-            BlockModel.CUBE_ALL_TRANSLUCENT,
+            BlockModel.CT_TRANSLUCENT,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "glass_lead");
 
     public static final RegistryObject<Block> GLASS_URANIUM = registerBlock("glass_uranium",
             () -> new BlockNTMGlass(BlockNTMGlass.createProperties(MapColor.COLOR_GREEN, 0.3F), false, 5),
-            BlockModel.CUBE_ALL_TRANSLUCENT,
+            BlockModel.CT_TRANSLUCENT,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "glass_uranium");
 
     public static final RegistryObject<Block> GLASS_TRINITITE = registerBlock("glass_trinitite",
             () -> new BlockNTMGlass(BlockNTMGlass.createProperties(MapColor.COLOR_LIGHT_GREEN, 0.3F), false, 5),
-            BlockModel.CUBE_ALL_TRANSLUCENT,
+            BlockModel.CT_TRANSLUCENT,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "glass_trinitite");
 
     public static final RegistryObject<Block> GLASS_POLONIUM = registerBlock("glass_polonium",
             () -> new BlockNTMGlass(BlockNTMGlass.createProperties(MapColor.COLOR_PURPLE, 0.3F), false, 5),
-            BlockModel.CUBE_ALL_TRANSLUCENT,
+            BlockModel.CT_TRANSLUCENT,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "glass_polonium");
 
     public static final RegistryObject<Block> GLASS_ASH = registerBlock("glass_ash",
             () -> new BlockNTMGlass(BlockNTMGlass.createProperties(MapColor.COLOR_GRAY, 3.0F), false),
-            BlockModel.CUBE_ALL_TRANSLUCENT,
+            BlockModel.CT_TRANSLUCENT,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "glass_ash");
 
     public static final RegistryObject<Block> GLASS_QUARTZ = registerBlock("glass_quartz",
             () -> new BlockNTMGlass(BlockNTMGlass.createProperties(MapColor.QUARTZ, 1.0F, 40.0F, SoundType.GLASS), false),
-            BlockModel.CUBE_ALL_TRANSLUCENT,
+            BlockModel.CT_TRANSLUCENT,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "glass_quartz");
 
     public static final RegistryObject<Block> GLASS_POLARIZED = registerBlock("glass_polarized",
             () -> new BlockNTMGlass(BlockNTMGlass.createProperties(MapColor.COLOR_BLACK, 0.3F), false),
-            BlockModel.CUBE_ALL_TRANSLUCENT,
+            BlockModel.CT_TRANSLUCENT,
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "glass_polarized");
@@ -3470,7 +3719,7 @@ public class ModBlocks {
                     .sound(SoundType.SAND)
                     .requiresCorrectToolForDrops()),
             BlockModel.CUBE_ALL,
-            LootInfo.self(),
+            LootInfo.itemSilk(ModItems.RAW_OSMIRIDIUM, 1, 1),
             ToolInfo.shovel(ToolInfo.ToolLevel.WOOD),
             "ore_tektite_osmiridium");
 
@@ -3919,5 +4168,2137 @@ public class ModBlocks {
             LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "basalt_smooth");
+
+    public static final RegistryObject<Block> ASPHALT = registerBlock("asphalt",
+            () -> new BlockSpeedy(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 120.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE), 1.5D),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "asphalt");
+
+    public static final RegistryObject<Block> ASPHALT_LIGHT = registerBlock("asphalt_light",
+            () -> new BlockSpeedy(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 120.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)
+                    .lightLevel(state -> 15), 1.5D),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "asphalt_light");
+
+    // === DUCRETE ===
+    public static final RegistryObject<Block> DUCRETE_SMOOTH = registerBlock("ducrete_smooth",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(20.0F, 500.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "ducrete");
+
+    public static final RegistryObject<Block> DUCRETE = registerBlock("ducrete",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(20.0F, 500.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "ducrete_tile");
+
+    // === BRICK CONCRETE MOSSY ===
+    public static final RegistryObject<Block> BRICK_CONCRETE_MOSSY = registerBlock("brick_concrete_mossy",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_concrete_mossy");
+
+    // === BRICK DUCRETE ===
+    public static final RegistryObject<Block> BRICK_DUCRETE = registerBlock("brick_ducrete",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 750.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_ducrete");
+
+    // === REINFORCED BRICK ===
+    public static final RegistryObject<Block> REINFORCED_BRICK = registerBlock("reinforced_brick",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 300.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "reinforced_brick");
+
+    // === BRICK COMPOUND ===
+    public static final RegistryObject<Block> BRICK_COMPOUND = registerBlock("brick_compound",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 400.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_compound");
+
+    // === BRICK FIRE ===
+    public static final RegistryObject<Block> BRICK_FIRE = registerBlock("brick_fire",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(5.0F, 35.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_fire");
+
+    public static final RegistryObject<Block> LIGHTSTONE_UNREFINED = registerBlock("lightstone_unrefined",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(2.0F, 15.0F)
+                    .lightLevel(state -> 15)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "lightstone_unrefined");
+
+    public static final RegistryObject<Block> LIGHTSTONE_TILE = registerBlock("lightstone_tile",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(2.0F, 15.0F)
+                    .lightLevel(state -> 15)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "lightstone_tile");
+
+    public static final RegistryObject<Block> LIGHTSTONE_BRICKS = registerBlock("lightstone_bricks",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(2.0F, 15.0F)
+                    .lightLevel(state -> 15)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "lightstone_bricks");
+
+    public static final RegistryObject<Block> LIGHTSTONE_BRICKS_CHISELED = registerBlock("lightstone_bricks_chiseled",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(2.0F, 15.0F)
+                    .lightLevel(state -> 15)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "lightstone_bricks_chiseled");
+
+    public static final RegistryObject<Block> LIGHTSTONE_CHISELED = registerBlock("lightstone_chiseled",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(2.0F, 15.0F)
+                    .lightLevel(state -> 15)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "lightstone_chiseled");
+
+
+    public static final RegistryObject<Block> CONCRETE_SMOOTH_STAIRS = registerBlock("concrete_smooth_stairs",
+            () -> new StairBlockNTM(() -> CONCRETE_SMOOTH.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .strength(15.0F, 140.0F)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.STONE)
+                            .noOcclusion()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_smooth");
+
+    public static final RegistryObject<Block> CONCRETE_STAIRS = registerBlock("concrete_stairs",
+            () -> new StairBlockNTM(() -> CONCRETE.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .strength(15.0F, 140.0F)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.STONE)
+                            .noOcclusion()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete");
+
+    public static final RegistryObject<Block> CONCRETE_ASBESTOS_STAIRS = registerBlock("concrete_asbestos_stairs",
+            () -> new StairBlockNTM(() -> CONCRETE_ASBESTOS.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .strength(15.0F, 150.0F)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.STONE)
+                            .noOcclusion()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_asbestos");
+
+    public static final RegistryObject<Block> DUCRETE_SMOOTH_STAIRS = registerBlock("ducrete_smooth_stairs",
+            () -> new StairBlockNTM(() -> DUCRETE_SMOOTH.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .strength(15.0F, 140.0F)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.STONE)
+                            .noOcclusion()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "ducrete_smooth");
+
+    public static final RegistryObject<Block> DUCRETE_STAIRS = registerBlock("ducrete_stairs",
+            () -> new StairBlockNTM(() -> DUCRETE.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .strength(15.0F, 140.0F)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.STONE)
+                            .noOcclusion()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "ducrete");
+
+    public static final RegistryObject<Block> BRICK_CONCRETE_STAIRS = registerBlock("brick_concrete_stairs",
+            () -> new StairBlockNTM(() -> BRICK_CONCRETE.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .strength(15.0F, 160.0F)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.STONE)
+                            .noOcclusion()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_concrete");
+
+    public static final RegistryObject<Block> BRICK_CONCRETE_MOSSY_STAIRS = registerBlock("brick_concrete_mossy_stairs",
+            () -> new StairBlockNTM(() -> BRICK_CONCRETE_MOSSY.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .strength(15.0F, 160.0F)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.STONE)
+                            .noOcclusion()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_concrete_mossy");
+
+    public static final RegistryObject<Block> BRICK_CONCRETE_CRACKED_STAIRS = registerBlock("brick_concrete_cracked_stairs",
+            () -> new StairBlockNTM(() -> BRICK_CONCRETE_CRACKED.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .strength(15.0F, 160.0F)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.STONE)
+                            .noOcclusion()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_concrete_cracked");
+
+    public static final RegistryObject<Block> BRICK_CONCRETE_BROKEN_STAIRS = registerBlock("brick_concrete_broken_stairs",
+            () -> new StairBlockNTM(() -> BRICK_CONCRETE_BROKEN.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .strength(15.0F, 45.0F)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.STONE)
+                            .noOcclusion()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_concrete_broken");
+
+    public static final RegistryObject<Block> BRICK_DUCRETE_STAIRS = registerBlock("brick_ducrete_stairs",
+            () -> new StairBlockNTM(() -> BRICK_DUCRETE.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .strength(15.0F, 160.0F)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.STONE)
+                            .noOcclusion()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_ducrete");
+
+    public static final RegistryObject<Block> REINFORCED_STONE_STAIRS = registerBlock("reinforced_stone_stairs",
+            () -> new StairBlockNTM(() -> REINFORCED_STONE.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .strength(15.0F, 100.0F)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.STONE)
+                            .noOcclusion()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "reinforced_stone");
+
+    public static final RegistryObject<Block> REINFORCED_BRICK_STAIRS = registerBlock("reinforced_brick_stairs",
+            () -> new StairBlockNTM(() -> REINFORCED_BRICK.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .strength(15.0F, 160.0F)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.STONE)
+                            .noOcclusion()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "reinforced_brick");
+
+    public static final RegistryObject<Block> BRICK_OBSIDIAN_STAIRS = registerBlock("brick_obsidian_stairs",
+            () -> new StairBlockNTM(() -> BRICK_OBSIDIAN.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .strength(15.0F, 120.0F)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.STONE)
+                            .noOcclusion()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.DIAMOND),
+            "brick_obsidian");
+
+    public static final RegistryObject<Block> BRICK_LIGHT_STAIRS = registerBlock("brick_light_stairs",
+            () -> new StairBlockNTM(() -> BRICK_LIGHT.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .strength(5.0F, 20.0F)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.STONE)
+                            .noOcclusion()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_light");
+
+    public static final RegistryObject<Block> BRICK_COMPOUND_STAIRS = registerBlock("brick_compound_stairs",
+            () -> new StairBlockNTM(() -> BRICK_COMPOUND.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .strength(15.0F, 160.0F)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.STONE)
+                            .noOcclusion()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_compound");
+
+    public static final RegistryObject<Block> BRICK_ASBESTOS_STAIRS = registerBlock("brick_asbestos_stairs",
+            () -> new StairBlockNTM(() -> BRICK_ASBESTOS.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.SNOW)
+                            .strength(5.0F, 1000.0F)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.STONE)
+                            .noOcclusion()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_asbestos");
+
+    public static final RegistryObject<Block> BRICK_FIRE_STAIRS = registerBlock("brick_fire_stairs",
+            () -> new StairBlockNTM(() -> BRICK_FIRE.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .strength(15.0F, 160.0F)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.STONE)
+                            .noOcclusion()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_fire");
+
+    public static final RegistryObject<Block> ASPHALT_STAIRS = registerBlock("asphalt_stairs",
+            () -> new StairBlockNTM(() -> ASPHALT.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .strength(15.0F, 140.0F)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.STONE)
+                            .noOcclusion()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "asphalt");
+
+    public static final RegistryObject<Block> LIGHTSTONE_TILE_STAIRS = registerBlock("lightstone_tile_stairs",
+            () -> new StairBlockNTM(() -> LIGHTSTONE_TILE.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .strength(2.0F, 15.0F)
+                            .lightLevel(state -> 15)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.STONE)
+                            .noOcclusion()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "lightstone_tile");
+
+    public static final RegistryObject<Block> LIGHTSTONE_BRICKS_STAIRS = registerBlock("lightstone_bricks_stairs",
+            () -> new StairBlockNTM(() -> LIGHTSTONE_BRICKS.get().defaultBlockState(), StairBlockNTM.createProperties()),
+            BlockModel.STAIRS,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "lightstone_bricks");
+
+    public static final RegistryObject<Block> DUNGEON_SPAWNER = registerBlock("dungeon_spawner",
+            () -> new DungeonSpawner(BlockBehaviour.Properties.of().noLootTable()
+                    .mapColor(MapColor.STONE)
+                    .strength(-1.0F, 3600000.0F)
+                    .noLootTable()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.NONE),
+            "dungeon_spawner");
+
+    public static final RegistryObject<Block> SKELETON_HOLDER = registerBlock("skeleton_holder",
+            () -> new BlockSkeletonHolder(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(2.0F, 15.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.BONE_BLOCK)),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "skeleton_holder");
+
+    public static final RegistryObject<Block> BARBED_WIRE = registerBlock("barbed_wire",
+            () -> new BarbedWire(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .strength(5.0F, 10.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.METAL)
+                    .noOcclusion()),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "barbed_wire");
+
+    public static final RegistryObject<Block> BARBED_WIRE_FIRE = registerBlock("barbed_wire_fire",
+            () -> new BarbedWire(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .strength(5.0F, 10.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.METAL)
+                    .noOcclusion()),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "barbed_wire");
+
+    public static final RegistryObject<Block> BARBED_WIRE_POISON = registerBlock("barbed_wire_poison",
+            () -> new BarbedWire(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .strength(5.0F, 10.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.METAL)
+                    .noOcclusion()),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "barbed_wire");
+
+    public static final RegistryObject<Block> BARBED_WIRE_ACID = registerBlock("barbed_wire_acid",
+            () -> new BarbedWire(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .strength(5.0F, 10.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.METAL)
+                    .noOcclusion()),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "barbed_wire");
+
+    public static final RegistryObject<Block> BARBED_WIRE_WITHER = registerBlock("barbed_wire_wither",
+            () -> new BarbedWire(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .strength(5.0F, 10.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.METAL)
+                    .noOcclusion()),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "barbed_wire");
+
+    public static final RegistryObject<Block> BARBED_WIRE_ULTRA_DEATH = registerBlock("barbed_wire_ultradeath",
+            () -> new BarbedWire(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .strength(5.0F, 10.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.METAL)
+                    .noOcclusion()),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "barbed_wire");
+
+    public static final RegistryObject<Block> CONCRETE_BRICK_SLAB_BRICK_CONCRETE = registerBlock("concrete_brick_slab_brick_concrete",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_concrete");
+
+    public static final RegistryObject<Block> CONCRETE_BRICK_SLAB_BRICK_CONCRETE_MOSSY = registerBlock("concrete_brick_slab_brick_concrete_mossy",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_concrete_mossy");
+
+    public static final RegistryObject<Block> CONCRETE_BRICK_SLAB_BRICK_CONCRETE_CRACKED = registerBlock("concrete_brick_slab_brick_concrete_cracked",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_concrete_cracked");
+
+    public static final RegistryObject<Block> CONCRETE_BRICK_SLAB_BRICK_CONCRETE_BROKEN = registerBlock("concrete_brick_slab_brick_concrete_broken",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 45.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_concrete_broken");
+
+    public static final RegistryObject<Block> CONCRETE_BRICK_SLAB_BRICK_DUCRETE = registerBlock("concrete_brick_slab_brick_ducrete",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_ducrete");
+
+    public static final RegistryObject<Block> CONCRETE_SLAB_CONCRETE_SMOOTH = registerBlock("concrete_slab_concrete_smooth",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 140.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_smooth");
+
+    public static final RegistryObject<Block> CONCRETE_SLAB_CONCRETE = registerBlock("concrete_slab_concrete",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 140.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete");
+
+    public static final RegistryObject<Block> CONCRETE_SLAB_CONCRETE_ASBESTOS = registerBlock("concrete_slab_concrete_asbestos",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 150.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_asbestos");
+
+    public static final RegistryObject<Block> CONCRETE_SLAB_DUCRETE_SMOOTH = registerBlock("concrete_slab_ducrete_smooth",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 140.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "ducrete_smooth");
+
+    public static final RegistryObject<Block> CONCRETE_SLAB_DUCRETE = registerBlock("concrete_slab_ducrete",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 140.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "ducrete");
+
+    public static final RegistryObject<Block> CONCRETE_SLAB_ASPHALT = registerBlock("concrete_slab_asphalt",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 140.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "asphalt");
+
+    public static final RegistryObject<Block> CONCRETE_DOUBLE_SLAB_CONCRETE_SMOOTH = registerBlock("concrete_double_slab_concrete_smooth",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 140.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_smooth");
+
+    public static final RegistryObject<Block> CONCRETE_DOUBLE_SLAB_CONCRETE = registerBlock("concrete_double_slab_concrete",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 140.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete");
+
+    public static final RegistryObject<Block> CONCRETE_DOUBLE_SLAB_CONCRETE_ASBESTOS = registerBlock("concrete_double_slab_concrete_asbestos",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 150.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "concrete_asbestos");
+
+    public static final RegistryObject<Block> CONCRETE_DOUBLE_SLAB_DUCRETE_SMOOTH = registerBlock("concrete_double_slab_ducrete_smooth",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 140.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "ducrete_smooth");
+
+    public static final RegistryObject<Block> CONCRETE_DOUBLE_SLAB_DUCRETE = registerBlock("concrete_double_slab_ducrete",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 140.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "ducrete");
+
+    public static final RegistryObject<Block> CONCRETE_DOUBLE_SLAB_ASPHALT = registerBlock("concrete_double_slab_asphalt",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 140.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "asphalt");
+
+    public static final RegistryObject<Block> CONCRETE_BRICK_DOUBLE_SLAB_BRICK_CONCRETE = registerBlock("concrete_brick_double_slab_brick_concrete",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_concrete");
+
+    public static final RegistryObject<Block> CONCRETE_BRICK_DOUBLE_SLAB_BRICK_CONCRETE_MOSSY = registerBlock("concrete_brick_double_slab_brick_concrete_mossy",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_concrete_mossy");
+
+    public static final RegistryObject<Block> CONCRETE_BRICK_DOUBLE_SLAB_BRICK_CONCRETE_CRACKED = registerBlock("concrete_brick_double_slab_brick_concrete_cracked",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_concrete_cracked");
+
+    public static final RegistryObject<Block> CONCRETE_BRICK_DOUBLE_SLAB_BRICK_CONCRETE_BROKEN = registerBlock("concrete_brick_double_slab_brick_concrete_broken",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 45.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_concrete_broken");
+
+    public static final RegistryObject<Block> CONCRETE_BRICK_DOUBLE_SLAB_BRICK_DUCRETE = registerBlock("concrete_brick_double_slab_brick_ducrete",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_ducrete");
+
+    public static final RegistryObject<Block> WAND_LOOT = registerBlock("wand_loot",
+            () -> new BlockWandLoot(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .strength(5.0F, 10.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.METAL)
+                    .noOcclusion()),
+            BlockModel.CUBE_TOP_BOTTOM,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "wand_loot_side", "wand_loot_top", "wand_loot_top");
+
+    public static final RegistryObject<Block> DECO_PIPE = registerBlock("deco_pipe",
+            () -> new BlockPipe(PipeType.NORMAL, PipeColor.DEFAULT, false),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe", "pipe_side");
+
+    public static final RegistryObject<Block> DECO_PIPE_RUSTED = registerBlock("deco_pipe_rusted",
+            () -> new BlockPipe(PipeType.NORMAL, PipeColor.DEFAULT, true),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe", "pipe_side_rusty");
+
+    public static final RegistryObject<Block> DECO_PIPE_GREEN = registerBlock("deco_pipe_green",
+            () -> new BlockPipe(PipeType.NORMAL, PipeColor.GREEN, false),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe", "pipe_side_green");
+
+    public static final RegistryObject<Block> DECO_PIPE_GREEN_RUSTED = registerBlock("deco_pipe_green_rusted",
+            () -> new BlockPipe(PipeType.NORMAL, PipeColor.GREEN, true),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe", "pipe_side_green_rusty");
+
+    public static final RegistryObject<Block> DECO_PIPE_RED = registerBlock("deco_pipe_red",
+            () -> new BlockPipe(PipeType.NORMAL, PipeColor.RED, false),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe", "pipe_side_red");
+
+    public static final RegistryObject<Block> DECO_PIPE_MARKED = registerBlock("deco_pipe_marked",
+            () -> new BlockPipe(PipeType.NORMAL, PipeColor.MARKED, false),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe", "pipe_side_marked");
+
+    public static final RegistryObject<Block> DECO_PIPE_RIM = registerBlock("deco_pipe_rim",
+            () -> new BlockPipe(PipeType.RIM, PipeColor.DEFAULT, false),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe_rim", "pipe_side");
+
+    public static final RegistryObject<Block> DECO_PIPE_RIM_RUSTED = registerBlock("deco_pipe_rim_rusted",
+            () -> new BlockPipe(PipeType.RIM, PipeColor.DEFAULT, true),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe_rim", "pipe_side_rusty");
+
+    public static final RegistryObject<Block> DECO_PIPE_RIM_GREEN = registerBlock("deco_pipe_rim_green",
+            () -> new BlockPipe(PipeType.RIM, PipeColor.GREEN, false),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe_rim", "pipe_side_green");
+
+    public static final RegistryObject<Block> DECO_PIPE_RIM_GREEN_RUSTED = registerBlock("deco_pipe_rim_green_rusted",
+            () -> new BlockPipe(PipeType.RIM, PipeColor.GREEN, true),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe_rim", "pipe_side_green_rusty");
+
+    public static final RegistryObject<Block> DECO_PIPE_RIM_RED = registerBlock("deco_pipe_rim_red",
+            () -> new BlockPipe(PipeType.RIM, PipeColor.RED, false),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe_rim", "pipe_side_red");
+
+    public static final RegistryObject<Block> DECO_PIPE_RIM_MARKED = registerBlock("deco_pipe_rim_marked",
+            () -> new BlockPipe(PipeType.RIM, PipeColor.MARKED, false),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe_rim", "pipe_side_marked");
+
+    public static final RegistryObject<Block> DECO_PIPE_QUAD = registerBlock("deco_pipe_quad",
+            () -> new BlockPipe(PipeType.QUAD, PipeColor.DEFAULT, false),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe_quad", "pipe_side");
+
+    public static final RegistryObject<Block> DECO_PIPE_QUAD_RUSTED = registerBlock("deco_pipe_quad_rusted",
+            () -> new BlockPipe(PipeType.QUAD, PipeColor.DEFAULT, true),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe_quad", "pipe_side_rusty");
+
+    public static final RegistryObject<Block> DECO_PIPE_QUAD_GREEN = registerBlock("deco_pipe_quad_green",
+            () -> new BlockPipe(PipeType.QUAD, PipeColor.GREEN, false),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe_quad", "pipe_side_green");
+
+    public static final RegistryObject<Block> DECO_PIPE_QUAD_GREEN_RUSTED = registerBlock("deco_pipe_quad_green_rusted",
+            () -> new BlockPipe(PipeType.QUAD, PipeColor.GREEN, true),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe_quad", "pipe_side_green_rusty");
+
+    public static final RegistryObject<Block> DECO_PIPE_QUAD_RED = registerBlock("deco_pipe_quad_red",
+            () -> new BlockPipe(PipeType.QUAD, PipeColor.RED, false),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe_quad", "pipe_side_red");
+
+    public static final RegistryObject<Block> DECO_PIPE_QUAD_MARKED = registerBlock("deco_pipe_quad_marked",
+            () -> new BlockPipe(PipeType.QUAD, PipeColor.MARKED, false),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe_quad", "pipe_side_marked");
+
+    public static final RegistryObject<Block> DECO_PIPE_FRAMED = registerBlock("deco_pipe_framed",
+            () -> new BlockPipe(PipeType.FRAMED, PipeColor.DEFAULT, false),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe_framed", "pipe_side");
+
+    public static final RegistryObject<Block> DECO_PIPE_FRAMED_RUSTED = registerBlock("deco_pipe_framed_rusted",
+            () -> new BlockPipe(PipeType.FRAMED, PipeColor.DEFAULT, true),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe_framed", "pipe_side_rusty");
+
+    public static final RegistryObject<Block> DECO_PIPE_FRAMED_GREEN = registerBlock("deco_pipe_framed_green",
+            () -> new BlockPipe(PipeType.FRAMED, PipeColor.GREEN, false),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe_framed", "pipe_side_green");
+
+    public static final RegistryObject<Block> DECO_PIPE_FRAMED_GREEN_RUSTED = registerBlock("deco_pipe_framed_green_rusted",
+            () -> new BlockPipe(PipeType.FRAMED, PipeColor.GREEN, true),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe_framed", "pipe_side_green_rusty");
+
+    public static final RegistryObject<Block> DECO_PIPE_FRAMED_RED = registerBlock("deco_pipe_framed_red",
+            () -> new BlockPipe(PipeType.FRAMED, PipeColor.RED, false),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe_framed", "pipe_side_red");
+
+    public static final RegistryObject<Block> DECO_PIPE_FRAMED_MARKED = registerBlock("deco_pipe_framed_marked",
+            () -> new BlockPipe(PipeType.FRAMED, PipeColor.MARKED, false),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pipe_framed", "pipe_side_marked");
+
+    public static final RegistryObject<Block> BRICK_SLAB_REINFORCED_STONE = registerBlock("brick_slab_reinforced_stone",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "reinforced_stone");
+
+    public static final RegistryObject<Block> BRICK_SLAB_REINFORCED_BRICK = registerBlock("brick_slab_reinforced_brick",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "reinforced_brick");
+
+    public static final RegistryObject<Block> BRICK_SLAB_BRICK_OBSIDIAN = registerBlock("brick_slab_brick_obsidian",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_obsidian");
+
+    public static final RegistryObject<Block> BRICK_SLAB_BRICK_LIGHT = registerBlock("brick_slab_brick_light",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_light");
+
+    public static final RegistryObject<Block> BRICK_SLAB_BRICK_COMPOUND = registerBlock("brick_slab_brick_compound",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_compound");
+
+    public static final RegistryObject<Block> BRICK_SLAB_BRICK_ASBESTOS = registerBlock("brick_slab_brick_asbestos",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 150.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_asbestos");
+
+    public static final RegistryObject<Block> BRICK_SLAB_BRICK_FIRE = registerBlock("brick_slab_brick_fire",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_fire");
+
+    // === BRICK DOUBLE SLAB ===
+    public static final RegistryObject<Block> BRICK_DOUBLE_SLAB_REINFORCED_STONE = registerBlock("brick_double_slab_reinforced_stone",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "reinforced_stone");
+
+    public static final RegistryObject<Block> BRICK_DOUBLE_SLAB_REINFORCED_BRICK = registerBlock("brick_double_slab_reinforced_brick",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "reinforced_brick");
+
+    public static final RegistryObject<Block> BRICK_DOUBLE_SLAB_BRICK_OBSIDIAN = registerBlock("brick_double_slab_brick_obsidian",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_obsidian");
+
+    public static final RegistryObject<Block> BRICK_DOUBLE_SLAB_BRICK_LIGHT = registerBlock("brick_double_slab_brick_light",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_light");
+
+    public static final RegistryObject<Block> BRICK_DOUBLE_SLAB_BRICK_COMPOUND = registerBlock("brick_double_slab_brick_compound",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_compound");
+
+    public static final RegistryObject<Block> BRICK_DOUBLE_SLAB_BRICK_ASBESTOS = registerBlock("brick_double_slab_brick_asbestos",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 150.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_asbestos");
+
+    public static final RegistryObject<Block> BRICK_DOUBLE_SLAB_BRICK_FIRE = registerBlock("brick_double_slab_brick_fire",
+            () -> new ConcreteSlab(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 160.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)),
+            BlockModel.SLAB,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_fire");
+
+    public static final RegistryObject<Block> REINFORCED_GLASS = registerBlock("reinforced_glass",
+            () -> new BlockNTMGlass(BlockNTMGlass.createProperties(MapColor.COLOR_GRAY, 2.0F, 25.0F, SoundType.GLASS), false),
+            BlockModel.CT_TRANSLUCENT,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "reinforced_glass");
+
+    public static final RegistryObject<Block> RED_WIRE_COATED = registerBlock("red_wire_coated",
+            WireCoated::new,
+            BlockModel.CT,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "red_wire_coated");
+
+    public static final RegistryObject<Block> DECO_COMPUTER = registerBlock("deco/deco_computer",
+            DecoComputer::new,
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "deco/deco_computer");
+
+    public static final RegistryObject<Block> FENCE_METAL = registerBlock("fence_metal",
+            () -> new BlockMetalFence(BlockMetalFence.FenceType.NORMAL),
+            BlockModel.MODEL_ITEM_STATIC,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "fence_metal");
+
+    public static final RegistryObject<Block> FENCE_METAL_POST = registerBlock("fence_metal_post",
+            () -> new BlockMetalFence(BlockMetalFence.FenceType.POST),
+            BlockModel.MODEL_ITEM_STATIC,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "fence_metal_post");
+
+    public static final RegistryObject<Block> MACHINE_FUNNEL = registerBlock("machines/machine_funnel",
+            BlockMachineFunnel::new,
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "machines/machine_funnel");
+
+    public static final RegistryObject<Block> REINFORCED_SAND = registerBlock("reinforced_sand",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SAND)
+                    .strength(15.0F, 40.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.SAND)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "reinforced_sand");
+
+    public static final RegistryObject<Block> REINFORCED_LIGHT = registerBlock("reinforced_light",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(15.0F, 80.0F)
+                    .lightLevel(state -> 15)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "reinforced_light");
+
+    public static final RegistryObject<Block> SPIKES = registerBlock("spikes",
+            () -> new BlockSpikes(BlockSpikes.createProperties()),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "spikes");
+
+    public static final RegistryObject<Block> MACHINE_ELECTRIC_FURNACE = registerBlock("machines/machine_electric_furnace",
+            () -> new MachineElectricFurnace(MachineElectricFurnace.createProperties()),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "machines/machine_blast_furnace");
+
+    public static final RegistryObject<Block> TURRET_HOWARD = registerBlock("turrets/turret_howard",
+            () -> new TurretHoward(TurretHoward.createProperties()),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "turrets/turret_howard");
+
+    public static final RegistryObject<Block> TURRET_HOWARD_DAMAGED = registerBlock("turrets/turret_howard_damaged",
+            () -> new TurretHowardDamaged(TurretHowardDamaged.createProperties().noLootTable()),
+            BlockModel.MULTIBLOCK,
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "turrets/turret_howard_damaged", "turrets/turret_howard_rusted");
+
+    public static final RegistryObject<Block> LADDER_STURDY = registerBlock("ladder_sturdy",
+            () -> new LadderBlock(BlockBehaviour.Properties.of().strength(0.25F, 2.0F).noOcclusion().sound(SoundType.LADDER)),
+            BlockModel.LADDER,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "ladder_sturdy"
+    );
+
+    public static final RegistryObject<Block> LADDER_IRON = registerBlock("ladder_iron",
+            () -> new LadderBlock(BlockBehaviour.Properties.of().strength(0.25F, 2.0F).noOcclusion().sound(SoundType.LADDER)),
+            BlockModel.LADDER,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.STONE),
+            "ladder_iron"
+    );
+
+    public static final RegistryObject<Block> LADDER_GOLD = registerBlock("ladder_gold",
+            () -> new LadderBlock(BlockBehaviour.Properties.of().strength(0.25F, 2.0F).noOcclusion().sound(SoundType.LADDER)),
+            BlockModel.LADDER,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.STONE),
+            "ladder_gold"
+    );
+
+    public static final RegistryObject<Block> LADDER_ALUMINIUM = registerBlock("ladder_aluminium",
+            () -> new LadderBlock(BlockBehaviour.Properties.of().strength(0.25F, 2.0F).noOcclusion().sound(SoundType.LADDER)),
+            BlockModel.LADDER,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.STONE),
+            "ladder_aluminium"
+    );
+
+    public static final RegistryObject<Block> LADDER_COPPER = registerBlock("ladder_copper",
+            () -> new LadderBlock(BlockBehaviour.Properties.of().strength(0.25F, 2.0F).noOcclusion().sound(SoundType.LADDER)),
+            BlockModel.LADDER,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.STONE),
+            "ladder_copper"
+    );
+
+    public static final RegistryObject<Block> LADDER_TITANIUM = registerBlock("ladder_titanium",
+            () -> new LadderBlock(BlockBehaviour.Properties.of().strength(0.25F, 2.0F).noOcclusion().sound(SoundType.LADDER)),
+            BlockModel.LADDER,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "ladder_titanium"
+    );
+
+    public static final RegistryObject<Block> LADDER_LEAD = registerBlock("ladder_lead",
+            () -> new LadderBlock(BlockBehaviour.Properties.of().strength(0.25F, 2.0F).noOcclusion().sound(SoundType.LADDER)),
+            BlockModel.LADDER,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.STONE),
+            "ladder_lead"
+    );
+
+    public static final RegistryObject<Block> LADDER_COBALT = registerBlock("ladder_cobalt",
+            () -> new LadderBlock(BlockBehaviour.Properties.of().strength(0.25F, 2.0F).noOcclusion().sound(SoundType.LADDER)),
+            BlockModel.LADDER,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "ladder_cobalt"
+    );
+
+    public static final RegistryObject<Block> LADDER_STEEL = registerBlock("ladder_steel",
+            () -> new LadderBlock(BlockBehaviour.Properties.of().strength(0.25F, 2.0F).noOcclusion().sound(SoundType.LADDER)),
+            BlockModel.LADDER,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "ladder_steel"
+    );
+
+    public static final RegistryObject<Block> LADDER_TUNGSTEN = registerBlock("ladder_tungsten",
+            () -> new LadderBlock(BlockBehaviour.Properties.of().strength(0.25F, 2.0F).noOcclusion().sound(SoundType.LADDER)),
+            BlockModel.LADDER,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.DIAMOND),
+            "ladder_tungsten"
+    );
+
+    public static final RegistryObject<Block> REINFORCED_LAMP = registerBlock("reinforced_lamp",
+            () -> new ReinforcedLamp(ReinforcedLamp.createProperties()),
+            BlockModel.CUBE_ALL_SWITCH,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.STONE),
+            "reinforced_lamp_off", "reinforced_lamp_on"
+    );
+
+    public static final RegistryObject<Block> REINFORCED_GLASS_PANE = registerBlock("reinforced_glass_pane",
+            () -> new BlockNTMGlassPane(Block.Properties.of()
+                    .strength(2.0F, 25.0F)
+                    .noOcclusion()
+                    .noLootTable()
+                    .isValidSpawn((s, l, p, e) -> false)
+                    .isRedstoneConductor((s, l, p) -> false)
+                    .isSuffocating((s, l, p) -> false)
+                    .isViewBlocking((s, l, p) -> false)
+                    .sound(SoundType.GLASS),
+                    false),
+            BlockModel.PANE,
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "reinforced_glass_pane", "reinforced_glass_pane_edge", "translucent"
+    );
+
+    public static final RegistryObject<Block> REINFORCED_LAMINATE_PANE = registerBlock("reinforced_laminate_pane",
+            () -> new BlockNTMGlassPane(Block.Properties.of()
+                    .strength(15.0F, 300.0F)
+                    .noOcclusion()
+                    .isValidSpawn((s, l, p, e) -> false)
+                    .isRedstoneConductor((s, l, p) -> false)
+                    .isSuffocating((s, l, p) -> false)
+                    .isViewBlocking((s, l, p) -> false)
+                    .sound(SoundType.GLASS),
+                    true),
+            BlockModel.PANE,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "reinforced_laminate_pane", "reinforced_laminate_pane_edge", "translucent"
+    );
+
+    public static final RegistryObject<Block> FRACTION_SPACER = registerBlock("machines/fraction_spacer",
+            () -> new FractionSpacer(FractionSpacer.createProperties()),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "machines/fraction_spacer");
+
+    public static final RegistryObject<Block> MACHINE_FRACTION_TOWER = registerBlock("machines/machine_fraction_tower",
+            () -> new MachineFractionTower(MachineFractionTower.createProperties()),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "machines/machine_fraction_tower");
+
+    public static final RegistryObject<Block> CHARGER = registerBlock("machines/charger",
+            () -> new Charger(Charger.createProperties()),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "machines/charger");
+
+    public static final RegistryObject<Block> MACHINE_MICROWAVE = registerBlock("machines/machine_microwave",
+            () -> new MachineMicrowave(MachineMicrowave.createProperties()),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON));
+
+    public static final RegistryObject<Block> DECO_TOASTER_IRON = registerBlock("deco/deco_toaster_iron",
+            () -> new BlockDecoToaster(BlockDecoToaster.createProperties()),
+            BlockModel.OBJ_MODEL_HORIZONTAL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "deco/deco_toaster", "deco/toaster_iron");
+
+    public static final RegistryObject<Block> DECO_TOASTER_STEEL = registerBlock("deco/deco_toaster_steel",
+            () -> new BlockDecoToaster(BlockDecoToaster.createProperties()),
+            BlockModel.OBJ_MODEL_HORIZONTAL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "deco/deco_toaster", "deco/toaster_steel");
+
+    public static final RegistryObject<Block> DECO_TOASTER_WOOD = registerBlock("deco/deco_toaster_wood",
+            () -> new BlockDecoToaster(BlockDecoToaster.createProperties()),
+            BlockModel.OBJ_MODEL_HORIZONTAL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "deco/deco_toaster", "deco/toaster_wood");
+
+    public static final RegistryObject<Block> RAIL_WOOD = registerBlock("rail_wood",
+            () -> new RailGeneric(BlockBehaviour.Properties.of()
+                    .strength(5.0F, 10.0F)
+                    .noOcclusion()
+                    .sound(SoundType.METAL)),
+            BlockModel.RAIL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.WOOD),
+            "rail_wood");
+
+    public static final RegistryObject<Block> RAIL_NARROW = registerBlock("rail_narrow",
+            () -> new RailGeneric(BlockBehaviour.Properties.of()
+                    .strength(5.0F, 10.0F)
+                    .noOcclusion()
+                    .sound(SoundType.METAL)),
+            BlockModel.RAIL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.WOOD),
+            "rail_narrow");
+
+    public static final RegistryObject<Block> RAIL_HIGHSPEED = registerBlock("rail_highspeed",
+            () -> new RailGeneric(BlockBehaviour.Properties.of()
+                    .strength(5.0F, 10.0F)
+                    .noOcclusion()
+                    .sound(SoundType.METAL)),
+            BlockModel.RAIL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.WOOD),
+            "rail_highspeed");
+
+    public static final RegistryObject<Block> ORE_OIL_SAND = registerBlock("ore_oil_sand",
+            () -> new FallingBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SAND)
+                    .strength(0.5F, 1.0F)
+                    .sound(SoundType.SAND)),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.WOOD));
+
+    public static final RegistryObject<Block> MACHINE_RTG_GREY = registerBlock("machines/machine_rtg_grey",
+            () -> new MachineRTG(MachineRTG.createProperties()),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "machines/machine_rtg", "machines/machine_rtg");
+
+    public static final RegistryObject<Block> MACHINE_POWERRTG = registerBlock("machines/machine_powerrtg",
+            () -> new MachineMiniRTG(MachineMiniRTG.createProperties()),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "machines/machine_rtg", "machines/machine_rtg");
+
+    public static final RegistryObject<Block> MACHINE_MINIRTG = registerBlock("machines/machine_minirtg",
+            () -> new MachineMiniRTG(MachineMiniRTG.createProperties()),
+            BlockModel.STATIC_OBJ,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "machines/machine_rtg", "machines/machine_rtg");
+
+    public static final RegistryObject<Block> STALACTITE_SULFUR = registerBlock("stalactite_sulfur",
+            () -> new BlockStalagmite(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(0.5F, 2.0F)
+                    .noOcclusion()
+                    .noCollission(),
+                    true),
+            BlockModel.CROSS,
+            LootInfo.item(ModItems.SULFUR, 1, 1),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.WOOD),
+            "stalactite_sulfur");
+
+    public static final RegistryObject<Block> STALACTITE_ASBESTOS = registerBlock("stalactite_asbestos",
+            () -> new BlockStalagmite(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(0.5F, 2.0F)
+                    .noOcclusion()
+                    .noCollission(),
+                    true),
+            BlockModel.CROSS,
+            LootInfo.item(ModItems.POWDER_ASBESTOS, 1, 1),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.WOOD),
+            "stalactite_asbestos");
+
+    public static final RegistryObject<Block> STALAGMITE_SULFUR = registerBlock("stalagmite_sulfur",
+            () -> new BlockStalagmite(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(0.5F, 2.0F)
+                    .noOcclusion()
+                    .noCollission(),
+                    false),
+            BlockModel.CROSS,
+            LootInfo.item(ModItems.SULFUR, 1, 1),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.WOOD),
+            "stalagmite_sulfur");
+
+    public static final RegistryObject<Block> STALAGMITE_ASBESTOS = registerBlock("stalagmite_asbestos",
+            () -> new BlockStalagmite(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(0.5F, 2.0F)
+                    .noOcclusion()
+                    .noCollission(),
+                    false),
+            BlockModel.CROSS,
+            LootInfo.item(ModItems.POWDER_ASBESTOS, 1, 1),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.WOOD),
+            "stalagmite_asbestos");
+
+    public static final RegistryObject<Block> PLATEMETAL_BASE = registerBlock("platemetal_base",
+            () -> new BlockCTBase(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .strength(5.0F, 10.0F)),
+            BlockModel.CT, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "platemetal_base");
+
+    public static final RegistryObject<Block> PLATEMETAL_BLACK = registerBlock("platemetal_black",
+            () -> new BlockCTBase(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLACK)
+                    .strength(5.0F, 10.0F)),
+            BlockModel.CT, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "platemetal_black");
+
+    public static final RegistryObject<Block> PLATEMETAL_WHITE = registerBlock("platemetal_white",
+            () -> new BlockCTBase(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SNOW)
+                    .strength(5.0F, 10.0F)),
+            BlockModel.CT, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "platemetal_white");
+
+    public static final RegistryObject<Block> PLATEMETAL_RED = registerBlock("platemetal_red",
+            () -> new BlockCTBase(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .strength(5.0F, 10.0F)),
+            BlockModel.CT, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "platemetal_red");
+
+    public static final RegistryObject<Block> PLATEMETAL_GREEN = registerBlock("platemetal_green",
+            () -> new BlockCTBase(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GREEN)
+                    .strength(5.0F, 10.0F)),
+            BlockModel.CT, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "platemetal_green");
+
+    public static final RegistryObject<Block> PLATEMETAL_LIGHT_GRAY = registerBlock("platemetal_light_gray",
+            () -> new BlockCTBase(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_LIGHT_GRAY)
+                    .strength(5.0F, 10.0F)),
+            BlockModel.CT, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "platemetal_light_gray");
+
+    public static final RegistryObject<Block> PLATEMETAL_BLUE = registerBlock("platemetal_blue",
+            () -> new BlockCTBase(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLUE)
+                    .strength(5.0F, 10.0F)),
+            BlockModel.CT, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "platemetal_blue");
+
+    public static final RegistryObject<Block> PLATEMETAL_PURPLE = registerBlock("platemetal_purple",
+            () -> new BlockCTBase(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_PURPLE)
+                    .strength(5.0F, 10.0F)),
+            BlockModel.CT, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "platemetal_purple");
+
+    public static final RegistryObject<Block> PLATEMETAL_CYAN = registerBlock("platemetal_cyan",
+            () -> new BlockCTBase(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_CYAN)
+                    .strength(5.0F, 10.0F)),
+            BlockModel.CT, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "platemetal_cyan");
+
+    public static final RegistryObject<Block> PLATEMETAL_PINK = registerBlock("platemetal_pink",
+            () -> new BlockCTBase(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_PINK)
+                    .strength(5.0F, 10.0F)),
+            BlockModel.CT, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "platemetal_pink");
+
+    public static final RegistryObject<Block> PLATEMETAL_LIME = registerBlock("platemetal_lime",
+            () -> new BlockCTBase(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_LIGHT_GREEN)
+                    .strength(5.0F, 10.0F)),
+            BlockModel.CT, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "platemetal_lime");
+
+    public static final RegistryObject<Block> PLATEMETAL_YELLOW = registerBlock("platemetal_yellow",
+            () -> new BlockCTBase(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_YELLOW)
+                    .strength(5.0F, 10.0F)),
+            BlockModel.CT, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "platemetal_yellow");
+
+    public static final RegistryObject<Block> PLATEMETAL_LIGHT_BLUE = registerBlock("platemetal_light_blue",
+            () -> new BlockCTBase(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_LIGHT_BLUE)
+                    .strength(5.0F, 10.0F)),
+            BlockModel.CT, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "platemetal_light_blue");
+
+    public static final RegistryObject<Block> PLATEMETAL_MAGENTA = registerBlock("platemetal_magenta",
+            () -> new BlockCTBase(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_MAGENTA)
+                    .strength(5.0F, 10.0F)),
+            BlockModel.CT, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "platemetal_magenta");
+
+    public static final RegistryObject<Block> PLATEMETAL_ORANGE = registerBlock("platemetal_orange",
+            () -> new BlockCTBase(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_ORANGE)
+                    .strength(5.0F, 10.0F)),
+            BlockModel.CT, LootInfo.self(), ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "platemetal_orange");
+
+    public static final RegistryObject<Block> RED_CABLE_GAUGE = registerBlock("red_cable_gauge",
+            () -> new BlockCableGauge(BlockCableGauge.createProperties()),
+            BlockModel.CUBE_FRONT_SIDE,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "red_cable_gauge_front",
+            "red_cable_gauge_side",
+            "red_cable_gauge_side");
+
+    public static final RegistryObject<Block> WOOD_BARRIER = registerBlock("wood_barrier",
+            () -> new BlockBarrier(BlockBarrier.createProperties()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            LootInfo.self(),
+            ToolInfo.axe(ToolInfo.ToolLevel.WOOD),
+            "wood_barrier");
+
+    public static final RegistryObject<Block> WOOD_STRUCTURE_ROOF = registerBlock("wood_structure_roof",
+            () -> new BlockWoodStructure(BlockWoodStructure.createProperties(), BlockWoodStructure.EnumWoodStructure.ROOF),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            LootInfo.self(),
+            ToolInfo.axe(ToolInfo.ToolLevel.WOOD),
+            "wood_barrier");
+
+    public static final RegistryObject<Block> WOOD_STRUCTURE_SCAFFOLD = registerBlock("wood_structure_scaffold",
+            () -> new BlockWoodStructure(BlockWoodStructure.createProperties(), BlockWoodStructure.EnumWoodStructure.SCAFFOLD),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            LootInfo.self(),
+            ToolInfo.axe(ToolInfo.ToolLevel.WOOD),
+            "wood_barrier");
+
+    public static final RegistryObject<Block> WOOD_STRUCTURE_CEILING = registerBlock("wood_structure_ceiling",
+            () -> new BlockWoodStructure(BlockWoodStructure.createProperties(), BlockWoodStructure.EnumWoodStructure.CEILING),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            LootInfo.self(),
+            ToolInfo.axe(ToolInfo.ToolLevel.WOOD),
+            "wood_barrier");
+
+    public static final RegistryObject<Block> VENDING_MACHINE_SODA = registerBlock("vending_machine_soda",
+            () -> new BlockVendingMachine(BlockVendingMachine.createProperties(), BlockVendingMachine.VendingVariant.SODA),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "machines/vending_machine", "machines/vending_machine");
+
+    public static final RegistryObject<Block> VENDING_MACHINE_OBAMNA = registerBlock("vending_machine_obamna",
+            () -> new BlockVendingMachine(BlockVendingMachine.createProperties(), BlockVendingMachine.VendingVariant.OBAMNA),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "machines/vending_machine", "machines/vending_machine");
+
+    public static final RegistryObject<Block> SANDBAGS = registerBlock("sandbags",
+            () -> new BlockSandbags(BlockSandbags.createProperties()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            LootInfo.self(),
+            ToolInfo.shovel(ToolInfo.ToolLevel.WOOD),
+            "sandbags");
+
+    public static final RegistryObject<Block> RADIO_TELEX = registerBlock("machines/radio_telex",
+            () -> new RadioTelex(RadioTelex.createProperties()),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "machines/radio_telex");
+
+    public static final RegistryObject<Block> HEV_BATTERY = registerBlock("hev_battery",
+            () -> new HEVBattery(HEVBattery.createProperties()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.WOOD),
+            "hev_battery");
+
+    public static final RegistryObject<Block> WAND_LOGIC = registerBlock("wand_logic",
+            () -> new BlockWandLogic(BlockWandLogic.createProperties()),
+            BlockModel.CUBE_TOP_BOTTOM,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "wand_logic_side", "wand_logic_top", "wand_logic_top");
+
+    public static final RegistryObject<Block> LOGIC_BLOCK = registerBlock("logic_block",
+            () -> new LogicBlock(LogicBlock.createProperties()),
+            BlockModel.CUBE_ALL,
+            ToolInfo.none(),
+            "logic_block");
+
+    public static final RegistryObject<Block> LOGIC_BLOCK_INVIS = registerBlock("logic_block_invis",
+            () -> new LogicBlockInvis(LogicBlockInvis.createProperties()),
+            BlockModel.CUBE_ALL,
+            ToolInfo.none(),
+            "logic_block");
+
+    public static final RegistryObject<Block> PEDESTAL = registerBlock("pedestal",
+            () -> new BlockPedestal(BlockPedestal.createProperties()),
+            BlockModel.CUBE_TOP_BOTTOM,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.WOOD),
+            "pedestal_side", "pedestal_top", "pedestal_top");
+
+    public static final RegistryObject<Block> CHARGE_DYNAMITE = registerBlock("charge_dynamite",
+            () -> new BlockChargeDynamite(BlockChargeBase.createProperties()),
+            BlockModel.OBJ_MODEL_FULL,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "bomb/charge_dynamite", "bomb/charge_dynamite");
+
+    public static final RegistryObject<Block> CHARGE_MINER = registerBlock("charge_miner",
+            () -> new BlockChargeMiner(BlockChargeBase.createProperties()),
+            BlockModel.OBJ_MODEL_FULL,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "bomb/charge_dynamite", "bomb/charge_miner");
+
+    public static final RegistryObject<Block> CHARGE_C4 = registerBlock("charge_c4",
+            () -> new BlockChargeC4(BlockChargeBase.createProperties()),
+            BlockModel.OBJ_MODEL_FULL,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "bomb/charge_c4", "bomb/charge_c4");
+
+    public static final RegistryObject<Block> CHARGE_SEMTEX = registerBlock("charge_semtex",
+            () -> new BlockChargeSemtex(BlockChargeBase.createProperties()),
+            BlockModel.OBJ_MODEL_FULL,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "bomb/charge_c4", "bomb/charge_semtex");
+
+    public static final RegistryObject<Block> SLIDING_BLAST_DOOR = registerBlock("sliding_blast_door",
+            () -> new BlockDoorGeneric(BlockDoorGeneric.createProperties(10.0F, 750.0F), DoorDecl.SLIDE_DOOR),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "doors/blast_door");
+
+    public static final RegistryObject<Block> FIRE_DOOR = registerBlock("fire_door",
+            () -> new BlockDoorGeneric(BlockDoorGeneric.createProperties(10.0F, 1_000.0F), DoorDecl.FIRE_DOOR),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "doors/fire_door");
+
+    public static final RegistryObject<Block> SILO_HATCH = registerBlock("silo_hatch",
+            () -> new BlockDoorGeneric(BlockDoorGeneric.createProperties(10.0F, 100.0F), DoorDecl.SILO_HATCH),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "doors/silo_hatch");
+
+    public static final RegistryObject<Block> SILO_HATCH_LARGE = registerBlock("silo_hatch_large",
+            () -> new BlockDoorGeneric(BlockDoorGeneric.createProperties(10.0F, 100.0F), DoorDecl.SILO_HATCH_LARGE),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "doors/silo_hatch_large");
+
+    public static final RegistryObject<Block> SECURE_ACCESS_DOOR = registerBlock("secure_access_door",
+            () -> new BlockDoorGeneric(BlockDoorGeneric.createProperties(20.0F, 2_000.0F), DoorDecl.SECURE_ACCESS_DOOR),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "doors/secure_door");
+
+    public static final RegistryObject<Block> LARGE_VEHICLE_DOOR = registerBlock("large_vehicle_door",
+            () -> new BlockDoorGeneric(BlockDoorGeneric.createProperties(10.0F, 1_000.0F), DoorDecl.LARGE_VEHICLE_DOOR),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "doors/vehicle_door");
+
+    public static final RegistryObject<Block> QE_CONTAINMENT = registerBlock("qe_containment",
+            () -> new BlockDoorGeneric(BlockDoorGeneric.createProperties(10.0F, 1_000.0F), DoorDecl.QE_CONTAINMENT),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "doors/containment_door");
+
+    public static final RegistryObject<Block> QE_SLIDING_DOOR = registerBlock("qe_sliding_door",
+            () -> new BlockDoorGeneric(BlockDoorGeneric.createProperties(10.0F, 1_000.0F), DoorDecl.QE_SLIDING),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "doors/sliding_door");
+
+    public static final RegistryObject<Block> ROUND_AIRLOCK_DOOR = registerBlock("round_airlock_door",
+            () -> new BlockDoorGeneric(BlockDoorGeneric.createProperties(10.0F, 1_000.0F), DoorDecl.ROUND_AIRLOCK_DOOR),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "doors/airlock_door");
+
+    public static final RegistryObject<Block> SLIDING_SEAL_DOOR = registerBlock("sliding_seal_door",
+            () -> new BlockDoorGeneric(BlockDoorGeneric.createProperties(10.0F, 1_000.0F), DoorDecl.SLIDING_SEAL_DOOR),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "doors/seal_door");
+
+    public static final RegistryObject<Block> WATER_DOOR = registerBlock("water_door",
+            () -> new BlockDoorGeneric(BlockDoorGeneric.createProperties(5.0F, 50.0F), DoorDecl.WATER_DOOR),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "doors/water_door");
+
+    public static final RegistryObject<Block> CARGO_DOOR = registerBlock("cargo_door",
+            () -> new BlockDoorGeneric(BlockDoorGeneric.createProperties(5.0F, 50.0F), DoorDecl.CARGO_DOOR),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "doors/cargo_door");
+
+    public static final RegistryObject<Block> VAULT_DOOR = registerBlock("vault_door",
+            () -> new BlockDoorGeneric(BlockDoorGeneric.createProperties(10.0F, 1_000.0F), DoorDecl.VAULT_DOOR),
+            BlockModel.MULTIBLOCK,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "doors/vault_door", "doors/vault/vault_door_3");
+
+    public static final RegistryObject<Block> ORE_DEPTH_CINNEBAR = registerBlock("ore_depth_cinnebar",
+            () -> new BlockDepth(BlockDepth.createProperties()),
+            BlockModel.CUBE_ALL,
+            LootInfo.itemSilk(ModItems.CINNABAR, 2, 4),
+            ToolInfo.none(),
+            "ore_depth_cinnebar");
+
+    public static final RegistryObject<Block> ORE_DEPTH_ZIRCONIUM = registerBlock("ore_depth_zirconium",
+            () -> new BlockDepth(BlockDepth.createProperties()),
+            BlockModel.CUBE_ALL,
+            LootInfo.itemSilk(ModItems.NUGGET_ZIRCONIUM, 2, 3),
+            ToolInfo.none(),
+            "ore_depth_zirconium");
+
+    public static final RegistryObject<Block> ORE_DEPTH_BORAX = registerBlock("ore_depth_borax",
+            () -> new BlockDepth(BlockDepth.createProperties()),
+            BlockModel.CUBE_ALL,
+            LootInfo.itemSilk(ModItems.POWDER_BORAX, 1, 1),
+            ToolInfo.none(),
+            "ore_depth_borax");
+
+    public static final RegistryObject<Block> ORE_DEPTH_NETHER_NEODYMIUM = registerBlock("ore_depth_nether_neodymium",
+            () -> new BlockDepth(BlockDepth.createProperties()),
+            BlockModel.CUBE_ALL,
+            LootInfo.itemSilk(ModItems.FRAGMENT_NEODYMIUM, 2, 3),
+            ToolInfo.none(),
+            "ore_depth_nether_neodymium");
+
+    public static final RegistryObject<Block> CLUSTER_DEPTH_IRON = registerBlock("cluster_depth_iron",
+            () -> new BlockDepth(BlockDepth.createProperties()),
+            BlockModel.CUBE_ALL,
+            LootInfo.itemSilk(ModItems.CRYSTAL_IRON, 1, 1),
+            ToolInfo.none(),
+            "cluster_depth_iron");
+
+    public static final RegistryObject<Block> CLUSTER_DEPTH_TITANIUM = registerBlock("cluster_depth_titanium",
+            () -> new BlockDepth(BlockDepth.createProperties()),
+            BlockModel.CUBE_ALL,
+            LootInfo.itemSilk(ModItems.CRYSTAL_TITANIUM, 1, 1),
+            ToolInfo.none(),
+            "cluster_depth_titanium");
+
+    public static final RegistryObject<Block> CLUSTER_DEPTH_TUNGSTEN = registerBlock("cluster_depth_tungsten",
+            () -> new BlockDepth(BlockDepth.createProperties()),
+            BlockModel.CUBE_ALL,
+            LootInfo.itemSilk(ModItems.CRYSTAL_TUNGSTEN, 1, 1),
+            ToolInfo.none(),
+            "cluster_depth_tungsten");
+
+    public static final RegistryObject<Block> STONE_BIOME_DESERT = registerBlock("stone_biome_desert",
+            () -> new BlockBiomeStone(BlockBiomeStone.createProperties()),
+            BlockModel.CUBE_TOP_BOTTOM,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.WOOD),
+            "stone_biome_desert", "stone_biome_top_desert", "stone_biome_desert");
+
+    public static final RegistryObject<Block> STONE_BIOME_WOODLAND = registerBlock("stone_biome_woodland",
+            () -> new BlockBiomeStone(BlockBiomeStone.createProperties()),
+            BlockModel.CUBE_TOP_BOTTOM,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.WOOD),
+            "stone_biome_woodland", "stone_biome_top_woodland", "stone_biome_woodland");
+
+    public static final RegistryObject<Block> SOYUZ_CAPSULE = registerBlock("soyuz_capsule",
+            () -> new BlockSoyuzCapsule(BlockSoyuzCapsule.createProperties()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "soyuz_lander");
+
+    public static final RegistryObject<Block> LANTERN = registerBlock("lantern",
+            () -> new BlockLantern(BlockLantern.createProperties().noLootTable()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.WOOD),
+            "block_steel");
+
+    public static final RegistryObject<Block> LANTERN_BEHEMOTH = registerBlock("lantern_behemoth",
+            () -> new BlockLanternBehemoth(BlockLanternBehemoth.createProperties().noLootTable()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.WOOD),
+            "lantern_rusty");
+
+    public static final RegistryObject<Block> MACHINE_KEYFORGE = registerBlock("machine_keyforge",
+            () -> new BlockMachineKeyForge(BlockMachineKeyForge.createProperties()),
+            BlockModel.CUBE_TOP_BOTTOM,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "machine_keyforge_side", "machine_keyforge_top", "machine_keyforge_bottom");
+
+    public static final RegistryObject<Block> STONE_KEYHOLE = registerBlock("stone_keyhole",
+            () -> new BlockKeyhole(BlockKeyhole.createProperties().noLootTable()),
+            BlockModel.CUBE_TOP_BOTTOM,
+
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.WOOD),
+            "stone_keyhole", "stone", "stone");
+
+    public static final RegistryObject<Block> STONE_KEYHOLE_META = registerBlock("stone_keyhole_meta",
+            () -> new BlockRedBrickKeyhole(BlockRedBrickKeyhole.createProperties().noLootTable()),
+            BlockModel.CUBE_TOP_BOTTOM,
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.WOOD),
+            "brick_red", "stone_keyhole_meta", "brick_red_top");
+
+    public static final RegistryObject<Block> BRICK_RED = registerBlock("brick_red",
+            () -> new BlockRedBrick(BlockRedBrick.createProperties().noLootTable()),
+            BlockModel.CUBE_TOP_BOTTOM,
+
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.WOOD),
+            "brick_red", "brick_red", "brick_red_top");
+
+    public static final RegistryObject<Block> BRICK_CONCRETE_MARKED = registerBlock("brick_concrete_marked",
+            () -> new BlockWriting(BlockWriting.createProperties()),
+            BlockModel.PILLAR,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "brick_concrete_marked", "brick_concrete");
+
+    public static final RegistryObject<Block> PWR_FUEL = registerBlock("pwr_fuel",
+            () -> new BlockPillarPWR(BlockPillarPWR.createProperties()),
+            BlockModel.PILLAR,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pwr_fuel_side", "pwr_fuel_top");
+
+    public static final RegistryObject<Block> PWR_CONTROL = registerBlock("pwr_control",
+            () -> new BlockPillarPWR(BlockPillarPWR.createProperties()),
+            BlockModel.PILLAR,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pwr_control_side", "pwr_control_top");
+
+    public static final RegistryObject<Block> PWR_CHANNEL = registerBlock("pwr_channel",
+            () -> new BlockPillarPWR(BlockPillarPWR.createProperties()),
+            BlockModel.PILLAR,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "pwr_channel_side", "pwr_channel_top");
+
+    public static final RegistryObject<Block> FUSION_HATCH = registerBlock("fusion_hatch",
+            () -> new FusionHatch(FusionHatch.createProperties()),
+            BlockModel.CUBE_FRONT_SIDE_HORIZONTAL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "fusion_hatch",        // front
+            "fusion_heater_side",  // side
+            "block_tungsten",      // top
+            "block_tungsten");     // bottom
+
+    public static final RegistryObject<Block> HADRON_COIL_ALLOY = registerBlock("hadron_coil_alloy",
+            () -> new BlockHadronCoil(BlockHadronCoil.createProperties(), 10),
+            BlockModel.CT,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "hadron_coil_alloy");
+
+    public static final RegistryObject<Block> HADRON_COIL_GOLD = registerBlock("hadron_coil_gold",
+            () -> new BlockHadronCoil(BlockHadronCoil.createProperties(), 25),
+            BlockModel.CT,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "hadron_coil_gold");
+
+    public static final RegistryObject<Block> HADRON_COIL_NEODYMIUM = registerBlock("hadron_coil_neodymium",
+            () -> new BlockHadronCoil(BlockHadronCoil.createProperties(), 50),
+            BlockModel.CT,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "hadron_coil_neodymium");
+
+    public static final RegistryObject<Block> HADRON_COIL_MAGTUNG = registerBlock("hadron_coil_magtung",
+            () -> new BlockHadronCoil(BlockHadronCoil.createProperties(), 100),
+            BlockModel.CT,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "hadron_coil_magtung");
+
+    public static final RegistryObject<Block> HADRON_COIL_SCHRABIDIUM = registerBlock("hadron_coil_schrabidium",
+            () -> new BlockHadronCoil(BlockHadronCoil.createProperties(), 250),
+            BlockModel.CT,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "hadron_coil_schrabidium");
+
+    public static final RegistryObject<Block> HADRON_COIL_SCHRABIDATE = registerBlock("hadron_coil_schrabidate",
+            () -> new BlockHadronCoil(BlockHadronCoil.createProperties(), 500),
+            BlockModel.CT,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "hadron_coil_schrabidate");
+
+    public static final RegistryObject<Block> HADRON_COIL_STARMETAL = registerBlock("hadron_coil_starmetal",
+            () -> new BlockHadronCoil(BlockHadronCoil.createProperties(), 1000),
+            BlockModel.CT,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "hadron_coil_starmetal");
+
+    public static final RegistryObject<Block> HADRON_COIL_CHLOROPHYTE = registerBlock("hadron_coil_chlorophyte",
+            () -> new BlockHadronCoil(BlockHadronCoil.createProperties(), 2500),
+            BlockModel.CT,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "hadron_coil_chlorophyte");
+
+    public static final RegistryObject<Block> HADRON_COIL_MESE = registerBlock("hadron_coil_mese",
+            () -> new BlockHadronCoil(BlockHadronCoil.createProperties(), 10000),
+            BlockModel.CT,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "hadron_coil_mese");
+
+    public static final RegistryObject<Block> NUKE_MAN = registerBlock("nuke_man",
+            () -> new BlockNukeMan(BlockNukeMan.createProperties()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "bomb/bomb_man", "bomb/bomb_man");
+
+    public static final RegistryObject<Block> MACHINE_UF6_TANK = registerBlock("machine_uf6_tank",
+            () -> new BlockUF6Tank(BlockUF6Tank.createProperties()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "uf6");
+
+    public static final RegistryObject<Block> MACHINE_PUF6_TANK = registerBlock("machine_puf6_tank",
+            () -> new BlockUF6Tank(BlockUF6Tank.createProperties()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "puf6");
+
+    public static final RegistryObject<Block> VINYL_TILE_LARGE = registerBlock("vinyl_tile_large",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(10.0F, 60.0F)
+                    .sound(SoundType.GLASS)
+                    .requiresCorrectToolForDrops()),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "vinyl_tile_large");
+
+    public static final RegistryObject<Block> VINYL_TILE_SMALL = registerBlock("vinyl_tile_small",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .strength(10.0F, 60.0F)
+                    .sound(SoundType.GLASS)
+                    .requiresCorrectToolForDrops()),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "vinyl_tile_small");
+
+    public static final RegistryObject<Block> FAN = registerBlock("fan",
+            () -> new BlockMachineFan(BlockMachineFan.createProperties()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "fan");
+
+    public static final RegistryObject<Block> TRAPDOOR_STEEL = registerBlock("trapdoor_steel",
+            () -> new BlockNTMTrapdoor(BlockNTMTrapdoor.createProperties()),
+            BlockModel.TRAPDOOR,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "trapdoor_steel");
+
+    public static final RegistryObject<Block> MACHINE_CONDENSER = registerBlock("machine_condenser",
+            () -> new MachineCondenser(MachineCondenser.createProperties()),
+            BlockModel.CUBE_ALL,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "condenser");
+
+    public static final RegistryObject<Block> CABLE_DETECTOR = registerBlock("cable_detector",
+            () -> new CableDetector(CableDetector.createProperties()),
+            BlockModel.CUBE_ALL_SWITCH,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "cable_detector_off",
+            "cable_detector_on");
+
+    public static final RegistryObject<Block> CABLE_DIODE = registerBlock("cable_diode",
+            () -> new CableDiode(CableDiode.createProperties()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            LootInfo.self(),
+            ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
+            "cable_diode");
+
+    public static final RegistryObject<Block> REEDS_BOTTOM = registerBlock("reeds_bottom",
+            () -> new BlockReeds(BlockReeds.createProperties(), 0),
+            BlockModel.CROSS,
+            LootInfo.item(() -> Items.STICK, 1, 1),
+            ToolInfo.none(),
+            "reeds_bottom");
+
+    public static final RegistryObject<Block> REEDS_MID = registerBlock("reeds_mid",
+            () -> new BlockReeds(BlockReeds.createProperties(), 1),
+            BlockModel.CROSS,
+            LootInfo.item(() -> Items.STICK, 1, 1),
+            ToolInfo.none(),
+            "reeds_mid");
+
+    public static final RegistryObject<Block> REEDS_TOP = registerBlock("reeds_top",
+            () -> new BlockReeds(BlockReeds.createProperties(), 2),
+            BlockModel.CROSS,
+            LootInfo.item(() -> Items.STICK, 1, 1),
+            ToolInfo.none(),
+            "reeds_top");
+
+    public static final RegistryObject<Block> RADIO_TORCH_SENDER = registerBlock("radio_torch_sender",
+            () -> new RadioTorchSender(RadioTorchSender.createProperties()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "rtty_sender_off");
+
+    public static final RegistryObject<Block> RADIO_TORCH_RECEIVER = registerBlock("radio_torch_receiver",
+            () -> new RadioTorchReceiver(RadioTorchReceiver.createProperties()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "rtty_rec_off");
+
+    public static final RegistryObject<Block> RADIO_TORCH_LOGIC = registerBlock("radio_torch_logic",
+            () -> new RadioTorchLogic(RadioTorchLogic.createProperties()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "rtty_logic_off");
+
+    public static final RegistryObject<Block> RADIO_TORCH_COUNTER = registerBlock("radio_torch_counter",
+            () -> new RadioTorchCounter(RadioTorchCounter.createProperties()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "rtty_counter");
+
+    public static final RegistryObject<Block> RADIO_TORCH_READER = registerBlock("radio_torch_reader",
+            () -> new RadioTorchReader(RadioTorchReader.createProperties()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "rtty_reader");
+
+    public static final RegistryObject<Block> RADIO_TORCH_CONTROLLER = registerBlock("radio_torch_controller",
+            () -> new RadioTorchController(RadioTorchController.createProperties()),
+            BlockModel.ENTITYBLOCK_ANIMATED,
+            LootInfo.self(),
+            ToolInfo.none(),
+            "rtty_controller");
 
 }

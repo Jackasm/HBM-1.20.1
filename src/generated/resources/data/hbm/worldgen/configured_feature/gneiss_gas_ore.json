@@ -9,8 +9,8 @@
           "Name": "hbm:ore_gneiss_gas"
         },
         "target": {
-          "predicate_type": "minecraft:tag_match",
-          "tag": "minecraft:stone_ore_replaceables"
+          "block": "hbm:stone_gneiss",
+          "predicate_type": "minecraft:block_match"
         }
       }
     ]

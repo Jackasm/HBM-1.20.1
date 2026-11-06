@@ -1,27 +1,28 @@
 package com.hbm.items.tool;
 
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.gui.GUIScreenGuide;
+import com.hbm.inventory.container.ContainerGuideBook;
 import com.hbm.inventory.recipes.AnvilRecipes;
 import com.hbm.inventory.recipes.common.AStack;
 import com.hbm.inventory.recipes.common.ComparableStack;
 import com.hbm.inventory.recipes.common.TagStack;
 import com.hbm.util.RefStrings;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,11 +33,18 @@ import java.util.function.Consumer;
 
 import static com.hbm.util.ResLocation.ResLocation;
 
-public class ItemGuideBook extends Item{
+public abstract class ItemGuideBook extends Item implements ITooltipProvider {
 
     public ItemGuideBook() {
         super(new Properties().stacksTo(1));
     }
+
+    /**
+     * Тип книги этого предмета. В 1.7.10 варианты различались метаданными
+     * (getDamageValue), из-за чего любой предмет с тем же id мог «стать»
+     * другой книгой. Теперь у каждого варианта свой предмет и свой класс.
+     */
+    public abstract BookType getType();
 
     @Override
     public int getBurnTime(ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
@@ -44,25 +52,43 @@ public class ItemGuideBook extends Item{
     }
 
     @Override
-    @NotNull
-    public InteractionResultHolder<ItemStack> use(@NotNull Level world, @NotNull Player player, @NotNull InteractionHand hand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level world, @NotNull Player player,
+                                                           @NotNull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
-        if (world.isClientSide) {
-            int damage = stack.getDamageValue();
-            BookType type = BookType.getType(damage);
-            Minecraft.getInstance().setScreen(new GUIScreenGuide(type));
+        if (!world.isClientSide && player instanceof ServerPlayer serverPlayer) {
+            // Тип передаём в меню явно: на клиенте книги может не оказаться в руке
+            // (её могли переложить), а открывать надо ту, которой щёлкнули.
+            NetworkHooks.openScreen(serverPlayer,
+                    new SimpleMenuProvider(
+                            (windowId, inv, p) -> new ContainerGuideBook(windowId, inv, getType()),
+                            Component.translatable("container.guide_book")
+                    ),
+                    buf -> buf.writeByte(getType().ordinal()));
         }
 
         return InteractionResultHolder.success(stack);
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level world, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        int damage = stack.getDamageValue();
-        BookType type = BookType.getType(damage);
-        tooltip.add(Component.translatable(type.title).withStyle(ChatFormatting.GRAY));
+    public String[] getTooltipKeys(ItemStack stack) {
+        return new String[]{getType().title};
+    }
+
+    /**
+     * В 1.7.10 заголовок склеивался через {@code resolveKeyArray(...).join(" ")}:
+     * символ {@code $} в тултипе становился пробелом, а в GUI — переносом строки.
+     * Без этого в подсказке предмета висел бы сырой {@code $}.
+     */
+    @Override
+    public void addTooltip(ItemStack stack, List<Component> tooltip, boolean showDetails) {
+        if (!showDetails) {
+            tooltip.add(Component.translatable("tooltip.hold.shift")
+                    .withStyle(ChatFormatting.GOLD, ChatFormatting.ITALIC));
+            return;
+        }
+        tooltip.add(Component.literal(Component.translatable(getType().title).getString().replace("$", " "))
+                .withStyle(ChatFormatting.YELLOW));
     }
 
 
@@ -126,13 +152,44 @@ public class ItemGuideBook extends Item{
                     .setQuest("hbm.quest.craft_blast_furnace", false, true));
         }
 
+        /**
+         * Раскладка 1:1 с эталоном {@code ItemGuideBook.statFacRBMK}: у каждой страницы
+         * своя картинка и своя геометрия. Прежний цикл 1…16 ставил всем одну рамку
+         * (95,80,60) и требовал {@code rbmk14.png}, которого нет ни в эталоне, ни у нас;
+         * вдобавок он ждал {@code book.rbmk.title14}, а в оригинале у 14-й страницы
+         * заголовка нет вовсе.
+         */
         public static void addRBMKPages(List<GuidePage> pages) {
-            for (int i = 1; i <= 16; i++) {
-                pages.add(new GuidePage()
-                        .addTitle("book.rbmk.title" + i, 0x800000, 1F)
-                        .addText("book.rbmk.page" + i, 2F)
-                        .addImage(ResLocation(RefStrings.MODID, "textures/gui/book/rbmk" + i + ".png"), 95, 80, 60));
-            }
+            pages.add(rbmkPage(1, "rbmk1", 90, 80, 60));
+            pages.add(rbmkPage(2, "rbmk2", 95, 52, 52));
+            pages.add(rbmkPage(3, "rbmk3", 95, 88, 52));
+            pages.add(rbmkPage(4, "rbmk4", 95, 88, 52));
+            pages.add(rbmkPage(5, "rbmk5", 95, 80, 42));
+            pages.add(rbmkPage(6, "rbmk6", 90, 100, 60));
+            pages.add(rbmkPage(7, "rbmk7", 95, 52, 52));
+            pages.add(rbmkPage(8, "rbmk8", 95, 88, 52));
+            pages.add(rbmkPage(9, "rbmk9", 95, 88, 52));
+            pages.add(rbmkPage(10, "rbmk10", 95, 88, 52));
+            pages.add(rbmkPage(11, "rbmk11", 75, 85, 72));
+            pages.add(rbmkPage(12, "rbmk12", 90, 80, 60));
+            // 13-я страница в оригинале без картинки
+            pages.add(new GuidePage()
+                    .addTitle("book.rbmk.title13", 0x800000, 1F)
+                    .addText("book.rbmk.page13", 2F));
+            // 14-я — без заголовка, картинка нумеруется тринадцатой
+            pages.add(new GuidePage()
+                    .addText("book.rbmk.page14", 2F)
+                    .addImage(ResLocation(RefStrings.MODID, "textures/gui/book/rbmk13.png"), 70, 103, 78));
+            pages.add(rbmkPage(15, "rbmk15", 100, 48, 48));
+            pages.add(rbmkPage(16, "rbmk16", 50, 70, 100));
+        }
+
+        /** Картинки RBMK в оригинале центрируются: {@code addImage(image, y, sizeX, sizeY)}. */
+        private static GuidePage rbmkPage(int index, String texture, int y, int sizeX, int sizeY) {
+            return new GuidePage()
+                    .addTitle("book.rbmk.title" + index, 0x800000, 1F)
+                    .addText("book.rbmk.page" + index, 2F)
+                    .addImage(ResLocation(RefStrings.MODID, "textures/gui/book/" + texture + ".png"), y, sizeX, sizeY);
         }
 
         public static void addHadronPages(List<GuidePage> pages) {
@@ -151,7 +208,7 @@ public class ItemGuideBook extends Item{
             pages.add(new GuidePage()
                     .addTitle("book.starter.title2", 0x800000, 1F)
                     .addText("book.starter.page2", 2F)
-                    .addImage(ResLocation(RefStrings.MODID, "textures/items/mask_piss.png"), 85, 64, 64));
+                    .addImage(ResLocation(RefStrings.MODID, "textures/item/armor/mask_piss.png"), 85, 64, 64));
             pages.add(new GuidePage()
                     .addTitle("book.starter.title3", 0x800000, 1F)
                     .addText("book.starter.page3", 2F)
@@ -159,10 +216,12 @@ public class ItemGuideBook extends Item{
             pages.add(new GuidePage()
                     .addTitle("book.starter.title4", 0x800000, 1F)
                     .addText("book.starter.page4", 1.4F, 0, 6, 72)
-                    .addImage(ResLocation(RefStrings.MODID, "textures/items/template_folder.png"), 72, 30, 24, 24)
-                    .addImage(ResLocation(RefStrings.MODID, "textures/items/stamp_iron_flat.png"), 72, 60, 24, 24)
-                    .addImage(ResLocation(RefStrings.MODID, "textures/items/assembly_template.png"), 72, 90, 24, 24)
-                    .addImage(ResLocation(RefStrings.MODID, "textures/items/chemistry_template.png"), 72, 120, 24, 24));
+                    // Пути к предметным текстурам в порте — textures/item (в 1.7.10 было textures/items).
+                    // Иконки chemistry_template в эталоне не существовало вовсе, поэтому её нет и здесь:
+                    // в 1.7.10 на её месте рисовалась «отсутствующая текстура».
+                    .addImage(ResLocation(RefStrings.MODID, "textures/item/template_folder.png"), 72, 30, 24, 24)
+                    .addImage(ResLocation(RefStrings.MODID, "textures/item/stamp_iron_flat.png"), 72, 60, 24, 24)
+                    .addImage(ResLocation(RefStrings.MODID, "textures/item/assembly_template.png"), 72, 90, 24, 24));
             pages.add(new GuidePage()
                     .addTitle("book.starter.title5", 0x800000, 1F)
                     .addText("book.starter.page5", 2F));
@@ -184,10 +243,10 @@ public class ItemGuideBook extends Item{
             pages.add(new GuidePage()
                     .addTitle("book.starter.title9", 0x800000, 1F)
                     .addText("book.starter.page9", 2F)
-                    .addImage(ResLocation(RefStrings.MODID, "textures/items/ingot_polymer.png"), 4, 106, 24, 24)
-                    .addImage(ResLocation(RefStrings.MODID, "textures/items/ingot_desh.png"), 28, 130, 24, 24)
-                    .addImage(ResLocation(RefStrings.MODID, "textures/items/solid_fuel_presto_triplet.png"), 52, 106, 24, 24)
-                    .addImage(ResLocation(RefStrings.MODID, "textures/items/canister_gasoline.png"), 76, 130, 24, 24));
+                    // canister_gasoline.png нет ни в порте, ни в эталоне — ссылка была битой и там.
+                    .addImage(ResLocation(RefStrings.MODID, "textures/item/ingot_polymer.png"), 4, 106, 24, 24)
+                    .addImage(ResLocation(RefStrings.MODID, "textures/item/ingot_desh.png"), 28, 130, 24, 24)
+                    .addImage(ResLocation(RefStrings.MODID, "textures/item/solid_fuel_presto_triplet.png"), 52, 106, 24, 24));
             pages.add(new GuidePage()
                     .addTitle("book.starter.title10", 0x800000, 1F)
                     .addText("book.starter.page10", 2F)

@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_badlands",
+  "features": "hbm:ancient_tomb_placed",
+  "step": "surface_structures"
+}

@@ -3,7 +3,6 @@ package com.hbm.handler.neutron;
 import com.hbm.api.block.IPileNeutronReceiver;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.pile.BlockGraphiteDrilledBase;
-
 import com.hbm.tileentity.machine.pile.TileEntityPileBase;
 import com.hbm.util.ContaminationUtil;
 import net.minecraft.core.BlockPos;
@@ -16,10 +15,34 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
+import java.util.Set;
 
 public class PileNeutronHandler {
 
     public static final int RANGE = 5;
+
+    private static final Set<Block> CONCRETE_BLOCKS = Set.of(
+            ModBlocks.CONCRETE.get(),
+            ModBlocks.CONCRETE_SMOOTH.get(),
+            ModBlocks.CONCRETE_ASBESTOS.get(),
+            ModBlocks.BRICK_CONCRETE.get(),
+            ModBlocks.CONCRETE_COLORED_WHITE.get(),
+            ModBlocks.CONCRETE_COLORED_ORANGE.get(),
+            ModBlocks.CONCRETE_COLORED_MAGENTA.get(),
+            ModBlocks.CONCRETE_COLORED_LIGHT_BLUE.get(),
+            ModBlocks.CONCRETE_COLORED_YELLOW.get(),
+            ModBlocks.CONCRETE_COLORED_LIME.get(),
+            ModBlocks.CONCRETE_COLORED_PINK.get(),
+            ModBlocks.CONCRETE_COLORED_GRAY.get(),
+            ModBlocks.CONCRETE_COLORED_LIGHT_GRAY.get(),
+            ModBlocks.CONCRETE_COLORED_CYAN.get(),
+            ModBlocks.CONCRETE_COLORED_PURPLE.get(),
+            ModBlocks.CONCRETE_COLORED_BLUE.get(),
+            ModBlocks.CONCRETE_COLORED_BROWN.get(),
+            ModBlocks.CONCRETE_COLORED_GREEN.get(),
+            ModBlocks.CONCRETE_COLORED_RED.get(),
+            ModBlocks.CONCRETE_COLORED_BLACK.get()
+    );
 
     public static class PileNeutronNode extends NeutronNode {
         public PileNeutronNode(TileEntityPileBase tile) {
@@ -78,11 +101,7 @@ public class PileNeutronHandler {
 
                 if (!(tile instanceof TileEntityPileBase)) {
                     if (block == ModBlocks.BLOCK_BORON.get()) return;
-                    if (block == ModBlocks.CONCRETE.get() ||
-                            block == ModBlocks.CONCRETE_SMOOTH.get() ||
-                            block == ModBlocks.CONCRETE_ASBESTOS.get() ||
-                            block == ModBlocks.CONCRETE_COLORED.get() ||
-                            block == ModBlocks.BRICK_CONCRETE.get()) {
+                    if (CONCRETE_BLOCKS.contains(block)) {
                         fluxQuantity *= 0.25;
                     }
                     if (block == ModBlocks.BLOCK_GRAPHITE_ROD.get() && (meta & 8) == 0) {

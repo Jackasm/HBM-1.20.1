@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.ApplyExplosionDecay;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.RegistryObject;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -49,16 +51,26 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
     protected LootTable.Builder createItemDrops(Supplier<Item> itemSupplier, int min, int max) {
         Item item = itemSupplier.get();
+        var drop = LootItem.lootTableItem(item)
+                .apply(SetItemCountFunction.setCount(UniformGenerator.between(min, max)));
+        if (isRawMaterial(item)) {
+            drop.apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE));
+        }
         return LootTable.lootTable()
                 .withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))
-                        .add(LootItem.lootTableItem(item)
-                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(min, max)))
-                                .when(hasNoSilkTouch())));
+                        .add(drop.when(hasNoSilkTouch())));
     }
 
     protected LootTable.Builder createSilkTouchItemDrops(Block block, Supplier<Item> itemSupplier, int min, int max) {
         Item item = itemSupplier.get();
+        var plainDrop = LootItem.lootTableItem(item)
+                .apply(SetItemCountFunction.setCount(UniformGenerator.between(min, max)));
+        // Удача на raw-рудах: в 1.7.10 BlockOre считал quantityDroppedWithBonus, при порте это потерялось.
+        // Формула ванильная — множитель 1..(fortune+1), как у руд с raw-дропом в 1.20.1.
+        if (isRawMaterial(item)) {
+            plainDrop.apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE));
+        }
         return LootTable.lootTable()
                 // Пул для шёлкового касания (дропает блок)
                 .withPool(LootPool.lootPool()
@@ -69,10 +81,15 @@ public class ModBlockLootTables extends BlockLootSubProvider {
                 // Пул для обычного дропа (предмет)
                 .withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))
-                        .add(LootItem.lootTableItem(item)
-                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(min, max)))
+                        .add(plainDrop
                                 .apply(ApplyExplosionDecay.explosionDecay())
                                 .when(hasNoSilkTouch())));
+    }
+
+    /** Raw-материал — то, что в 1.20.1 падает из руды: на нём работает удача. */
+    private boolean isRawMaterial(Item item) {
+        net.minecraft.resources.ResourceLocation id = ForgeRegistries.ITEMS.getKey(item);
+        return id != null && id.getPath().startsWith("raw_");
     }
 
     protected LootTable.Builder createOtherBlockDrops(Block dropBlock) {

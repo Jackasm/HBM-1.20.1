@@ -5,12 +5,15 @@ import com.hbm.api.energy.IEnergyConnector;
 import com.hbm.api.energy.IEnergyConnectorBlock;
 import com.hbm.api.fluid.IFluidConnector;
 import com.hbm.api.fluid.IFluidConnectorBlock;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.inventory.fluid.FluidTypeHBM;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityProxyBase;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -27,6 +30,13 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.items.IItemHandler;
 
 public class Library {
+
+    public static final Direction POS_X = Direction.EAST;
+    public static final Direction NEG_X = Direction.WEST;
+    public static final Direction POS_Y = Direction.UP;
+    public static final Direction NEG_Y = Direction.DOWN;
+    public static final Direction POS_Z = Direction.SOUTH;
+    public static final Direction NEG_Z = Direction.NORTH;
 
     public static boolean isObstructed(Level level, double x, double y, double z, double a, double b, double c) {
         Vec3 start = new Vec3(x, y, z);
@@ -46,6 +56,16 @@ public class Library {
     }
 
     public record PosDir(BlockPos pos, Direction dir) {
+    }
+
+    public static double smoothstep(double t, double edge0, double edge1) {
+        t = Mth.clamp((t - edge0) / (edge1 - edge0), 0.0, 1.0);
+        return t * t * (3.0 - 2.0 * t);
+    }
+
+    public static float smoothstep(float t, float edge0, float edge1) {
+        t = Mth.clamp((t - edge0) / (edge1 - edge0), 0.0F, 1.0F);
+        return t * t * (3.0F - 2.0F * t);
     }
 
     /**
@@ -184,5 +204,13 @@ public class Library {
         }
 
         return closestEntity;
+    }
+
+    public static BlockState getRandomConcrete(RandomSource random) {
+        int i = random.nextInt(20);
+        if (i <= 1) return ModBlocks.BRICK_CONCRETE_BROKEN.get().defaultBlockState();
+        if (i <= 4) return ModBlocks.BRICK_CONCRETE_CRACKED.get().defaultBlockState();
+        if (i <= 10) return ModBlocks.BRICK_CONCRETE_MOSSY.get().defaultBlockState();
+        return ModBlocks.BRICK_CONCRETE.get().defaultBlockState();
     }
 }

@@ -1,14 +1,20 @@
 package com.hbm.inventory.gui;
 
+import com.hbm.blocks.generic.BlockBobble;
+import com.hbm.inventory.container.ContainerBobble;
 import com.hbm.sound.ModSounds;
 import com.hbm.tileentity.deco.TileEntityBobble;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -16,19 +22,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
-public class GUIScreenBobble extends Screen {
+public class GUIScreenBobble extends AbstractContainerScreen<ContainerBobble> {
 
     private final TileEntityBobble bobble;
 
-    public GUIScreenBobble(TileEntityBobble bobble) {
-        super(Component.literal("Bobblehead"));
-        this.bobble = bobble;
+    public GUIScreenBobble(ContainerBobble container, Inventory playerInv, Component title) {
+        super(container, playerInv, Component.literal("Bobblehead"));
+        this.bobble = container.bobble;
     }
 
     @Override
     protected void init() {
         super.init();
         minecraft.getSoundManager().play(SimpleSoundInstance.forUI(ModSounds.BLOCK_BOBBLE.get(), 1.0F));
+    }
+
+    @Override
+    protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
     }
 
     @Override
@@ -66,7 +76,7 @@ public class GUIScreenBobble extends Screen {
         nextLevel += 10;
 
         String bobbleName = this.bobble.type.name;
-        if (this.bobble.type == TileEntityBobble.BobbleType.MELLOW) {
+        if (this.bobble.type == BlockBobble.BobbleType.MELLOW) {
             bobbleName = anagramIt(bobbleName, "GEORGEWILLIAMPATON");
         }
         guiGraphics.drawString(font, bobbleName,

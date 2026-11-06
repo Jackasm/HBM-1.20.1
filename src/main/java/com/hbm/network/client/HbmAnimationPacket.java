@@ -1,5 +1,8 @@
 package com.hbm.network.client;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import com.hbm.items.IAnimatedItem;
 import com.hbm.items.armor.ArmorTrenchmaster;
 import com.hbm.items.weapon.sedna.GunConfig;
@@ -16,8 +19,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.Objects;
@@ -68,22 +69,26 @@ public class HbmAnimationPacket extends PacketBase  implements PacketBase.Decoda
 
     @Override
     public void process(Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> {
-            Player player = Minecraft.getInstance().player;
-            if (player == null) return;
-
-            ItemStack stack = player.getMainHandItem();
-            int slot = player.getInventory().selected;
-
-            if (stack.isEmpty()) return;
-
-            if (stack.getItem() instanceof GunItem) {
-                handleSedna(player, stack, slot, GunAnimation.values()[type], receiverIndex, itemIndex);
-            } else if (stack.getItem() instanceof IAnimatedItem) {
-                handleItem(player, stack, slot, type, receiverIndex, itemIndex);
-            }
-        });
+        context.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> this::handleClient));
         context.get().setPacketHandled(true);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void handleClient() {
+        Player player = Minecraft.getInstance().player;
+        if (player == null) return;
+
+        ItemStack stack = player.getMainHandItem();
+        int slot = player.getInventory().selected;
+
+        if (stack.isEmpty()) return;
+
+        if (stack.getItem() instanceof GunItem) {
+            handleSedna(player, stack, slot, GunAnimation.values()[type], receiverIndex, itemIndex);
+        } else if (stack.getItem() instanceof IAnimatedItem) {
+            handleItem(player, stack, slot, type, receiverIndex, itemIndex);
+        }
+    
     }
 
     @OnlyIn(Dist.CLIENT)

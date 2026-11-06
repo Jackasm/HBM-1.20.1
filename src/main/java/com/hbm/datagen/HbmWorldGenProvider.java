@@ -4,6 +4,7 @@ import com.hbm.datagen.worldgen.ModBiomeModifiers;
 import com.hbm.datagen.worldgen.ModBiomes;
 import com.hbm.datagen.worldgen.ModConfiguredFeatures;
 import com.hbm.datagen.worldgen.ModPlacedFeatures;
+
 import com.hbm.util.ModDamageSource;
 import com.hbm.util.RefStrings;
 import net.minecraft.core.HolderLookup;
@@ -25,7 +26,9 @@ public class HbmWorldGenProvider extends DatapackBuiltinEntriesProvider {
             .add(Registries.CONFIGURED_FEATURE, ModConfiguredFeatures::bootstrap)
             .add(Registries.PLACED_FEATURE, ModPlacedFeatures::bootstrap)
             .add(ForgeRegistries.Keys.BIOME_MODIFIERS, ModBiomeModifiers::bootstrap)
-            .add(Registries.BIOME, ModBiomes::bootstrap);
+            .add(Registries.BIOME, ModBiomes::bootstrap)
+
+            ;
 
     public HbmWorldGenProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries, BUILDER, Set.of(RefStrings.MODID));

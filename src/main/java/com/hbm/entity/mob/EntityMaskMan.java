@@ -51,18 +51,14 @@ public class EntityMaskMan extends Monster implements RangedAttackMob, IRadiatio
 
     @Override
     protected void registerGoals() {
-        // Основные задачи
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new EntityAIMaskmanCasualApproach(this, Player.class, 1.0D, false));
-        this.goalSelector.addGoal(2, new EntityAIMaskmanMinigun(this, true, true, 3));
-        this.goalSelector.addGoal(3, new EntityAIMaskmanLasergun(this, true, true));
-
-        // Дополнительные задачи
+        this.goalSelector.addGoal(1, new EntityAIMaskmanMinigun(this, true, true, 3));   // 5-10 блоков
+        this.goalSelector.addGoal(2, new EntityAIMaskmanLasergun(this, true, true));     // > 10 блоков
+        this.goalSelector.addGoal(3, new EntityAIMaskmanCasualApproach(this, Player.class, 1.0D, false)); // подход/отход
         this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
 
-        // Целевые задачи
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
@@ -95,10 +91,13 @@ public class EntityMaskMan extends Monster implements RangedAttackMob, IRadiatio
             amount = 0;
         }
         if (source.is(DamageTypes.ARROW) || source.is(DamageTypes.THROWN)) {
-            amount *= 0.25F;
+            amount *= 0.5F;
         }
         if (source.is(DamageTypes.EXPLOSION) || source.is(DamageTypes.PLAYER_EXPLOSION)) {
             amount *= 0.5F;
+        }
+        if (amount > 50) {
+            amount = 50 + (amount - 50) * 0.5F;
         }
 
         // Ограничение урона
@@ -123,7 +122,7 @@ public class EntityMaskMan extends Monster implements RangedAttackMob, IRadiatio
 
             if (!this.level().isClientSide) {
                 this.level().explode(this, this.getX(), this.getY() + 4, this.getZ(),
-                        2.5F, Level.ExplosionInteraction.MOB);
+                        2.5F, true, Level.ExplosionInteraction.BLOCK);
             }
         }
     }
@@ -133,7 +132,7 @@ public class EntityMaskMan extends Monster implements RangedAttackMob, IRadiatio
         super.die(source);
 
         if (!this.level().isClientSide) {
-            AABB box = this.getBoundingBox().inflate(50, 50, 50);
+            AABB box = this.getBoundingBox().inflate(100, 100, 100);
             List<Player> players = this.level().getEntitiesOfClass(Player.class, box);
 
             for (Player player : players) {
@@ -169,12 +168,6 @@ public class EntityMaskMan extends Monster implements RangedAttackMob, IRadiatio
     @Override
     public boolean fireImmune() {
         return true;
-    }
-
-    @Override
-    public boolean canBeAffected(net.minecraft.world.effect.@NotNull MobEffectInstance effect) {
-        // Иммунитет к эффектам
-        return false;
     }
 
     @Override
@@ -218,6 +211,7 @@ public class EntityMaskMan extends Monster implements RangedAttackMob, IRadiatio
         if (!this.level().isClientSide) {
             this.bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
         }
+        this.yBodyRot = this.yHeadRot;
     }
 
     @OnlyIn(Dist.CLIENT)

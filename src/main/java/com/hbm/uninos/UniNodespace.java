@@ -65,6 +65,17 @@ public class UniNodespace {
     }
 
     /**
+     * Destroys the given node directly.
+     */
+    public static void destroyNode(Level world, GenNode<?> node) {
+        if (node == null) return;
+        UniNodeWorld nodeWorld = WORLDS.get(world);
+        if (nodeWorld != null) {
+            nodeWorld.popNode(node);
+        }
+    }
+
+    /**
      * Registers a network in the active set
      */
     public static void registerNet(NodeNet net) {
@@ -119,7 +130,7 @@ public class UniNodespace {
         // Reset trackers
         for (NodeNet net : ACTIVE_NODE_NETS) {
             if (net.isValid()) {
-                // net.resetTrackers(); // Removed as it's not in the interface
+                net.resetTrackers();
             }
         }
 

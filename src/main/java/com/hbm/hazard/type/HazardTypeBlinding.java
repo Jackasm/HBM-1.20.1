@@ -22,7 +22,7 @@ public class HazardTypeBlinding extends HazardTypeBase {
 
     @Override
     public void onUpdate(@NotNull LivingEntity target, float level, @NotNull ItemStack stack) {
-        if (RadiationConfig.disableBlinding.get()) return;
+        if (RadiationConfig.DISABLE_BLINDING) return;
 
         if (!ArmorRegistry.hasProtection(target, 3, HazardClass.LIGHT)) {
             target.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, (int) Math.ceil(level * 20), 0));

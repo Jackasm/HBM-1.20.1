@@ -21,7 +21,7 @@ public class HazardTypeHydroactive extends HazardTypeBase {
 
     @Override
     public void onUpdate(@NotNull LivingEntity target, float level, @NotNull ItemStack stack) {
-        if (RadiationConfig.disableHydro.get()) return;
+        if (RadiationConfig.DISABLE_HYDRO) return;
 
         if (target.isInWaterOrRain() && !stack.isEmpty()) {
             Level world = target.level();
@@ -36,7 +36,7 @@ public class HazardTypeHydroactive extends HazardTypeBase {
 
     @Override
     public void updateEntity(@NotNull ItemEntity item, float level) {
-        if (RadiationConfig.disableHydro.get()) return;
+        if (RadiationConfig.DISABLE_HYDRO) return;
 
         Level world = item.level();
         BlockPos pos = item.blockPosition();

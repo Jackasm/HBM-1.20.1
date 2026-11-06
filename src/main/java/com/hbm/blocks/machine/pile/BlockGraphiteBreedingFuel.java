@@ -79,7 +79,7 @@ public class BlockGraphiteBreedingFuel extends BlockGraphiteDrilledTE implements
                 if (level.getBlockEntity(pos) instanceof TileEntityPileBreedingFuel pile) {
                     player.sendSystemMessage(Component.literal("CP1 FUEL ASSEMBLY " + pos.getX() + " " + pos.getY() + " " + pos.getZ())
                             .withStyle(ChatFormatting.GOLD));
-                    player.sendSystemMessage(Component.literal("DEPLETION: " + pile.progress + "/" + TileEntityPileBreedingFuel.maxProgress)
+                    player.sendSystemMessage(Component.literal("DEPLETION: " + pile.progress + "/" + TileEntityPileBreedingFuel.getMaxProgress())
                             .withStyle(ChatFormatting.YELLOW));
                     player.sendSystemMessage(Component.literal("FLUX: " + pile.lastNeutrons)
                             .withStyle(ChatFormatting.YELLOW));

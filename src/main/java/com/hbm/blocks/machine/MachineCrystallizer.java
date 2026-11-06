@@ -1,15 +1,9 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.tileentity.ModTileEntity;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineCrystallizer;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -20,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -31,12 +26,9 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -155,7 +147,7 @@ public class MachineCrystallizer extends BlockDummyable {
     }
 
     @Override
-    protected void fillSpace(Level level, BlockPos pos, BlockPos corePos, Direction dir) {
+    protected void fillSpace(LevelAccessor level, BlockPos pos, BlockPos corePos, Direction dir) {
         super.fillSpace(level, pos, corePos, dir);
 
         Direction left = dir.getCounterClockWise();
@@ -175,36 +167,6 @@ public class MachineCrystallizer extends BlockDummyable {
 
     }
 
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean shouldDrawHighlight(Level level, BlockPos pos) {
-        return true;
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void drawHighlight(PoseStack stack, MultiBufferSource buffer, Level level, BlockPos pos) {
-        BlockPos core = findCore(level, pos);
-        if (core == null) return;
-
-        BlockState state = level.getBlockState(core);
-        Direction dir = state.getValue(FACING);
-        Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
-
-        stack.pushPose();
-        stack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
-
-        VertexConsumer consumer = buffer.getBuffer(RenderType.lines());
-        List<AABB> boxes = getHighlightBoxes(core, dir);
-
-        for (AABB box : boxes) {
-            ICustomBlockHighlight.renderAABB(stack, consumer, box, 0.0F, 1.0F, 0.0F, 0.4F);
-        }
-
-        stack.popPose();
-    }
-
-    @OnlyIn(Dist.CLIENT)
     public List<AABB> getHighlightBoxes(BlockPos corePos, Direction rotation) {
         List<AABB> boxes = new ArrayList<>();
 

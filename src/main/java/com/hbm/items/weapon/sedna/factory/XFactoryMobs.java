@@ -109,17 +109,23 @@ public class XFactoryMobs {
      */
     public static void updateMaskmanMeteor(Entity entity) {
         if (!(entity instanceof EntityBulletBaseMK4 bullet)) return;
-        if (!bullet.level().isClientSide()) return;
+        if (bullet.level().isClientSide()) return;
 
         RandomSource rand = bullet.level().random;
         for (int i = 0; i < 5; i++) {
             CompoundTag nbt = new CompoundTag();
             nbt.putString("type", "vanillaExt");
             nbt.putString("mode", "flame");
-            nbt.putDouble("x", bullet.getX() + rand.nextDouble() * 0.5 - 0.25);
-            nbt.putDouble("y", bullet.getY() + rand.nextDouble() * 0.5 - 0.25);
-            nbt.putDouble("z", bullet.getZ() + rand.nextDouble() * 0.5 - 0.25);
-            PacketDispatcher.sendAuxParticleNT(nbt, bullet.getX(), bullet.getY(), bullet.getZ(), null);
+            nbt.putDouble("posX", bullet.getX() + rand.nextDouble() * 0.5 - 0.25);
+            nbt.putDouble("posY", bullet.getY() + rand.nextDouble() * 0.5 - 0.25);
+            nbt.putDouble("posZ", bullet.getZ() + rand.nextDouble() * 0.5 - 0.25);
+            nbt.putDouble("mX", 0);
+            nbt.putDouble("mY", 0);
+            nbt.putDouble("mZ", 0);
+
+            PacketDispatcher.sendAuxParticleNT(nbt,
+                    bullet.getX(), bullet.getY(), bullet.getZ(),
+                    bullet);
         }
     }
 

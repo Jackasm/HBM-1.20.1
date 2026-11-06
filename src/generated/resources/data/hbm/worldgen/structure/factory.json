@@ -1,0 +1,13 @@
+{
+  "type": "hbm:simple_nbt",
+  "height_offset": -10,
+  "max_height": 128,
+  "min_height": 1,
+  "nbt_file": "factory",
+  "settings": {
+    "biomes": "#hbm:flat_biomes",
+    "spawn_overrides": {},
+    "step": "surface_structures",
+    "terrain_adaptation": "none"
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "loader": "hbm:hfr_obj",
+  "model": "models/item/machines/battery_socket.obj"
+}

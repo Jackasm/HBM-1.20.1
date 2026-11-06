@@ -93,11 +93,20 @@ public class EntityGlyphid extends Monster {
         this.entityData.define(DW_SUBTYPE, (byte) 0);
     }
 
+    /**
+     * Коэффициент перевода скорости из таблицы 1.7.10 в 1.20.1. Там скорость задавалась
+     * абсолютно (1.0 — «быстро»), здесь это блоков за тик, где зомби — 0.23, а игрок — 0.1.
+     * Порт уже взял 0.25 для базового глифида; держим один коэффициент на всех, иначе
+     * боссы с 0.8…1.2 в атрибуте бегают быстрее игрока.
+     */
+    public static final double SPEED_FACTOR = 0.25D;
+
     public static AttributeSupplier.Builder createAttributes() {
+        GlyphidStats.StatBundle grunt = GlyphidStats.getStats().getGrunt();
         return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 20.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.25D)
-                .add(Attributes.ATTACK_DAMAGE, 2.0D)
+                .add(Attributes.MAX_HEALTH, grunt.health)
+                .add(Attributes.MOVEMENT_SPEED, grunt.speed * SPEED_FACTOR)
+                .add(Attributes.ATTACK_DAMAGE, grunt.damage)
                 .add(Attributes.FOLLOW_RANGE, 16.0D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.5D);
     }
@@ -213,9 +222,11 @@ public class EntityGlyphid extends Monster {
 
     @Override
     public boolean doHurtTarget(@NotNull Entity victim) {
-        if (this.swinging) return false;
-        this.swing(this.getUsedItemHand());
-
+        // Здесь НЕЛЬЗЯ проверять this.swinging: в 1.20.1 MeleeAttackGoal сам зовёт
+        // mob.swing(...) непосредственно перед doHurtTarget (MeleeAttackGoal:146-147),
+        // поэтому флаг уже поднят и любая проверка отменяла бы каждый удар.
+        // В 1.7.10 проверка isSwingInProgress была осмысленной: там удар шёл через
+        // attackEntityAsMob, и swingItem() вызывался внутри него, а не до.
         if (this.entityData.get(DW_SUBTYPE) == TYPE_INFECTED && victim instanceof LivingEntity living) {
             living.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 2));
             living.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100, 0));
@@ -365,7 +376,7 @@ public class EntityGlyphid extends Monster {
     }
 
     public boolean useExtendedTargeting() {
-        return MobConfig.RAMPANT_EXTENDED_TARGETING.get() ||
+        return MobConfig.rampantExtendedTargeting ||
                 PollutionHandler.getPollution(this.level(), BlockPos.containing(this.getX(), this.getY(), this.getZ()),
                         PollutionType.SOOT) >= MobConfig.targetingThreshold;
     }
@@ -427,5 +438,17 @@ public class EntityGlyphid extends Monster {
 
     public float getScale() {
         return 1.0F;
+    }
+
+    public void setSubtype(int subtype) {
+        this.entityData.set(DW_SUBTYPE, (byte) subtype);
+    }
+
+    public int getSubtype() {
+        return this.entityData.get(DW_SUBTYPE);
+    }
+
+    public boolean canSpawnHere(Level level) {
+        return this.checkSpawnRules(level, MobSpawnType.SPAWNER) && this.checkSpawnObstruction(level);
     }
 }

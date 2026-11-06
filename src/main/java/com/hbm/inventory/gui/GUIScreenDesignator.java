@@ -1,17 +1,19 @@
 package com.hbm.inventory.gui;
 
+import com.hbm.inventory.container.ContainerDesignator;
 import com.hbm.items.ModItems;
-
 import com.hbm.network.PacketDispatcher;
 import com.hbm.network.server.ItemDesignatorPacket;
 import com.hbm.util.RefStrings;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -25,30 +27,22 @@ import java.util.Objects;
 import static com.hbm.util.ResLocation.ResLocation;
 
 @OnlyIn(Dist.CLIENT)
-public class GUIScreenDesignator extends Screen {
+public class GUIScreenDesignator extends AbstractContainerScreen<ContainerDesignator> {
 
     protected static final ResourceLocation TEXTURE = ResLocation(RefStrings.MODID, "textures/gui/weapon/gui_designator.png");
-    protected int imageWidth = 176;
-    protected int imageHeight = 178;
-    protected int leftPos;
-    protected int topPos;
+
     int shownX;
     int shownZ;
-    int currentPage = 0;
     List<FolderButton> buttons = new ArrayList<>();
     private final Player player;
 
-    public GUIScreenDesignator(Player player) {
-        super(Component.translatable("item.hbm.designator_manual"));
-        this.player = player;
-    }
-
-    @Override
-    public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(graphics);
-        this.renderBg(graphics, partialTicks, mouseX, mouseY);
-        super.render(graphics, mouseX, mouseY, partialTicks);
-        this.renderLabels(graphics, mouseX, mouseY);
+    public GUIScreenDesignator(ContainerDesignator menu, Inventory inv, Component title) {
+        super(menu, inv, title);
+        this.imageWidth = 176;
+        this.imageHeight = 178;
+        this.player = Minecraft.getInstance().player;
+        this.inventoryLabelY = 10000; // скрыть надпись "Inventory"
+        this.titleLabelY = 10000;     // скрыть заголовок
     }
 
     @Override
@@ -59,11 +53,13 @@ public class GUIScreenDesignator extends Screen {
 
         shownX = 0;
         shownZ = 0;
-        ItemStack stack = player.getMainHandItem();
 
-        if (stack != null && stack.getItem() == ModItems.DESIGNATOR_MANUAL.get() && stack.hasTag()) {
-            shownX = Objects.requireNonNull(stack.getTag()).getInt("xCoord");
-            shownZ = stack.getTag().getInt("zCoord");
+        if (player != null) {
+            ItemStack stack = player.getMainHandItem();
+            if (stack.getItem() == ModItems.DESIGNATOR_MANUAL.get() && stack.hasTag()) {
+                shownX = Objects.requireNonNull(stack.getTag()).getInt("xCoord");
+                shownZ = stack.getTag().getInt("zCoord");
+            }
         }
 
         updateButtons();
@@ -72,7 +68,7 @@ public class GUIScreenDesignator extends Screen {
     private void updateButtons() {
         buttons.clear();
 
-        // X координаты - верхняя часть
+        // X координаты — верхняя часть
         buttons.add(new FolderButton(leftPos + 25, topPos + 26, 0, 0, 0, 1, null));
         buttons.add(new FolderButton(leftPos + 52, topPos + 26, 1, 0, 0, 5, null));
         buttons.add(new FolderButton(leftPos + 79, topPos + 26, 2, 0, 0, 10, null));
@@ -87,7 +83,7 @@ public class GUIScreenDesignator extends Screen {
 
         buttons.add(new FolderButton(leftPos + 133, topPos + 44, 10, 2, 0, 0, "Set coord to current X position..."));
 
-        // Z координаты - нижняя часть
+        // Z координаты — нижняя часть
         buttons.add(new FolderButton(leftPos + 25, topPos + 26 + 72, 0, 0, 1, 1, null));
         buttons.add(new FolderButton(leftPos + 52, topPos + 26 + 72, 1, 0, 1, 5, null));
         buttons.add(new FolderButton(leftPos + 79, topPos + 26 + 72, 2, 0, 1, 10, null));
@@ -104,40 +100,55 @@ public class GUIScreenDesignator extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        try {
-            for (FolderButton b : buttons) {
-                if (b.isMouseOnButton((int) mouseX, (int) mouseY)) {
-                    b.executeAction();
-                    return true;
-                }
-            }
-        } catch (Exception ignored) {}
-        return super.mouseClicked(mouseX, mouseY, button);
+    public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(graphics);
+        super.render(graphics, mouseX, mouseY, partialTicks);
+        this.renderTooltip(graphics, mouseX, mouseY);
     }
 
-    protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
-        for (FolderButton b : buttons) {
-            if (b.isMouseOnButton(mouseX, mouseY)) {
-                b.drawString(graphics, mouseX, mouseY);
-            }
-        }
-
-        String x = String.valueOf(shownX);
-        String z = String.valueOf(shownZ);
-        graphics.drawString(font, "X: " + x,
-                leftPos + this.imageWidth / 2 - font.width("X: " + x) / 2, topPos + 50, 0x404040, false);
-        graphics.drawString(font, "Z: " + z,
-                leftPos + this.imageWidth / 2 - font.width("Z: " + z) / 2, topPos + 50 + 18 * 4, 0x404040, false);
-    }
-
-    protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
+    @Override
+    protected void renderBg(@NotNull GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         graphics.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 
         for (FolderButton b : buttons) {
             b.drawButton(graphics, b.isMouseOnButton(mouseX, mouseY));
         }
+    }
+
+    @Override
+    protected void renderLabels(@NotNull GuiGraphics graphics, int mouseX, int mouseY) {
+        // Tooltips для кнопок
+        for (FolderButton b : buttons) {
+            if (b.isMouseOnButton(mouseX - leftPos, mouseY - topPos)) {
+                b.drawString(graphics, mouseX, mouseY);
+            }
+        }
+
+        // Отображение координат (в относительных координатах GUI)
+        String x = String.valueOf(shownX);
+        String z = String.valueOf(shownZ);
+        graphics.drawString(font, "X: " + x,
+                this.imageWidth / 2 - font.width("X: " + x) / 2, 50, 0x404040, false);
+        graphics.drawString(font, "Z: " + z,
+                this.imageWidth / 2 - font.width("Z: " + z) / 2, 50 + 18 * 4, 0x404040, false);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        try {
+            // Координаты мыши относительно GUI
+            int relX = (int) mouseX - leftPos;
+            int relY = (int) mouseY - topPos;
+
+            for (FolderButton b : buttons) {
+                if (b.isMouseOnButton(relX, relY)) {
+                    b.executeAction();
+                    return true;
+                }
+            }
+        } catch (Exception ignored) {}
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
@@ -150,8 +161,9 @@ public class GUIScreenDesignator extends Screen {
     }
 
     @Override
-    public void tick() {
-        if (player.getMainHandItem() == null || player.getMainHandItem().getItem() != ModItems.DESIGNATOR_MANUAL.get()) {
+    protected void containerTick() {
+        super.containerTick();
+        if (player == null || player.getMainHandItem().getItem() != ModItems.DESIGNATOR_MANUAL.get()) {
             this.onClose();
         }
     }
@@ -181,11 +193,8 @@ public class GUIScreenDesignator extends Screen {
             info = i;
         }
 
-        public void updateButton(int mouseX, int mouseY) {
-        }
-
         public boolean isMouseOnButton(int mouseX, int mouseY) {
-            return xPos <= mouseX && xPos + 18 > mouseX && yPos < mouseY && yPos + 18 >= mouseY;
+            return xPos <= mouseX && xPos + 18 > mouseX && yPos <= mouseY && yPos + 18 > mouseY;
         }
 
         public void drawButton(GuiGraphics graphics, boolean hovered) {
@@ -193,35 +202,31 @@ public class GUIScreenDesignator extends Screen {
         }
 
         public void drawString(GuiGraphics graphics, int x, int y) {
-            if (info == null || info.isEmpty())
-                return;
+            if (info == null || info.isEmpty()) return;
             graphics.renderTooltip(font, Component.literal(info), x, y);
         }
 
         public void executeAction() {
             Minecraft.getInstance().getSoundManager().play(
-                    SimpleSoundInstance.forUI(net.minecraft.sounds.SoundEvents.UI_BUTTON_CLICK, 1.0F)
+                    SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F)
             );
             PacketDispatcher.sendToServer(new ItemDesignatorPacket(this.operator, this.value, this.reference));
 
             int result = 0;
 
-            if (operator == 0)
-                result += value;
-            if (operator == 1)
-                result -= value;
+            if (operator == 0) result += value;
+            if (operator == 1) result -= value;
             if (operator == 2) {
-                if (reference == 0)
+                if (reference == 0) {
                     shownX = (int) Math.round(player.getX());
-                else
+                } else {
                     shownZ = (int) Math.round(player.getZ());
+                }
                 return;
             }
 
-            if (reference == 0)
-                shownX += result;
-            else
-                shownZ += result;
+            if (reference == 0) shownX += result;
+            else shownZ += result;
         }
     }
 }

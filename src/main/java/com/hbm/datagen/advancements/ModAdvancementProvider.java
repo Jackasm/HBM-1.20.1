@@ -294,6 +294,17 @@ public class ModAdvancementProvider extends ForgeAdvancementProvider {
                             true, true, false)
                     .addCriterion("stratum", StratumTrigger.Instance.instance())
                     .save(writer, ResLocation(MODID, "stratum"), existingFileHelper);
+
+            Advancement.Builder.advancement()
+                    .parent(root)
+                    .display(ModItems.KEY_RED.get().getDefaultInstance(),
+                            Component.translatable("achievement.redRoom"),
+                            Component.translatable("achievement.redRoom.desc"),
+                            null,
+                            FrameType.CHALLENGE,
+                            true, true, false)
+                    .addCriterion("red_room", RedRoomTrigger.Instance.instance())
+                    .save(writer, ResLocation(MODID, "red_room"), existingFileHelper);
         }
     }
 }

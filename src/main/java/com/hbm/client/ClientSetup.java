@@ -8,12 +8,11 @@ import com.hbm.items.fluid.ItemFluidID;
 
 import com.hbm.items.machine.ItemScraps;
 import com.hbm.main.HBMResourceManager;
-import com.hbm.render.block.deco.DecoCTGeometry;
+import com.hbm.render.block.ct.CTGeometry;
 import com.hbm.render.item.ItemRenderMissileGeneric;
 import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.model.*;
 import com.hbm.render.overlay.OverlayManager;
-import com.hbm.render.overlay.QuestOverlay;
 import com.hbm.render.util.MissilePart;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.util.RefStrings;
@@ -87,13 +86,17 @@ public class ClientSetup {
             // Регистрируем кастомные рендереры для каждой части ракеты
             registerMissilePartRenderers();
 
+            ClientBulletRenderers.register();
+
         });
 
-        OverlayManager.registerProvider(new QuestOverlay());
     }
 
     @SubscribeEvent
     public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        // Голубь: своя модель, слой регистрируется здесь (§ EntityPigeon)
+        event.registerLayerDefinition(ModelPigeon.LAYER, ModelPigeon::createBodyLayer);
+
         // Маски и противогазы
         event.registerLayerDefinition(new ModelLayerLocation(ResLocation(RefStrings.MODID, "model_m65"), "main"), ModelHazmatMask::createLayer);
         event.registerLayerDefinition(new ModelLayerLocation(ResLocation(RefStrings.MODID, "model_m65_small"), "main"), ModelM65Small::createLayer);
@@ -125,6 +128,7 @@ public class ClientSetup {
         for (ModelLayerLocation layer : ModelArmorTrenchmaster.TRENCH_LAYERS) event.registerLayerDefinition(layer, ModelArmorTrenchmaster::createLayer);
         for (ModelLayerLocation layer : ModelArmorEnvsuit.ENV_LAYERS) event.registerLayerDefinition(layer, ModelArmorEnvsuit::createLayer);
         for (ModelLayerLocation layer : ModelArmorBJ.BJ_LAYERS) event.registerLayerDefinition(layer, ModelArmorBJ::createLayer);
+        for (ModelLayerLocation layer : ModelArmorTaurun.TAURUN_LAYERS) event.registerLayerDefinition(layer, ModelArmorTaurun::createLayer);
 
         event.registerLayerDefinition(new ModelLayerLocation(ResLocation(RefStrings.MODID, "sword_redstone"), "main"), ModelSword::createLayer);
         event.registerLayerDefinition(new ModelLayerLocation(ResLocation(RefStrings.MODID, "big_sword"), "main"), ModelBigSword::createLayer);
@@ -132,11 +136,12 @@ public class ClientSetup {
         event.registerLayerDefinition(ModelBackTesla.LAYER_LOCATION, ModelBackTesla::createLayer);
         event.registerLayerDefinition(ModelFBI.LAYER_LOCATION, ModelFBI::createBodyLayer);
 
+
     }
 
     @SubscribeEvent
     public static void registerGeometryLoaders(ModelEvent.RegisterGeometryLoaders event) {
-        event.register("deco_ct_geometry", DecoCTGeometry.Loader.INSTANCE);
+        event.register("ct_geometry", CTGeometry.Loader.INSTANCE);
         event.register("hfr_obj", HFRWavefrontObject.Loader.INSTANCE);
     }
 

@@ -173,9 +173,8 @@ public class BulletConfig implements Cloneable {
     public static final int PLINK_ENERGY = 3;
     public static final int PLINK_SING = 4;
 
-    // Renderers
-    public BiConsumer<EntityBulletBaseMK4, Float> renderer;
-    public BiConsumer<EntityBulletBeamBase, Float> rendererBeam;
+    /** Родитель при клонировании (для наследования рендера и других свойств). null для не-клонов. */
+    public BulletConfig cloneParent = null;
 
     public BulletConfig() {
         this.id = configs.size();
@@ -397,16 +396,6 @@ public class BulletConfig implements Cloneable {
         return this;
     }
 
-    public BulletConfig setRenderer(@Nullable BiConsumer<EntityBulletBaseMK4, Float> renderer) {
-        this.renderer = renderer;
-        return this;
-    }
-
-    public BulletConfig setRendererBeam(@Nullable BiConsumer<EntityBulletBeamBase, Float> renderer) {
-        this.rendererBeam = renderer;
-        return this;
-    }
-
     public BulletConfig setOnUpdate(@Nullable Consumer<Entity> lambda) {
         this.onUpdate = lambda;
         return this;
@@ -490,9 +479,9 @@ public class BulletConfig implements Cloneable {
             }
 
             if (block == ModBlocks.DECO_CRT.get()) {
-                int meta = state.getValue(BlockDecoCRT.META);
-                int newMeta = (meta % 4) + 4;
-                bullet.level().setBlock(blockHit.getBlockPos(), state.setValue(BlockDecoCRT.META, newMeta), 3);
+                int type = state.getValue(BlockDecoCRT.TYPE);
+                int newType = (type + 1) & 3;
+                bullet.level().setBlock(blockHit.getBlockPos(), state.setValue(BlockDecoCRT.TYPE, newType), 3);
             }
 
             // Calculate ricochet angle
@@ -699,18 +688,12 @@ public class BulletConfig implements Cloneable {
         try {
             BulletConfig clone = (BulletConfig) super.clone();
             clone.forceReRegister();
-
-            // Deep copy mutable objects
-            if (this.ammo != null) {
-                clone.ammo = this.ammo.copy();
-            }
-            if (this.casingItem != null) {
-                clone.casingItem = this.casingItem.copy();
-            }
-
+            clone.cloneParent = this;  // ← добавить
+            if (this.ammo != null) clone.ammo = this.ammo.copy();
+            if (this.casingItem != null) clone.casingItem = this.casingItem.copy();
             return clone;
         } catch (CloneNotSupportedException e) {
-            throw new AssertionError(); // Can't happen
+            throw new AssertionError();
         }
     }
 

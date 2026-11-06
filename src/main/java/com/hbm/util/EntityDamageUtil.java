@@ -123,6 +123,8 @@ public class EntityDamageUtil {
 
             // Use ArmorResistanceHandler for DT/DR calculation
             amount = ArmorResistanceHandler.calculateDamage(living, source, amount);
+            // Здоровье меняется напрямую, ванильный слой очков здесь не сработает
+            amount = ArmorResistanceHandler.applyArmorPoints(living, source, amount);
 
             // Additional calculations with potions and enchantments
             amount = applyPotionDamageCalculations(living, source, amount);

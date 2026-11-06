@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "hbm:block/deco/deco_toaster_wood",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "hbm:block/deco/deco_toaster_wood"
+    },
+    "facing=south": {
+      "model": "hbm:block/deco/deco_toaster_wood",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "hbm:block/deco/deco_toaster_wood",
+      "y": 270
+    }
+  }
+}

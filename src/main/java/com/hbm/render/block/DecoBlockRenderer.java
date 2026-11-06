@@ -2,6 +2,7 @@ package com.hbm.render.block;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.deco.DecoPoleSatelliteReceiver;
+import com.hbm.blocks.machine.GeigerCounter;
 import com.hbm.main.HBMResourceManager;
 import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.model.*;
@@ -143,7 +144,9 @@ public class DecoBlockRenderer implements BlockEntityRenderer<BlockEntity> {
         if (b == ModBlocks.BOXCAR.get()) {
             renderBoxcar(poseStack, buffer, packedLight, packedOverlay, state);
         }
-
+        if (b == ModBlocks.DECO_COMPUTER.get()) {
+            renderDecoComputer(poseStack, buffer, packedLight, packedOverlay, state);
+        }
 
         if (b == ModBlocks.RADIOBOX.get()) {
             Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
@@ -189,6 +192,9 @@ public class DecoBlockRenderer implements BlockEntityRenderer<BlockEntity> {
         }
 
         if (b == ModBlocks.GEIGER.get()) {
+            Direction facing = state.getValue(GeigerCounter.FACING);
+            float yaw = facing.toYRot();
+            poseStack.mulPose(Axis.YP.rotationDegrees(yaw));
             renderGeiger(poseStack, buffer, packedLight, packedOverlay, modelGeiger, TEXTURE_GEIGER);
         }
 
@@ -235,6 +241,32 @@ public class DecoBlockRenderer implements BlockEntityRenderer<BlockEntity> {
 
         VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityCutout(HBMResourceManager.boxcar_tex));
         HBMResourceManager.boxcar.renderAll(poseStack, vertexConsumer, packedLight, packedOverlay);
+    }
+
+    private void renderDecoComputer(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay, BlockState state) {
+        poseStack.pushPose();
+
+        // Центрируем и ставим на поверхность
+        //poseStack.translate(0.5, 0, 0.5);
+        poseStack.mulPose(Axis.ZP.rotationDegrees(180));
+        poseStack.translate(0, -1, 0);
+
+        Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+
+        // Поворот в зависимости от направления
+        float rotation = switch (facing) {
+            case SOUTH -> 0;
+            case WEST -> -90;
+            case NORTH -> 180;
+            case EAST -> 90;
+            default -> 0;
+        };
+        poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
+
+        VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityCutout(HBMResourceManager.deco_computer_tex));
+        HBMResourceManager.deco_computer.renderAll(poseStack, vertexConsumer, packedLight, packedOverlay);
+
+        poseStack.popPose();
     }
 
     private float getBoxcarRotation(Direction facing) {

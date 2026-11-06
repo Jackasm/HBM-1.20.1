@@ -2,15 +2,13 @@ package com.hbm.items.armor;
 
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.items.ModItems;
+import com.hbm.sound.ModSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -45,22 +43,37 @@ public class ItemModDefuser extends ItemArmorMod {
         List<Creeper> creepers = entity.level().getEntitiesOfClass(Creeper.class, box);
 
         for (Creeper creeper : creepers) {
-            // Проверяем, взрывается ли крипер
-            if (creeper.isIgnited() || creeper.getSwellDir() > 0) {
-                // Деактивируем взрыв
-                creeper.ignite();
-                creeper.setSwellDir(-1);
+            castrateCreeper(creeper, entity, true);
+        }
+    }
 
-                // Создаём эффект деактивации
-                entity.level().playSound(null, creeper.getX(), creeper.getY(), creeper.getZ(),
-                        SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
+    /** Tames a creeper: disables swelling, optionally drops a fuse, damages and weakens. */
+    public static boolean castrateCreeper(Creeper creeper, @Nullable LivingEntity attacker, boolean dropItem) {
+        if (creeper == null) return false;
 
-                // Убираем задачу взрыва
-                // В 1.20.1 сложно удалить конкретную задачу из AI, поэтому просто убиваем крипера с дропом
+        // Отключаем подрыв
+        creeper.setSwellDir(-1);
+
+        if (!creeper.level().isClientSide) {
+            creeper.getPersistentData().putBoolean("hfr_defused", true);
+
+            if (dropItem) {
+                creeper.level().playSound(null, creeper.getX(), creeper.getY(), creeper.getZ(),
+                        ModSounds.PIN_BREAK.get(),
+                        net.minecraft.sounds.SoundSource.NEUTRAL, 1.0F, 1.0F);
+
                 creeper.spawnAtLocation(ModItems.SAFETY_FUSE.get());
-                creeper.hurt(entity.damageSources().playerAttack((Player) entity), 1.0F);
+
+                creeper.hurt(attacker != null
+                                ? creeper.damageSources().mobAttack(attacker)
+                                : creeper.damageSources().magic(),
+                        1.0F);
+
                 creeper.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 200, 0));
             }
+            return true;
         }
+
+        return false;
     }
 }

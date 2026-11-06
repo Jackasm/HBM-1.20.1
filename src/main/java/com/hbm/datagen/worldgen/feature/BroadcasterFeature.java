@@ -1,5 +1,6 @@
 package com.hbm.datagen.worldgen.feature;
 
+import com.hbm.datagen.worldgen.feature.config.BroadcasterConfiguration;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -33,9 +34,13 @@ public class BroadcasterFeature extends Feature<BroadcasterConfiguration> {
                 int y = level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z);
 
                 mutablePos.set(x, y, z);
+                BlockPos below = mutablePos.below();
 
-                if (level.getBlockState(mutablePos.below()).canBeReplaced() &&
-                        level.getBlockState(mutablePos).isAir()) {
+                // В эталоне стояло canPlaceTorchOnTop: вещатель ставился только на твёрдую
+                // поверхность. WORLD_SURFACE считает и воду, а вода canBeReplaced() — без этой
+                // проверки блок вставал прямо на поверхность океана.
+                if (level.getBlockState(below).isFaceSturdy(level, below, Direction.UP)
+                        && level.getBlockState(mutablePos).isAir()) {
 
                     BlockState state = config.broadcasterBlock().defaultBlockState();
                     state = state.setValue(BlockStateProperties.HORIZONTAL_FACING,

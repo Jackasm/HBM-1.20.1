@@ -3,7 +3,7 @@ package com.hbm.entity.mob.ai;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.items.weapon.sedna.factory.BulletConfigRegistry;
 import com.hbm.items.weapon.sedna.factory.XFactoryMobs;
-import net.minecraft.sounds.SoundEvents;
+import com.hbm.sound.ModSounds;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -22,7 +22,7 @@ public class EntityAIMaskmanLasergun extends Goal {
 
     public EntityAIMaskmanLasergun(Mob owner, boolean checkSight, boolean nearbyOnly) {
         this.owner = owner;
-        this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        this.setFlags(EnumSet.of(Flag.LOOK));
         this.attack = EnumLaserAttack.values()[owner.getRandom().nextInt(3)];
     }
 
@@ -51,6 +51,8 @@ public class EntityAIMaskmanLasergun extends Goal {
     public void tick() {
         if (this.target == null) return;
 
+        this.owner.getLookControl().setLookAt(this.target, 30.0F, 30.0F);
+
         timer--;
 
         if (timer <= 0) {
@@ -76,7 +78,7 @@ public class EntityAIMaskmanLasergun extends Goal {
                     orb.setDeltaMovement(orb.getDeltaMovement().add(0, 0.5, 0));
                     this.owner.level().addFreshEntity(orb);
                     this.owner.level().playSound(null, this.owner.getX(), this.owner.getY(), this.owner.getZ(),
-                            SoundEvents.BEACON_AMBIENT, SoundSource.HOSTILE, 1.0F, 1.0F);
+                            ModSounds.TESLA_SHOOT.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
                     break;
 
                 case MISSILE:
@@ -102,7 +104,7 @@ public class EntityAIMaskmanLasergun extends Goal {
                     );
                     this.owner.level().addFreshEntity(missile);
                     this.owner.level().playSound(null, this.owner.getX(), this.owner.getY(), this.owner.getZ(),
-                            SoundEvents.FIREWORK_ROCKET_LAUNCH, SoundSource.HOSTILE, 1.0F, 1.0F);
+                            ModSounds.HK_SHOOT.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
                     break;
 
                 case SPLASH:
@@ -124,8 +126,7 @@ public class EntityAIMaskmanLasergun extends Goal {
                         );
                         this.owner.level().addFreshEntity(tracer);
                     }
-                    this.owner.level().playSound(null, this.owner.getX(), this.owner.getY(), this.owner.getZ(),
-                            SoundEvents.ARROW_SHOOT, SoundSource.HOSTILE, 1.0F, 1.0F);
+
                     break;
 
                 default:

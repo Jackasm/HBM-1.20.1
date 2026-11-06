@@ -1,0 +1,9 @@
+{
+  "type": "hbm:nothing",
+  "settings": {
+    "biomes": "#hbm:nothing_plains_biomes",
+    "spawn_overrides": {},
+    "step": "surface_structures",
+    "terrain_adaptation": "none"
+  }
+}

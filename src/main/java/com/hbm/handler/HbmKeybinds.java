@@ -2,14 +2,12 @@ package com.hbm.handler;
 
 import com.hbm.inventory.gui.CraftingOverviewScreen;
 import com.hbm.inventory.gui.GUICalculator;
-import com.hbm.inventory.gui.QuestBookScreen;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.GunItem;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.network.PacketDispatcher;
 import com.hbm.network.server.AuxButtonPacket;
-import com.hbm.render.overlay.QuestOverlay;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -59,7 +57,6 @@ public class HbmKeybinds {
     public static KeyMapping craneLeftKey;
     public static KeyMapping craneRightKey;
     public static KeyMapping craneLoadKey;
-    public static KeyMapping questBookKey;
     public static KeyMapping craftingOverviewKey;
 
     @SubscribeEvent
@@ -130,10 +127,6 @@ public class HbmKeybinds {
         craneLoadKey = createKey("craneLoad", GLFW.GLFW_KEY_ENTER);
         event.register(craneLoadKey);
 
-        // Quests
-        questBookKey = createKey("quest_book", GLFW.GLFW_KEY_TAB);
-        event.register(questBookKey);
-
         craftingOverviewKey = createKey("crafting_overview", GLFW.GLFW_KEY_I);
         event.register(craftingOverviewKey);
     }
@@ -150,32 +143,6 @@ public class HbmKeybinds {
 
     @Mod.EventBusSubscriber(value = Dist.CLIENT)
     public static class ClientForgeEvents {
-
-        private static long tabPressStart = 0;
-        private static boolean tabPressed = false;
-        private static boolean longPressActivated = false;
-        private static final long LONG_PRESS_MS = 500;
-
-        public static void resetTabState() {
-            tabPressed = false;
-            longPressActivated = false;
-        }
-
-        @SubscribeEvent
-        public static void onClientTick(TickEvent.ClientTickEvent event) {
-            if (event.phase != TickEvent.Phase.END) return;
-            Minecraft mc = Minecraft.getInstance();
-            if (mc.player == null) return;
-
-            // Долгое нажатие Tab
-            if (tabPressed && !longPressActivated && !(mc.screen instanceof QuestBookScreen)) {
-                if (System.currentTimeMillis() - tabPressStart >= LONG_PRESS_MS) {
-                    longPressActivated = true;
-                    mc.setScreen(new QuestBookScreen(mc.player));
-                    tabPressed = false;
-                }
-            }
-        }
 
         @SubscribeEvent
         public static void onKeyInput(InputEvent.Key event) {
@@ -198,31 +165,6 @@ public class HbmKeybinds {
                 return;
             }
 
-            // Обработка Tab (код 258)
-            if (keyCode == 258) {
-                // Если книга открыта, игнорируем Tab
-                if (mc.screen instanceof QuestBookScreen) {
-                    return;
-                }
-
-                if (action == GLFW.GLFW_PRESS) {
-                    tabPressed = true;
-                    tabPressStart = System.currentTimeMillis();
-                    longPressActivated = false;
-                    return;
-                } else if (action == GLFW.GLFW_RELEASE && tabPressed) {
-                    if (!longPressActivated) {
-                        long duration = System.currentTimeMillis() - tabPressStart;
-                        if (duration < LONG_PRESS_MS) {
-                            QuestOverlay.showTemporary(5000);
-                        }
-                    }
-                    tabPressed = false;
-                    longPressActivated = false;
-                    return;
-                }
-            }
-
             if (keyCode == GLFW.GLFW_KEY_O && action == GLFW.GLFW_PRESS) {
                 if (mc.screen == null) {
                     CompoundTag data = mc.player.getPersistentData();
@@ -231,18 +173,6 @@ public class HbmKeybinds {
                         PacketDispatcher.sendToServer(new AuxButtonPacket(BlockPos.ZERO, 999, 0));
                     }
                 }
-                return;
-            }
-
-            if (action == GLFW.GLFW_RELEASE && tabPressed) {
-                if (!longPressActivated) {
-                    long duration = System.currentTimeMillis() - tabPressStart;
-                    if (duration < LONG_PRESS_MS) {
-                        QuestOverlay.showTemporary(5000);
-                    }
-                }
-                tabPressed = false;
-                longPressActivated = false;
                 return;
             }
 

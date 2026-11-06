@@ -1,0 +1,11 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": [
+    "hbm:safe_placed",
+    "hbm:pink_log_placed",
+    "hbm:stone_keyhole_placed",
+    "hbm:lantern_behemoth_placed"
+  ],
+  "step": "surface_structures"
+}

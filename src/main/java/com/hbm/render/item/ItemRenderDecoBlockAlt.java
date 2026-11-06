@@ -39,20 +39,20 @@ public class ItemRenderDecoBlockAlt extends BlockEntityWithoutLevelRenderer {
                              int packedLight, int packedOverlay) {
 
         poseStack.pushPose();
-        poseStack.translate(0.5F, 0.5F, 0.5F);
-
+        poseStack.translate(0.5F, 0.6F, 0.5F);
+        poseStack.mulPose(Axis.ZP.rotationDegrees(180));
         // Базовый масштаб для инвентаря
         if (transformType == ItemDisplayContext.GUI) {
-            poseStack.scale(0.8F, 0.8F, 0.8F);
+            poseStack.scale(0.35F, 0.35F, 0.35F);
             poseStack.mulPose(Axis.XP.rotationDegrees(20));
             poseStack.mulPose(Axis.YP.rotationDegrees(45));
         } else if (transformType == ItemDisplayContext.GROUND) {
             poseStack.scale(0.5F, 0.5F, 0.5F);
         } else if (transformType == ItemDisplayContext.FIRST_PERSON_LEFT_HAND ||
                 transformType == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND) {
-            poseStack.scale(0.6F, 0.6F, 0.6F);
+            poseStack.scale(0.35F, 0.35F, 0.35F);
         } else {
-            poseStack.scale(0.7F, 0.7F, 0.7F);
+            poseStack.scale(0.35F, 0.35F, 0.35F);
         }
 
         // Рендерим статую

@@ -1,4 +1,7 @@
 {
   "parent": "minecraft:block/block",
-  "elements": []
+  "elements": [],
+  "textures": {
+    "particle": "hbm:block/storage/fluid_duct_exhaust_end"
+  }
 }

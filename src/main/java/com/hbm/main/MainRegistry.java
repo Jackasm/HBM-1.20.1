@@ -7,15 +7,16 @@ import com.hbm.config.*;
 import com.hbm.creativetabs.HbmCreativeTabs;
 import com.hbm.datagen.worldgen.MobSpawnBiomeModifier;
 import com.hbm.datagen.worldgen.ModFeatures;
-
 import com.hbm.datagen.worldgen.feature.BedrockOre;
+import com.hbm.datagen.worldgen.structure.ModStructurePieceTypes;
+import com.hbm.datagen.worldgen.structure.ModStructureTypes;
 import com.hbm.entity.ModEntities;
+import com.hbm_addons.main.AddonRegistry;
 import com.hbm.handler.ArmorResistanceHandler;
-
+import com.hbm.handler.HazmatRegistry;
 import com.hbm.handler.neutron.NeutronHandler;
 import com.hbm.handler.pollution.PollutionCapability;
 import com.hbm.handler.pollution.PollutionHandler;
-
 import com.hbm.handler.radiation.RadiationCapability;
 import com.hbm.handler.radiation.RadiationEvents;
 import com.hbm.hazard.HazardRegistration;
@@ -25,6 +26,7 @@ import com.hbm.inventory.container.ModContainers;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.recipes.*;
+import com.hbm.itempool.ItemPool;
 import com.hbm.items.*;
 import com.hbm.items.tool.ItemTooling;
 import com.hbm.items.weapon.sedna.factory.BulletConfigRegistry;
@@ -32,17 +34,16 @@ import com.hbm.loot.ModLootModifiers;
 import com.hbm.network.PacketHandler;
 import com.hbm.particle.ModParticles;
 import com.hbm.potion.HbmPotion;
-import com.hbm.quests.QuestManager;
 import com.hbm.sound.ModSounds;
 import com.hbm.tileentity.ModTileEntity;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.util.ArmorRegistry;
+import com.hbm.util.BuildInfo;
 import com.hbm.util.RefStrings;
 import net.minecraft.util.RandomSource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.world.ForgeChunkManager;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -52,6 +53,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.spongepowered.asm.launch.MixinBootstrap;
 
 import java.io.File;
 
@@ -73,16 +75,13 @@ public class MainRegistry {
     public MainRegistry(FMLJavaModLoadingContext context) {
 
         logger.info("HBM Nuclear Tech Mod loading...");
+        // Какая именно сборка запущена — одной строкой в логе (#168).
+        logger.info(BuildInfo.summary());
 
-        proxy = DistExecutor.safeRunForDist(
-                () -> ClientProxy::new,
-                () -> ServerProxy::new
-        );
+        proxy = ProxyFactory.create();
 
         // === РЕГИСТРАЦИЯ CALLBACK ДЛЯ ЧАНКОВ ===
         ForgeChunkManager.setForcedChunkLoadingCallback(MODID, (level, ticket) -> {
-            // Callback вызывается когда чанки форсятся/анфорсятся
-            // Можно оставить пустым, если не нужна специальная логика
             logger.debug("Chunk loading callback triggered for mod: {}", MODID);
         });
 
@@ -103,6 +102,8 @@ public class MainRegistry {
 
         IEventBus modEventBus = context.getModEventBus();
 
+        MixinBootstrap.init();
+
         context.registerConfig(ModConfig.Type.COMMON, GeneralConfig.register(), "hbm-general.toml");
         context.registerConfig(ModConfig.Type.COMMON, WorldConfig.register(), "hbm-world.toml");
         context.registerConfig(ModConfig.Type.COMMON, RadiationConfig.register(), "hbm-radiation.toml");
@@ -113,13 +114,15 @@ public class MainRegistry {
         context.registerConfig(ModConfig.Type.COMMON, MobConfig.register(), "hbm-mob.toml");
         context.registerConfig(ModConfig.Type.SERVER, ServerConfig.register(), "hbm-server.toml");
         context.registerConfig(ModConfig.Type.CLIENT, ClientConfig.register(), "hbm-client.toml");
+        context.registerConfig(ModConfig.Type.COMMON, StructureConfig.register(), "hbm-structures.toml");
+        context.registerConfig(ModConfig.Type.COMMON, WeaponConfig.register(), "hbm-weapon.toml");
 
         modEventBus.addListener(this::registerBiomeModifierSerializers);
 
         ModFeatures.register(modEventBus);
 
         Fluids.HBM_FLUIDS.register(modEventBus);
-
+        Fluids.HBM_FLUID_INSTANCES.register(modEventBus);
 
         ModItems.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
@@ -137,7 +140,6 @@ public class MainRegistry {
 
         HbmPotion.EFFECTS.register(modEventBus);
 
-
         ModEntities.ENTITIES.register(modEventBus);
 
         ModContainers.MENUS.register(modEventBus);
@@ -147,6 +149,11 @@ public class MainRegistry {
         HbmCreativeTabs.CREATIVE_TABS.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
+
+        // Единственная нитка к аддонам: дальше они подписываются сами.
+        // Слушатель ставится после этого же addListener, поэтому аддонские
+        // пакеты регистрируются следом за основными.
+        AddonRegistry.init(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
 
@@ -166,6 +173,9 @@ public class MainRegistry {
 
         ModCriteriaTriggers.register();
 
+        ModStructureTypes.STRUCTURE_TYPES.register(modEventBus);
+        ModStructurePieceTypes.STRUCTURE_PIECE_TYPES.register(modEventBus);
+
         ModPaintings.register(modEventBus);
 
         logger.info("HBM Nuclear Tech Mod loaded!");
@@ -178,6 +188,12 @@ public class MainRegistry {
             ToolConfig.load();
             WorldConfig.load();
             RadiationConfig.load();
+            StructureConfig.load();
+            WeaponConfig.load();
+            MobConfig.load();
+
+            // hbmRadResist.json: файл, если он есть, заменяет встроенную таблицу брони
+            HazmatRegistry.loadConfig();
 
             BulletConfigRegistry.initLate();
             BulletConfigRegistry.linkAllItems();
@@ -199,18 +215,17 @@ public class MainRegistry {
             ShredderRecipes.register();
             CrystallizerRecipes.register();
             AmmoPressRecipes.register();
+            PedestalRecipes.register();
+            FractionRecipes.register();
 
             Fluids.init();
             HazardRegistration.registerAll();
             ArmorRegistry.registerAll();
             TileEntityNukeCustom.registerBombItems();
 
-            BedrockOre.init();
+            ItemPool.initAll();
 
-            //Quests
-            logger.info("Initializing quest system...");
-            QuestManager.init();
-            logger.info("Quest system initialized");
+            BedrockOre.init();
 
         });
     }

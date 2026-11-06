@@ -71,6 +71,8 @@ public class BlockModelGenerator {
         }
     }
 
+
+
     public void generateGrate(Block block, String objPath) {
         String name = getRegistryName(block);
 
@@ -148,7 +150,7 @@ public class BlockModelGenerator {
         }
     }
 
-    public void generateStaticObjBlock(Block block, String objName) {
+    public void generateStaticObjBlock(Block block, String objName, String particleTexture) {
         String name = getRegistryName(block);
 
         // Blockstate
@@ -164,7 +166,7 @@ public class BlockModelGenerator {
         JsonObject blockModel = new JsonObject();
         blockModel.addProperty("parent", "block/cube_all");
         JsonObject textures = new JsonObject();
-        textures.addProperty("particle", "hbm:block/" + name);
+        textures.addProperty("particle", "hbm:block/" + particleTexture);
         blockModel.add("textures", textures);
         saveBlockModel(block, blockModel);
 
@@ -253,6 +255,42 @@ public class BlockModelGenerator {
         }
     }
 
+    public void generateCubeFrontSideHorizontal(Block block, String frontTex, String sideTex, String topTex, String bottomTex) {
+        String name = getRegistryName(block);
+
+        JsonObject model = new JsonObject();
+        model.addProperty("parent", "minecraft:block/cube");
+
+        JsonObject textures = new JsonObject();
+        textures.addProperty("particle", "hbm:block/" + frontTex);
+        textures.addProperty("down", "hbm:block/" + bottomTex);
+        textures.addProperty("up", "hbm:block/" + topTex);
+        textures.addProperty("north", "hbm:block/" + frontTex);
+        textures.addProperty("south", "hbm:block/" + sideTex);
+        textures.addProperty("east", "hbm:block/" + sideTex);
+        textures.addProperty("west", "hbm:block/" + sideTex);
+        model.add("textures", textures);
+
+        saveBlockModel(block, model);
+        saveItemModel(name, "hbm:block/" + name);
+
+        // Blockstate только с 4 горизонтальными
+        JsonObject blockstate = new JsonObject();
+        JsonObject variants = new JsonObject();
+
+        String[] directions = {"north", "south", "west", "east"};
+        int[] yRot = {0, 180, 270, 90};
+
+        for (int i = 0; i < directions.length; i++) {
+            JsonObject variant = new JsonObject();
+            variant.addProperty("model", "hbm:block/" + name);
+            if (yRot[i] != 0) variant.addProperty("y", yRot[i]);
+            variants.add("facing=" + directions[i], variant);
+        }
+        blockstate.add("variants", variants);
+        saveBlockstate(block, blockstate);
+    }
+
     public void generateCubeFrontSide(Block block, String frontTex, String sideTex, String topTex, String bottomTex) {
         String name = getRegistryName(block);
 
@@ -311,6 +349,80 @@ public class BlockModelGenerator {
             saveItemModel(getRegistryName(block), "hbm:block/" + getRegistryName(block));
             saveSimpleBlockstate(block);
         }
+    }
+
+    public void generatePane(Block block, String paneTexture, String edgeTexture, String renderType) {
+        String name = getRegistryName(block);
+
+        JsonObject blockstate = new JsonObject();
+        JsonArray multipart = new JsonArray();
+
+        multipart.add(applyOnly("hbm:block/" + name + "_post", null));
+
+        multipart.add(applyWhen("hbm:block/" + name + "_side",     "north", true,  null));
+        multipart.add(applyWhen("hbm:block/" + name + "_side",     "east",  true,  90));
+        multipart.add(applyWhen("hbm:block/" + name + "_side_alt", "south", true,  null));
+        multipart.add(applyWhen("hbm:block/" + name + "_side_alt", "west",  true,  90));
+
+        multipart.add(applyWhen("hbm:block/" + name + "_noside",     "north", false, null));
+        multipart.add(applyWhen("hbm:block/" + name + "_noside_alt", "east",  false, null));
+        multipart.add(applyWhen("hbm:block/" + name + "_noside_alt", "south", false, 90));
+        multipart.add(applyWhen("hbm:block/" + name + "_noside",     "west",  false, 270));
+
+        blockstate.add("multipart", multipart);
+        saveBlockstate(block, blockstate);
+
+        JsonObject textures = new JsonObject();
+        textures.addProperty("pane", "hbm:block/" + paneTexture);
+        textures.addProperty("edge", "hbm:block/" + edgeTexture);
+
+        String[] parentTypes = {"post", "side", "side_alt", "noside", "noside_alt"};
+        for (String type : parentTypes) {
+            JsonObject model = new JsonObject();
+            model.addProperty("parent", "minecraft:block/template_glass_pane_" + type);
+            if (renderType != null) {
+                model.addProperty("render_type", renderType);
+            }
+            model.add("textures", textures);
+            saveBlockModel(block, model, "_" + type);
+        }
+
+        JsonObject itemModel = new JsonObject();
+        itemModel.addProperty("parent", "minecraft:item/generated");
+        JsonObject itemTextures = new JsonObject();
+        itemTextures.addProperty("layer0", "hbm:block/" + paneTexture);
+        itemModel.add("textures", itemTextures);
+        saveItemModel(name, itemModel);
+    }
+
+// --- helpers ---
+
+    private JsonObject applyOnly(String model, Integer yRot) {
+        JsonObject part = new JsonObject();
+        JsonObject apply = new JsonObject();
+        apply.addProperty("model", model);
+        if (yRot != null && yRot != 0) apply.addProperty("y", yRot);
+        part.add("apply", apply);
+        return part;
+    }
+
+    private JsonObject applyWhen(String model, String prop, boolean value, Integer yRot) {
+        JsonObject part = new JsonObject();
+        JsonObject when = new JsonObject();
+        when.addProperty(prop, String.valueOf(value));
+        part.add("when", when);
+
+        JsonObject apply = new JsonObject();
+        apply.addProperty("model", model);
+        if (yRot != null && yRot != 0) apply.addProperty("y", yRot);
+        part.add("apply", apply);
+        return part;
+    }
+
+    private JsonObject variant(String model) {
+        JsonObject v = new JsonObject();
+        v.addProperty("model", model);
+        return v;
     }
 
     public void generateCubeAllSwitch(Block block, String offTexture, String onTexture) {
@@ -590,20 +702,57 @@ public class BlockModelGenerator {
         saveItemModel(name, itemModel);
     }
 
-    public void generateEntityBlockAnimated(Block block) {
+    public void generateEntityBlockAnimatedEnum(Block block, String particleTexture, Class<? extends Enum<?>> enumClass) {
         String name = getRegistryName(block);
+        String[] types = EnumUtil.getEnumNames(enumClass);
 
-        // Создаём пустую модель для блока
+        // Пустая block-модель (для BER)
         JsonObject model = new JsonObject();
         model.addProperty("parent", "minecraft:block/block");
+        JsonObject textures = new JsonObject();
+        textures.addProperty("particle", "hbm:block/" + particleTexture);
+        model.add("textures", textures);
         model.add("elements", new JsonArray());
-        saveBlockModel(block, model); // сохраняем как блок/имя_блока.json
+        saveBlockModel(block, model);
 
-        // Blockstate
+        // Blockstate со всеми типами
+        JsonObject blockstate = new JsonObject();
+        JsonObject variants = new JsonObject();
+        for (String type : types) {
+            JsonObject variant = new JsonObject();
+            variant.addProperty("model", "hbm:block/" + name);
+            variants.add("type=" + type, variant);
+        }
+        blockstate.add("variants", variants);
+        saveBlockstate(block, blockstate);
+
+        // Item-модель — generated, чтобы в инвентаре хоть что-то было
+        // (BE-рендер подхватится через getCustomRenderer)
+        JsonObject itemModel = new JsonObject();
+        itemModel.addProperty("parent", "minecraft:item/generated");
+        JsonObject itemTextures = new JsonObject();
+        itemTextures.addProperty("layer0", "hbm:block/" + particleTexture);
+        itemModel.add("textures", itemTextures);
+        saveItemModel(name, itemModel);
+    }
+
+    public void generateEntityBlockAnimated(Block block, String particleTexture) {
+        String name = getRegistryName(block);
+
+        JsonObject model = new JsonObject();
+        model.addProperty("parent", "minecraft:block/block");
+
+        JsonObject textures = new JsonObject();
+        textures.addProperty("particle", "hbm:block/" + particleTexture);
+        model.add("textures", textures);
+        model.add("elements", new JsonArray());
+
+        saveBlockModel(block, model);
+
         JsonObject blockstate = new JsonObject();
         JsonObject variants = new JsonObject();
         JsonObject variant = new JsonObject();
-        variant.addProperty("model", "hbm:block/" + name); // ссылаемся на свою модель
+        variant.addProperty("model", "hbm:block/" + name);
         variants.add("", variant);
         blockstate.add("variants", variants);
         saveBlockstate(block, blockstate);
@@ -635,6 +784,97 @@ public class BlockModelGenerator {
         itemModel.add("textures", itemTextures);
 
         saveItemModel(name, itemModel);
+    }
+
+    public void generateChain(Block block, String textureName) {
+        String name = getRegistryName(block);
+
+        // Blockstate: 5 вариантов по orientation
+        JsonObject blockstate = new JsonObject();
+        JsonObject variants = new JsonObject();
+
+        String[] orientations = {"vertical", "wall_north", "wall_south", "wall_east", "wall_west"};
+        for (String o : orientations) {
+            JsonObject variant = new JsonObject();
+            variant.addProperty("model", "hbm:block/" + name);
+            variants.add("orientation=" + o, variant);
+        }
+        blockstate.add("variants", variants);
+        saveBlockstate(block, blockstate);
+
+        // Block-модель: пустая, только particle (рендер через BER)
+        JsonObject blockModel = new JsonObject();
+        blockModel.addProperty("parent", "minecraft:block/block");
+
+        JsonObject textures = new JsonObject();
+        textures.addProperty("particle", "hbm:block/" + textureName);
+        blockModel.add("textures", textures);
+        blockModel.add("elements", new JsonArray());
+
+        saveBlockModel(block, blockModel);
+    }
+
+    public void generateTrapdoor(Block block, String textureName) {
+        String name = getRegistryName(block);
+
+        JsonObject blockstate = new JsonObject();
+        JsonObject variants = new JsonObject();
+
+        String[] facings = {"north", "south", "west", "east"};
+        int[] yRot = {0, 180, 270, 90};
+
+        for (int i = 0; i < facings.length; i++) {
+            String f = facings[i];
+            int y = yRot[i];
+
+            // closed bottom
+            variants.add("facing=" + f + ",half=bottom,open=false",
+                    trapdoorVariant("hbm:block/" + name + "_bottom", y));
+            // closed top
+            variants.add("facing=" + f + ",half=top,open=false",
+                    trapdoorVariant("hbm:block/" + name + "_top", y));
+            // open bottom
+            variants.add("facing=" + f + ",half=bottom,open=true",
+                    trapdoorVariant("hbm:block/" + name + "_open", y));
+            // open top
+            variants.add("facing=" + f + ",half=top,open=true",
+                    trapdoorVariant("hbm:block/" + name + "_top_open", y));
+        }
+
+        blockstate.add("variants", variants);
+        saveBlockstate(block, blockstate);
+
+        // Модели
+        saveTrapdoorModel(block, name, textureName, "bottom",   "minecraft:block/template_orientable_trapdoor_bottom", 0);
+        saveTrapdoorModel(block, name, textureName, "top",      "minecraft:block/template_orientable_trapdoor_top", 0);
+        saveTrapdoorModel(block, name, textureName, "open",     "minecraft:block/template_orientable_trapdoor_open", 0);
+        saveTrapdoorModel(block, name, textureName, "top_open", "minecraft:block/template_orientable_trapdoor_open", 180);
+        // Item-модель
+        JsonObject itemModel = new JsonObject();
+        itemModel.addProperty("parent", "hbm:block/" + name + "_bottom");
+        saveItemModel(name, itemModel);
+    }
+
+    private JsonObject trapdoorVariant(String model, int yRot) {
+        JsonObject v = new JsonObject();
+        v.addProperty("model", model);
+        if (yRot != 0) v.addProperty("y", yRot);
+        return v;
+    }
+
+    private void saveTrapdoorModel(Block block, String name, String textureName, String suffix, String parent, int xRot) {
+        JsonObject model = new JsonObject();
+        model.addProperty("parent", parent);
+
+        JsonObject textures = new JsonObject();
+        textures.addProperty("texture", "hbm:block/" + textureName);
+        model.add("textures", textures);
+
+        if (xRot != 0) {
+            model.addProperty("x", xRot);
+        }
+
+        saveBlockModel(block, model, "_" + suffix);
     }
 
     public void generateAir(Block block) {
@@ -731,12 +971,19 @@ public class BlockModelGenerator {
         saveSimpleBlockstate(block);
     }
 
-    public void generateDecoCT(Block block, String textureName) {
+    public void generateCT(Block block, String textureName) {
+        generateCT(block, textureName, false);
+    }
+
+    public void generateCT(Block block, String textureName, boolean translucent) {
         String name = getRegistryName(block);
 
         // Блок модель с кастомным лоадером
         JsonObject blockModel = new JsonObject();
-        blockModel.addProperty("loader", "hbm:deco_ct_geometry");
+        blockModel.addProperty("loader", "hbm:ct_geometry");
+        if (translucent) {
+            blockModel.addProperty("render_type", "translucent");
+        }
 
         JsonObject textures = new JsonObject();
         textures.addProperty("particle", "hbm:block/" + textureName);
@@ -794,21 +1041,164 @@ public class BlockModelGenerator {
         saveSimpleBlockstate(block);
     }
 
+    public void generateRail(Block block, String textureName) {
+        String name = getRegistryName(block);
+
+        // blockstate с multipart по shape
+        JsonObject blockstate = new JsonObject();
+        JsonArray multipart = new JsonArray();
+
+        multipart.add(railPart("north_south", "hbm:block/" + name, null));
+        multipart.add(railPart("east_west",  "hbm:block/" + name, 90));
+
+        multipart.add(railPart("ascending_east",  "hbm:block/" + name + "_raised_ne", 90));
+        multipart.add(railPart("ascending_west",  "hbm:block/" + name + "_raised_sw", 90));
+        multipart.add(railPart("ascending_north", "hbm:block/" + name + "_raised_ne", null));
+        multipart.add(railPart("ascending_south", "hbm:block/" + name + "_raised_sw", null));
+
+        multipart.add(railPart("south_east", "hbm:block/" + name + "_corner", null));
+        multipart.add(railPart("south_west", "hbm:block/" + name + "_corner", 90));
+        multipart.add(railPart("north_west", "hbm:block/" + name + "_corner", 180));
+        multipart.add(railPart("north_east", "hbm:block/" + name + "_corner", 270));
+
+        blockstate.add("multipart", multipart);
+        saveBlockstate(block, blockstate);
+
+        // Общие текстуры
+        JsonObject textures = new JsonObject();
+        textures.addProperty("rail", "hbm:block/" + textureName);
+        textures.addProperty("particle", "hbm:block/" + textureName);
+
+        // flat
+        saveRailModel(block, "minecraft:block/rail_flat", textures, "");
+
+        // raised_ne
+        saveRailModel(block, "minecraft:block/template_rail_raised_ne", textures, "_raised_ne");
+
+        // raised_sw
+        saveRailModel(block, "minecraft:block/template_rail_raised_sw", textures, "_raised_sw");
+
+        // corner
+        saveRailModel(block, "minecraft:block/rail_corner", textures, "_corner");
+
+        // Item-модель — плоский спрайт из блочной текстуры (как у лестниц и панелей):
+        // блочная rail-модель в GUI почти не видна, поэтому используем item/generated.
+        JsonObject itemModel = new JsonObject();
+        itemModel.addProperty("parent", "minecraft:item/generated");
+        JsonObject itemTextures = new JsonObject();
+        itemTextures.addProperty("layer0", "hbm:block/" + textureName);
+        itemModel.add("textures", itemTextures);
+        saveItemModel(name, itemModel);
+    }
+
+    private void saveRailModel(Block block, String parent, JsonObject textures, String suffix) {
+        JsonObject model = new JsonObject();
+        model.addProperty("parent", parent);
+        model.addProperty("render_type", "minecraft:cutout");
+        model.add("textures", textures);
+        saveBlockModel(block, model, suffix);
+    }
+
+    private JsonObject railPart(String shape, String model, Integer yRot) {
+        JsonObject part = new JsonObject();
+        JsonObject when = new JsonObject();
+        when.addProperty("shape", shape);
+        part.add("when", when);
+
+        JsonObject apply = new JsonObject();
+        apply.addProperty("model", model);
+        if (yRot != null && yRot != 0) apply.addProperty("y", yRot);
+        part.add("apply", apply);
+        return part;
+    }
+
+    public void generateLadder(Block block, String textureName) {
+        String name = getRegistryName(block);
+
+        // 1. Block model
+        JsonObject model = new JsonObject();
+        model.addProperty("ambientocclusion", false);
+        model.addProperty("render_type", "cutout");
+
+        JsonObject textures = new JsonObject();
+        textures.addProperty("particle", "hbm:block/" + textureName);
+        textures.addProperty("texture", "hbm:block/" + textureName);
+        model.add("textures", textures);
+
+        JsonArray elements = new JsonArray();
+        JsonObject element = new JsonObject();
+        element.add("from", jsonArray(0, 0, 15.2));
+        element.add("to", jsonArray(16, 16, 15.2));
+        element.addProperty("shade", false);
+
+        JsonObject faces = new JsonObject();
+
+        JsonObject northFace = new JsonObject();
+        northFace.add("uv", jsonArray(0, 0, 16, 16));
+        northFace.addProperty("texture", "#texture");
+        faces.add("north", northFace);
+
+        JsonObject southFace = new JsonObject();
+        southFace.add("uv", jsonArray(16, 0, 0, 16));
+        southFace.addProperty("texture", "#texture");
+        faces.add("south", southFace);
+
+        element.add("faces", faces);
+        elements.add(element);
+        model.add("elements", elements);
+
+        saveBlockModel(block, model);
+
+        // 2. Blockstate
+        JsonObject blockstate = new JsonObject();
+        JsonObject variants = new JsonObject();
+
+        String[] directions = {"north", "south", "west", "east"};
+        int[] yRot = {0, 180, 270, 90};
+
+        for (int i = 0; i < directions.length; i++) {
+            JsonObject variant = new JsonObject();
+            variant.addProperty("model", "hbm:block/" + name);
+            if (yRot[i] != 0) variant.addProperty("y", yRot[i]);
+            variants.add("facing=" + directions[i], variant);
+        }
+        blockstate.add("variants", variants);
+        saveBlockstate(block, blockstate);
+
+        // 3. Item model
+        JsonObject itemModel = new JsonObject();
+        itemModel.addProperty("parent", "minecraft:item/generated");
+        JsonObject itemTextures = new JsonObject();
+        itemTextures.addProperty("layer0", "hbm:block/" + textureName);
+        itemModel.add("textures", itemTextures);
+        saveItemModel(name, itemModel);
+    }
+
     public void generateDoor(Block block, String textureName) {
         String name = getRegistryName(block);
 
-        String[] variants = {
-                "lower_left", "lower_left_open", "lower_right", "lower_right_open",
-                "upper_left", "upper_left_open", "upper_right", "upper_right_open"
+        // 1. Правильные родительские модели
+        String[][] modelParents = {
+                {"lower_left",       "minecraft:block/door_bottom_left"},
+                {"lower_left_open",  "minecraft:block/door_bottom_left_open"},
+                {"lower_right",      "minecraft:block/door_bottom_right"},
+                {"lower_right_open", "minecraft:block/door_bottom_right_open"},
+                {"upper_left",       "minecraft:block/door_top_left"},
+                {"upper_left_open",  "minecraft:block/door_top_left_open"},
+                {"upper_right",      "minecraft:block/door_top_right"},
+                {"upper_right_open", "minecraft:block/door_top_right_open"}
         };
 
-        for (String variant : variants) {
+        for (String[] data : modelParents) {
+            String variant = data[0];
+            String parent = data[1];
+
             JsonObject model = new JsonObject();
-            model.addProperty("parent", "minecraft:block/door_" + variant.replace("lower", "bottom").replace("upper", "top"));
+            model.addProperty("parent", parent);
 
             JsonObject textures = new JsonObject();
-            textures.addProperty("bottom", "hbm:block/doors/" + textureName + "_lower");
-            textures.addProperty("top", "hbm:block/doors/" + textureName + "_upper");
+            textures.addProperty("bottom", "hbm:block/doors/" + textureName + "_bottom");
+            textures.addProperty("top", "hbm:block/doors/" + textureName + "_top");
             model.add("textures", textures);
 
             Path path = packOutput.getOutputFolder()
@@ -816,12 +1206,18 @@ public class BlockModelGenerator {
             saveJson(path, model);
         }
 
-        // Blockstate (без изменений)
+        // 2. Blockstate
         JsonObject blockstate = new JsonObject();
         JsonObject variantsObj = new JsonObject();
 
+        // Значения из ванильного acacia_door.json
         String[] directions = {"east", "north", "south", "west"};
-        for (String facing : directions) {
+        int[] yClosed = {0, 270, 90, 180};               // для hinge=left и hinge=right, open=false
+        int[] yOpenLeft = {90, 0, 180, 270};             // для hinge=left, open=true
+        int[] yOpenRight = {270, 180, 0, 90};            // для hinge=right, open=true
+
+        for (int i = 0; i < directions.length; i++) {
+            String facing = directions[i];
             for (String half : new String[]{"lower", "upper"}) {
                 for (String hinge : new String[]{"left", "right"}) {
                     for (String open : new String[]{"false", "true"}) {
@@ -831,16 +1227,16 @@ public class BlockModelGenerator {
                         JsonObject variant = new JsonObject();
                         variant.addProperty("model", "hbm:block/" + modelName);
 
-                        int yOpen = switch (facing) {
-                            case "east" -> 90;
-                            case "south" -> 180;
-                            case "west" -> 270;
-                            default -> 0;
-                        };
+                        int y;
+                        if (open.equals("false")) {
+                            y = yClosed[i];
+                        } else {
+                            y = hinge.equals("left") ? yOpenLeft[i] : yOpenRight[i];
+                        }
 
-                        int y = open.equals("true") ? yOpen : (yOpen + 270) % 360;
-                        if (y > 0) variant.addProperty("y", y);
-
+                        if (y != 0) {
+                            variant.addProperty("y", y);
+                        }
                         variantsObj.add(key, variant);
                     }
                 }
@@ -849,9 +1245,10 @@ public class BlockModelGenerator {
         blockstate.add("variants", variantsObj);
         saveBlockstate(block, blockstate);
 
-        // Item-модель
+        // 3. Item-модель
         JsonObject itemModel = new JsonObject();
         itemModel.addProperty("parent", "minecraft:item/generated");
+
         JsonObject itemTextures = new JsonObject();
         itemTextures.addProperty("layer0", "hbm:item/doors/" + textureName);
         itemModel.add("textures", itemTextures);
@@ -1287,6 +1684,167 @@ public class BlockModelGenerator {
         saveBlockModel(block, mainModel, "");
 
         saveItemModel(getRegistryName(block), "hbm:block/" + getRegistryName(block));
+    }
+
+    public void generateSlab(Block block, String textureName) {
+        String name = getRegistryName(block);
+
+        // Верхняя, нижняя и двойная модель
+        String[] variants = {"bottom", "top", "double"};
+
+        for (String variant : variants) {
+            JsonObject model = new JsonObject();
+            JsonObject textures = new JsonObject();
+
+            switch (variant) {
+                case "double" -> {
+                    model.addProperty("parent", "minecraft:block/cube_all");
+                    textures.addProperty("all", "hbm:block/" + textureName);
+                }
+                case "top" -> {
+                    model.addProperty("parent", "minecraft:block/slab_top");
+                    textures.addProperty("bottom", "hbm:block/" + textureName);
+                    textures.addProperty("top", "hbm:block/" + textureName);
+                    textures.addProperty("side", "hbm:block/" + textureName);
+                }
+                default -> { // bottom
+                    model.addProperty("parent", "minecraft:block/slab");
+                    textures.addProperty("bottom", "hbm:block/" + textureName);
+                    textures.addProperty("top", "hbm:block/" + textureName);
+                    textures.addProperty("side", "hbm:block/" + textureName);
+                }
+            }
+
+            model.add("textures", textures);
+            saveBlockModel(block, model, "_" + variant);
+        }
+
+        // Blockstate с type
+        JsonObject blockstate = new JsonObject();
+        JsonObject variantsObj = new JsonObject();
+
+        String[] types = {"bottom", "top", "double"};
+        for (String type : types) {
+            JsonObject variant = new JsonObject();
+            variant.addProperty("model", "hbm:block/" + name + "_" + type);
+            variantsObj.add("type=" + type, variant);
+        }
+        blockstate.add("variants", variantsObj);
+        saveBlockstate(block, blockstate);
+
+        // Item модель (ссылается на bottom)
+        JsonObject itemModel = new JsonObject();
+        itemModel.addProperty("parent", "hbm:block/" + name + "_bottom");
+        saveItemModel(name, itemModel);
+    }
+
+    /**
+     * Генерирует модели для ступеней (stairs)
+     * Создает:
+     * - blockstate с facing, half, shape
+     * - модели для всех вариантов (straight, inner, outer)
+     * - item модель
+     * @param block блок ступеней
+     * @param textureName имя текстуры (без расширения)
+     */
+    public void generateStairs(Block block, String textureName) {
+        String name = getRegistryName(block);
+
+        // 1. Модели
+        JsonObject textures = new JsonObject();
+        textures.addProperty("bottom", "hbm:block/" + textureName);
+        textures.addProperty("top", "hbm:block/" + textureName);
+        textures.addProperty("side", "hbm:block/" + textureName);
+
+        JsonObject straightModel = new JsonObject();
+        straightModel.addProperty("parent", "minecraft:block/stairs");
+        straightModel.add("textures", textures);
+        saveBlockModel(block, straightModel, "_straight");
+
+        JsonObject innerModel = new JsonObject();
+        innerModel.addProperty("parent", "minecraft:block/inner_stairs");
+        innerModel.add("textures", textures);
+        saveBlockModel(block, innerModel, "_inner");
+
+        JsonObject outerModel = new JsonObject();
+        outerModel.addProperty("parent", "minecraft:block/outer_stairs");
+        outerModel.add("textures", textures);
+        saveBlockModel(block, outerModel, "_outer");
+
+        // 2. Blockstate
+        JsonObject blockstate = new JsonObject();
+        JsonObject variantsObj = new JsonObject();
+
+        String[] directions = {"north", "south", "west", "east"};
+        String[] halves = {"bottom", "top"};
+        String[] shapes = {"straight", "inner_right", "inner_left", "outer_right", "outer_left"};
+
+        for (String facing : directions) {
+            for (String half : halves) {
+                for (String shape : shapes) {
+                    String key = "facing=" + facing + ",half=" + half + ",shape=" + shape;
+
+                    String modelName;
+                    if (shape.equals("straight")) {
+                        modelName = name + "_straight";
+                    } else if (shape.startsWith("inner")) {
+                        modelName = name + "_inner";
+                    } else {
+                        modelName = name + "_outer";
+                    }
+
+                    JsonObject variant = new JsonObject();
+                    variant.addProperty("model", "hbm:block/" + modelName);
+
+                    int yRot;
+                    if (half.equals("top")) {
+                        // Для верхней половины
+                        yRot = switch (facing) {
+                            case "south" -> 90;
+                            case "west" -> 180;
+                            case "east" -> 0;
+                            default -> 270;
+                        };
+                        int shapeRotTop = switch (shape) {
+                            case "inner_left" -> 0;
+                            case "outer_left" -> 0;
+                            case "inner_right" -> 90;
+                            case "outer_right" -> 90;
+                            default -> 0;
+                        };
+                        yRot = (yRot + shapeRotTop) % 360;
+                    } else {
+                        // Для нижней половины
+                        yRot = switch (facing) {
+                            case "south" -> 90;
+                            case "west" -> 180;
+                            case "east" -> 0;
+                            default -> 270;
+                        };
+                        int shapeRot = switch (shape) {
+                            case "inner_left" -> 270;
+                            case "outer_left" -> 270;
+                            case "inner_right" -> 0;
+                            case "outer_right" -> 0;
+                            default -> 0;
+                        };
+                        yRot = (yRot + shapeRot) % 360;
+                    }
+
+                    if (yRot != 0) variant.addProperty("y", yRot);
+                    if (half.equals("top")) variant.addProperty("x", 180);
+
+                    variantsObj.add(key, variant);
+                }
+            }
+        }
+        blockstate.add("variants", variantsObj);
+        saveBlockstate(block, blockstate);
+
+        // 3. Item модель
+        JsonObject itemModel = new JsonObject();
+        itemModel.addProperty("parent", "hbm:block/" + name + "_straight");
+        saveItemModel(name, itemModel);
     }
 
     private JsonObject createVariant(String model) {

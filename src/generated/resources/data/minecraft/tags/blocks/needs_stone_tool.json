@@ -18,6 +18,12 @@
     "hbm:ore_nether_sulfur",
     "hbm:ore_gneiss_asbestos",
     "hbm:fallout",
-    "hbm:block_fallout"
+    "hbm:block_fallout",
+    "hbm:ladder_iron",
+    "hbm:ladder_gold",
+    "hbm:ladder_aluminium",
+    "hbm:ladder_copper",
+    "hbm:ladder_lead",
+    "hbm:reinforced_lamp"
   ]
 }

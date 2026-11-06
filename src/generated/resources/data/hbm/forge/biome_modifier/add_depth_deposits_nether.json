@@ -1,0 +1,9 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_nether",
+  "features": [
+    "hbm:depth_deposit_nether_neodymium_placed",
+    "hbm:depth_deposit_nether_neodymium_top_placed"
+  ],
+  "step": "underground_ores"
+}

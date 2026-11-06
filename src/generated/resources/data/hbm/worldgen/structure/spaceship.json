@@ -1,0 +1,14 @@
+{
+  "type": "hbm:simple_nbt",
+  "height_offset": -3,
+  "max_height": 128,
+  "min_height": 1,
+  "nbt_file": "spaceship",
+  "rotation": 0,
+  "settings": {
+    "biomes": "#hbm:spaceship_biomes",
+    "spawn_overrides": {},
+    "step": "surface_structures",
+    "terrain_adaptation": "none"
+  }
+}

@@ -1,137 +1,155 @@
-# HBM's Nuclear Tech Mod — Unofficial 1.20.1 Port
+<p align="center">
+  <a href="docs/images/readme/full/banner.webp"><img src="docs/images/readme/banner.webp" alt="Постъядерная база HBM Nuclear Tech Mod: бочки, колючая проволока и вышка в пустоши"></a>
+</p>
 
-[![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1-brightgreen)](https://minecraft.net)
-[![Forge](https://img.shields.io/badge/Forge-47.3.0%2B-orange)](https://files.minecraftforge.net)
-[![License](https://img.shields.io/badge/License-GPL--3.0-blue)](LICENSE)
+<p align="center">
+  <a href="https://github.com/Jackasm/HbmNuclearTech-1.20.1/releases"><img src="https://img.shields.io/badge/release-0.0.15-c8a800?style=flat-square" alt="Релиз 0.0.15"></a>
+  <img src="https://img.shields.io/badge/Minecraft-1.20.1-3fb950?style=flat-square" alt="Minecraft 1.20.1">
+  <img src="https://img.shields.io/badge/Forge-47.4.10-e08c3a?style=flat-square" alt="Forge 47.4.10">
+  <img src="https://img.shields.io/badge/Java-17-4a7fd4?style=flat-square" alt="Java 17">
+  <img src="https://img.shields.io/badge/license-GPL--3.0-8b949e?style=flat-square" alt="GPL-3.0">
+</p>
 
-> **Внимание:** это неофициальный порт легендарного HBM's Nuclear Tech Mod с версии 1.7.10 на современный Minecraft 1.20.1.  
-> Проект находится на стадии активной разработки и закрытого тестирования.
-
----
-
-## 📖 О порте
-
-Не работает с OptiFine!
-
-HBM's Nuclear Tech Mod — один из самых масштабных технических модов для Minecraft 1.7.10. Цель этого репозитория — перенести всё на актуальную версию игры с сохранением оригинального геймплея.
-
-Уже портировано:
-
-### Броня и силовые костюмы (свыше 180 предметов)
-**Базовые комплекты (11 материалов):** Робы, Сталь, Титан, Асбест, Продвинутый сплав, Кобальт, Звёздный металл, CMB сталь, Шрабидий, Висмут, Эвфемиум.
-**Химзащита:** 4 варианта Hazmat с масками и защитой от радиации.
-**Силовые доспехи (12+ моделей):** T45, T51, AJR, AJRO, RPA, HEV (Half-Life), DNT (эндгейм), FAU (Digamma), Steamsuit, Dieselsuit, Trenchmaster, Envsuit. Механики: энергопитание, VATS, тепловидение, счётчик Гейгера, защита от падения, рывки.
-**Аксессуары:** противогазы, очки, ранец Tesla, джетпаки.
-
-### Огнестрельное оружие — Система Sedna (60+ моделей)
-- **Дробовики (10 шт.):** Pepperbox, Maresleg (+ Broken), Liberator, Spas-12, Autoshotgun (+ Sexy/Shredder), Double Barrel (+ Sacred Dragon).
-- **Пистолеты-пулемёты (4 шт.):** Greasegun, LAG, UZI, AM180.
-- **Револьверы и винтовки (8 шт.):** Light/Heavy Revolver (+ Atlas/Lilmac/Protege), Hangman, Henry Rifle (+ Lincoln).
-- **Крупный калибр и пулемёты (9 шт.):** AMAT (+ Subtlety/Penance), M2, G3 (+ Zebra), STG77, Bolter, Carbine, Minigun (+ Lacunae), MAS36.
-- **Энергетическое оружие (6 шт.):** Tesla Cannon, Laser Pistol (+ Pew Pew/Morning Glory), Lasrifle.
-- **Гранатомёты и ракетницы (7 шт.):** Flaregun, Congolake, Panzerschreck, Stinger, Quadro, Missile Launcher, Fatman.
-- **Специальное (6 шт.):** Tau Cannon, Coilgun, N-I-4-N-I, Flamer (+ Topaz/Daybreaker), Chemthrower, Fire Extinguisher, Charge Thrower.
-- **Система боеприпасов:** 12 калибров, 80+ видов патронов.
-
-### Инструменты и оружие ближнего боя (более 100 предметов)
-**Наборы инструментов (9 материалов):** Сталь, Титан, Сплав, CMB, Desh, Кобальт, Декорированный кобальт, Звёздный металл, Шрабидий. Каждый включает меч, кирку, топор, лопату, мотыгу.
-**Уникальное оружие:** Boltgun, Crucible, Meteorite Sword (12 стадий), Elec-серия, Drax → Mk2 → Mk3, Chainsaw, Bismuth/Volcanic/Chlorophyte/Mese наборы, Mese Gavel.
-**Система способностей:** BEHEADER, STUN, VAMPIRE, FIRE, RADIATION, HAMMER, RECURSION, SILK, LUCK, SMELTER, SHREDDER и др.
-
-### Блоки и Tile Entity (более 80 типов)
-Заводы, генераторы энергии, радары, телепорты, ракетные шахты, декоративные блоки, бомбы, турели, трубопроводы, литейные формы.
-
-### Мобы и сущности (свыше 120 типов)
-Криперы, Глифиды (из DRG), боссы (Quackos, MaskMan, RADBeast, Охотничий вертолёт, БОТ Прайм, U.F.O.), ракеты (20+ типов), гранаты (30+ типов).
-
-### Радиация и опасности от предметов
-Hot, Blind, Hydroreactive и др.
+<p align="center">
+  <b>Русский</b> · <a href="README.en.md">English</a>
+</p>
 
 ---
 
-## 🔧 Сборка из исходников
+# Добро пожаловать на объект
 
-1. Установите JDK 17 и Git.
-2. Клонируйте репозиторий командой:
-   git clone https://github.com/Jackasm/HBM-1.20.1.git
-3. Откройте проект в IDE с поддержкой Gradle.
-4. Выполните gradlew build. Jar появится в build/libs.
+В обычном Minecraft вы строите дом, сажаете картошку и стараетесь дожить до утра.
 
----
+В **HBM's Nuclear Tech Mod** вы строите завод, осваиваете ядерные технологии и однажды обнаруживаете, что картошка рядом с реактором — уже не главная проблема.
 
-## 🙏 Благодарности
+Здесь есть реакторы, центрифуги, химическое производство, оружие, радиация и заброшенные места, в которые здравомыслящий человек не полез бы даже за двойную оплату. Но вы ведь пришли не за здравым смыслом.
 
-Оригинальный мод создан командой **HBM** (Alcater, Drillgon200 и др.).
+**Это неофициальный порт HBM's Nuclear Tech Mod с Minecraft 1.7.10 на 1.20.1.** Цель — вернуть знакомые системы, опасности и характер оригинала на современную версию игры. Работа ещё идёт.
 
----
-
-# HBM's Nuclear Tech Mod — Unofficial 1.20.1 Port
-
-> **Note:** this is an unofficial port of the legendary HBM's Nuclear Tech Mod from 1.7.10 to modern Minecraft 1.20.1.  
-> The project is under active development and closed testing.
+> [!WARNING]
+> **Объект не принят комиссией.** Порт запускается и генерирует мир, но полное прохождение в режиме выживания пока не проверено. Возможны недоработанные механики и ошибки. Делайте резервные копии миров. Архивная копия — единственное, что гарантированно переживёт неудачный эксперимент.
 
 ---
 
-## 📖 About
+## Из материалов разведки
 
-HBM's Nuclear Tech Mod is one of the largest tech mods for Minecraft 1.7.10. This repository aims to bring it all to the modern version of the game while preserving the original gameplay.
+Три места, куда никто не приглашал. Впрочем, дверь уже открыта.
 
-This mod does NOT work with OptiFine!
+<table>
+<tr>
+<td width="33%" valign="top">
+  <a href="docs/images/readme/full/lighthouse.webp"><img src="docs/images/readme/shot-lighthouse.webp" alt="Заросший маяк на скалистом острове, окружённом водой"></a><br>
+  <sub><b>Маяк.</b> Стоит один посреди воды. Судя по плющу, смотритель давно не выходил на смену. Выяснять причину придётся лично.</sub>
+</td>
+<td width="33%" valign="top">
+  <a href="docs/images/readme/full/interior.webp"><img src="docs/images/readme/shot-industry.webp" alt="Заброшенная фабрика: кирпичные цеха, ящики, зомби и открытая лава"></a><br>
+  <sub><b>Фабрика.</b> Запасы на месте, лава течёт, смена бродит по цеху. Покойников здесь, похоже, увольнять не принято.</sub>
+</td>
+<td width="33%" valign="top">
+  <a href="docs/images/readme/full/badlands.webp"><img src="docs/images/readme/shot-world.webp" alt="Разрушенная атомная электростанция в пустоши под дождём"></a><br>
+  <sub><b>Разрушенная АЭС.</b> Дождь смывает пыль с руин. С последствиями аварии, как обычно, придётся разбираться посетителям.</sub>
+</td>
+</tr>
+</table>
 
-Already ported:
+*Нажмите на изображение, чтобы открыть полный кадр.*
 
-### Armor and Powered Suits (180+ items)
-**Basic sets (11 materials):** Robes, Steel, Titanium, Asbestos, Advanced Alloy, Cobalt, Starmetal, CMB Steel, Schrabidium, Bismuth, Euphemium.
-**Hazmat suits:** 4 variants with masks and radiation protection.
-**Powered armor (12+ models):** T45, T51, AJR, AJRO, RPA, HEV (Half-Life), DNT (endgame), FAU (Digamma), Steamsuit, Dieselsuit, Trenchmaster, Envsuit. Mechanics: power supply, VATS, thermal vision, Geiger counter, fall protection, dashes.
-**Accessories:** gas masks, goggles, Tesla backpack, jetpacks.
+## Рекомендуемые моды
 
-### Firearms — Sedna System (60+ models)
-- **Shotguns (10):** Pepperbox, Maresleg (+ Broken), Liberator, Spas-12, Autoshotgun (+ Sexy/Shredder), Double Barrel (+ Sacred Dragon).
-- **SMGs (4):** Greasegun, LAG, UZI, AM180.
-- **Revolvers and rifles (8):** Light/Heavy Revolver (+ Atlas/Lilmac/Protege), Hangman, Henry Rifle (+ Lincoln).
-- **Large caliber and machine guns (9):** AMAT (+ Subtlety/Penance), M2, G3 (+ Zebra), STG77, Bolter, Carbine, Minigun (+ Lacunae), MAS36.
-- **Energy weapons (6):** Tesla Cannon, Laser Pistol (+ Pew Pew/Morning Glory), Lasrifle.
-- **Grenade launchers and rocket launchers (7):** Flaregun, Congolake, Panzerschreck, Stinger, Quadro, Missile Launcher, Fatman.
-- **Special (6):** Tau Cannon, Coilgun, N-I-4-N-I, Flamer (+ Topaz/Daybreaker), Chemthrower, Fire Extinguisher, Charge Thrower.
-- **Ammo system:** 12 calibers, 80+ ammo types.
+Сам мод работает и без них. Но с ними вы тратите время на производство, а не на попытки вспомнить рецепт и понять, где вы находитесь.
 
-### Melee Weapons and Tools (100+ items)
-**Tool sets (9 materials):** Steel, Titanium, Alloy, CMB, Desh, Cobalt, Decorated Cobalt, Starmetal, Schrabidium. Each includes sword, pickaxe, axe, shovel, hoe.
-**Unique weapons:** Boltgun, Crucible, Meteorite Sword (12 stages), Elec-series, Drax → Mk2 → Mk3, Chainsaw, Bismuth/Volcanic/Chlorophyte/Mese sets, Mese Gavel.
-**Ability system:** BEHEADER, STUN, VAMPIRE, FIRE, RADIATION, HAMMER, RECURSION, SILK, LUCK, SMELTER, SHREDDER, etc.
+| Мод | Зачем | Кому |
+| :--- | :--- | :--- |
+| **JEI** (Just Enough Items) | все рецепты и применения предметов в одном окне | всем |
+| **JourneyMap** | карта мира и метки: структуры находятся, база не теряется | всем |
+| **Oculus** + **Embeddium** | шейдеры и быстрый рендер; ставятся парой | если ПК позволяет |
 
-### Blocks and Tile Entities (80+ types)
-Factories, power generators, radars, teleporters, missile silos, decorative blocks, bombs, turrets, pipelines, foundry molds.
+Всё это — клиентские Forge-моды для 1.20.1, ставятся в `.minecraft/mods` как обычно; на сервер их не нужно. Шейдерпаки кладутся отдельно, в `shaderpacks`.
 
-### Mobs and Entities (120+ types)
-Creepers, Glyphids (from DRG), bosses (Quackos, MaskMan, RADBeast, Hunter Chopper, BOT Prime, U.F.O.), missiles (20+ types), grenades (30+ types).
+*Проверено с JEI 15.20.0.127, JourneyMap 6.0.0, Oculus 1.8.0, Embeddium 0.3.31.*
 
-### Radiation and Item Hazards
-Hot, Blind, Hydroreactive, etc.
+## Чем здесь занимаются
+
+### ☢ Радиация. Её не видно, но она вас заметила
+
+Счётчик Гейгера начинает трещать. Дозиметр показывает цифры, которых хотелось бы не знать. Излучение проходит через преграды, накапливается в организме и может загрязнять местность.
+
+Бетонная стена держит фон, но не спасает: поле трёхмерное и обходит её сверху и снизу. Замкнутая оболочка работает лучше — но и она не индульгенция. Защита, измерения и осторожность здесь полезнее героизма.
+
+*Если прибор вдруг замолчал, не спешите радоваться. Для начала проверьте батарейку.*
+
+### ⚙ Промышленность. Началось всё с одного слитка
+
+Руду нужно переработать. Материалы — разделить. Химию — запустить. Затем подключить сборку, энергию и логистику. Центрифуги и производственные линии не работают на добром слове: каждой новой ступени нужны ресурсы и инфраструктура.
+
+В какой-то момент у вас будет собственная промышленная держава. И очень длинный список того, что в ней может пойти не так.
+
+### 🔫 Арсенал. На случай неудачных переговоров
+
+Система **Sedna**: **12 калибров** и **более 80 типов боеприпасов**. Силовая броня с **VATS**, тепловизором и джетпаком. Химзащита для мест, где обычная одежда — плохая инвестиция.
+
+Есть и боеголовки: от сравнительно простых вариантов до тех, что предстоит собирать самому.
+
+*Окрестности обычно узнают об успешной сборке раньше, чем вы успеваете сделать скриншот.*
+
+### 🌫 Мир, оставленный без объяснений
+
+**39 генерируемых структур**: бункеры, военные шахты, лаборатории, разбившиеся корабли, вышки, сооружения в пустошах и обломки. На поверхности, под землёй и в океанах.
+
+Здесь не всегда понятно, кто построил объект, почему его бросили и что осталось внутри. Можно пройти мимо.
+
+Но тогда зачем вы взяли с собой столько патронов?
 
 ---
 
-## 🔧 Building from Source
+## Сухие цифры из отчёта
 
-1. Install JDK 17 and Git.
-2. Clone the repository using the command:
-   git clone https://github.com/Jackasm/HBM-1.20.1.git
-3. Open the project in a Gradle-compatible IDE.
-4. Run gradlew build. The jar will appear in build/libs.
+**755** состояний блоков · **2 677** моделей предметов · **1 347** рецептов · **39** структур.
+
+Это объём перенесённого содержимого, **не обещание полной готовности всех игровых цепочек**. Порт продолжает развиваться.
+
+## Установка
+
+**Понадобятся:**
+- Minecraft **1.20.1**
+- **Forge 47.4.10** или новее для Minecraft 1.20.1
+- **Java 17**
+
+1. Установите Forge для Minecraft 1.20.1.
+2. Скачайте актуальный файл `hbm-1.20.1-*.jar` со страницы [Releases](https://github.com/Jackasm/HbmNuclearTech-1.20.1/releases).
+3. Поместите JAR в папку `.minecraft/mods`.
+4. Запустите Minecraft с профилем Forge.
+
+**Совет отдела сохранности имущества:** перед запуском на любимом мире сделайте его резервную копию. Дважды предупреждать будем только тех, кто пережил первый раз.
+
+## Для разработчиков
+
+Нужен **JDK 17**. Сборка из исходников:
+
+```bash
+git clone https://github.com/Jackasm/HbmNuclearTech-1.20.1.git
+cd HbmNuclearTech-1.20.1
+./gradlew build
+```
+
+Для Windows используйте `gradlew.bat build`. Результат находится в `build/libs`. При необходимости данные можно перегенерировать командой `./gradlew runData`.
+
+## Авторы и благодарности
+
+Оригинальный **HBM's Nuclear Tech Mod** создал **Bobcat** при участии **Alcater**, **Drillgon200** и многих других контрибьюторов. Оригинальные модели, текстуры, звуки и дизайн — результат их работы.
+
+Неофициальный порт для Minecraft 1.20.1 разрабатывает **Jackasm**.
+
+## Лицензия
+
+Оригинальный мод распространяется под **GPL-3.0**. Порт сохраняет ту же лицензию; подробности — в [LICENSE](LICENSE).
+
+Это **неофициальный проект**, не связанный с авторами оригинального мода и не одобренный ими. За оригинальным опытом HBM's Nuclear Tech Mod — на Minecraft 1.7.10.
 
 ---
 
-## 🙏 Credits
-
-Original mod created by the **HBM** team (Alcater, Drillgon200, etc.).
-
----
-
-## License / Лицензия
-
-The original mod is licensed under **GPL-3.0**, and this port continues under the same license — see [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md) for attribution and provenance.
-
-Оригинальный мод распространяется под **GPL-3.0**, порт продолжает ту же лицензию — см. [LICENSE](LICENSE) и [NOTICE.md](NOTICE.md).
-
----
+> **Напоминание службы безопасности**
+>
+> Если на объекте тихо, это ещё не значит, что всё в порядке.
+>
+> **Удачной смены.**

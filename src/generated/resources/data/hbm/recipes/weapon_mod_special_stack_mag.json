@@ -15,7 +15,7 @@
     "PMP"
   ],
   "result": {
-    "item": "hbm:weapon_mod_stack_mag"
+    "item": "hbm:weapon_mod_special_stack_mag"
   },
   "show_notification": true
 }

@@ -1,0 +1,4 @@
+{
+  "loader": "hbm:hfr_obj",
+  "model": "models/block/machines/machine_blast_furnace.obj"
+}

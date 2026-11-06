@@ -1,13 +1,13 @@
 package com.hbm.items.tool;
 
 
-import com.hbm.inventory.gui.GUIScreenBobmazon;
-import com.hbm.items.BobmazonOfferFactory;
+import com.hbm.inventory.container.ContainerCatalog;
 import com.hbm.items.ModItems;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -25,14 +25,15 @@ public class ItemCatalog extends Item {
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player,
+                                                           @NotNull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
-        if (level.isClientSide) {
-            List<GUIScreenBobmazon.Offer> offers = BobmazonOfferFactory.getOffers(stack);
-            if (offers != null) {
-                Minecraft.getInstance().setScreen(new GUIScreenBobmazon(player, offers));
-            }
+        if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.openMenu(new SimpleMenuProvider(
+                    (windowId, inv, p) -> new ContainerCatalog(windowId, inv),
+                    Component.translatable("gui.bobmazon")
+            ));
         }
 
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);

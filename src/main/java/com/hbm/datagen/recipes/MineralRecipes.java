@@ -124,7 +124,7 @@ public class MineralRecipes {
         add1To9Pair(ModItems.INGOT_SR90.get(), ModItems.NUGGET_SR90.get());
         add1To9Pair(ModItems.INGOT_AU198.get(), ModItems.NUGGET_AU198.get());
         add1To9Pair(ModItems.INGOT_PB209.get(), ModItems.NUGGET_PB209.get());
-        add1To9Pair(ModItems.INGOT_RA226.get(), ModItems.NUGGET_RA_226.get());
+        add1To9Pair(ModItems.INGOT_RA226.get(), ModItems.NUGGET_RA226.get());
         add1To9Pair(ModItems.INGOT_ACTINIUM.get(), ModItems.NUGGET_ACTINIUM.get());
         add1To9Pair(ModItems.INGOT_ARSENIC.get(), ModItems.NUGGET_ARSENIC.get());
         add1To9Pair(ModItems.INGOT_PU241.get(), ModItems.NUGGET_PU241.get());
@@ -206,7 +206,7 @@ public class MineralRecipes {
         addBillet(ModItems.BILLET_TECHNETIUM.get(), ModItems.INGOT_TECHNETIUM.get(), ModItems.NUGGET_TECHNETIUM.get());
         addBillet(ModItems.BILLET_AU198.get(), ModItems.INGOT_AU198.get(), ModItems.NUGGET_AU198.get());
         addBillet(ModItems.BILLET_PB209.get(), ModItems.INGOT_PB209.get(), ModItems.NUGGET_PB209.get());
-        addBillet(ModItems.BILLET_RA226.get(), ModItems.INGOT_RA226.get(), ModItems.NUGGET_RA_226.get());
+        addBillet(ModItems.BILLET_RA226.get(), ModItems.INGOT_RA226.get(), ModItems.NUGGET_RA226.get());
         addBillet(ModItems.BILLET_ACTINIUM.get(), ModItems.INGOT_ACTINIUM.get(), ModItems.NUGGET_ACTINIUM.get());
         addBillet(ModItems.BILLET_SCHRABIDIUM.get(), ModItems.INGOT_SCHRABIDIUM.get(), ModItems.NUGGET_SCHRABIDIUM.get());
         addBillet(ModItems.BILLET_SOLINIUM.get(), ModItems.INGOT_SOLINIUM.get(), ModItems.NUGGET_SOLINIUM.get());
@@ -362,8 +362,8 @@ public class MineralRecipes {
                 .save(pWriter);
 
         for (ItemRTGPelletDepleted.DepletedRTGMaterial material : ItemRTGPelletDepleted.DepletedRTGMaterial.values()) {
-            int meta = material.ordinal();
 
+            if (material == ItemRTGPelletDepleted.DepletedRTGMaterial.NICKEL) continue;
             // Создаём результат
             ItemStack result = switch (material) {
                 case BISMUTH -> new ItemStack(ModItems.BILLET_BISMUTH.get(), 3);
@@ -371,12 +371,13 @@ public class MineralRecipes {
                 case NEPTUNIUM -> new ItemStack(ModItems.BILLET_NEPTUNIUM.get(), 3);
                 case LEAD -> new ItemStack(ModItems.INGOT_LEAD.get(), 2);
                 case ZIRCONIUM -> new ItemStack(ModItems.BILLET_ZIRCONIUM.get(), 3);
+                default -> throw new IllegalStateException("Unexpected value: " + material);
             };
 
             ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, result.getItem(), result.getCount())
                     .requires(ModItems.PELLET_RTG_DEPLETED.get())
                     .unlockedBy("has_pellet_rtg_depleted", has.apply(ModItems.PELLET_RTG_DEPLETED.get()))
-                    .save(pWriter, MODID + ":" + "pellet_rtg_depleted_to_" + material.name().toLowerCase() + "_" + meta);
+                    .save(pWriter, MODID + ":" + "pellet_rtg_depleted_to_" + material.name().toLowerCase());
         }
 
 

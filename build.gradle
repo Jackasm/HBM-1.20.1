@@ -1,14 +1,49 @@
 plugins {
     id 'eclipse'
     id 'idea'
-    id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
 }
 
-version = mod_version
+// ---- Идентичность сборки (#168) ----
+// Dev-сборка несёт коммит в версии: 0.0.15-dev.a1b2c3d. Ровно mod_version —
+// только релизная сборка, собранная с -Phbm.release=true. Все значения берутся
+// из git и детерминированы для одного коммита: два чистых прогона дают один jar.
+def gitValue = { List<String> args ->
+    try {
+        providers.exec {
+            commandLine(['git'] + args)
+            ignoreExitValue = true
+        }.standardOutput.asText.get().trim()
+    } catch (Exception ignored) {
+        ''
+    }
+}
+
+def gitCommit = gitValue(['rev-parse', '--short=7', 'HEAD'])
+def gitBranch = gitValue(['rev-parse', '--abbrev-ref', 'HEAD'])
+def gitDirty = !gitValue(['status', '--porcelain']).isEmpty()
+def gitCommitTime = gitValue(['log', '-1', '--format=%cI'])
+def buildNumber = gitValue(['rev-list', '--count', 'HEAD'])
+def releaseBuild = (findProperty('hbm.release') ?: 'false').toString().toBoolean()
+def buildVersion = (gitCommit && !releaseBuild) ? "${mod_version}-dev.${gitCommit}" : mod_version
+
+version = buildVersion
 group = mod_group_id
+
+// Значения для hbm-build.properties: их читает BuildInfo и печатает в лог.
+def buildProperties = [
+        build_version: buildVersion,
+        build_number : buildNumber ?: '0',
+        build_commit : gitCommit ?: 'unknown',
+        build_branch : gitBranch ?: 'unknown',
+        build_dirty  : gitDirty.toString(),
+        build_time   : gitCommitTime ?: 'unknown',
+        build_release: releaseBuild.toString(),
+]
+
 base {
-    archivesName = mod_id
+    // hbm-1.20.1-0.0.15.jar: версия игры видна прямо по имени файла
+    archivesName = "${mod_id}-${minecraft_version}"
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -21,7 +56,27 @@ minecraft {
         configureEach {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.console.level', 'info'
+
+            // Стенд (com.hbm_addons.test.TestBootstrap) читает сценарий из
+            // JVM-свойства игры. `-D` доезжает только до демона Gradle, поэтому
+            // пробрасываем вручную; `-P` тоже принимаем, чтобы команда работала
+            // независимо от того, как запущен демон.
+            def testScenario = project.findProperty('hbm.test') ?: System.getProperty('hbm.test')
+            if (testScenario) {
+                property 'hbm.test', testScenario
+            }
+
+            // Остальные стендовые свойства (hbm.silo.chunks, hbm.silo.cx и т. п.)
+            // тоже доезжают до JVM игры — иначе параметры сценария не задать.
+            [project.properties, System.properties].each { source ->
+                source.each { key, value ->
+                    if (key instanceof String && key.startsWith('hbm.') && key != 'hbm.test' && value != null) {
+                        property key, value.toString()
+                    }
+                }
+            }
+
             mods {
                 "${mod_id}" {
                     source sourceSets.main
@@ -40,44 +95,64 @@ minecraft {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
+// Тестового source set в проекте нет. Пустые каталоги останавливают Gradle
+// и IDE от пересоздания src/test, которое раньше возвращалось после сборки.
+sourceSets.test.java.srcDirs = []
+sourceSets.test.resources.srcDirs = []
+
 repositories {
     maven {
-        name = "Jared's maven"
-        url = "https://maven.blamejared.com/"
-    }
-    maven {
-        name = "JEI"
-        url = "https://dvs1.progwml6.com/files/maven/"
+        name = 'BlameJared'
+        url = 'https://maven.blamejared.com/'
     }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    
-    compileOnly fg.deobf("mezz.jei:jei-1.20.1-common-api:15.20.0.116")
-    compileOnly fg.deobf("mezz.jei:jei-1.20.1-forge-api:15.20.0.116")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.20.1-forge:15.20.0.116")
+
+    compileOnly fg.deobf("mezz.jei:jei-1.20.1-common-api:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-1.20.1-forge-api:${jei_version}")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.20.1-forge:${jei_version}")
 }
 
 tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
-            minecraft_version: minecraft_version,
+            minecraft_version      : minecraft_version,
             minecraft_version_range: minecraft_version_range,
-            forge_version: forge_version,
-            forge_version_range: forge_version_range,
-            loader_version_range: loader_version_range,
-            mod_id: mod_id,
-            mod_name: mod_name,
-            mod_license: mod_license,
-            mod_version: mod_version,
-            mod_authors: mod_authors,
-            mod_description: mod_description,
+            forge_version          : forge_version,
+            forge_version_range    : forge_version_range,
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : buildVersion,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description,
     ]
     inputs.properties replaceProperties
 
     filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
         expand replaceProperties + [project: project]
     }
+
+    // Идентичность сборки: BuildInfo читает этот файл из classpath (#168).
+    inputs.properties buildProperties
+    filesMatching('hbm-build.properties') {
+        expand buildProperties
+    }
+
+    // Дефолт рубильника аддонов: dev-сборка включает, релизная передаёт
+    // -Paddons_default_enabled=false, чтобы необкатанные фичи не уехали игрокам.
+    var addonsDefault = (findProperty('addons_default_enabled') ?: 'true').toString()
+    inputs.property('addons_default_enabled', addonsDefault)
+    filesMatching('hbm-addons-defaults.properties') {
+        expand addons_default_enabled: addonsDefault
+    }
+
+    // Хеш-кэш датагена лежит в src/generated/resources/.cache (в .gitignore) и
+    // не нужен игре. Без исключения он уезжает в jar: артефакт перестаёт быть
+    // воспроизводимым — SHA меняется после любого прогона runData.
+    exclude '.cache/**'
 }
 
 tasks.named('jar', Jar).configure {
@@ -89,33 +164,20 @@ tasks.named('jar', Jar).configure {
                 'Implementation-Title'    : project.name,
                 'Implementation-Version'  : project.jar.archiveVersion,
                 'Implementation-Vendor'   : mod_authors,
-                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                'HBM-Build-Number'        : buildNumber ?: '0',
+                'HBM-Build-Commit'        : gitCommit ?: 'unknown',
+                'HBM-Build-Branch'        : gitBranch ?: 'unknown',
+                'HBM-Build-Dirty'         : gitDirty.toString(),
+                'HBM-Build-Time'          : gitCommitTime ?: 'unknown',
+                'HBM-Build-Release'       : releaseBuild.toString(),
         ])
     }
+    // Один вход — один jar: две сборки из одного коммита совпадают по SHA-256.
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
     finalizedBy 'reobfJar'
-}
-
-publishing {
-    publications {
-        register('mavenJava', MavenPublication) {
-            artifact jar
-        }
-    }
-    repositories {
-        maven {
-            url "file://${project.projectDir}/mcmodsrepo"
-        }
-    }
 }
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
-}
-
-tasks.named('compileTestJava').configure {
-    enabled = false
-}
-
-tasks.named('processTestResources').configure {
-    enabled = false
 }

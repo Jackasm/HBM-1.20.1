@@ -1,0 +1,13 @@
+{
+  "type": "hbm:simple_nbt",
+  "height_offset": -40,
+  "max_height": 29,
+  "min_height": 28,
+  "nbt_file": "lighthouse",
+  "settings": {
+    "biomes": "#hbm:lighthouse_biomes",
+    "spawn_overrides": {},
+    "step": "surface_structures",
+    "terrain_adaptation": "none"
+  }
+}

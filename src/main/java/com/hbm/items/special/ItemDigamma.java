@@ -56,7 +56,7 @@ public class ItemDigamma extends Item {
     public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entity) {
         if (entity != null) {
             if (entity.onGround() && !entity.level().isClientSide) {
-                if (WeaponConfig.dropSing.get()) {
+                if (WeaponConfig.DROP_SING) {
                     // Создаём квазар при падении на землю
                     EntityQuasar quasar = new EntityQuasar(entity.level(), 5.0F);
                     quasar.setPos(entity.getX(), entity.getY(), entity.getZ());

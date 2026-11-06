@@ -79,7 +79,7 @@ public class ContainerLaunchPadLarge extends AbstractContainerMenu {
                 }
             } else {
                 // Из инвентаря в слоты тайла
-                if (stack.getItem() instanceof IBatteryItem || stack.getItem() == ModItems.BATTERY_CREATIVE.get()) {
+                if (stack.getItem() instanceof IBatteryItem) {
                     if (!this.moveItemStackTo(stack, 2, 3, false)) {
                         return ItemStack.EMPTY;
                     }

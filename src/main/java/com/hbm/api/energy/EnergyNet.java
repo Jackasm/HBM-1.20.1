@@ -15,6 +15,11 @@ public class EnergyNet extends NodeNet<IEnergyReceiver, IEnergyProvider, EnergyN
     protected static final int TIMEOUT = 3000; // мс, после которых провайдер/потребитель считается мёртвым
 
     @Override
+    public void resetTrackers() {
+        this.energyTracker = 0L;
+    }
+
+    @Override
     public void tick() {
         // Очистка мёртвых ссылок перед каждым тиком
         cleanup();

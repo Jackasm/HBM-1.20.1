@@ -675,17 +675,31 @@ public class ArmorResistanceHandler {
         dr = Math.min(dr, 0.95F);
         amount *= (1F - dr);
 
-        if (!source.is(DamageTypeTags.BYPASSES_ARMOR)) {
-            int armorValue = entity.getArmorValue();
-            if (armorValue > 0) {
-                float armorProtection = Math.min(armorValue * 0.04f, 0.8f);
-                amount *= (1 - armorProtection);
-            }
-        }
-
         applyArmorDamage(entity, source, originalDamage, amount);
 
         return Math.max(amount, 0.001F);
+    }
+
+    /**
+     * Ванильные броневые очки: 1 − min(очки × 0.04, 0.8).
+     *
+     * <p>Применять только в том пути, где ванильная броня не считается сама:
+     * {@code EntityDamageUtil.damageEntityNT} вычитает урон из здоровья напрямую.
+     * В {@code LivingHurtEvent} очки применять нельзя — движок применит их после
+     * события, и снижение удвоится (#93).</p>
+     */
+    public static float applyArmorPoints(LivingEntity entity, DamageSource source, float amount) {
+        if (source.is(DamageTypeTags.BYPASSES_ARMOR)) {
+            return amount;
+        }
+
+        int armorValue = entity.getArmorValue();
+        if (armorValue <= 0) {
+            return amount;
+        }
+
+        float armorProtection = Math.min(armorValue * 0.04f, 0.8f);
+        return amount * (1 - armorProtection);
     }
 
     private static boolean shouldIgnoreProtection(DamageSource source) {

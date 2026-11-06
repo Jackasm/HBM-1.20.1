@@ -2,15 +2,21 @@ package com.hbm.blocks.generic;
 
 import com.hbm.sound.ModSounds;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
@@ -39,10 +45,36 @@ public class BlockModDoor extends DoorBlock {
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
+    @Override
+    public @NotNull BlockState updateShape(BlockState state, Direction direction, @NotNull BlockState neighborState, @NotNull LevelAccessor level, @NotNull BlockPos pos, @NotNull BlockPos neighborPos) {
+        DoubleBlockHalf half = state.getValue(HALF);
+
+        if (direction.getAxis() == Direction.Axis.Y &&
+                ((half == DoubleBlockHalf.LOWER) == (direction == Direction.UP))) {
+            if (neighborState.getBlock() == this && neighborState.getValue(HALF) != half) {
+                return state.setValue(FACING, neighborState.getValue(FACING))
+                        .setValue(OPEN, neighborState.getValue(OPEN))
+                        .setValue(HINGE, neighborState.getValue(HINGE));
+            }
+            return Blocks.AIR.defaultBlockState();
+        }
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+    }
+
     public static BlockBehaviour.Properties createDoorProperties(float strength, float resistance) {
         return BlockBehaviour.Properties.of()
                 .mapColor(MapColor.METAL)
                 .strength(strength, resistance)
                 .noOcclusion();
+    }
+
+    @Override
+    public @NotNull BlockState rotate(@NotNull BlockState state, @NotNull Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+    }
+
+    @Override
+    public @NotNull BlockState mirror(@NotNull BlockState state, @NotNull Mirror mirror) {
+        return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 }

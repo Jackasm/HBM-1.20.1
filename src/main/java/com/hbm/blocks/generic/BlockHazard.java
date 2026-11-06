@@ -23,7 +23,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
-public class BlockHazard extends Block {
+public class BlockHazard extends Block implements com.hbm.blocks.IRadiationSource {
 
     protected float rad = 0.0F;
     protected boolean radChecked = false;
@@ -115,17 +115,28 @@ public class BlockHazard extends Block {
 
     @Override
     public void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
-        if (!radChecked)
-        {
-            ItemStack stack = new ItemStack(this);
-            this.rad = HazardSystem.getHazardLevelFromStack(stack, HazardRegistry.RADIATION) * 0.2F;
-            radChecked = true;
-        }
+        checkRad();
 
         if (this.rad > 0) {
             RadiationEvents.incrementRadiation(level, pos, rad);
             level.scheduleTick(pos, this, this.getTickRate(level));
         }
+    }
+
+    private void checkRad() {
+        if (radChecked) return;
+        ItemStack stack = new ItemStack(this);
+        // Коэффициент эталона (1.7.10, BlockHazard:142): hazard × 0.1.
+        // В порте стояло 0.2 — блоки отходов фонили вдвое сильнее (#62).
+        this.rad = HazardSystem.getHazardLevelFromStack(stack, HazardRegistry.RADIATION) * 0.1F;
+        radChecked = true;
+    }
+
+    /** #198: первый тик для блоков, поставленных генерацией. */
+    @Override
+    public boolean emitsRadiation() {
+        checkRad();
+        return this.rad > 0;
     }
 
     public int getTickRate(LevelReader level) {

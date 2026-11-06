@@ -44,6 +44,9 @@ public class HbmCreativeTabs {
     public static final RegistryObject<CreativeModeTab> WEAPON_TAB =
             CREATIVE_TABS.register("weapon_tab", WeaponTab::create);
 
+    public static final RegistryObject<CreativeModeTab> TRANSPORT_TAB =
+            CREATIVE_TABS.register("transport_tab", TransportTab::create);
+
     // Регистрация в Forge
     public static void register(IEventBus eventBus) {
         CREATIVE_TABS.register(eventBus);

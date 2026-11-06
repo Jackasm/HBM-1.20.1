@@ -1,0 +1,8 @@
+{
+  "loader": "hbm:ct_geometry",
+  "render_type": "translucent",
+  "textures": {
+    "particle": "hbm:block/reinforced_glass",
+    "texture": "hbm:block/reinforced_glass"
+  }
+}

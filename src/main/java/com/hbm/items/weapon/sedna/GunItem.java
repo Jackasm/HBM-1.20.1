@@ -547,7 +547,7 @@ public class GunItem extends Item implements IKeybindReceiver {
 
     public void handleKeybind(LivingEntity entity, Container inventory,
                               ItemStack stack, KeybindType keybind, boolean newState) {
-        if (!GeneralConfig.enableGuns.get()) return;
+        if (!GeneralConfig.enableGunsValue) return;
 
         for (int i = 0; i < configs.length; i++) {
             GunConfig config = getConfig(stack, i);

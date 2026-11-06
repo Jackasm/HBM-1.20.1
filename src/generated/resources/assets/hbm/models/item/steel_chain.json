@@ -1,6 +1,4 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "hbm:block/steel_chain"
-  }
+  "loader": "hbm:hfr_obj",
+  "model": "models/block/steel_chain.obj"
 }

@@ -1,7 +1,6 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.api.block.IToolable;
-import com.hbm.datagen.worldgen.nbt.INBTBlockTransformable;
 import com.hbm.tileentity.ModTileEntity;
 import com.hbm.tileentity.machine.TileEntityFloodlight;
 import net.minecraft.core.BlockPos;
@@ -18,6 +17,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -35,7 +35,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class BlockFloodlight extends BaseEntityBlock implements IToolable, INBTBlockTransformable {
+public class BlockFloodlight extends BaseEntityBlock implements IToolable {
 
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final IntegerProperty ROTATION = IntegerProperty.create("rotation", 0, 359);
@@ -156,27 +156,21 @@ public class BlockFloodlight extends BaseEntityBlock implements IToolable, INBTB
                 .requiresCorrectToolForDrops();
     }
 
-    // ==================== INBTBlockTransformable ====================
-
     @Override
-    public BlockState transformState(BlockState state, int rotation) {
-        if (rotation == 0 || !state.hasProperty(FACING)) return state;
-
+    public @NotNull BlockState rotate(@NotNull BlockState state, @NotNull Rotation rot) {
         Direction facing = state.getValue(FACING);
-        Direction newFacing = rotateFacing(facing, rotation);
-        return state.setValue(FACING, newFacing);
+        Direction newFacing = rot.rotate(facing);
+
+        int rotation = state.getValue(ROTATION);
+        int delta = switch (rot) {
+            case CLOCKWISE_90 -> 90;
+            case CLOCKWISE_180 -> 180;
+            case COUNTERCLOCKWISE_90 -> 270;
+            case NONE -> 0;
+        };
+        int newRotation = (rotation + delta) % 360;
+
+        return state.setValue(FACING, newFacing).setValue(ROTATION, newRotation);
     }
 
-    private Direction rotateFacing(Direction facing, int rotation) {
-        // rotation: 0=юг, 1=запад, 2=север, 3=восток
-        if (facing.getAxis() == Direction.Axis.Y) {
-            return facing; // Вертикальные направления не меняются
-        }
-
-        Direction newFacing = facing;
-        for (int i = 0; i < rotation; i++) {
-            newFacing = newFacing.getClockWise();
-        }
-        return newFacing;
-    }
 }

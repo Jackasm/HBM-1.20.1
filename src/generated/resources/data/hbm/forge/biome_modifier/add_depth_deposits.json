@@ -1,0 +1,13 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": [
+    "hbm:depth_deposit_iron_placed",
+    "hbm:depth_deposit_titanium_placed",
+    "hbm:depth_deposit_tungsten_placed",
+    "hbm:depth_deposit_cinnabar_placed",
+    "hbm:depth_deposit_zirconium_placed",
+    "hbm:depth_deposit_borax_placed"
+  ],
+  "step": "underground_ores"
+}

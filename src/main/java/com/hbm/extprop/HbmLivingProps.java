@@ -212,13 +212,13 @@ public class HbmLivingProps {
 
     // --- АСБЕСТ --- (ваши существующие методы)
     public static int getAsbestos(LivingEntity entity) {
-        if (RadiationConfig.disableAsbestos.get()) return 0;
+        if (RadiationConfig.DISABLE_ASBESTOS) return 0;
         HbmLivingProps props = getData(entity);
         return props != null ? props.asbestos : 0;
     }
 
     public static void setAsbestos(LivingEntity entity, int value) {
-        if (RadiationConfig.disableAsbestos.get()) return;
+        if (RadiationConfig.DISABLE_ASBESTOS) return;
         HbmLivingProps props = getData(entity);
         if (props != null) {
             props.asbestos = Math.max(0, Math.min(value, MAX_ASBESTOS));

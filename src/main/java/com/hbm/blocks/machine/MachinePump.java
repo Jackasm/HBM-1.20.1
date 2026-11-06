@@ -1,7 +1,6 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.render.overlay.OverlayContext;
@@ -12,11 +11,6 @@ import com.hbm.tileentity.machine.TileEntityMachinePumpBase;
 import com.hbm.tileentity.machine.TileEntityMachinePumpElectric;
 import com.hbm.tileentity.machine.TileEntityMachinePumpSteam;
 import com.hbm.util.BobMathUtil;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -24,9 +18,8 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -34,7 +27,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
@@ -99,11 +91,6 @@ public class MachinePump extends BlockDummyable implements ILookOverlay, IToolti
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        this.addStandardInfo(stack, null, tooltip, flag.isAdvanced());
-    }
-
-    @Override
     public int[] getDimensions() {
         return new int[]{3, 0, 1, 1, 1, 1};
     }
@@ -114,7 +101,7 @@ public class MachinePump extends BlockDummyable implements ILookOverlay, IToolti
     }
 
     @Override
-    protected void fillSpace(Level level, BlockPos pos, BlockPos corePos, Direction dir) {
+    protected void fillSpace(LevelAccessor level, BlockPos pos, BlockPos corePos, Direction dir) {
         super.fillSpace(level, pos, corePos, dir);
 
         this.makeExtra(level, corePos.offset(1, 0, 0));
@@ -163,31 +150,7 @@ public class MachinePump extends BlockDummyable implements ILookOverlay, IToolti
         return sections;
     }
 
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void drawHighlight(PoseStack poseStack, MultiBufferSource buffer, Level level, BlockPos pos) {
-        BlockPos core = findCore(level, pos);
-        if (core == null) return;
-
-        BlockState state = level.getBlockState(core);
-        Direction dir = state.getValue(FACING);
-        Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
-
-        poseStack.pushPose();
-        poseStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
-
-        VertexConsumer consumer = buffer.getBuffer(RenderType.lines());
-
-        List<AABB> boxes = getHighlightBoxes(level, core, dir);
-        for (AABB box : boxes) {
-            ICustomBlockHighlight.renderAABB(poseStack, consumer, box, 0.0F, 1.0F, 0.0F, 0.4F);
-        }
-
-        poseStack.popPose();
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private List<AABB> getHighlightBoxes(Level level, BlockPos core, Direction dir) {
+    public List<AABB> getHighlightBoxes(Level level, BlockPos core, Direction dir) {
         List<AABB> boxes = new ArrayList<>();
         int[] dim = getDimensions();
 
@@ -212,19 +175,10 @@ public class MachinePump extends BlockDummyable implements ILookOverlay, IToolti
         return boxes;
     }
 
-    @Override
-    public boolean shouldDrawHighlight(Level level, BlockPos pos) {
-        return true;
-    }
 
     @Override
     public ItemStack getMachineItem() {
         return new ItemStack(this);
-    }
-
-    @Override
-    public void addInformation(ItemStack stack, Player player, List<Component> list, boolean ext) {
-        addStandardInfo(stack, player, list, ext);
     }
 
     public static Properties createProperties() {

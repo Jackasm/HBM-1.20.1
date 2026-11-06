@@ -58,7 +58,7 @@ public class ContainerCompactLauncher extends AbstractContainerMenu {
                     return ItemStack.EMPTY;
                 }
             } else {
-                if (stack.getItem() instanceof IBatteryItem || stack.getItem() == ModItems.BATTERY_CREATIVE.get()) {
+                if (stack.getItem() instanceof IBatteryItem) {
                     if (!this.moveItemStackTo(stack, 5, 6, false)) return ItemStack.EMPTY;
                 } else if (launcher.isMissileValid() && stack.getItem() == ModItems.MISSILE_CUSTOM.get()) {
                     if (!this.moveItemStackTo(stack, 0, 1, false)) return ItemStack.EMPTY;

@@ -135,7 +135,7 @@ public class ClientAudioWrapper implements AudioWrapper{
             if (this.isStoppedFlag) {
                 return;
             }
-
+            this.keepAliveTimer = this.initialKeepAlive;
             // Плавная интерполяция позиции
             if (Math.abs(this.x - targetX) > 0.01) {
                 this.x = this.x + (targetX - (float) this.x) * 0.2;

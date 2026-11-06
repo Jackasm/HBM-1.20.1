@@ -101,6 +101,9 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
         power = nbt.getLong("power");
         powerCap = nbt.getLong("powerCap");
         tank.readFromNBT(nbt, "fuel");
+        if (tank.getTankType() == Fluids.NONE.get()) {
+            tank.setType(Fluids.DIESEL.get());
+        }
     }
 
     @Override

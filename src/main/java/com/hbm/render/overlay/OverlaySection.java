@@ -26,6 +26,7 @@ public class OverlaySection {
 
     private int toolFrameColor = 0xFFFFFF;
     private boolean hasToolFrame = false;
+    private int alpha = 255;
 
     public OverlaySection(Type type) {
         this.type = type;
@@ -33,6 +34,10 @@ public class OverlaySection {
 
     public int getToolFrameColor() { return toolFrameColor; }
     public boolean hasToolFrame() { return hasToolFrame; }
+
+    public int getAlpha() { return alpha; }
+
+    public void setAlpha(int alpha) { this.alpha = alpha; }
 
     public Type getType() {
         return type;

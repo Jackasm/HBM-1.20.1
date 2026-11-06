@@ -30,7 +30,7 @@ public class CentrifugeRecipes {
 
     public static void register() {
 
-        boolean lbs = GeneralConfig.enableLBSM.get() && GeneralConfig.enableLBSMSimpleCentrifuge.get();
+        boolean lbs = GeneralConfig.ENABLE_LBSM && GeneralConfig.enableLBSMSimpleCentrifugeValue;
 
         recipes.put(new ComparableStack(ModItems.CHUNK_ORE_RARE.get()), new ItemStack[] {
                 new ItemStack(ModItems.POWDER_COBALT_TINY.get(), 2),
@@ -131,7 +131,7 @@ public class CentrifugeRecipes {
         recipes.put(new ComparableStack(ModItems.ORE_URANIUM.get()), new ItemStack[] {
                 lbs ? new ItemStack(ModItems.POWDER_URANIUM.get(), 2) : new ItemStack(ModItems.POWDER_URANIUM.get(), 1),
                 lbs ? new ItemStack(ModItems.NUGGET_TECHNETIUM.get(), 2) : new ItemStack(ModItems.POWDER_URANIUM.get(), 1),
-                lbs ? new ItemStack(ModItems.NUGGET_RA_226.get(), 2) : new ItemStack(ModItems.NUGGET_RA_226.get(), 1),
+                lbs ? new ItemStack(ModItems.NUGGET_RA226.get(), 2) : new ItemStack(ModItems.NUGGET_RA226.get(), 1),
                 new ItemStack(Blocks.GRAVEL, 1) });
 
         recipes.put(new ComparableStack(ModItems.ORE_THORIUM.get()), new ItemStack[] {
@@ -159,6 +159,13 @@ public class CentrifugeRecipes {
                 new ItemStack(Blocks.GRAVEL, 1) });
 
         recipes.put(new ComparableStack(ModBlocks.ORE_TIKITE.get()), new ItemStack[] {
+                new ItemStack(ModItems.POWDER_PLUTONIUM.get(), 1),
+                new ItemStack(ModItems.POWDER_COBALT.get(), 2),
+                new ItemStack(ModItems.POWDER_NIOBIUM.get(), 2),
+                new ItemStack(Blocks.END_STONE, 1) });
+
+        // Raw-тикит — второй вариант входа: руда теперь падает предметом, рецепт блока остаётся.
+        recipes.put(new ComparableStack(ModItems.RAW_TIKITE.get()), new ItemStack[] {
                 new ItemStack(ModItems.POWDER_PLUTONIUM.get(), 1),
                 new ItemStack(ModItems.POWDER_COBALT.get(), 2),
                 new ItemStack(ModItems.POWDER_NIOBIUM.get(), 2),
@@ -279,8 +286,8 @@ public class CentrifugeRecipes {
         recipes.put(new ComparableStack(ModItems.CRYSTAL_REDSTONE.get()), new ItemStack[] { new ItemStack(Items.REDSTONE, 3), new ItemStack(Items.REDSTONE, 3), new ItemStack(Items.REDSTONE, 3), new ItemStack(ModItems.INGOT_MERCURY.get(), 3) });
         recipes.put(new ComparableStack(ModItems.CRYSTAL_LAPIS.get()), new ItemStack[] { new ItemStack(ModItems.POWDER_LAPIS.get(), 4), new ItemStack(ModItems.POWDER_LAPIS.get(), 4), new ItemStack(ModItems.POWDER_COBALT.get(), 1), new ItemStack(ModItems.GEM_SODALITE.get(), 2) });
         recipes.put(new ComparableStack(ModItems.CRYSTAL_DIAMOND.get()), new ItemStack[] { new ItemStack(ModItems.POWDER_DIAMOND.get(), 1), new ItemStack(ModItems.POWDER_DIAMOND.get(), 1), new ItemStack(ModItems.POWDER_DIAMOND.get(), 1), new ItemStack(ModItems.POWDER_DIAMOND.get(), 1) });
-        recipes.put(new ComparableStack(ModItems.CRYSTAL_URANIUM.get()), new ItemStack[] { new ItemStack(ModItems.POWDER_URANIUM.get(), 2), new ItemStack(ModItems.POWDER_URANIUM.get(), 2), new ItemStack(ModItems.NUGGET_RA_226.get(), 2), new ItemStack(ModItems.POWDER_LITHIUM_TINY.get(), 1) });
-        recipes.put(new ComparableStack(ModItems.CRYSTAL_THORIUM.get()), new ItemStack[] { new ItemStack(ModItems.POWDER_THORIUM.get(), 2), new ItemStack(ModItems.POWDER_THORIUM.get(), 2), new ItemStack(ModItems.POWDER_URANIUM.get(), 1), new ItemStack(ModItems.NUGGET_RA_226.get(), 1) });
+        recipes.put(new ComparableStack(ModItems.CRYSTAL_URANIUM.get()), new ItemStack[] { new ItemStack(ModItems.POWDER_URANIUM.get(), 2), new ItemStack(ModItems.POWDER_URANIUM.get(), 2), new ItemStack(ModItems.NUGGET_RA226.get(), 2), new ItemStack(ModItems.POWDER_LITHIUM_TINY.get(), 1) });
+        recipes.put(new ComparableStack(ModItems.CRYSTAL_THORIUM.get()), new ItemStack[] { new ItemStack(ModItems.POWDER_THORIUM.get(), 2), new ItemStack(ModItems.POWDER_THORIUM.get(), 2), new ItemStack(ModItems.POWDER_URANIUM.get(), 1), new ItemStack(ModItems.NUGGET_RA226.get(), 1) });
         recipes.put(new ComparableStack(ModItems.CRYSTAL_PLUTONIUM.get()), new ItemStack[] { new ItemStack(ModItems.POWDER_PLUTONIUM.get(), 2), new ItemStack(ModItems.POWDER_PLUTONIUM.get(), 2), new ItemStack(ModItems.POWDER_POLONIUM.get(), 1), new ItemStack(ModItems.POWDER_LITHIUM_TINY.get(), 1) });
         recipes.put(new ComparableStack(ModItems.CRYSTAL_TITANIUM.get()), new ItemStack[] { new ItemStack(ModItems.POWDER_TITANIUM.get(), 2), new ItemStack(ModItems.POWDER_TITANIUM.get(), 2), new ItemStack(ModItems.POWDER_IRON.get(), 1), new ItemStack(ModItems.POWDER_LITHIUM_TINY.get(), 1) });
         recipes.put(new ComparableStack(ModItems.CRYSTAL_SULFUR.get()), new ItemStack[] { new ItemStack(ModItems.SULFUR.get(), 4), new ItemStack(ModItems.SULFUR.get(), 4), new ItemStack(ModItems.POWDER_IRON.get(), 1), new ItemStack(ModItems.INGOT_MERCURY.get(), 1) });

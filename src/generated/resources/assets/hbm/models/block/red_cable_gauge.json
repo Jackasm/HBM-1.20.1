@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "hbm:block/red_cable_gauge_side",
+    "east": "hbm:block/red_cable_gauge_side",
+    "north": "hbm:block/red_cable_gauge_front",
+    "particle": "hbm:block/red_cable_gauge_front",
+    "south": "hbm:block/red_cable_gauge_side",
+    "up": "hbm:block/red_cable_gauge_side",
+    "west": "hbm:block/red_cable_gauge_side"
+  }
+}

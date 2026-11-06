@@ -1,7 +1,6 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.blocks.MultiblockUtil;
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.effect.EntityCloudFleija;
@@ -15,11 +14,6 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.interfaces.IBomb;
 import com.hbm.tileentity.ModTileEntity;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,6 +26,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -43,12 +38,9 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
@@ -222,7 +214,7 @@ public class NukeCustom extends BlockDummyable implements IBomb {
     }
 
     @Override
-    protected boolean checkRequirement(Level level, BlockPos originalPos, BlockPos corePos, Direction dir) {
+    public boolean checkRequirement(Level level, BlockPos originalPos, BlockPos corePos, Direction dir) {
         int[] dim = getDimensions();
         int[] rotated = MultiblockUtil.rotate(dim, dir);
         BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
@@ -241,7 +233,7 @@ public class NukeCustom extends BlockDummyable implements IBomb {
     }
 
     @Override
-    protected void fillSpace(Level level, BlockPos originalPos, BlockPos corePos, Direction dir) {
+    protected void fillSpace(LevelAccessor level, BlockPos originalPos, BlockPos corePos, Direction dir) {
         // Сначала вызываем родительский метод для заполнения всех блоков
         super.fillSpace(level, originalPos, corePos, dir);
 
@@ -322,37 +314,6 @@ public class NukeCustom extends BlockDummyable implements IBomb {
         return 0; // ядро на месте установки
     }
 
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void drawHighlight(PoseStack poseStack, MultiBufferSource bufferSource, Level level, BlockPos pos) {
-        BlockPos core = findCore(level, pos);
-        if (core == null) return;
-
-        BlockState state = level.getBlockState(core);
-        Direction rot = state.getValue(FACING);
-
-        Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
-
-        poseStack.pushPose();
-        poseStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
-
-        VertexConsumer consumer = bufferSource.getBuffer(RenderType.lines());
-        List<AABB> boxes = getHighlightBoxes(core, rot);
-
-        for (AABB box : boxes) {
-            ICustomBlockHighlight.renderAABB(poseStack, consumer, box, 0.0F, 1.0F, 0.0F, 0.4F);
-        }
-
-        poseStack.popPose();
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean shouldDrawHighlight(Level level, BlockPos pos) {
-        return true;
-    }
-
-    @OnlyIn(Dist.CLIENT)
     public List<AABB> getHighlightBoxes(BlockPos corePos, Direction rotation) {
         List<AABB> boxes = new ArrayList<>();
 

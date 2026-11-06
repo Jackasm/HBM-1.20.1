@@ -200,7 +200,7 @@ public class BlastFurnaceRecipeHandler {
     }
 
     private static void addItemIfExists(List<ItemStack> stacks, String itemId) {
-        Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(itemId));
+        Item item = BuiltInRegistries.ITEM.get(new ResourceLocation(itemId));
         if (item != Items.AIR) {
             stacks.add(new ItemStack(item));
         }

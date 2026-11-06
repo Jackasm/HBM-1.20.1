@@ -30,6 +30,8 @@ public class PlantFeature extends Feature<SimpleBlockConfiguration> {
 
         // Для высоких растений (двублочных) ставим два блока
         if (state.getBlock() instanceof BlockTallPlant) {
+            BlockState lowerCheck = state.setValue(BlockTallPlant.HALF, DoubleBlockHalf.LOWER);
+            if (!lowerCheck.canSurvive(level, pos)) return false;
             // Проверяем место для двух блоков
             if (!level.getBlockState(pos).canBeReplaced() || !level.getBlockState(pos.above()).canBeReplaced()) {
                 return false;
@@ -44,7 +46,7 @@ public class PlantFeature extends Feature<SimpleBlockConfiguration> {
         }
 
         // Обычные растения
-        if (level.getBlockState(pos).canBeReplaced()) {
+        if (level.getBlockState(pos).canBeReplaced() && state.canSurvive(level, pos)) {
             level.setBlock(pos, state, 2);
             return true;
         }

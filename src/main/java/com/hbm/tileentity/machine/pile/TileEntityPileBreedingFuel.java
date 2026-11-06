@@ -17,7 +17,9 @@ public class TileEntityPileBreedingFuel extends TileEntityPileBase implements IP
     public int neutrons;
     public int lastNeutrons;
     public int progress;
-    public static final int maxProgress = GeneralConfig.enable528.get() ? 50000 : 30000;
+    public static int getMaxProgress() {
+        return GeneralConfig.enable528Value ? 50000 : 30000;
+    }
 
     public TileEntityPileBreedingFuel(BlockPos pos, BlockState state) {
         super(ModTileEntity.PILE_BREEDING_FUEL.get(), pos, state);
@@ -27,7 +29,7 @@ public class TileEntityPileBreedingFuel extends TileEntityPileBase implements IP
         if (!Objects.requireNonNull(level).isClientSide) {
             react();
 
-            if (this.progress >= maxProgress) {
+            if (this.progress >= getMaxProgress()) {
                 level.setBlock(worldPosition, ModBlocks.BLOCK_GRAPHITE_TRITIUM.get().defaultBlockState(), 3);
             }
         }

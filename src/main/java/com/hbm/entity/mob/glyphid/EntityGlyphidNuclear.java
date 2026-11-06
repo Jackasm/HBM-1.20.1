@@ -118,8 +118,8 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 
     public static AttributeSupplier.Builder createAttributes() {
         return EntityGlyphid.createAttributes()
-                .add(Attributes.MAX_HEALTH, 100.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.25D)
-                .add(Attributes.ATTACK_DAMAGE, 50.0D);
+                .add(Attributes.MAX_HEALTH, GlyphidStats.getStats().getNuclear().health)
+                .add(Attributes.MOVEMENT_SPEED, GlyphidStats.getStats().getNuclear().speed * EntityGlyphid.SPEED_FACTOR)
+                .add(Attributes.ATTACK_DAMAGE, GlyphidStats.getStats().getNuclear().damage);
     }
 }

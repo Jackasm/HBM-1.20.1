@@ -1,0 +1,9 @@
+{
+  "type": "hbm:meteorite",
+  "config": {
+    "allow_specials": false,
+    "damaging_impact": false,
+    "find_surface": true,
+    "safe": false
+  }
+}

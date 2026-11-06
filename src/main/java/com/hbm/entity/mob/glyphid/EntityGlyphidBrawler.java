@@ -35,7 +35,7 @@ public class EntityGlyphidBrawler extends EntityGlyphid {
     public static AttributeSupplier.Builder createAttributes() {
         return EntityGlyphid.createAttributes()
                 .add(Attributes.MAX_HEALTH, GlyphidStats.getStats().getBrawler().health)
-                .add(Attributes.MOVEMENT_SPEED, GlyphidStats.getStats().getBrawler().speed)
+                .add(Attributes.MOVEMENT_SPEED, GlyphidStats.getStats().getBrawler().speed * EntityGlyphid.SPEED_FACTOR)
                 .add(Attributes.ATTACK_DAMAGE, GlyphidStats.getStats().getBrawler().damage);
     }
 

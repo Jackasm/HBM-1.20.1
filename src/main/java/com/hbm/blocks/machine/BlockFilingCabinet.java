@@ -14,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -34,10 +35,10 @@ import javax.annotation.Nullable;
 public class BlockFilingCabinet extends BaseEntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    private static final VoxelShape SHAPE_SOUTH = Block.box(3, 0, 4, 13, 16, 16);
-    private static final VoxelShape SHAPE_NORTH = Block.box(3, 0, 0, 13, 16, 12);
-    private static final VoxelShape SHAPE_EAST = Block.box(4, 0, 3, 16, 16, 13);
-    private static final VoxelShape SHAPE_WEST = Block.box(0, 0, 3, 12, 16, 13);
+    private static final VoxelShape SHAPE_NORTH = Block.box(3, 0, 4, 13, 16, 16);
+    private static final VoxelShape SHAPE_SOUTH = Block.box(3, 0, 0, 13, 16, 12);
+    private static final VoxelShape SHAPE_WEST = Block.box(4, 0, 3, 16, 16, 13);
+    private static final VoxelShape SHAPE_EAST = Block.box(0, 0, 3, 12, 16, 13);
 
     public BlockFilingCabinet() {
         super(Properties.of()
@@ -71,7 +72,7 @@ public class BlockFilingCabinet extends BaseEntityBlock {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return this.defaultBlockState()
-                .setValue(FACING, context.getHorizontalDirection());
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
@@ -122,5 +123,10 @@ public class BlockFilingCabinet extends BaseEntityBlock {
                 cabinet.tick();
             }
         };
+    }
+
+    @Override
+    public @NotNull BlockState rotate(@NotNull BlockState state, @NotNull Rotation rot) {
+        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
     }
 }

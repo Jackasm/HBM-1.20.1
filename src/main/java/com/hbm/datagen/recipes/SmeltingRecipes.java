@@ -96,6 +96,8 @@ public class SmeltingRecipes {
         addSmeltingRecipe(writer, ModItems.RAW_LEAD.get(), ModItems.INGOT_LEAD.get(), 3.0F, has);
         addSmeltingRecipe(writer, ModItems.RAW_BERYLLIUM.get(), ModItems.INGOT_BERYLLIUM.get(), 2.0F, has);
         addSmeltingRecipe(writer, ModItems.RAW_COBALT.get(), ModItems.INGOT_COBALT.get(), 2.0F, has);
+        addSmeltingRecipe(writer, ModItems.RAW_AUSTRALIUM.get(), ModItems.NUGGET_AUSTRALIUM.get(), 2.5F, has);
+        addSmeltingRecipe(writer, ModItems.RAW_SCHRABIDIUM.get(), ModItems.INGOT_SCHRABIDIUM.get(), 128.0F, has);
 
         addSmeltingRecipe(writer, ModBlocks.ORE_METEOR_IRON.get().asItem(), Items.IRON_INGOT, 10.0F, has, 16);
         addSmeltingRecipe(writer, ModBlocks.ORE_METEOR_COPPER.get().asItem(), Items.COPPER_INGOT, 10.0F, has, 16);

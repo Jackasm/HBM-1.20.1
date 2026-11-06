@@ -20,11 +20,11 @@ public class HazardTypeHot extends HazardTypeBase {
 
     @Override
     public void onUpdate(@NotNull LivingEntity target, float level, @NotNull ItemStack stack) {
-        if (RadiationConfig.disableHot.get()) return;
+        if (RadiationConfig.DISABLE_HOT) return;
 
         boolean reacher = false;
 
-        if (target instanceof Player player && !GeneralConfig.enable528.get()) {
+        if (target instanceof Player player && !GeneralConfig.enable528Value) {
             reacher = player.getInventory().hasAnyMatching(s -> s.getItem() == ModItems.REACHER.get());
         }
 

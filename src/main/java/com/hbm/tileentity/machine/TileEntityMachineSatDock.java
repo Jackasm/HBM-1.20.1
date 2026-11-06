@@ -145,8 +145,8 @@ public class TileEntityMachineSatDock extends TileEntityMachineBase implements M
 
         // Получаем пул по ключу
         ItemPool pool = switch (cargoKey) {
-            case ItemPoolsSatellite.POOL_SAT_MINER -> ItemPoolsSatellite.getMinerPool();
-            case ItemPoolsSatellite.POOL_SAT_LUNAR -> ItemPoolsSatellite.getLunarPool();
+            case ItemPoolsSatellite.POOL_SAT_MINER -> ItemPool.getPool(ItemPoolsSatellite.POOL_SAT_MINER);
+            case ItemPoolsSatellite.POOL_SAT_LUNAR -> ItemPool.getPool(ItemPoolsSatellite.POOL_SAT_LUNAR);
             default -> null;
         };
 

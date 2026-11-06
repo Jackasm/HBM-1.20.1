@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ModOrePlacement {
     public static List<PlacementModifier> orePlacement(PlacementModifier countModifier, PlacementModifier heightModifier) {
-        return List.of(countModifier, InSquarePlacement.spread(), heightModifier, BiomeFilter.biome());
+        return List.of(countModifier, InSquarePlacement.spread(), heightModifier);
     }
 
     public static List<PlacementModifier> commonOrePlacement(int count, PlacementModifier heightRange) {

@@ -1,0 +1,30 @@
+{
+  "parent": "hbm:root",
+  "criteria": {
+    "red_room": {
+      "conditions": {},
+      "trigger": "hbm:red_room"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "achievement.redRoom.desc"
+    },
+    "frame": "challenge",
+    "hidden": false,
+    "icon": {
+      "item": "hbm:key_red"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "achievement.redRoom"
+    }
+  },
+  "requirements": [
+    [
+      "red_room"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

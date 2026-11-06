@@ -1,6 +1,6 @@
 package com.hbm.particle.helper;
 
-import com.hbm.main.ClientProxy;
+import com.hbm.client.ClientProxy;
 import com.hbm.particle.ParticleFlamethrower;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;

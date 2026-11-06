@@ -1,0 +1,17 @@
+{
+  "type": "hbm:depth_deposit",
+  "config": {
+    "fill": 0.6,
+    "filler": {
+      "Name": "hbm:stone_depth"
+    },
+    "ore": {
+      "Name": "hbm:cluster_depth_iron"
+    },
+    "replace_bedrock": true,
+    "size": 5,
+    "target": {
+      "Name": "minecraft:stone"
+    }
+  }
+}

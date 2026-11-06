@@ -153,12 +153,9 @@ public class OverlayRenderer {
 
         currentY = currentY + 4;
 
-        int textColor = 0xFFFFFF;
-        if (section.getType() == OverlaySection.Type.QUEST) {
-            int alpha = getQuestAlpha();
-            if (alpha <= 0) return currentY;
-            textColor = (alpha << 24) | 0xFFFFFF;
-        }
+        int alpha = section.getAlpha();
+        if (alpha <= 0) return currentY;
+        int textColor = alpha < 255 ? (alpha << 24) | 0xFFFFFF : 0xFFFFFF;
 
         for (Component line : section.getLines()) {
             guiGraphics.drawString(font, line, textX, currentY, textColor, false);
@@ -200,15 +197,4 @@ public class OverlayRenderer {
         return sectionHeight;
     }
 
-    private static int getQuestAlpha() {
-        if (!QuestOverlay.isTemporaryVisible()) return 255;
-        long elapsed = System.currentTimeMillis() - QuestOverlay.getTemporaryStartTime();
-        int duration = QuestOverlay.getTemporaryDuration();
-        if (duration <= 0) return 255;
-        long remaining = duration - elapsed;
-        if (remaining <= 0) return 0;
-        if (remaining > 1000) return 255;
-        // линейное затухание за последнюю секунду
-        return (int) (255 * remaining / 1000);
-    }
 }

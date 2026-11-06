@@ -2,12 +2,15 @@ package com.hbm.items.tool;
 
 import com.hbm.api.item.IDesignatorItem;
 
+import com.hbm.inventory.container.ContainerDesignator;
 import com.hbm.inventory.gui.GUIScreenDesignator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
@@ -29,11 +32,15 @@ public class ItemDesignatorManual extends Item implements IDesignatorItem, MenuP
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, @NotNull InteractionHand hand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player,
+                                                           @NotNull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
-        if (level.isClientSide) {
-            Minecraft.getInstance().setScreen(new GUIScreenDesignator(player));
+        if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.openMenu(new SimpleMenuProvider(
+                    (windowId, inv, p) -> new ContainerDesignator(windowId, inv),
+                    Component.translatable("item.hbm.designator_manual")
+            ));
         }
 
         return InteractionResultHolder.success(stack);

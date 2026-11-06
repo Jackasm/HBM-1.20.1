@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static com.hbm.util.ResLocation.ResLocation;
 
-public class ModelFBI extends HumanoidModel<Mob> {
+public class ModelFBI<T extends Mob> extends HumanoidModel<T> {
 
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(
             ResLocation(RefStrings.MODID, "fbi"), "main"
@@ -36,7 +36,7 @@ public class ModelFBI extends HumanoidModel<Mob> {
     }
 
     @Override
-    public void setupAnim(@NotNull Mob entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 
         if (aimedBow) {

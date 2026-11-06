@@ -47,7 +47,7 @@ public class BlockCanCrate extends Block {
         if (held.getItem() == ModToolItems.CROWBAR.get()) {
             if (!level.isClientSide) {
                 dropContents(level, pos);
-                level.setBlock(pos, defaultBlockState(), 3);
+                level.destroyBlock(pos, false);
                 level.playSound(null, pos, SoundEvents.WOOD_BREAK, SoundSource.BLOCKS, 0.5F, 1.0F);
             }
             return InteractionResult.SUCCESS;

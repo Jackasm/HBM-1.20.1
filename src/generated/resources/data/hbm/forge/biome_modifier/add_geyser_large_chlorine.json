@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_badlands",
+  "features": "hbm:geyser_large_chlorine_placed",
+  "step": "surface_structures"
+}

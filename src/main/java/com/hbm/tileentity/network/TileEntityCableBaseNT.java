@@ -2,6 +2,8 @@ package com.hbm.tileentity.network;
 
 import com.hbm.api.energy.EnergyNet;
 import com.hbm.api.energy.IEnergyConductor;
+import com.hbm.blocks.generic.CTBlock;
+import com.hbm.blocks.generic.CTModelData;
 import com.hbm.tileentity.ModTileEntity;
 import com.hbm.uninos.EnergyNode;
 import com.hbm.uninos.EnergyNodespace;
@@ -9,6 +11,8 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.model.data.ModelData;
+import org.jetbrains.annotations.NotNull;
 
 public class TileEntityCableBaseNT extends TileEntityLoadedBase implements IEnergyConductor {
 
@@ -24,6 +28,15 @@ public class TileEntityCableBaseNT extends TileEntityLoadedBase implements IEner
 
     public void tick() {
         if (level == null || level.isClientSide) return;
+
+        // Выключатель и другие узлы с условием: без узла, пока shouldCreateNode() false
+        if (!shouldCreateNode()) {
+            if (this.node != null) {
+                EnergyNodespace.destroyNode(level, worldPosition);
+                this.node = null;
+            }
+            return;
+        }
 
         if (this.node == null || this.node.expired) {
             this.node = EnergyNodespace.getNode(level, worldPosition);
@@ -48,18 +61,55 @@ public class TileEntityCableBaseNT extends TileEntityLoadedBase implements IEner
         }
     }
 
+    /**
+     * Сеть не рушим: выгрузка чанка не должна убивать сеть целиком.
+     * Реальный снос блока обрабатывает {@link #setRemoved()}.
+     */
     @Override
     public void invalidateCaps() {
         super.invalidateCaps();
+    }
 
-        if (level != null && !level.isClientSide) {
-            if (this.node != null) {
-                EnergyNodespace.destroyNode(level, worldPosition);
-            }
+    /** Выставляется в onChunkUnloaded: при выгрузке чанка setRemoved тоже вызывается. */
+    private boolean chunkUnloaded = false;
+
+    @Override
+    public void onChunkUnloaded() {
+        this.chunkUnloaded = true;
+        super.onChunkUnloaded();
+    }
+
+    @Override
+    public void setRemoved() {
+        super.setRemoved();
+
+        if (!chunkUnloaded && level != null && !level.isClientSide && this.node != null) {
+            EnergyNodespace.destroyNode(level, worldPosition);
+            this.node = null;
         }
     }
 
     public boolean shouldCreateNode() {
         return true;
+    }
+
+    /**
+     * Провод в оболочке — CT-блок в эталоне ({@code WireCoated implements IBlockCT}), но отдельного
+     * BlockEntity у него нет: данные модели считает этот же сетевой TE, иначе на каждый обмотанный
+     * провод пришлось бы два BE.
+     */
+    @NotNull
+    @Override
+    public ModelData getModelData() {
+        if (level == null) {
+            return ModelData.EMPTY;
+        }
+        BlockState state = getBlockState();
+        if (!(state.getBlock() instanceof CTBlock)) {
+            return ModelData.EMPTY;
+        }
+        return ModelData.builder()
+                .with(CTModelData.PROPERTY, CTModelData.compute(level, worldPosition))
+                .build();
     }
 }

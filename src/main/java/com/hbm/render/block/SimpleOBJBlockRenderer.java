@@ -4,6 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.deco.*;
 import com.hbm.blocks.deco.DecoSteelPoles;
 import com.hbm.blocks.deco.DecoTapeRecorder;
+import com.hbm.blocks.generic.BarbedWire;
 import com.hbm.blocks.generic.BlockDecoCRT;
 import com.hbm.blocks.generic.RedBarrel;
 import com.hbm.blocks.generic.YellowBarrel;
@@ -60,9 +61,21 @@ public class SimpleOBJBlockRenderer implements BlockEntityRenderer<TileEntitySim
             renderFloodlight(tile, poseStack, buffer, combinedLight, combinedOverlay);
         } else if (block instanceof BlockDecoCRT) {
             renderDecoCRT(tile, poseStack, buffer, combinedLight, combinedOverlay);
-        }
+        } else if (block instanceof BarbedWire) {
+        renderBarbedWire(tile, poseStack, buffer, combinedLight, combinedOverlay);
+    }
 
         poseStack.popPose();
+    }
+
+    private void renderBarbedWire(TileEntitySimpleOBJ tile, PoseStack poseStack, MultiBufferSource buffer,
+                                  int combinedLight, int combinedOverlay) {
+        BlockState state = tile.getBlockState();
+        Block block = state.getBlock();
+        Direction facing = state.getValue(BarbedWire.FACING);
+        float rotation = facing.toYRot();
+        poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
+        HBMResourceManager.barbed_wire.renderAll(poseStack, buffer, getBarbedWireTexture(block), combinedLight, combinedOverlay);
     }
 
     private void renderSpotlight(TileEntitySimpleOBJ tile, PoseStack poseStack, MultiBufferSource buffer,
@@ -165,7 +178,9 @@ public class SimpleOBJBlockRenderer implements BlockEntityRenderer<TileEntitySim
             texture = HBMResourceManager.barrel_lox_tex;
         } else if (block == ModBlocks.TAINT_BARREL.get()) {
             texture = HBMResourceManager.barrel_taint_tex;
-        } else {
+        } else if (block == ModBlocks.VITRIFIED_BARREL.get()) {
+            texture = HBMResourceManager.barrel_vitrified_tex;
+        }else {
             return;
         }
 
@@ -184,12 +199,11 @@ public class SimpleOBJBlockRenderer implements BlockEntityRenderer<TileEntitySim
         HBMResourceManager.pole.renderAll(poseStack, buffer, texture, combinedLight, combinedOverlay);
     }
 
-    private void renderDecoCRT (TileEntitySimpleOBJ tile, PoseStack poseStack, MultiBufferSource buffer,
-                                int combinedLight, int combinedOverlay) {
+    private void renderDecoCRT(TileEntitySimpleOBJ tile, PoseStack poseStack, MultiBufferSource buffer,
+                               int combinedLight, int combinedOverlay) {
         BlockState state = tile.getBlockState();
-        int meta = state.getValue(BlockDecoCRT.META);
-        int typeIndex = meta / 4; // 0=clean, 1=broken, 2=blinking, 3=bsod
-        int rotationIndex = meta % 4; // 0-3 поворот
+        int typeIndex = state.getValue(BlockDecoCRT.TYPE);          // 0=clean, 1=broken, 2=blinking, 3=bsod
+        Direction facing = state.getValue(BlockDecoCRT.FACING);      // NORTH/SOUTH/EAST/WEST
 
         // Выбираем текстуру в зависимости от типа
         ResourceLocation texture = switch (typeIndex) {
@@ -199,12 +213,12 @@ public class SimpleOBJBlockRenderer implements BlockEntityRenderer<TileEntitySim
             default -> HBMResourceManager.deco_crt_clean_tex;
         };
 
-        // Поворот в зависимости от rotationIndex
-        float rotation = switch (rotationIndex) {
-            case 0 -> 90f;   // север
-            case 1 -> 0f;    // восток
-            case 2 -> 270f;  // юг
-            case 3 -> 180f;  // запад
+        // Поворот модели по направлению
+        float rotation = switch (facing) {
+            case EAST -> 0f;
+            case SOUTH -> 270f;
+            case WEST -> 180f;
+            case NORTH -> 90f;
             default -> 0f;
         };
 
@@ -257,8 +271,10 @@ public class SimpleOBJBlockRenderer implements BlockEntityRenderer<TileEntitySim
 
     private void renderScaffold(TileEntitySimpleOBJ tile, PoseStack poseStack, MultiBufferSource buffer,
                                 int combinedLight, int combinedOverlay) {
-
-        Direction facing = tile.getBlockState().getValue(BlockSteelScaffold.FACING);
+        BlockState state = tile.getBlockState();
+        Block block = state.getBlock();
+        Direction facing = state.getValue(BlockSteelScaffold.FACING);
+        boolean vertical = state.getValue(BlockSteelScaffold.VERTICAL);
 
         switch (facing) {
             case EAST -> poseStack.mulPose(Axis.YP.rotationDegrees(90));
@@ -266,8 +282,26 @@ public class SimpleOBJBlockRenderer implements BlockEntityRenderer<TileEntitySim
             case WEST -> poseStack.mulPose(Axis.YP.rotationDegrees(270));
             default -> {}
         }
+        if (!vertical) {
+            poseStack.mulPose(Axis.XP.rotationDegrees(90));
+            poseStack.translate(0, -0.5, -0.5);
+        }
 
-        HBMResourceManager.steel_scaffold.renderAll(poseStack, buffer, HBMResourceManager.steel_scaffold_tex, combinedLight, combinedOverlay);
+        ResourceLocation texture;
+        if (block instanceof BlockSteelScaffold scaffold) {
+            texture = switch (scaffold.getType()) {
+                case STEEL -> HBMResourceManager.steel_scaffold_steel_tex;
+                case RED -> HBMResourceManager.steel_scaffold_red_tex;
+                case WHITE -> HBMResourceManager.steel_scaffold_white_tex;
+                case YELLOW -> HBMResourceManager.steel_scaffold_yellow_tex;
+            };
+        } else {
+            texture = HBMResourceManager.steel_scaffold_steel_tex;
+        }
+
+        poseStack.mulPose(Axis.YP.rotationDegrees(90));
+
+        HBMResourceManager.steel_scaffold.renderAll(poseStack, buffer, texture, combinedLight, combinedOverlay);
     }
 
     private void renderAnvil(TileEntitySimpleOBJ tile, PoseStack poseStack, MultiBufferSource buffer,
@@ -312,6 +346,21 @@ public class SimpleOBJBlockRenderer implements BlockEntityRenderer<TileEntitySim
         }
 
         return HBMResourceManager.anvil_iron_tex;
+    }
+
+    private ResourceLocation getBarbedWireTexture(Block block) {
+        if (block == ModBlocks.BARBED_WIRE_FIRE.get()) {
+            return HBMResourceManager.barbed_wire_fire_tex;
+        } else if (block == ModBlocks.BARBED_WIRE_POISON.get()) {
+            return HBMResourceManager.barbed_wire_poison_tex;
+        } else if (block == ModBlocks.BARBED_WIRE_ACID.get()) {
+            return HBMResourceManager.barbed_wire_acid_tex;
+        } else if (block == ModBlocks.BARBED_WIRE_WITHER.get()) {
+            return HBMResourceManager.barbed_wire_wither_tex;
+        } else if (block == ModBlocks.BARBED_WIRE_ULTRA_DEATH.get()) {
+            return HBMResourceManager.barbed_wire_ultradeath_tex;
+        }
+        return HBMResourceManager.barbed_wire_tex;
     }
 
     @Override

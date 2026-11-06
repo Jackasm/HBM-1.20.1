@@ -1,4 +1,7 @@
 {
   "parent": "minecraft:block/block",
-  "elements": []
+  "elements": [],
+  "textures": {
+    "particle": "hbm:block/deco/statue_elb_f"
+  }
 }

@@ -1,20 +1,28 @@
 package com.hbm.tileentity;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.*;
+import com.hbm.blocks.machine.BlockUF6Tank;
+import com.hbm.blocks.machine.BlockVendingMachine;
 import com.hbm.blocks.machine.MachineBattery;
 import com.hbm.blocks.machine.MachineStirling;
-import com.hbm.entity.DecoCTBlockEntity;
+import com.hbm.blocks.network.CableDiode;
+import com.hbm.entity.CTBlockEntity;
 import com.hbm.tileentity.block.*;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conduit.ConduitTileEntity;
 import com.hbm.tileentity.deco.*;
 import com.hbm.tileentity.machine.*;
+import com.hbm.tileentity.machine.oil.TileEntityMachineFractionTower;
+import com.hbm.tileentity.machine.oil.TileEntitySpacer;
 import com.hbm.tileentity.machine.pile.TileEntityPileBreedingFuel;
 import com.hbm.tileentity.machine.pile.TileEntityPileFuel;
 import com.hbm.tileentity.machine.pile.TileEntityPileNeutronDetector;
 import com.hbm.tileentity.machine.pile.TileEntityPileSource;
 import com.hbm.tileentity.network.*;
 import com.hbm.tileentity.storage.*;
+import com.hbm.tileentity.turret.TileEntityTurretHoward;
+import com.hbm.tileentity.turret.TileEntityTurretHowardDamaged;
 import com.hbm.tileentity.turret.TileEntityTurretSentry;
 import com.hbm.tileentity.turret.TileEntityTurretSentryDamaged;
 import com.hbm.util.RefStrings;
@@ -70,7 +78,10 @@ public class ModTileEntity {
     public static final RegistryObject<BlockEntityType<TileEntitySimpleOBJ>> SIMPLE_OBJ_BLOCK =
             BLOCK_ENTITIES.register("simple_obj_block",
                     () -> BlockEntityType.Builder.of(TileEntitySimpleOBJ::new,
-                            ModBlocks.STEEL_SCAFFOLD.get(),
+                            ModBlocks.STEEL_SCAFFOLD_STEEL.get(),
+                            ModBlocks.STEEL_SCAFFOLD_RED.get(),
+                            ModBlocks.STEEL_SCAFFOLD_WHITE.get(),
+                            ModBlocks.STEEL_SCAFFOLD_YELLOW.get(),
                             ModBlocks.STEEL_GRATE.get(),
                             ModBlocks.STEEL_GRATE_WIDE.get(),
                             ModBlocks.STEEL_BEAM.get(),
@@ -92,6 +103,7 @@ public class ModTileEntity {
                             ModBlocks.LOX_BARREL.get(),
                             ModBlocks.RED_BARREL.get(),
                             ModBlocks.YELLOW_BARREL.get(),
+                            ModBlocks.VITRIFIED_BARREL.get(),
                             ModBlocks.PINK_BARREL.get(),
                             ModBlocks.SPOTLIGHT_INCANDESCENT.get(),
                             ModBlocks.SPOTLIGHT_INCANDESCENT_OFF.get(),
@@ -99,7 +111,13 @@ public class ModTileEntity {
                             ModBlocks.SPOTLIGHT_FLUORO_OFF.get(),
                             ModBlocks.SPOTLIGHT_HALOGEN.get(),
                             ModBlocks.SPOTLIGHT_HALOGEN_OFF.get(),
-                            ModBlocks.DECO_CRT.get()
+                            ModBlocks.DECO_CRT.get(),
+                            ModBlocks.BARBED_WIRE.get(),
+                            ModBlocks.BARBED_WIRE_FIRE.get(),
+                            ModBlocks.BARBED_WIRE_POISON.get(),
+                            ModBlocks.BARBED_WIRE_ACID.get(),
+                            ModBlocks.BARBED_WIRE_WITHER.get(),
+                            ModBlocks.BARBED_WIRE_ULTRA_DEATH.get()
                             ).build(null));
 
     public static final RegistryObject<BlockEntityType<TileEntityFloodlight>> FLOODLIGHT =
@@ -125,7 +143,8 @@ public class ModTileEntity {
                     ModBlocks.SAT_SCANNER.get(),
                     ModBlocks.SAT_MAPPER.get(),
                     ModBlocks.SAT_LASER.get(),
-                    ModBlocks.SAT_FOEQ.get()
+                    ModBlocks.SAT_FOEQ.get(),
+                    ModBlocks.DECO_COMPUTER.get()
             ).build(null));
 
 
@@ -314,7 +333,19 @@ public class ModTileEntity {
     public static final RegistryObject<BlockEntityType<TileEntityCableBaseNT>> RED_CABLE =
             BLOCK_ENTITIES.register("red_cable",
             () -> BlockEntityType.Builder.of(TileEntityCableBaseNT::new,
-                    ModBlocks.RED_CABLE.get()
+                    ModBlocks.RED_CABLE.get(),
+                    ModBlocks.RED_WIRE_COATED.get(),
+                    ModBlocks.CABLE_DIODE.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityCableSwitch>> CABLE_SWITCH =
+            BLOCK_ENTITIES.register("cable_switch",
+            () -> BlockEntityType.Builder.of(TileEntityCableSwitch::new,
+                    ModBlocks.CABLE_SWITCH.get(),
+                    // Детектор — тот же рубильник по эталону 1.7.10. Без этой строки его
+                    // сущность считается невалидной для блока: тикер не регистрируется,
+                    // ощущение «invalid for ticking» в логе и узла нет (#180).
+                    ModBlocks.CABLE_DETECTOR.get()
             ).build(null));
 
     public static final RegistryObject<BlockEntityType<TileEntityMachinePumpSteam>> MACHINE_PUMP_STEAM =
@@ -433,17 +464,14 @@ public class ModTileEntity {
                     ModBlocks.TURRET_SENTRY_DAMAGED.get()
             ).build(null));
 
-    public static final RegistryObject<BlockEntityType<DecoCTBlockEntity>> DECO_CT_BLOCK_ENTITY =
+    /**
+     * Общий носитель данных модели для всех CT-блоков: deco, platemetal, катушки, стекло.
+     * Зарегистрирован под историческим именем {@code deco_ct} — так старые миры не теряют
+     * блок-энтити. Список допустимых блоков пуст намеренно: BE создаёт сам блок.
+     */
+    public static final RegistryObject<BlockEntityType<CTBlockEntity>> CT_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("deco_ct",
-                    () -> BlockEntityType.Builder.of(DecoCTBlockEntity::new,
-                            ModBlocks.DECO_RED_COPPER.get(),
-                            ModBlocks.DECO_TUNGSTEN.get(),
-                            ModBlocks.DECO_ALUMINIUM.get(),
-                            ModBlocks.DECO_STEEL.get(),
-                            ModBlocks.DECO_LEAD.get(),
-                            ModBlocks.DECO_BERYLLIUM.get(),
-                            ModBlocks.DECO_STAINLESS.get(),
-                            ModBlocks.DECO_RUSTY_STEEL.get()).build(null));
+                    () -> BlockEntityType.Builder.of(CTBlockEntity::new).build(null));
 
     public static final RegistryObject<BlockEntityType<TileEntityBedrockOre>> BEDROCK_ORE =
             BLOCK_ENTITIES.register("bedrock_ore", () -> BlockEntityType.Builder.of(
@@ -647,6 +675,354 @@ public class ModTileEntity {
                     ModBlocks.MACHINE_AMMO_PRESS.get()
             ).build(null));
 
+    public static final RegistryObject<BlockEntityType<TileEntitySkeletonHolder>> SKELETON_HOLDER =
+            BLOCK_ENTITIES.register("skeleton_holder",
+                    () -> BlockEntityType.Builder.of(
+                            TileEntitySkeletonHolder::new,
+                            ModBlocks.SKELETON_HOLDER.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityDungeonSpawner>> DUNGEON_SPAWNER =
+            BLOCK_ENTITIES.register("dungeon_spawner",
+                    () -> BlockEntityType.Builder.of(
+                            TileEntityDungeonSpawner::new,
+                            ModBlocks.DUNGEON_SPAWNER.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityWandLoot>> WAND_LOOT =
+            BLOCK_ENTITIES.register("wand_loot",
+                    () -> BlockEntityType.Builder.of(TileEntityWandLoot::new,
+                            ModBlocks.WAND_LOOT.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityPipe>> PIPE_TE =
+            BLOCK_ENTITIES.register("pipe_te",
+                    () -> BlockEntityType.Builder.of(TileEntityPipe::new,
+                            ModBlocks.DECO_PIPE.get(),
+                            ModBlocks.DECO_PIPE_RUSTED.get(),
+                            ModBlocks.DECO_PIPE_GREEN.get(),
+                            ModBlocks.DECO_PIPE_GREEN_RUSTED.get(),
+                            ModBlocks.DECO_PIPE_RED.get(),
+                            ModBlocks.DECO_PIPE_MARKED.get(),
+                            ModBlocks.DECO_PIPE_RIM.get(),
+                            ModBlocks.DECO_PIPE_RIM_RUSTED.get(),
+                            ModBlocks.DECO_PIPE_RIM_GREEN.get(),
+                            ModBlocks.DECO_PIPE_RIM_GREEN_RUSTED.get(),
+                            ModBlocks.DECO_PIPE_RIM_RED.get(),
+                            ModBlocks.DECO_PIPE_RIM_MARKED.get(),
+                            ModBlocks.DECO_PIPE_QUAD.get(),
+                            ModBlocks.DECO_PIPE_QUAD_RUSTED.get(),
+                            ModBlocks.DECO_PIPE_QUAD_GREEN.get(),
+                            ModBlocks.DECO_PIPE_QUAD_GREEN_RUSTED.get(),
+                            ModBlocks.DECO_PIPE_QUAD_RED.get(),
+                            ModBlocks.DECO_PIPE_QUAD_MARKED.get(),
+                            ModBlocks.DECO_PIPE_FRAMED.get(),
+                            ModBlocks.DECO_PIPE_FRAMED_RUSTED.get(),
+                            ModBlocks.DECO_PIPE_FRAMED_GREEN.get(),
+                            ModBlocks.DECO_PIPE_FRAMED_GREEN_RUSTED.get(),
+                            ModBlocks.DECO_PIPE_FRAMED_RED.get(),
+                            ModBlocks.DECO_PIPE_FRAMED_MARKED.get()
+                    ).build(null)
+            );
+
+    public static final RegistryObject<BlockEntityType<BlockMetalFence.TileEntityMetalFence>> METAL_FENCE =
+            BLOCK_ENTITIES.register("metal_fence",
+                    () -> BlockEntityType.Builder.of(BlockMetalFence.TileEntityMetalFence::new,
+                            ModBlocks.FENCE_METAL.get(),
+                            ModBlocks.FENCE_METAL_POST.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityMachineFunnel>> MACHINE_FUNNEL =
+            BLOCK_ENTITIES.register("machine_funnel",
+                    () -> BlockEntityType.Builder.of(TileEntityMachineFunnel::new,
+                            ModBlocks.MACHINE_FUNNEL.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<BlockSpikes.TileEntitySpikes>> SPIKES =
+            BLOCK_ENTITIES.register("spikes",
+                    () -> BlockEntityType.Builder.of(BlockSpikes.TileEntitySpikes::new,
+                            ModBlocks.SPIKES.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityMachineElectricFurnace>> MACHINE_ELECTRIC_FURNACE =
+            BLOCK_ENTITIES.register("machine_electric_furnace",
+                    () -> BlockEntityType.Builder.of(TileEntityMachineElectricFurnace::new,
+                            ModBlocks.MACHINE_ELECTRIC_FURNACE.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityTurretHoward>> TURRET_HOWARD =
+            BLOCK_ENTITIES.register("turret_howard", () -> BlockEntityType.Builder.of(
+                    TileEntityTurretHoward::new,
+                    ModBlocks.TURRET_HOWARD.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityTurretHowardDamaged>> TURRET_HOWARD_DAMAGED =
+            BLOCK_ENTITIES.register("turret_howard_damaged", () -> BlockEntityType.Builder.of(
+                    TileEntityTurretHowardDamaged::new,
+                    ModBlocks.TURRET_HOWARD_DAMAGED.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<BlockChain.TileEntityChain>> CHAIN =
+            BLOCK_ENTITIES.register("chain", () -> BlockEntityType.Builder.of(
+                    BlockChain.TileEntityChain::new,
+                    ModBlocks.STEEL_CHAIN.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntitySpacer>> SPACER =
+            BLOCK_ENTITIES.register("spacer",
+                    () -> BlockEntityType.Builder.of(TileEntitySpacer::new,
+                            ModBlocks.FRACTION_SPACER.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityMachineFractionTower>> MACHINE_FRACTION_TOWER =
+            BLOCK_ENTITIES.register("machine_fraction_tower",
+                    () -> BlockEntityType.Builder.of(TileEntityMachineFractionTower::new,
+                            ModBlocks.MACHINE_FRACTION_TOWER.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityPipeGauge>> FLUID_DUCT_GAUGE =
+            BLOCK_ENTITIES.register("fluid_duct_gauge",
+                    () -> BlockEntityType.Builder.of(TileEntityPipeGauge::new,
+                            ModBlocks.FLUID_DUCT_GAUGE.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityCharger>> CHARGER =
+            BLOCK_ENTITIES.register("charger",
+                    () -> BlockEntityType.Builder.of(TileEntityCharger::new,
+                            ModBlocks.CHARGER.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityMicrowave>> MACHINE_MICROWAVE =
+            BLOCK_ENTITIES.register("machine_microwave",
+                    () -> BlockEntityType.Builder.of(TileEntityMicrowave::new,
+                            ModBlocks.MACHINE_MICROWAVE.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<BlockDecoToaster.TileEntityToaster>> DECO_TOASTER =
+            BLOCK_ENTITIES.register("deco_toaster",
+                    () -> BlockEntityType.Builder.of(BlockDecoToaster.TileEntityToaster::new,
+                            ModBlocks.DECO_TOASTER_IRON.get(),
+                            ModBlocks.DECO_TOASTER_STEEL.get(),
+                            ModBlocks.DECO_TOASTER_WOOD.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityMachineRTG>> MACHINE_RTG =
+            BLOCK_ENTITIES.register("machine_rtg",
+                    () -> BlockEntityType.Builder.of(TileEntityMachineRTG::new,
+                            ModBlocks.MACHINE_RTG_GREY.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityMachineMiniRTG>> MACHINE_MINI_RTG =
+            BLOCK_ENTITIES.register("machine_mini_rtg",
+                    () -> BlockEntityType.Builder.of(TileEntityMachineMiniRTG::new,
+                            ModBlocks.MACHINE_POWERRTG.get(),
+                            ModBlocks.MACHINE_MINIRTG.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityCableGauge>> CABLE_GAUGE =
+            BLOCK_ENTITIES.register("cable_gauge",
+                    () -> BlockEntityType.Builder.of(TileEntityCableGauge::new,
+                            ModBlocks.RED_CABLE_GAUGE.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityBarrier>> BARRIER =
+            BLOCK_ENTITIES.register("barrier",
+                    () -> BlockEntityType.Builder.of(TileEntityBarrier::new,
+                            ModBlocks.WOOD_BARRIER.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityWoodStructure>> WOOD_STRUCTURE =
+            BLOCK_ENTITIES.register("wood_structure",
+                    () -> BlockEntityType.Builder.of(TileEntityWoodStructure::new,
+                            ModBlocks.WOOD_STRUCTURE_ROOF.get(),
+                            ModBlocks.WOOD_STRUCTURE_SCAFFOLD.get(),
+                            ModBlocks.WOOD_STRUCTURE_CEILING.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<BlockVendingMachine.TileEntityVendingMachine>> VENDING_MACHINE =
+            BLOCK_ENTITIES.register("vending_machine",
+                    () -> BlockEntityType.Builder.of(BlockVendingMachine.TileEntityVendingMachine::new,
+                            ModBlocks.VENDING_MACHINE_SODA.get(),
+                            ModBlocks.VENDING_MACHINE_OBAMNA.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<BlockSandbags.TileEntitySandbags>> SANDBAGS =
+            BLOCK_ENTITIES.register("sandbags",
+                    () -> BlockEntityType.Builder.of(BlockSandbags.TileEntitySandbags::new,
+                            ModBlocks.SANDBAGS.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityRadioTelex>> RADIO_TELEX =
+            BLOCK_ENTITIES.register("radio_telex",
+                    () -> BlockEntityType.Builder.of(TileEntityRadioTelex::new,
+                            ModBlocks.RADIO_TELEX.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<HEVBattery.TileEntityHEVBattery>> HEV_BATTERY =
+            BLOCK_ENTITIES.register("hev_battery",
+                    () -> BlockEntityType.Builder.of(HEVBattery.TileEntityHEVBattery::new,
+                            ModBlocks.HEV_BATTERY.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityWandLogic>> WAND_LOGIC =
+            BLOCK_ENTITIES.register("wand_logic",
+                    () -> BlockEntityType.Builder.of(TileEntityWandLogic::new,
+                            ModBlocks.WAND_LOGIC.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<LogicBlock.TileEntityLogicBlock>> LOGIC_BLOCK =
+            BLOCK_ENTITIES.register("logic_block",
+                    () -> BlockEntityType.Builder.of(LogicBlock.TileEntityLogicBlock::new,
+                            ModBlocks.LOGIC_BLOCK.get(),
+                            ModBlocks.LOGIC_BLOCK_INVIS.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<BlockPedestal.TileEntityPedestal>> PEDESTAL =
+            BLOCK_ENTITIES.register("pedestal",
+                    () -> BlockEntityType.Builder.of(BlockPedestal.TileEntityPedestal::new,
+                            ModBlocks.PEDESTAL.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityCharge>> CHARGE =
+            BLOCK_ENTITIES.register("charge",
+                    () -> BlockEntityType.Builder.of(TileEntityCharge::new,
+                            ModBlocks.CHARGE_DYNAMITE.get(),
+                            ModBlocks.CHARGE_MINER.get(),
+                            ModBlocks.CHARGE_C4.get(),
+                            ModBlocks.CHARGE_SEMTEX.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityDoorGeneric>> DOOR_GENERIC =
+            BLOCK_ENTITIES.register("door_generic",
+                    () -> BlockEntityType.Builder.of(TileEntityDoorGeneric::new,
+                            ModBlocks.SLIDING_BLAST_DOOR.get(),
+                            ModBlocks.FIRE_DOOR.get(),
+                            ModBlocks.SILO_HATCH.get(),
+                            ModBlocks.SILO_HATCH_LARGE.get(),
+                            ModBlocks.SECURE_ACCESS_DOOR.get(),
+                            ModBlocks.LARGE_VEHICLE_DOOR.get(),
+                            ModBlocks.QE_CONTAINMENT.get(),
+                            ModBlocks.QE_SLIDING_DOOR.get(),
+                            ModBlocks.ROUND_AIRLOCK_DOOR.get(),
+                            ModBlocks.SLIDING_SEAL_DOOR.get(),
+                            ModBlocks.WATER_DOOR.get(),
+                            ModBlocks.CARGO_DOOR.get(),
+                            ModBlocks.VAULT_DOOR.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<BlockGlyphid.TileEntityGlyphid>> GLYPHID =
+            BLOCK_ENTITIES.register("glyphid",
+                    () -> BlockEntityType.Builder.of(
+                            BlockGlyphid.TileEntityGlyphid::new,
+                            ModBlocks.GLYPHID_BASE.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityGlyphidSpawner>> GLYPHID_SPAWNER =
+            BLOCK_ENTITIES.register("glyphid_spawner",
+                    () -> BlockEntityType.Builder.of(
+                            TileEntityGlyphidSpawner::new,
+                            ModBlocks.GLYPHID_SPAWNER.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntitySoyuzCapsule>> SOYUZ_CAPSULE =
+            BLOCK_ENTITIES.register("soyuz_capsule",
+                    () -> BlockEntityType.Builder.of(
+                            TileEntitySoyuzCapsule::new,
+                            ModBlocks.SOYUZ_CAPSULE.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityLantern>> LANTERN =
+            BLOCK_ENTITIES.register("lantern",
+                    () -> BlockEntityType.Builder.of(
+                            TileEntityLantern::new,
+                            ModBlocks.LANTERN.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityLanternBehemoth>> LANTERN_BEHEMOTH =
+            BLOCK_ENTITIES.register("lantern_behemoth",
+                    () -> BlockEntityType.Builder.of(
+                            TileEntityLanternBehemoth::new,
+                            ModBlocks.LANTERN_BEHEMOTH.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityMachineKeyForge>> MACHINE_KEY_FORGE =
+            BLOCK_ENTITIES.register("machine_key_forge",
+                    () -> BlockEntityType.Builder.of(
+                            TileEntityMachineKeyForge::new,
+                            ModBlocks.MACHINE_KEYFORGE.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<BlockSellafield.TileEntitySellafield>> SELLAFIELD =
+            BLOCK_ENTITIES.register("sellafield",
+                    () -> BlockEntityType.Builder.of(
+                            BlockSellafield.TileEntitySellafield::new,
+                            ModBlocks.SELLAFIELD.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityNukeMan>> NUKE_MAN =
+            BLOCK_ENTITIES.register("nuke_man",
+                    () -> BlockEntityType.Builder.of(
+                            TileEntityNukeMan::new,
+                            ModBlocks.NUKE_MAN.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<BlockUF6Tank.TileEntityUF6Tank>> UF6_TANK =
+            BLOCK_ENTITIES.register("uf6_tank",
+                    () -> BlockEntityType.Builder.of(
+                            BlockUF6Tank.TileEntityUF6Tank::new,
+                            ModBlocks.MACHINE_UF6_TANK.get(),
+                            ModBlocks.MACHINE_PUF6_TANK.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityFan>> FAN =
+            BLOCK_ENTITIES.register("fan",
+                    () -> BlockEntityType.Builder.of(
+                            TileEntityFan::new,
+                            ModBlocks.FAN.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityCondenser>> CONDENSER =
+            BLOCK_ENTITIES.register("condenser",
+                    () -> BlockEntityType.Builder.of(
+                            TileEntityCondenser::new,
+                            ModBlocks.MACHINE_CONDENSER.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<CableDiode.TileEntityDiode>> CABLE_DIODE =
+            BLOCK_ENTITIES.register("cable_diode",
+                    () -> BlockEntityType.Builder.of(
+                            CableDiode.TileEntityDiode::new,
+                            ModBlocks.CABLE_DIODE.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityRadioTorchSender>> RADIO_TORCH_SENDER =
+            BLOCK_ENTITIES.register("radio_torch_sender",
+                    () -> BlockEntityType.Builder.of(
+                            TileEntityRadioTorchSender::new,
+                            ModBlocks.RADIO_TORCH_SENDER.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityRadioTorchReceiver>> RADIO_TORCH_RECEIVER =
+            BLOCK_ENTITIES.register("radio_torch_receiver",
+                    () -> BlockEntityType.Builder.of(
+                            TileEntityRadioTorchReceiver::new,
+                            ModBlocks.RADIO_TORCH_RECEIVER.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityRadioTorchBase>> RADIO_TORCH_BASE =
+            BLOCK_ENTITIES.register("radio_torch_base",
+                    () -> BlockEntityType.Builder.of(
+                            TileEntityRadioTorchBase::new
+                            // без блока — базовый TE не используется напрямую
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityRadioTorchLogic>> RADIO_TORCH_LOGIC =
+            BLOCK_ENTITIES.register("radio_torch_logic",
+                    () -> BlockEntityType.Builder.of(
+                            TileEntityRadioTorchLogic::new,
+                            ModBlocks.RADIO_TORCH_LOGIC.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityRadioTorchCounter>> RADIO_TORCH_COUNTER =
+            BLOCK_ENTITIES.register("radio_torch_counter",
+                    () -> BlockEntityType.Builder.of(
+                            TileEntityRadioTorchCounter::new,
+                            ModBlocks.RADIO_TORCH_COUNTER.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityRadioTorchReader>> RADIO_TORCH_READER =
+            BLOCK_ENTITIES.register("radio_torch_reader",
+                    () -> BlockEntityType.Builder.of(
+                            TileEntityRadioTorchReader::new,
+                            ModBlocks.RADIO_TORCH_READER.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<TileEntityRadioTorchController>> RADIO_TORCH_CONTROLLER =
+            BLOCK_ENTITIES.register("radio_torch_controller",
+                    () -> BlockEntityType.Builder.of(
+                            TileEntityRadioTorchController::new,
+                            ModBlocks.RADIO_TORCH_CONTROLLER.get()
+                    ).build(null));
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

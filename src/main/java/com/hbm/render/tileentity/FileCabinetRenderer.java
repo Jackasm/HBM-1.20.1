@@ -28,10 +28,10 @@ public class FileCabinetRenderer implements BlockEntityRenderer<TileEntityFileCa
 
         Direction facing = tile.getBlockState().getValue(BlockFilingCabinet.FACING);
         switch (facing) {
-            case NORTH -> poseStack.mulPose(new Quaternionf().rotationY(0));
-            case SOUTH -> poseStack.mulPose(new Quaternionf().rotationY((float) Math.PI));
-            case WEST -> poseStack.mulPose(new Quaternionf().rotationY((float) (Math.PI / 2)));
-            case EAST -> poseStack.mulPose(new Quaternionf().rotationY((float) (-Math.PI / 2)));
+            case SOUTH -> poseStack.mulPose(new Quaternionf().rotationY(0));
+            case NORTH -> poseStack.mulPose(new Quaternionf().rotationY((float) Math.PI));
+            case EAST -> poseStack.mulPose(new Quaternionf().rotationY((float) (Math.PI / 2)));
+            case WEST -> poseStack.mulPose(new Quaternionf().rotationY((float) (-Math.PI / 2)));
             default -> {}
         }
 

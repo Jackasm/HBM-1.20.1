@@ -5,11 +5,6 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 public class GeneralConfig {
 
-    // Quests
-    public static ForgeConfigSpec.BooleanValue enableQuests;
-    public static ForgeConfigSpec.BooleanValue enableQuestOverlay;
-    public static ForgeConfigSpec.IntValue maxActiveQuests;
-
     // Config values
     public static ForgeConfigSpec.BooleanValue enableThermosPreventer;
     public static ForgeConfigSpec.BooleanValue enablePacketThreading;
@@ -144,11 +139,6 @@ public class GeneralConfig {
     public static int schrabRateValue = 20;
     public static String[] preferredOutputModValue = new String[] {RefStrings.MODID};
 
-    // Quests
-    public static boolean enableQuestsValue = true;
-    public static boolean enableQuestOverlayValue = true;
-    public static int maxActiveQuestsValue = 10;
-
     public static ForgeConfigSpec register() {
         ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
@@ -181,19 +171,6 @@ public class GeneralConfig {
         enableDebugMode = BUILDER
                 .comment("Enable debugging mode")
                 .define("enableDebugMode", false);
-
-        // Quests
-        enableQuests = BUILDER
-                .comment("Enables the quest system")
-                .define("enableQuests", true);
-
-        enableQuestOverlay = BUILDER
-                .comment("Shows quest overlay on screen")
-                .define("enableQuestOverlay", true);
-
-        maxActiveQuests = BUILDER
-                .comment("Maximum number of active quests a player can have")
-                .defineInRange("maxActiveQuests", 10, 1, 50);
 
         enableMycelium = BUILDER
                 .comment("Allows glowing mycelium to spread")
@@ -435,11 +412,6 @@ public class GeneralConfig {
     }
 
     public static void load() {
-        // Quests
-        enableQuestsValue = enableQuests.get();
-        enableQuestOverlayValue = enableQuestOverlay.get();
-        maxActiveQuestsValue = maxActiveQuests.get();
-
         enableThermosPreventerValue = enableThermosPreventer.get();
         enablePacketThreadingValue = enablePacketThreading.get();
         packetThreadingCoreCountValue = packetThreadingCoreCount.get();
@@ -514,7 +486,18 @@ public class GeneralConfig {
 
         // Cross-compatibility
         if(enable528Value) ENABLE_LBSM = false;
-    }
+            enable528Value = enable528.get();
+        enable528NetherBurnValue = enable528NetherBurn.get();
+        enableBomberShortModeValue = enableBomberShortMode.get();
+        enableCataclysmValue = enableCataclysm.get();
+        enableExpensiveModeValue = enableExpensiveMode.get();
+        enableGunsValue = enableGuns.get();
+        ENABLE_LBSM = enableLBSM.get();
+        enableLBSMSimpleCentrifugeValue = enableLBSMSimpleCentrifuge.get();
+        ENABLE_LBSM_SIMPLE_CRAFTING = enableLBSMSimpleCrafting.get();
+        enableMyceliumValue = enableMycelium.get();
+        enableStatReRegisteringValue = enableStatReRegistering.get();
+}
 
     // Helper method for parsing structure flags
     private static int parseStructureFlag(String flag) {

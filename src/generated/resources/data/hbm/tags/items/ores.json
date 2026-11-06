@@ -8,6 +8,10 @@
     "hbm:raw_cobalt",
     "hbm:raw_uranium",
     "hbm:raw_plutonium",
-    "hbm:raw_thorium"
+    "hbm:raw_thorium",
+    "hbm:raw_australium",
+    "hbm:raw_schrabidium",
+    "hbm:raw_tikite",
+    "hbm:raw_osmiridium"
   ]
 }

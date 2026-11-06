@@ -29,8 +29,8 @@ public class EntityGlyphidDigger extends EntityGlyphid {
 
     public static AttributeSupplier.Builder createAttributes() {
         return EntityGlyphid.createAttributes()
-                .add(Attributes.MAX_HEALTH, 50.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.3D)
-                .add(Attributes.ATTACK_DAMAGE, 10.0D);
+                .add(Attributes.MAX_HEALTH, GlyphidStats.getStats().getDigger().health)
+                .add(Attributes.MOVEMENT_SPEED, GlyphidStats.getStats().getDigger().speed * EntityGlyphid.SPEED_FACTOR)
+                .add(Attributes.ATTACK_DAMAGE, GlyphidStats.getStats().getDigger().damage);
     }
 }

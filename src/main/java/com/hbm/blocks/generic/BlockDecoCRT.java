@@ -1,22 +1,20 @@
 package com.hbm.blocks.generic;
 
 import com.hbm.blocks.BlockMulti;
-
-import com.hbm.datagen.worldgen.nbt.INBTBlockTransformable;
 import com.hbm.tileentity.deco.TileEntitySimpleOBJ;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -28,9 +26,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public class BlockDecoCRT extends BlockMulti implements INBTBlockTransformable, EntityBlock {
+public class BlockDecoCRT extends BlockMulti implements EntityBlock {
 
-    public static final IntegerProperty META = IntegerProperty.create("meta", 0, 15);
+    /** Направление экрана. */
+    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+
+    /** Тип модели CRT (0..3). */
+    public static final IntegerProperty TYPE = IntegerProperty.create("type", 0, 3);
 
     public BlockDecoCRT() {
         super(BlockBehaviour.Properties.of()
@@ -38,7 +40,9 @@ public class BlockDecoCRT extends BlockMulti implements INBTBlockTransformable, 
                 .strength(5.0F, 10.0F)
                 .noOcclusion()
                 .pushReaction(PushReaction.DESTROY));
-        this.registerDefaultState(this.stateDefinition.any().setValue(META, 0));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(FACING, Direction.NORTH)
+                .setValue(TYPE, 0));
     }
 
     @Nullable
@@ -49,7 +53,7 @@ public class BlockDecoCRT extends BlockMulti implements INBTBlockTransformable, 
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(META);
+        builder.add(FACING, TYPE);
     }
 
     @Override
@@ -64,15 +68,18 @@ public class BlockDecoCRT extends BlockMulti implements INBTBlockTransformable, 
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        int rotation = Math.floorDiv((int) Objects.requireNonNull(context.getPlayer()).getYRot() * 4, 360) & 3;
-        return this.defaultBlockState().setValue(META, rotation);
+        Direction facing = context.getHorizontalDirection().getOpposite();
+        int type = context.getItemInHand().getDamageValue() & 3;
+        return this.defaultBlockState()
+                .setValue(FACING, facing)
+                .setValue(TYPE, type);
     }
 
     @Override
     public void setPlacedBy(Level level, @NotNull BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        int meta = stack.getDamageValue(); // или из NBT
-        int rotation = Math.floorDiv((int) Objects.requireNonNull(placer).getYRot() * 4, 360) & 3;
-        level.setBlock(pos, state.setValue(META, meta * 4 + rotation), 2);
+        Direction facing = Direction.fromYRot(Objects.requireNonNull(placer).getYRot()).getOpposite();
+        int type = stack.getDamageValue() & 3;
+        level.setBlock(pos, state.setValue(FACING, facing).setValue(TYPE, type), 2);
     }
 
     @Override
@@ -81,18 +88,12 @@ public class BlockDecoCRT extends BlockMulti implements INBTBlockTransformable, 
     }
 
     @Override
-    public BlockState transformState(BlockState state, int rotation) {
-        if (rotation == 0 || !state.hasProperty(META)) return state;
-
-        int meta = state.getValue(META);
-        int newMeta = transformMeta(meta, rotation);
-        return state.setValue(META, newMeta);
+    public @NotNull BlockState rotate(@NotNull BlockState state, @NotNull Rotation rot) {
+        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
     }
 
-    public int transformMeta(int meta, int coordBaseMode) {
-        if (coordBaseMode == 0) return meta;
-        int rot = (meta + coordBaseMode) % 4;
-        int type = (meta / 4) * 4;
-        return rot | type;
+    @Override
+    public @NotNull BlockState mirror(@NotNull BlockState state, @NotNull Mirror mirror) {
+        return state.setValue(FACING, mirror.mirror(state.getValue(FACING)));
     }
 }

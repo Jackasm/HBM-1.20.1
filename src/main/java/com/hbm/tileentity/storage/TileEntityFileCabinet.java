@@ -31,6 +31,7 @@ public class TileEntityFileCabinet extends TileEntityCrateBase {
     public TileEntityFileCabinet(BlockPos pos, BlockState state) {
         super(ModTileEntity.FILING_CABINET.get(), pos, state, 8); // 8 слотов
     }
+
     public void tick() {
         if (level == null) return;
 
@@ -44,6 +45,7 @@ public class TileEntityFileCabinet extends TileEntityCrateBase {
                 syncWithClient();
             }
         }
+
         updateAnimation();
     }
 
@@ -115,9 +117,7 @@ public class TileEntityFileCabinet extends TileEntityCrateBase {
     public void load(@NotNull CompoundTag tag) {
         super.load(tag);
         playersUsing = tag.getInt("PlayersUsing");
-        openTimer = tag.getInt("OpenTimer");
-        lowerExtent = tag.getFloat("LowerExtent");
-        upperExtent = tag.getFloat("UpperExtent");
+        openTimer   = tag.getInt("OpenTimer");
     }
 
     @Override
@@ -127,6 +127,14 @@ public class TileEntityFileCabinet extends TileEntityCrateBase {
         tag.putInt("OpenTimer", openTimer);
         tag.putFloat("LowerExtent", lowerExtent);
         tag.putFloat("UpperExtent", upperExtent);
+    }
+
+    @Override
+    public @NotNull CompoundTag getUpdateTag() {
+        CompoundTag tag = super.getUpdateTag();
+        tag.putInt("PlayersUsing", playersUsing);
+        tag.putInt("OpenTimer", openTimer);
+        return tag;
     }
 
     @Override

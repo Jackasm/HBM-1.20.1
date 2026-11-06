@@ -85,7 +85,6 @@ public class HbmAnimations {
                     // Очищаем если анимация закончилась больше 100мс назад
                     if (elapsed > anim.animation.getDuration() + 100) {
                         hotbar[slot][i] = null;
-                        System.out.println("[ANIM] Cleaned up expired animation at slot " + slot + "," + i);
                     }
                 }
             }

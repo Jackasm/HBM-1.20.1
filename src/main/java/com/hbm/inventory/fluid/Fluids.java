@@ -3,23 +3,27 @@ package com.hbm.inventory.fluid;
 import com.hbm.handler.pollution.PollutionType;
 import com.hbm.inventory.fluid.trait.*;
 import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
-import com.hbm.potion.HbmPotion;
-import com.hbm.util.HBMEnums;
-import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
-import com.hbm.inventory.fluid.trait.FT_Toxin.*;
+import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
+import com.hbm.inventory.fluid.trait.FT_Toxin.ToxinDirectDamage;
+import com.hbm.inventory.fluid.trait.FT_Toxin.ToxinEffects;
+import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorRegistry.HazardClass;
-
+import com.hbm.util.HBMEnums;
 import com.hbm.util.ModDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.hbm.inventory.fluid.trait.FluidTraits.*;
@@ -28,9 +32,15 @@ import static com.hbm.util.ResLocation.ResLocation;
 
 public class Fluids {
 
+    private static final Logger LOGGER = LogManager.getLogger("hbm/Fluids");
+
     // Deferred Register для регистрации FluidType
     public static final DeferredRegister<FluidType> HBM_FLUIDS =
             DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, MODID);
+
+    // Forge-жидкости-носители: по одной на каждый HBM-тип (FluidHBM)
+    public static final DeferredRegister<Fluid> HBM_FLUID_INSTANCES =
+            DeferredRegister.create(ForgeRegistries.FLUIDS, MODID);
 
     // Карты для быстрого доступа
     private static final Map<String, RegistryObject<FluidTypeHBM>> NAME_MAP = new LinkedHashMap<>();
@@ -119,12 +129,12 @@ public class Fluids {
                     .setTemperature(20).addTraits(GASEOUS, NOID, NOCON));
 
     public static final RegistryObject<FluidTypeHBM> SMOKE_LEADED = register("smoke_leaded",
-            new FluidTypeHBM("SMOKE", 0x808080, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
+            new FluidTypeHBM("SMOKE_LEADED", 0x808080, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
                     ResLocation(MODID, "textures/gui/fluids/smoke_leaded.png"))
                     .setTemperature(20).addTraits(GASEOUS, NOID, NOCON));
 
     public static final RegistryObject<FluidTypeHBM> SMOKE_POISON = register("smoke_poison",
-            new FluidTypeHBM("SMOKE", 0x808080, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
+            new FluidTypeHBM("SMOKE_POISON", 0x808080, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
                     ResLocation(MODID, "textures/gui/fluids/smoke_poison.png"))
                     .setTemperature(20).addTraits(GASEOUS, NOID, NOCON));
 
@@ -636,7 +646,7 @@ public class Fluids {
             new FluidTypeHBM("AMAT", 0x010101, 5, 0, 5, HBMEnums.EnumSymbol.ANTIMATTER, ResLocation(MODID, "textures/gui/fluids/amat.png")).addTraits(ANTI, GASEOUS));
 
     public static final RegistryObject<FluidTypeHBM> ASCHRAB = register("aschrab",
-            new FluidTypeHBM("ASCHRAB", 0xb50000, 5, 0, 5, HBMEnums.EnumSymbol.ANTIMATTER, ResLocation(MODID, "textures/gui/fluids/ashrab.png")).addTraits(ANTI, GASEOUS));
+            new FluidTypeHBM("ASCHRAB", 0xb50000, 5, 0, 5, HBMEnums.EnumSymbol.ANTIMATTER, ResLocation(MODID, "textures/gui/fluids/aschrab.png")).addTraits(ANTI, GASEOUS));
 
     public static final RegistryObject<FluidTypeHBM> PHEROMONE = register("pheromone",
             new FluidTypeHBM("PHEROMONE", 0x5FA6E8, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
@@ -648,8 +658,156 @@ public class Fluids {
                     ResLocation(MODID, "textures/gui/fluids/nitroglycerin.png")).addTraits(LIQUID));
 
     public static final RegistryObject<FluidTypeHBM> CONCRETE = register("concrete",
-            new FluidTypeHBM( "CONCRETE",		0xA2A2A2, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
+            new FluidTypeHBM( "CONCRETE", 0xA2A2A2, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
                     ResLocation(MODID, "textures/gui/fluids/concrete.png")).addTraits(LIQUID));
+
+    public static final RegistryObject<FluidTypeHBM> EGG = register("egg",
+            new FluidTypeHBM("EGG", 0xD2C273, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/egg.png")).addTraits(LIQUID));
+
+    public static final RegistryObject<FluidTypeHBM> XYLENE = register("xylene",
+            new FluidTypeHBM("XYLENE", 0x5C4E76, 2, 3, 0, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/xylene.png"))
+                    .addTraits(LIQUID, VISCOUS, P_FUEL));
+
+    public static final RegistryObject<FluidTypeHBM> REFORMATE = register("reformate",
+            new FluidTypeHBM("REFORMATE", 0x835472, 2, 2, 0, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/reformate.png"))
+                    .addTraits(LIQUID, VISCOUS, P_FUEL));
+
+    public static final RegistryObject<FluidTypeHBM> CHOLESTEROL = register("cholesterol",
+            new FluidTypeHBM("CHOLESTEROL", 0xD6D2BD, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/cholesterol.png"))
+                    .addTraits(LIQUID));
+
+    public static final RegistryObject<FluidTypeHBM> OIL_COKER = register("oil_coker",
+            new FluidTypeHBM("OIL_COKER", 0x001802, 2, 1, 0, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/oil_coker.png"))
+                    .addTraits(LIQUID, VISCOUS, P_OIL));
+
+    public static final RegistryObject<FluidTypeHBM> CHLOROCALCITE_MIX = register("chlorocalcite_mix",
+            new FluidTypeHBM("CHLOROCALCITE_MIX",	0x808080, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/chlorocalcite_mix.png"))
+                    .addTraits(LIQUID, NOCON, new FT_Corrosive(60)));
+
+    public static final RegistryObject<FluidTypeHBM> CHLOROCALCITE_CLEANED = register("chlorocalcite_cleaned",
+            new FluidTypeHBM("CHLOROCALCITE_CLEANED", 0x808080, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/chlorocalcite_cleaned.png"))
+                    .addTraits(LIQUID, NOCON, new FT_Corrosive(60)));
+
+    public static final RegistryObject<FluidTypeHBM> COLLOID = register("colloid",
+            new FluidTypeHBM("COLLOID", 0x787878, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/colloid.png"))
+                    .addTraits(LIQUID, VISCOUS));
+
+    public static final RegistryObject<FluidTypeHBM> BAUXITE_SOLUTION = register("bauxite_solution",
+            new FluidTypeHBM("BAUXITE_SOLUTION", 0xE2560F, 3, 0, 3, HBMEnums.EnumSymbol.ACID,
+                    ResLocation(MODID, "textures/gui/fluids/bauxite_solution.png"))
+                    .addTraits(new FT_Corrosive(40), LIQUID, VISCOUS));
+
+    // --- типы эталона, не портированные ранее (#110) ---
+
+    public static final RegistryObject<FluidTypeHBM> WASTEFLUID = register("wastefluid",
+            new FluidTypeHBM("WASTEFLUID", 0x544400, 2, 0, 1, HBMEnums.EnumSymbol.RADIATION,
+                    ResLocation(MODID, "textures/gui/fluids/wastefluid.png"))
+                    .addTraits(new FT_VentRadiation(0.5F), NOCON, LIQUID, VISCOUS));
+
+    public static final RegistryObject<FluidTypeHBM> WASTEGAS = register("wastegas",
+            new FluidTypeHBM("WASTEGAS", 0xB8B8B8, 2, 0, 1, HBMEnums.EnumSymbol.RADIATION,
+                    ResLocation(MODID, "textures/gui/fluids/wastegas.png"))
+                    .addTraits(new FT_VentRadiation(0.5F), NOCON, GASEOUS));
+
+    public static final RegistryObject<FluidTypeHBM> FRACKSOL = register("fracksol",
+            new FluidTypeHBM("FRACKSOL", 0x798A6B, 1, 3, 3, HBMEnums.EnumSymbol.ACID,
+                    ResLocation(MODID, "textures/gui/fluids/fracksol.png"))
+                    .addTraits(new FT_Corrosive(15), new FT_Poison(false, 0), LIQUID, VISCOUS));
+
+    public static final RegistryObject<FluidTypeHBM> SEEDSLURRY = register("seedslurry",
+            new FluidTypeHBM("SEEDSLURRY", 0x7CC35E, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/seedslurry.png"))
+                    .addTraits(LIQUID, VISCOUS));
+
+    public static final RegistryObject<FluidTypeHBM> SYNGAS = register("syngas",
+            new FluidTypeHBM("SYNGAS", 0x131313, 1, 4, 2, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/syngas.png"))
+                    .addTraits(GASEOUS));
+
+    public static final RegistryObject<FluidTypeHBM> OXYHYDROGEN = register("oxyhydrogen",
+            new FluidTypeHBM("OXYHYDROGEN", 0x483FC1, 0, 4, 2, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/oxyhydrogen.png"))
+                    .addTraits(GASEOUS));
+
+    public static final RegistryObject<FluidTypeHBM> SOURGAS = register("sourgas",
+            new FluidTypeHBM("SOURGAS", 0xC9BE0D, 4, 4, 0, HBMEnums.EnumSymbol.ACID,
+                    ResLocation(MODID, "textures/gui/fluids/sourgas.png"))
+                    .addTraits(GASEOUS, new FT_Corrosive(10), new FT_Poison(false, 1),
+                            new FT_Polluting().burn(PollutionType.SOOT, SOOT_GAS).release(PollutionType.POISON, POISON_EXTREME)));
+
+    public static final RegistryObject<FluidTypeHBM> SUNFLOWEROIL = register("sunfloweroil",
+            new FluidTypeHBM("SUNFLOWEROIL", 0xCBAD45, 0, 1, 0, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/sunfloweroil.png"))
+                    .addTraits(LIQUID, P_FUEL));
+
+    public static final RegistryObject<FluidTypeHBM> CHLOROCALCITE_SOLUTION = register("chlorocalcite_solution",
+            new FluidTypeHBM("CHLOROCALCITE_SOLUTION", 0x808080, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/chlorocalcite_solution.png"))
+                    .addTraits(LIQUID, NOCON, new FT_Corrosive(60)));
+
+    public static final RegistryObject<FluidTypeHBM> POTASSIUM_CHLORIDE = register("potassium_chloride",
+            new FluidTypeHBM("POTASSIUM_CHLORIDE", 0x808080, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/potassium_chloride.png"))
+                    .addTraits(LIQUID, NOCON, new FT_Corrosive(60)));
+
+    public static final RegistryObject<FluidTypeHBM> CALCIUM_CHLORIDE = register("calcium_chloride",
+            new FluidTypeHBM("CALCIUM_CHLORIDE", 0x808080, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/calcium_chloride.png"))
+                    .addTraits(LIQUID, NOCON, new FT_Corrosive(60)));
+
+    public static final RegistryObject<FluidTypeHBM> CALCIUM_SOLUTION = register("calcium_solution",
+            new FluidTypeHBM("CALCIUM_SOLUTION", 0x808080, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/calcium_solution.png"))
+                    .addTraits(LIQUID, NOCON, new FT_Corrosive(60)));
+
+    public static final RegistryObject<FluidTypeHBM> FULLERENE = register("fullerene",
+            new FluidTypeHBM("FULLERENE", 0xFF7FED, 3, 3, 3, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/fullerene.png"))
+                    .addTraits(LIQUID, new FT_Corrosive(65), new FT_Polluting().release(PollutionType.POISON, POISON_MINOR)));
+
+    public static final RegistryObject<FluidTypeHBM> PHEROMONE_M = register("pheromone_m",
+            new FluidTypeHBM("PHEROMONE_M", 0x48C9B0, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/pheromone_m.png"))
+                    .addTraits(LIQUID, new FT_Pheromone(2)));
+
+    public static final RegistryObject<FluidTypeHBM> VITRIOL = register("vitriol",
+            new FluidTypeHBM("VITRIOL", 0x6E5222, 2, 0, 1, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/vitriol.png"))
+                    .addTraits(LIQUID, VISCOUS));
+
+    public static final RegistryObject<FluidTypeHBM> SLOP = register("slop",
+            new FluidTypeHBM("SLOP", 0x929D45, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/slop.png"))
+                    .addTraits(LIQUID, VISCOUS));
+
+    public static final RegistryObject<FluidTypeHBM> ALUMINA = register("alumina",
+            new FluidTypeHBM("ALUMINA", 0xDDFFFF, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/alumina.png"))
+                    .addTraits(LIQUID));
+
+    public static final RegistryObject<FluidTypeHBM> DHC = register("dhc",
+            new FluidTypeHBM("DHC", 0xD2AFFF, 0, 0, 0, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/dhc.png"))
+                    .addTraits(GASEOUS));
+
+    public static final RegistryObject<FluidTypeHBM> AIRBLAST = register("airblast",
+            new FluidTypeHBM("AIRBLAST", 0xFFDADA, 0, 3, 0, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/airblast.png"))
+                    .setTemperature(1200).addTraits(GASEOUS));
+
+    public static final RegistryObject<FluidTypeHBM> FLUE = register("flue",
+            new FluidTypeHBM("FLUE", 0x131313, 1, 4, 1, HBMEnums.EnumSymbol.NONE,
+                    ResLocation(MODID, "textures/gui/fluids/flue.png"))
+                    .addTraits(new FT_Flammable(25_000), GASEOUS,
+                            new FT_Polluting().burn(PollutionType.SOOT, SOOT_GAS).release(PollutionType.SOOT, SOOT_GAS * 5)));
 
     public static void init()
     {
@@ -724,6 +882,9 @@ public class Fluids {
     // Метод регистрации
     private static RegistryObject<FluidTypeHBM> register(String name, FluidTypeHBM fluidType) {
         RegistryObject<FluidTypeHBM> registered = HBM_FLUIDS.register(name, () -> fluidType);
+        RegistryObject<Fluid> forgeFluid = HBM_FLUID_INSTANCES.register(name,
+                () -> new com.hbm.blocks.fluid.FluidHBM(fluidType));
+        fluidType.setForgeFluid(forgeFluid);
         NAME_MAP.put(name, registered);
         ID_MAP.put(nextId++, fluidType);
         return registered;
@@ -731,8 +892,18 @@ public class Fluids {
 
     // Методы доступа
     public static FluidTypeHBM fromName(String name) {
-        RegistryObject<FluidTypeHBM> fluid = NAME_MAP.get(name.toLowerCase());
-        return fluid != null ? fluid.get() : NONE.get();
+        // Пустое имя — это результат CompoundTag.getString по отсутствующему ключу, то есть
+        // штатное состояние свежей блочной сущности, а не ошибка. В 1.7.10 fromName молча
+        // отдавал NONE для любого неизвестного имени; лог порта остаётся для непустых опечаток (#164).
+        if (name == null || name.isEmpty()) {
+            return NONE.get();
+        }
+        RegistryObject<FluidTypeHBM> fluid = NAME_MAP.get(name.toLowerCase(Locale.ROOT));
+        if (fluid == null) {
+            LOGGER.warn("HBM fluids: неизвестный тип '{}', подставляю NONE", name);
+            return NONE.get();
+        }
+        return fluid.get();
     }
 
     public static FluidTypeHBM fromID(int id) {

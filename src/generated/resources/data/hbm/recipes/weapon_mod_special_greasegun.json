@@ -23,7 +23,7 @@
     "P G"
   ],
   "result": {
-    "item": "hbm:weapon_mod_greasegun"
+    "item": "hbm:weapon_mod_special_greasegun"
   },
   "show_notification": true
 }

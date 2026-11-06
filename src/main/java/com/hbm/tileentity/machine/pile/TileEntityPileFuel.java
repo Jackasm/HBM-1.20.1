@@ -24,7 +24,9 @@ public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutr
     public int neutrons;
     public int lastNeutrons;
     public int progress;
-    public static final int maxProgress = GeneralConfig.enable528.get() ? 75000 : 50000;
+    public static int getMaxProgress() {
+        return GeneralConfig.enable528Value ? 75000 : 50000;
+    }
 
     public TileEntityPileFuel(BlockPos pos, BlockState state) {
         super(ModTileEntity.PILE_FUEL.get(), pos, state);
@@ -55,7 +57,7 @@ public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutr
                         data.getDouble("posX"), data.getDouble("posY"), data.getDouble("posZ"), null);
             }
 
-            if (this.progress >= maxProgress) {
+            if (this.progress >= getMaxProgress()) {
                 BlockState newState = ModBlocks.BLOCK_GRAPHITE_PLUTONIUM.get().defaultBlockState();
                 level.setBlock(worldPosition, newState, 3);
             }
@@ -89,8 +91,8 @@ public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutr
     }
 
     private void checkRedstone(int lastProgress) {
-        int lastLevel = Mth.clamp((lastProgress * 16) / maxProgress, 0, 15);
-        int newLevel = Mth.clamp((progress * 16) / maxProgress, 0, 15);
+        int lastLevel = Mth.clamp((lastProgress * 16) / getMaxProgress(), 0, 15);
+        int newLevel = Mth.clamp((progress * 16) / getMaxProgress(), 0, 15);
         if (lastLevel != newLevel) {
             Objects.requireNonNull(level).updateNeighborsAt(worldPosition, getBlockState().getBlock());
         }
@@ -106,11 +108,11 @@ public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutr
         }
 
         if ((meta & 8) == 8) {
-            if (this.progress < maxProgress - 1000) {
-                this.progress = maxProgress - 1000;
+            if (this.progress < getMaxProgress() - 1000) {
+                this.progress = getMaxProgress() - 1000;
             }
             return;
-        } else if (this.progress >= maxProgress - 1000) {
+        } else if (this.progress >= getMaxProgress() - 1000) {
             // Установить мету с битом 8
             if (block instanceof BlockGraphiteDrilledBase base) {
                 BlockState newState = base.setMeta(state, meta | 8);

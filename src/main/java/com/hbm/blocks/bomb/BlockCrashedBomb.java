@@ -133,7 +133,7 @@ public class BlockCrashedBomb extends BaseEntityBlock implements IBomb {
             if (type == EnumDudType.BALEFIRE) {
                 EntityBalefire bf = new EntityBalefire(ModEntities.BALEFIRE.get(), level);
                 bf.setPos(pos.getX(), pos.getY(), pos.getZ());
-                bf.destructionRange = (int) (BombConfig.fatmanRadius.get() * 1.25);
+                bf.destructionRange = (int) (BombConfig.FATMAN_RADIUS * 1.25);
                 level.addFreshEntity(bf);
                 spawnMush(level, pos, true);
             }

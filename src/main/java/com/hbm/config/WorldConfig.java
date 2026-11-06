@@ -5,7 +5,6 @@ import net.minecraftforge.common.ForgeConfigSpec;
 public class WorldConfig {
     // Основные настройки генерации
     public static ForgeConfigSpec.BooleanValue overworldOre;
-    public static ForgeConfigSpec.BooleanValue netherOre;
     public static ForgeConfigSpec.BooleanValue endOre;
 
     // === Обычные руды ===
@@ -224,7 +223,6 @@ public class WorldConfig {
     public static ForgeConfigSpec.DoubleValue craterBiomeOuterRad;
     public static ForgeConfigSpec.DoubleValue craterBiomeWaterMult;
 
-    public static ForgeConfigSpec.IntValue meteoriteSpawn;
     public static ForgeConfigSpec.BooleanValue enableMeteorStrikes;
     public static ForgeConfigSpec.BooleanValue enableMeteorShowers;
     public static ForgeConfigSpec.BooleanValue enableMeteorTails;
@@ -233,40 +231,12 @@ public class WorldConfig {
     public static ForgeConfigSpec.IntValue meteorShowerChance;
     public static ForgeConfigSpec.IntValue meteorShowerDuration;
 
-    public static ForgeConfigSpec.IntValue netherUraniumSpawn;
-    public static ForgeConfigSpec.IntValue netherUraniumVeinSize;
-    public static ForgeConfigSpec.IntValue netherUraniumMinHeight;
-    public static ForgeConfigSpec.IntValue netherUraniumMaxHeight;
 
-    public static ForgeConfigSpec.IntValue netherTungstenSpawn;
-    public static ForgeConfigSpec.IntValue netherTungstenVeinSize;
-    public static ForgeConfigSpec.IntValue netherTungstenMinHeight;
-    public static ForgeConfigSpec.IntValue netherTungstenMaxHeight;
 
-    public static ForgeConfigSpec.IntValue netherSulfurSpawn;
-    public static ForgeConfigSpec.IntValue netherSulfurVeinSize;
-    public static ForgeConfigSpec.IntValue netherSulfurMinHeight;
-    public static ForgeConfigSpec.IntValue netherSulfurMaxHeight;
 
-    public static ForgeConfigSpec.IntValue netherPhosphorusSpawn;
-    public static ForgeConfigSpec.IntValue netherPhosphorusVeinSize;
-    public static ForgeConfigSpec.IntValue netherPhosphorusMinHeight;
-    public static ForgeConfigSpec.IntValue netherPhosphorusMaxHeight;
 
-    public static ForgeConfigSpec.IntValue netherCoalSpawn;
-    public static ForgeConfigSpec.IntValue netherCoalVeinSize;
-    public static ForgeConfigSpec.IntValue netherCoalMinHeight;
-    public static ForgeConfigSpec.IntValue netherCoalMaxHeight;
 
-    public static ForgeConfigSpec.IntValue netherPlutoniumSpawn;
-    public static ForgeConfigSpec.IntValue netherPlutoniumVeinSize;
-    public static ForgeConfigSpec.IntValue netherPlutoniumMinHeight;
-    public static ForgeConfigSpec.IntValue netherPlutoniumMaxHeight;
 
-    public static ForgeConfigSpec.IntValue netherCobaltSpawn;
-    public static ForgeConfigSpec.IntValue netherCobaltVeinSize;
-    public static ForgeConfigSpec.IntValue netherCobaltMinHeight;
-    public static ForgeConfigSpec.IntValue netherCobaltMaxHeight;
 
 
     // === ОБЫЧНЫЕ РУДЫ ===
@@ -480,11 +450,16 @@ public class WorldConfig {
     public static final int RAD_FREQ = 5000;
 
     public static final int ANTENNA_STRUCTURE = 1000;
-
+    public static final int BARREL_STRUCTURE = 5000;
+    public static final int ARCTIC_STRUCTURE = 500;
+    public static final int PYRAMID_STRUCTURE = 4000;
+    public static final int SPACESHIP_STRUCTURE = 1000;
+    public static final int ATOM_STRUCTURE = 500;
+    public static final int DUNGEON_STRUCTURE = 64;
 
     public static boolean ENABLE_CRATER_BIOMES = true;
 
-    public static int METEORITE_SPAWN = 500;
+    public static int METEORITE_SPAWN = 200;
     public static boolean ENABLE_METEOR_STIKES = true;
     public static boolean ENABLE_METEOR_SHOWERS = true;
     public static boolean ENABLE_METEOR_TAILS = true;
@@ -528,7 +503,37 @@ public class WorldConfig {
     public static  int DEFAULT_NETHER_COBALT_MIN_HEIGHT = 100;
     public static  int DEFAULT_NETHER_COBALT_MAX_HEIGHT = 26;
 
-    public static ForgeConfigSpec register() {
+        // Зеркала значений: живут до загрузки конфига и хранят дефолт
+    public static int BEDROCK_ASBESTOS_WEIGHT_VALUE = BEDROCK_ASBESTOS_WEIGHT;
+    public static int BEDROCK_BAUXITE_WEIGHT_VALUE = BEDROCK_BAUXITE_WEIGHT;
+    public static int BEDROCK_BORAX_WEIGHT_VALUE = BEDROCK_BORAX_WEIGHT;
+    public static int BEDROCK_CHLOROCALCITE_WEIGHT_VALUE = BEDROCK_CHLOROCALCITE_WEIGHT;
+    public static int BEDROCK_COAL_WEIGHT_VALUE = BEDROCK_COAL_WEIGHT;
+    public static int BEDROCK_COPPER_WEIGHT_VALUE = BEDROCK_COPPER_WEIGHT;
+    public static int BEDROCK_EMERALD_WEIGHT_VALUE = BEDROCK_EMERALD_WEIGHT;
+    public static int BEDROCK_FLUORITE_WEIGHT_VALUE = BEDROCK_FLUORITE_WEIGHT;
+    public static int BEDROCK_GLOWSTONE_WEIGHT_VALUE = BEDROCK_GLOWSTONE_WEIGHT;
+    public static int BEDROCK_GOLD_WEIGHT_VALUE = BEDROCK_GOLD_WEIGHT;
+    public static int BEDROCK_IRON_WEIGHT_VALUE = BEDROCK_IRON_WEIGHT;
+    public static int BEDROCK_NEODYMIUM_WEIGHT_VALUE = BEDROCK_NEODYMIUM_WEIGHT;
+    public static int BEDROCK_NIOBIUM_WEIGHT_VALUE = BEDROCK_NIOBIUM_WEIGHT;
+    public static int BEDROCK_NITER_WEIGHT_VALUE = BEDROCK_NITER_WEIGHT;
+    public static int BEDROCK_ORE_CHANCE_VALUE = 10;
+    public static int BEDROCK_PHOSPHORUS_WEIGHT_VALUE = BEDROCK_PHOSPHORUS_WEIGHT;
+    public static int BEDROCK_QUARTZ_WEIGHT_VALUE = BEDROCK_QUARTZ_WEIGHT;
+    public static int BEDROCK_RARE_EARTH_WEIGHT_VALUE = BEDROCK_RARE_EARTH_WEIGHT;
+    public static int BEDROCK_REDSTONE_WEIGHT_VALUE = BEDROCK_REDSTONE_WEIGHT;
+    public static int BEDROCK_THORIUM_WEIGHT_VALUE = BEDROCK_THORIUM_WEIGHT;
+    public static int BEDROCK_TITANIUM_WEIGHT_VALUE = BEDROCK_TITANIUM_WEIGHT;
+    public static int BEDROCK_TUNGSTEN_WEIGHT_VALUE = BEDROCK_TUNGSTEN_WEIGHT;
+    public static int BEDROCK_URANIUM_WEIGHT_VALUE = BEDROCK_URANIUM_WEIGHT;
+    public static double CRATER_BIOME_INNER_RAD = 25.0;
+    public static double CRATER_BIOME_OUTER_RAD = 0.5;
+    public static double CRATER_BIOME_RAD = 5.0;
+    public static double CRATER_BIOME_WATER_MULT = 5.0;
+    public static boolean NEW_BEDROCK_ORES = true;
+
+public static ForgeConfigSpec register() {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 
         builder.comment("World Generation Settings").push("world_generation");
@@ -536,7 +541,6 @@ public class WorldConfig {
         // Основные настройки
         builder.comment("General ore generation settings").push("general");
         overworldOre = builder.comment("Generate ores in overworld").define("overworld_ore", true);
-        netherOre = builder.comment("Generate ores in nether").define("nether_ore", true);
         endOre = builder.comment("Generate ores in end").define("end_ore", true);
         builder.pop();
 
@@ -848,38 +852,9 @@ public class WorldConfig {
         builder.pop();
         builder.pop();
 
-        // === НЕТЕР РУДЫ ===
-        builder.comment("Nether ore settings").push("nether");
-
-        builder.comment("Nether uranium ore").push("uranium");
-        netherUraniumSpawn = builder.comment("Veins per chunk").defineInRange("spawn", DEFAULT_NETHER_URANIUM_SPAWN, 0, 100);
-        netherUraniumVeinSize = builder.comment("Vein size").defineInRange("vein_size", DEFAULT_NETHER_URANIUM_VEIN_SIZE, 1, 64);
-        netherUraniumMinHeight = builder.comment("Minimum height").defineInRange("min_height", DEFAULT_NETHER_URANIUM_MIN_HEIGHT, -64, 320);
-        netherUraniumMaxHeight = builder.comment("Maximum height").defineInRange("max_height", DEFAULT_NETHER_URANIUM_MAX_HEIGHT, -64, 320);
-        builder.pop();
-
-        builder.comment("Nether tungsten ore").push("tungsten");
-        netherTungstenSpawn = builder.comment("Veins per chunk").defineInRange("spawn", DEFAULT_NETHER_TUNGSTEN_SPAWN, 0, 100);
-        netherTungstenVeinSize = builder.comment("Vein size").defineInRange("vein_size", DEFAULT_NETHER_TUNGSTEN_VEIN_SIZE, 1, 64);
-        netherTungstenMinHeight = builder.comment("Minimum height").defineInRange("min_height", DEFAULT_NETHER_TUNGSTEN_MIN_HEIGHT, -64, 320);
-        netherTungstenMaxHeight = builder.comment("Maximum height").defineInRange("max_height", DEFAULT_NETHER_TUNGSTEN_MAX_HEIGHT, -64, 320);
-        builder.pop();
-
-        builder.comment("Nether sulfur ore").push("sulfur");
-        netherSulfurSpawn = builder.comment("Veins per chunk").defineInRange("spawn", DEFAULT_NETHER_SULFUR_SPAWN, 0, 100);
-        netherSulfurVeinSize = builder.comment("Vein size").defineInRange("vein_size", DEFAULT_NETHER_SULFUR_VEIN_SIZE, 1, 64);
-        netherSulfurMinHeight = builder.comment("Minimum height").defineInRange("min_height", DEFAULT_NETHER_SULFUR_MIN_HEIGHT, -64, 320);
-        netherSulfurMaxHeight = builder.comment("Maximum height").defineInRange("max_height", DEFAULT_NETHER_SULFUR_MAX_HEIGHT, -64, 320);
-        builder.pop();
-
-
-        builder.pop(); // ores
 
         builder.comment("Biome settings").push("biomes");
         enableCraterBiomes = builder.comment("Enables the biome change caused by nuclear explosions").define("enableCraterBiomes", true);
-        builder.pop();
-
-        builder.comment("Biome Settings").push("biomes");
         craterBiomeRad = builder.comment("RAD/s for the crater biome").defineInRange("craterBiomeRad", 5.0, 0.0, 1000.0);
         craterBiomeInnerRad = builder.comment("RAD/s for the inner crater biome").defineInRange("craterBiomeInnerRad", 25.0, 0.0, 1000.0);
         craterBiomeOuterRad = builder.comment("RAD/s for the outer crater biome").defineInRange("craterBiomeOuterRad", 0.5, 0.0, 1000.0);
@@ -943,5 +918,33 @@ public class WorldConfig {
         DEFAULT_NETHER_COAL_SPAWN = 8;
         DEFAULT_NETHER_PLUTONIUM_SPAWN = 8;
         DEFAULT_NETHER_COBALT_SPAWN = 2;
-    }
+            BEDROCK_ASBESTOS_WEIGHT_VALUE = bedrockAsbestosWeight.get();
+        BEDROCK_BAUXITE_WEIGHT_VALUE = bedrockBauxiteWeight.get();
+        BEDROCK_BORAX_WEIGHT_VALUE = bedrockBoraxWeight.get();
+        BEDROCK_CHLOROCALCITE_WEIGHT_VALUE = bedrockChlorocalciteWeight.get();
+        BEDROCK_COAL_WEIGHT_VALUE = bedrockCoalWeight.get();
+        BEDROCK_COPPER_WEIGHT_VALUE = bedrockCopperWeight.get();
+        BEDROCK_EMERALD_WEIGHT_VALUE = bedrockEmeraldWeight.get();
+        BEDROCK_FLUORITE_WEIGHT_VALUE = bedrockFluoriteWeight.get();
+        BEDROCK_GLOWSTONE_WEIGHT_VALUE = bedrockGlowstoneWeight.get();
+        BEDROCK_GOLD_WEIGHT_VALUE = bedrockGoldWeight.get();
+        BEDROCK_IRON_WEIGHT_VALUE = bedrockIronWeight.get();
+        BEDROCK_NEODYMIUM_WEIGHT_VALUE = bedrockNeodymiumWeight.get();
+        BEDROCK_NIOBIUM_WEIGHT_VALUE = bedrockNiobiumWeight.get();
+        BEDROCK_NITER_WEIGHT_VALUE = bedrockNiterWeight.get();
+        BEDROCK_ORE_CHANCE_VALUE = bedrockOreChance.get();
+        BEDROCK_PHOSPHORUS_WEIGHT_VALUE = bedrockPhosphorusWeight.get();
+        BEDROCK_QUARTZ_WEIGHT_VALUE = bedrockQuartzWeight.get();
+        BEDROCK_RARE_EARTH_WEIGHT_VALUE = bedrockRareEarthWeight.get();
+        BEDROCK_REDSTONE_WEIGHT_VALUE = bedrockRedstoneWeight.get();
+        BEDROCK_THORIUM_WEIGHT_VALUE = bedrockThoriumWeight.get();
+        BEDROCK_TITANIUM_WEIGHT_VALUE = bedrockTitaniumWeight.get();
+        BEDROCK_TUNGSTEN_WEIGHT_VALUE = bedrockTungstenWeight.get();
+        BEDROCK_URANIUM_WEIGHT_VALUE = bedrockUraniumWeight.get();
+        CRATER_BIOME_INNER_RAD = craterBiomeInnerRad.get();
+        CRATER_BIOME_OUTER_RAD = craterBiomeOuterRad.get();
+        CRATER_BIOME_RAD = craterBiomeRad.get();
+        CRATER_BIOME_WATER_MULT = craterBiomeWaterMult.get();
+        NEW_BEDROCK_ORES = newBedrockOres.get();
+}
 }

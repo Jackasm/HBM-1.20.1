@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/template_rail_raised_sw",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "particle": "hbm:block/rail_narrow",
+    "rail": "hbm:block/rail_narrow"
+  }
+}

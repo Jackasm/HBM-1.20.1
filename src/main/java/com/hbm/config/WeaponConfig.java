@@ -37,7 +37,9 @@ public class WeaponConfig {
 
 
 
-    public static void init(ForgeConfigSpec.Builder builder) {
+    public static ForgeConfigSpec register() {
+
+        ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 
         builder.comment("Missile Settings").push("missile");
 
@@ -78,5 +80,7 @@ public class WeaponConfig {
                 .define("linearAnimations", false);
 
         builder.pop();
+
+        return builder.build();
     }
 }

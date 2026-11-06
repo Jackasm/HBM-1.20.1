@@ -1,6 +1,6 @@
 package com.hbm.particle.helper;
 
-import com.hbm.main.ClientProxy;
+import com.hbm.client.ClientProxy;
 import com.hbm.particle.ParticleSkeleton;
 import com.hbm.particle.ParticleSkeleton.EnumSkeletonType;
 import net.minecraft.client.Minecraft;

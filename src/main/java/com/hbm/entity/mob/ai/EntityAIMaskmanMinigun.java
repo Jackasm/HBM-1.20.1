@@ -3,6 +3,7 @@ package com.hbm.entity.mob.ai;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.items.weapon.sedna.factory.BulletConfigRegistry;
 import com.hbm.items.weapon.sedna.factory.XFactoryMobs;
+import com.hbm.sound.ModSounds;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,7 +24,7 @@ public class EntityAIMaskmanMinigun extends Goal {
         this.owner = owner;
         this.delay = delay;
         this.timer = delay;
-        this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        this.setFlags(EnumSet.of(Flag.LOOK));
     }
 
     @Override
@@ -51,16 +52,47 @@ public class EntityAIMaskmanMinigun extends Goal {
     public void tick() {
         if (this.target == null) return;
 
+        this.owner.getLookControl().setLookAt(this.target, 30.0F, 30.0F);
+
         timer--;
 
         if (timer <= 0) {
             timer = delay;
 
-            Vec3 pos = new Vec3(this.owner.getX(), this.owner.getY() + 0.5, this.owner.getZ());
+            // ===== ЛОКАЛЬНОЕ СМЕЩЕНИЕ ОТНОСИТЕЛЬНО МОБА =====
+            // localRight:    + вправо от моба, - влево
+            // localUp:       + вверх от ног моба
+            // localForward:  + вперёд (куда смотрит моб), - назад
+            double localRight = -1.0D;   // минус = вправо от моба (подберёшь знак)
+            double localUp = 3.0D;       // уровень груди
+            double localForward = 0.0D;
+            // =================================================
+
+            float yaw = this.owner.getYRot();
+            float rad = (float) Math.toRadians(yaw);
+
+            // Вектор "вперёд" (look direction моба)
+            double lookX = -Math.sin(rad);
+            double lookZ =  Math.cos(rad);
+
+            // Вектор "вправо" (перпендикулярно look, в горизонтальной плоскости)
+            double rightX = -Math.cos(rad);
+            double rightZ = -Math.sin(rad);
+
+            // Перевод локального смещения в мировые координаты
+            double offX = localRight * rightX + localForward * lookX;
+            double offY = localUp;
+            double offZ = localRight * rightZ + localForward * lookZ;
+
+            double spawnX = this.owner.getX() + offX;
+            double spawnY = this.owner.getY() + offY;
+            double spawnZ = this.owner.getZ() + offZ;
+
+            Vec3 pos = new Vec3(spawnX, spawnY, spawnZ);
             Vec3 heading = new Vec3(
-                    this.target.getX() - this.owner.getX(),
-                    this.target.getY() + this.target.getBbHeight() / 2 - this.owner.getY() - 0.5,
-                    this.target.getZ() - this.owner.getZ()
+                    this.target.getX() - spawnX,
+                    this.target.getY() + this.target.getBbHeight() / 2 - spawnY,
+                    this.target.getZ() - spawnZ
             ).normalize();
 
             EntityBulletBaseMK4 bullet = XFactoryMobs.createBullet(

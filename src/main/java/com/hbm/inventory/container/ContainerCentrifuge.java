@@ -1,5 +1,6 @@
 package com.hbm.inventory.container;
 
+import com.hbm.api.energy.IBatteryItem;
 import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
@@ -58,7 +59,7 @@ public class ContainerCentrifuge extends AbstractContainerMenu {
             if (!this.moveItemStackTo(stack, 8, this.slots.size(), true))
                 return ItemStack.EMPTY;
         } else {
-            if (stack.getItem() instanceof com.hbm.api.energy.IBatteryItem || stack.getItem() == ModItems.BATTERY_CREATIVE.get()) {
+            if (stack.getItem() instanceof IBatteryItem) {
                 if (!this.moveItemStackTo(stack, 1, 2, false)) return ItemStack.EMPTY;
             } else if (stack.getItem() instanceof ItemMachineUpgrade) {
                 if (!this.moveItemStackTo(stack, 6, 8, false)) return ItemStack.EMPTY;

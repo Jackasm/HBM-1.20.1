@@ -176,5 +176,9 @@ public class BombConfig {
         LIMIT_EXPLOSION_LIFESPAN = limitExplosionLifespan.get();
         CHUNKLOADING = chunkloading.get();
         EXPLOSION_ALGORITHM = explosionAlgorithm.get();
-    }
+            A_SCHRAB_RADIUS = aSchrabRadius.get();
+        FATMAN_RADIUS = fatmanRadius.get();
+        MISSILE_RADIUS = missileRadius.get();
+        N2_RADIUS = n2Radius.get();
+}
 }

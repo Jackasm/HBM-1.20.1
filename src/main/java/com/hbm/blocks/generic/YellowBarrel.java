@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
-public class YellowBarrel extends BlockDetonatable implements EntityBlock {
+public class YellowBarrel extends BlockDetonatable implements EntityBlock, com.hbm.blocks.IRadiationSource {
 
     private static final VoxelShape SHAPE = Shapes.box(0.125D, 0.0D, 0.125D, 0.875D, 1.0D, 0.875D);
     private final Random rand = new Random();
@@ -94,6 +94,12 @@ public class YellowBarrel extends BlockDetonatable implements EntityBlock {
         }
 
         level.scheduleTick(pos, this, getTickRate(level));
+    }
+
+    /** #198: бочки в структурах поставлены генерацией, {@code onPlace} не звался. */
+    @Override
+    public boolean emitsRadiation() {
+        return true;
     }
 
     public int getTickRate(Level level) {

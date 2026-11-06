@@ -93,12 +93,9 @@ public class EntityBulletBaseMK4 extends ThrowableProjectile implements IEntityA
         return renderPoseMatrix;
     }
 
-    // Очистка для избежания утечек памяти
-    @Override
-    public void remove(@NotNull RemovalReason reason) {
-        super.remove(reason);
-        this.renderPoseMatrix = null;
-    }
+    // renderPoseMatrix — клиентское поле: на выделенном сервере его нет, и обращение к нему
+    // из общего remove() роняло сервер с NoSuchFieldError (краш 02.11.2026, пуля турели).
+    // Поле нестатическое и умирает вместе с сущностью, отдельная очистка не нужна.
     // Constructor for entity registration
     public EntityBulletBaseMK4(EntityType<? extends EntityBulletBaseMK4> type, Level level) {
         super(type, level);
@@ -192,6 +189,8 @@ public class EntityBulletBaseMK4 extends ThrowableProjectile implements IEntityA
 
         this.yRotO = this.getYRot();
         this.xRotO = this.getXRot();
+
+        this.setHeading(new Vec3(motionX, motionY, motionZ).normalize());
 
         // Добавляем разброс, если нужно
         if (gunSpread > 0) {

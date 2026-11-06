@@ -35,7 +35,7 @@ import java.util.Objects;
 public class TileEntityRebar extends TileEntityLoadedBase implements IFluidReceiver, IBufPacketReceiver {
 
     public Block concrete;
-    public int concreteMeta;
+
     public int progress;
     public int prevProgress;
     protected RebarNode node;
@@ -45,9 +45,8 @@ public class TileEntityRebar extends TileEntityLoadedBase implements IFluidRecei
         super(ModTileEntity.REBAR.get(), pos, state);
     }
 
-    public TileEntityRebar setup(Block b, int m) {
+    public TileEntityRebar setup(Block b) {
         this.concrete = b;
-        this.concreteMeta = m;
         return this;
     }
 
@@ -67,7 +66,7 @@ public class TileEntityRebar extends TileEntityLoadedBase implements IFluidRecei
             }
 
             if (this.progress >= 1000) {
-                if (concrete != null && ItemRebarPlacer.isValidConk(concrete.asItem(), concreteMeta)) {
+                if (concrete != null && ItemRebarPlacer.isValidConk(concrete.asItem())) {
                     level.setBlock(worldPosition, concrete.defaultBlockState(), 3);
                 } else {
                     level.setBlock(worldPosition, ModBlocks.CONCRETE_REBAR.get().defaultBlockState(), 3);
@@ -120,8 +119,7 @@ public class TileEntityRebar extends TileEntityLoadedBase implements IFluidRecei
         this.hasConnection = nbt.getBoolean("hasConnection");
 
         if (nbt.contains("block")) {
-            this.concrete = BuiltInRegistries.BLOCK.get(ResourceLocation.parse(nbt.getString("block")));
-            this.concreteMeta = nbt.getInt("meta");
+            this.concrete = BuiltInRegistries.BLOCK.get(new ResourceLocation(nbt.getString("block")));
         }
     }
 
@@ -133,7 +131,6 @@ public class TileEntityRebar extends TileEntityLoadedBase implements IFluidRecei
 
         if (this.concrete != null) {
             nbt.putString("block", BuiltInRegistries.BLOCK.getKey(this.concrete).toString());
-            nbt.putInt("meta", this.concreteMeta);
         }
     }
 

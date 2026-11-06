@@ -1,6 +1,10 @@
 package com.hbm.blocks.generic;
 
+import com.hbm.blocks.IRadiationSource;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.radiation.RadiationEvents;
+import com.hbm.hazard.HazardRegistry;
+import com.hbm.hazard.HazardSystem;
 import com.hbm.items.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -8,6 +12,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
@@ -18,7 +23,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class BlockSellafieldOre extends BlockSellafieldSlaked {
+public class BlockSellafieldOre extends BlockSellafieldSlaked implements IRadiationSource {
+
+    private float rad = 0.0F;
+    private boolean radChecked = false;
 
     public BlockSellafieldOre(Properties properties) {
         super(properties);
@@ -82,5 +90,40 @@ public class BlockSellafieldOre extends BlockSellafieldSlaked {
                 .strength(5.0F)
                 .requiresCorrectToolForDrops()
                 .pushReaction(PushReaction.DESTROY);
+    }
+
+    /**
+     * #198: в эталоне это был {@code BlockSellafield} с updateTick, в порте —
+     * отдельный класс без тика, поэтому руды селлафилда не фонили вовсе.
+     */
+    @Override
+    public void onPlace(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
+                        @NotNull BlockState oldState, boolean isMoving) {
+        super.onPlace(state, level, pos, oldState, isMoving);
+        if (emitsRadiation()) {
+            level.scheduleTick(pos, this, 20);
+        }
+    }
+
+    @Override
+    public void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos,
+                     @NotNull RandomSource random) {
+        checkRad();
+        if (rad > 0) {
+            RadiationEvents.incrementRadiation(level, pos, rad);
+            level.scheduleTick(pos, this, 20);
+        }
+    }
+
+    @Override
+    public boolean emitsRadiation() {
+        checkRad();
+        return rad > 0;
+    }
+
+    private void checkRad() {
+        if (radChecked) return;
+        rad = HazardSystem.getHazardLevelFromStack(new ItemStack(this), HazardRegistry.RADIATION) * 0.2F;
+        radChecked = true;
     }
 }

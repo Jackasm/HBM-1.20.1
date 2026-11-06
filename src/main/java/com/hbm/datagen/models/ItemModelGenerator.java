@@ -38,15 +38,6 @@ public class ItemModelGenerator {
         save(itemName, model);
     }
 
-    public void generateNone(String itemName) {
-        JsonObject model = new JsonObject();
-        model.addProperty("parent", "minecraft:block/cube_all");
-        JsonObject textures = new JsonObject();
-        // Используем текстуру блока вместо item текстуры
-        textures.addProperty("all", "hbm:block/" + itemName);
-        model.add("textures", textures);
-        save(itemName, model);
-    }
     public void generateNoneWithTexture(String itemName, String textureName) {
         JsonObject model = new JsonObject();
         model.addProperty("parent", "minecraft:block/cube_all");

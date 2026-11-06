@@ -79,8 +79,8 @@ public abstract class EntityMissileTier4 extends EntityMissileBaseNT {
         @Override
         public void onMissileImpact(HitResult mop) {
             WorldUtil.loadAndSpawnEntityInWorld(
-                    EntityNukeExplosionMK5.statFac(level(), BombConfig.missileRadius.get(), getX(), getY(), getZ()));
-            EntityNukeTorex.statFacStandard(level(), getX(), getY(), getZ(), BombConfig.missileRadius.get());
+                    EntityNukeExplosionMK5.statFac(level(), BombConfig.MISSILE_RADIUS, getX(), getY(), getZ()));
+            EntityNukeTorex.statFacStandard(level(), getX(), getY(), getZ(), BombConfig.MISSILE_RADIUS);
         }
 
         @Override
@@ -106,8 +106,8 @@ public abstract class EntityMissileTier4 extends EntityMissileBaseNT {
         @Override
         public void onMissileImpact(HitResult mop) {
             WorldUtil.loadAndSpawnEntityInWorld(
-                    EntityNukeExplosionMK5.statFac(level(), BombConfig.missileRadius.get() * 2, getX(), getY(), getZ()));
-            EntityNukeTorex.statFacStandard(level(), getX(), getY(), getZ(), BombConfig.missileRadius.get() * 2);
+                    EntityNukeExplosionMK5.statFac(level(), BombConfig.MISSILE_RADIUS * 2, getX(), getY(), getZ()));
+            EntityNukeTorex.statFacStandard(level(), getX(), getY(), getZ(), BombConfig.MISSILE_RADIUS * 2);
         }
 
         @Override
@@ -170,8 +170,8 @@ public abstract class EntityMissileTier4 extends EntityMissileBaseNT {
         @Override
         public void onMissileImpact(HitResult mop) {
             WorldUtil.loadAndSpawnEntityInWorld(
-                    EntityNukeExplosionMK5.statFac(level(), BombConfig.missileRadius.get() * 2, getX(), getY(), getZ()).moreFallout(100));
-            EntityNukeTorex.statFacStandard(level(), getX(), getY(), getZ(), BombConfig.missileRadius.get() * 2);
+                    EntityNukeExplosionMK5.statFac(level(), BombConfig.MISSILE_RADIUS * 2, getX(), getY(), getZ()).moreFallout(100));
+            EntityNukeTorex.statFacStandard(level(), getX(), getY(), getZ(), BombConfig.MISSILE_RADIUS * 2);
         }
 
         @Override
@@ -207,8 +207,8 @@ public abstract class EntityMissileTier4 extends EntityMissileBaseNT {
         @Override
         public void onMissileImpact(HitResult mop) {
             WorldUtil.loadAndSpawnEntityInWorld(
-                    EntityNukeExplosionMK5.statFac(level(), BombConfig.missileRadius.get(), getX(), getY(), getZ()).moreFallout(100));
-            EntityNukeTorex.statFacStandard(level(), getX(), getY(), getZ(), BombConfig.missileRadius.get());
+                    EntityNukeExplosionMK5.statFac(level(), BombConfig.MISSILE_RADIUS, getX(), getY(), getZ()).moreFallout(100));
+            EntityNukeTorex.statFacStandard(level(), getX(), getY(), getZ(), BombConfig.MISSILE_RADIUS);
         }
 
         @Override

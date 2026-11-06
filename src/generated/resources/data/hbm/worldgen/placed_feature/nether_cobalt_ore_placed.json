@@ -13,15 +13,12 @@
       "height": {
         "type": "minecraft:uniform",
         "max_inclusive": {
-          "absolute": 26
+          "absolute": 126
         },
         "min_inclusive": {
           "absolute": 100
         }
       }
-    },
-    {
-      "type": "minecraft:biome"
     }
   ]
 }

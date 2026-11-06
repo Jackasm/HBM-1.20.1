@@ -27,7 +27,10 @@ public class HBMResourceManager {
     public static ResourceLocation steel_beam_tex;
     public static ResourceLocation steel_grate_tex;
     public static ResourceLocation steel_grate_wide_tex;
-    public static ResourceLocation steel_scaffold_tex;
+    public static ResourceLocation steel_scaffold_steel_tex;
+    public static ResourceLocation steel_scaffold_red_tex;
+    public static ResourceLocation steel_scaffold_white_tex;
+    public static ResourceLocation steel_scaffold_yellow_tex;
     public static ResourceLocation anvil_iron_tex;
     public static ResourceLocation anvil_lead_tex;
     public static ResourceLocation anvil_steel_tex;
@@ -53,6 +56,7 @@ public class HBMResourceManager {
     public static ResourceLocation barrel_yellow_tex;
     public static ResourceLocation barrel_lox_tex;
     public static ResourceLocation barrel_taint_tex;
+    public static ResourceLocation barrel_vitrified_tex;
     public static ResourceLocation pepperbox_tex;
     public static ResourceLocation maresleg_tex;
     public static ResourceLocation maresleg_broken_tex;
@@ -201,6 +205,7 @@ public class HBMResourceManager {
     public static ResourceLocation fireext_sand_tex;
     public static ResourceLocation fireext_tex;
     public static ResourceLocation n2_tex;
+    public static ResourceLocation bomb_man_tex;
 
     // Missile Parts - Thrusters Size 10
     public static ResourceLocation mp_t_10_kerosene_tex;
@@ -336,6 +341,14 @@ public class HBMResourceManager {
 
     public static ResourceLocation turret_sentry_tex;
     public static ResourceLocation turret_sentry_damaged_tex;
+    public static ResourceLocation turret_howard_tex;
+    public static ResourceLocation turret_base_tex;
+    public static ResourceLocation turret_carriage_ciws_tex;
+    public static ResourceLocation turret_howard_barrels_tex;
+    public static ResourceLocation turret_howard_rusted_tex;
+    public static ResourceLocation turret_base_rusted_tex;
+    public static ResourceLocation turret_carriage_ciws_rusted_tex;
+    public static ResourceLocation turret_howard_barrels_rusted_tex;
 
     public static ResourceLocation maskman_tex;
     public static ResourceLocation maskman_iou_tex;
@@ -436,6 +449,121 @@ public class HBMResourceManager {
     public static ResourceLocation machine_blast_furnace_tex;
     public static ResourceLocation machine_blast_furnace_lit_tex;
     public static ResourceLocation ammo_press_tex;
+    public static ResourceLocation skeleton_holder_tex;
+    public static ResourceLocation barbed_wire_tex;
+    public static ResourceLocation barbed_wire_fire_tex;
+    public static ResourceLocation barbed_wire_poison_tex;
+    public static ResourceLocation barbed_wire_acid_tex;
+    public static ResourceLocation barbed_wire_wither_tex;
+    public static ResourceLocation barbed_wire_ultradeath_tex;
+    public static ResourceLocation deco_computer_tex;
+    public static ResourceLocation funnel_tex;
+    public static ResourceLocation spikes_tex;
+    public static ResourceLocation steel_chain_tex;
+    public static ResourceLocation steel_chain_end_tex;
+    public static ResourceLocation fraction_spacer_tex;
+    public static ResourceLocation fraction_tower_tex;
+    public static ResourceLocation charger_tex;
+    public static ResourceLocation bobble_vaultboy_tex;
+    public static ResourceLocation bobble_hbm_tex;
+    public static ResourceLocation bobble_pu238_tex;
+    public static ResourceLocation bobble_frizzle_tex;
+    public static ResourceLocation bobble_vt_tex;
+    public static ResourceLocation bobble_doc_tex;
+    public static ResourceLocation bobble_blue_tex;
+    public static ResourceLocation bobble_pheo_tex;
+    public static ResourceLocation bobble_cirno_tex;
+    public static ResourceLocation bobble_adam_tex;
+    public static ResourceLocation bobble_uffr_tex;
+    public static ResourceLocation bobble_vaer_tex;
+    public static ResourceLocation bobble_nos_tex;
+    public static ResourceLocation bobble_drillgon_tex;
+    public static ResourceLocation bobble_microwave_tex;
+    public static ResourceLocation bobble_peep_tex;
+    public static ResourceLocation bobble_mellow_tex;
+    public static ResourceLocation bobble_abel_tex;
+    public static ResourceLocation bobble_socket_tex;
+    public static ResourceLocation bobble_pellet_glow_tex;
+    public static ResourceLocation bobble_mellow_glow_tex;
+    public static ResourceLocation bobble_abel_glow_tex;
+    public static ResourceLocation bobble_glow_tex;
+    public static ResourceLocation mini_nuke_tex;
+    public static ResourceLocation mini_mirv_tex;
+    public static ResourceLocation microwave_tex;
+    public static ResourceLocation toaster_iron_tex;
+    public static ResourceLocation toaster_steel_tex;
+    public static ResourceLocation toaster_wood_tex;
+    public static ResourceLocation rtg_tex;
+    public static ResourceLocation rtg_polonium_tex;
+    public static ResourceLocation rtg_cell_tex;
+    public static ResourceLocation vending_machine_tex;
+    public static ResourceLocation telex_tex;
+    public static ResourceLocation hev_battery_tex;
+    public static ResourceLocation transition_seal_tex;
+    public static ResourceLocation silo_hatch_tex;
+    public static ResourceLocation silo_hatch_large_tex;
+
+    public static ResourceLocation pheo_blast_door_tex;
+    public static ResourceLocation pheo_blast_door_industrial_tex;
+
+    public static ResourceLocation pheo_fire_door_tex;
+    public static ResourceLocation pheo_fire_door_black_tex;
+    public static ResourceLocation pheo_fire_door_orange_tex;
+    public static ResourceLocation pheo_fire_door_yellow_tex;
+    public static ResourceLocation pheo_fire_door_trefoil_tex;
+
+    public static ResourceLocation pheo_seal_door_tex;
+    public static ResourceLocation pheo_seal_door_clean_tex;
+    public static ResourceLocation pheo_seal_door_trefoil_tex;
+
+    public static ResourceLocation pheo_secure_door_tex;
+    public static ResourceLocation pheo_secure_door_grey_tex;
+    public static ResourceLocation pheo_secure_door_black_tex;
+    public static ResourceLocation pheo_secure_door_yellow_tex;
+
+    public static ResourceLocation pheo_airlock_door_tex;
+    public static ResourceLocation pheo_airlock_door_clean_tex;
+    public static ResourceLocation pheo_airlock_door_green_tex;
+
+    public static ResourceLocation pheo_sliding_door_tex;
+    public static ResourceLocation pheo_sliding_door_black_tex;
+    public static ResourceLocation pheo_sliding_door_grid_tex;
+    public static ResourceLocation pheo_sliding_door_plate_tex;
+    public static ResourceLocation pheo_sliding_door_white_tex;
+
+    public static ResourceLocation pheo_containment_door_tex;
+    public static ResourceLocation pheo_containment_door_trefoil_tex;
+    public static ResourceLocation pheo_containment_door_trefoil_yellow_tex;
+
+    public static ResourceLocation pheo_water_door_tex;
+    public static ResourceLocation pheo_water_door_clean_tex;
+
+    public static ResourceLocation pheo_vehicle_door_tex;
+    public static ResourceLocation pheo_vehicle_door_black_tex;
+    public static ResourceLocation pheo_vehicle_door_blue_tex;
+    public static ResourceLocation pheo_vehicle_door_red_tex;
+
+    public static ResourceLocation pheo_cargo_door_tex;
+
+    public static ResourceLocation pheo_vault_door_3;
+    public static ResourceLocation pheo_vault_door_4;
+    public static ResourceLocation pheo_vault_door_s;
+    public static ResourceLocation pheo_label_2;
+    public static ResourceLocation pheo_label_81;
+    public static ResourceLocation pheo_label_87;
+    public static ResourceLocation pheo_label_99;
+    public static ResourceLocation pheo_label_101;
+    public static ResourceLocation pheo_label_106;
+    public static ResourceLocation pheo_label_111;
+    public static ResourceLocation charge_dynamite_tex;
+    public static ResourceLocation charge_miner_tex;
+    public static ResourceLocation charge_c4_tex;
+    public static ResourceLocation charge_semtex_tex;
+    public static ResourceLocation lantern_tex;
+    public static ResourceLocation lantern_rusty_tex;
+    public static ResourceLocation puf6_tex;
+    public static ResourceLocation uf6_tex;
+    public static ResourceLocation fan_tex;
 
     // Модели
     public static HFRWavefrontObject file_cabinet;
@@ -534,6 +662,7 @@ public class HBMResourceManager {
     public static HFRWavefrontObject armor_remnant;
     public static HFRWavefrontObject armor_envsuit;
     public static HFRWavefrontObject armor_trenchmaster;
+    public static HFRWavefrontObject armor_taurun;
     public static HFRWavefrontObject armor_hat;
     public static HFRWavefrontObject shimmer_sledge;
     public static HFRWavefrontObject shimmer_axe;
@@ -567,6 +696,7 @@ public class HBMResourceManager {
     public static HFRWavefrontObject charge_thrower;
     public static HFRWavefrontObject fireext;
     public static HFRWavefrontObject n2;
+    public static HFRWavefrontObject bomb_man;
 
     // Missile Parts - Thrusters Size 10
     public static HFRWavefrontObject mp_t_10_kerosene;
@@ -630,6 +760,9 @@ public class HBMResourceManager {
     public static HFRWavefrontObject dud_salted;
 
     public static HFRWavefrontObject turret_sentry;
+    public static HFRWavefrontObject turret_chekhov;
+    public static HFRWavefrontObject turret_howard;
+    public static HFRWavefrontObject turret_howard_damaged;
 
     public static HFRWavefrontObject maskman;
     public static HFRWavefrontObject ufo;
@@ -690,6 +823,48 @@ public class HBMResourceManager {
     public static HFRWavefrontObject difurnace_extension;
     public static HFRWavefrontObject blast_furnace;
     public static HFRWavefrontObject ammo_press;
+    public static HFRWavefrontObject skeleton_holder;
+    public static HFRWavefrontObject barbed_wire;
+    public static HFRWavefrontObject pipe;
+    public static HFRWavefrontObject pipe_frame;
+    public static HFRWavefrontObject pipe_quad;
+    public static HFRWavefrontObject pipe_rim;
+    public static HFRWavefrontObject deco_computer;
+    public static HFRWavefrontObject funnel;
+    public static HFRWavefrontObject spikes;
+    public static HFRWavefrontObject steel_chain;
+    public static HFRWavefrontObject fraction_spacer;
+    public static HFRWavefrontObject fraction_tower;
+    public static HFRWavefrontObject charger;
+    public static HFRWavefrontObject bobble;
+    public static HFRWavefrontObject microwave;
+    public static HFRWavefrontObject toaster;
+    public static HFRWavefrontObject rtg;
+    public static HFRWavefrontObject vending_machine;
+    public static HFRWavefrontObject telex;
+    public static HFRWavefrontObject hev_battery;
+
+    public static HFRWavefrontObject pheo_airlock_door;
+    public static HFRWavefrontObject pheo_fire_door;
+    public static HFRWavefrontObject pheo_blast_door;
+    public static HFRWavefrontObject pheo_containment_door;
+    public static HFRWavefrontObject pheo_seal_door;
+    public static HFRWavefrontObject pheo_secure_door;
+    public static HFRWavefrontObject pheo_sliding_door;
+    public static HFRWavefrontObject pheo_vehicle_door;
+    public static HFRWavefrontObject pheo_water_door;
+    public static HFRWavefrontObject pheo_vault_door;
+    public static HFRWavefrontObject pheo_cargo_door;
+    public static HFRWavefrontObject silo_hatch;
+    public static HFRWavefrontObject silo_hatch_large;
+    public static HFRWavefrontObject charge_dynamite;
+    public static HFRWavefrontObject charge_c4;
+    public static HFRWavefrontObject battery_socket;
+    public static HFRWavefrontObject lantern;
+    public static HFRWavefrontObject uf6_tank;
+    public static HFRWavefrontObject fan;
+    public static HFRWavefrontObject rtty;
+    public static HFRWavefrontObject plastic_bag;
 
     /**
      * Инициализация всех ресурсов
@@ -708,7 +883,10 @@ public class HBMResourceManager {
         steel_beam_tex = getTexture("block/deco/steel_beam");
         steel_grate_tex = getTexture("block/deco/steel_grate");
         steel_grate_wide_tex = getTexture("block/deco/steel_grate_wide");
-        steel_scaffold_tex = getTexture("block/deco/steel_scaffold");
+        steel_scaffold_steel_tex = getTexture("block/deco/steel_scaffold_steel");
+        steel_scaffold_red_tex = getTexture("block/deco/steel_scaffold_red");
+        steel_scaffold_white_tex = getTexture("block/deco/steel_scaffold_white");
+        steel_scaffold_yellow_tex = getTexture("block/deco/steel_scaffold_yellow");
         anvil_iron_tex = getTexture("block/machines/anvil_iron");
         anvil_lead_tex = getTexture("block/machines/anvil_lead");
         anvil_steel_tex = getTexture("block/machines/anvil_steel");
@@ -731,6 +909,7 @@ public class HBMResourceManager {
         barrel_antimatter_tex = getTexture("block/storage/barrel_antimatter");
         barrel_lox_tex = getTexture("block/lox_barrel");
         barrel_taint_tex = getTexture("block/taint_barrel");
+        barrel_vitrified_tex = getTexture("block/vitrified_barrel");
         barrel_pink_tex = getTexture("block/pink_barrel");
         barrel_red_tex = getTexture("block/red_barrel");
         barrel_yellow_tex = getTexture("block/yellow_barrel");
@@ -850,6 +1029,7 @@ public class HBMResourceManager {
         gavel_diamond_tex = getTexture("models/weapon/gavel_diamond");
         nuke_custom_tex = getTexture("block/bomb/nuke_custom");
         n2_tex = getTexture("block/bomb/n2");
+        bomb_man_tex = getTexture("block/bomb/bomb_man");
         det_cord_tex = getTexture("block/det_cord");
         floodlight_tex = getTexture("block/floodlight");
         spotlight_incandescent_tex = getTexture("block/spotlight_incandescent");
@@ -1012,10 +1192,18 @@ public class HBMResourceManager {
 
         dud_balefire_tex = getTexture("block/bomb/dud_balefire");
         dud_nuke_tex = getTexture("block/bomb/dud_nuke");
-        dud_conventional_tex = getTexture("block/bomb/conventional");
+        dud_conventional_tex = getTexture("block/bomb/dud_conventional");
         dud_salted_tex = getTexture("block/bomb/dud_salted");
         turret_sentry_tex = getTexture("block/turrets/turret_sentry");
         turret_sentry_damaged_tex = getTexture("block/turrets/turret_sentry_damaged");
+        turret_howard_tex = getTexture("block/turrets/turret_howard");
+        turret_base_tex = getTexture("block/turrets/turret_base");
+        turret_carriage_ciws_tex = getTexture("block/turrets/turret_carriage_ciws");
+        turret_howard_barrels_tex = getTexture("block/turrets/turret_howard_barrels");
+        turret_howard_rusted_tex = getTexture("block/turrets/turret_howard_rusted");
+        turret_base_rusted_tex = getTexture("block/turrets/turret_base_rusted");
+        turret_carriage_ciws_rusted_tex = getTexture("block/turrets/turret_carriage_ciws_rusted");
+        turret_howard_barrels_rusted_tex = getTexture("block/turrets/turret_howard_barrels_rusted");
 
         maskman_tex = getTexture("entity/maskman");
         maskman_iou_tex = getTexture("entity/maskman_iou");
@@ -1117,6 +1305,123 @@ public class HBMResourceManager {
         machine_blast_furnace_lit_tex = getTexture("block/machines/machine_blast_furnace_lit");
         machine_blast_furnace_tex = getTexture("block/machines/machine_blast_furnace");
         ammo_press_tex = getTexture("block/machines/machine_ammo_press");
+        skeleton_holder_tex = getTexture("block/skeleton_holder");
+        barbed_wire_tex = getTexture("block/barbed_wire_model");
+        barbed_wire_fire_tex = getTexture("block/barbed_wire_fire_model");
+        barbed_wire_acid_tex = getTexture("block/barbed_wire_acid_model");
+        barbed_wire_poison_tex = getTexture("block/barbed_wire_poison_model");
+        barbed_wire_wither_tex = getTexture("block/barbed_wire_wither_model");
+        barbed_wire_ultradeath_tex = getTexture("block/barbed_wire_ultradeath_model");
+        deco_computer_tex = getTexture("block/deco/deco_computer");
+        funnel_tex = getTexture("block/machines/machine_funnel");
+        spikes_tex = getTexture("block/spikes");
+        steel_chain_tex = getTexture("block/steel_chain");
+        steel_chain_end_tex = getTexture("block/steel_chain_end");
+        fraction_spacer_tex = getTexture("block/machines/fraction_spacer");
+        fraction_tower_tex = getTexture("block/machines/machine_fraction_tower");
+        charger_tex = getTexture("block/machines/charger");
+        bobble_vaultboy_tex = getTexture("block/deco/vaultboy");
+        bobble_hbm_tex = getTexture("block/deco/hbm");
+        bobble_pu238_tex = getTexture("block/deco/pellet");
+        bobble_frizzle_tex = getTexture("block/deco/frizzle");
+        bobble_vt_tex = getTexture("block/deco/vt");
+        bobble_doc_tex = getTexture("block/deco/doctor17ph");
+        bobble_blue_tex = getTexture("block/deco/thebluehat");
+        bobble_pheo_tex = getTexture("block/deco/pheo");
+        bobble_cirno_tex = getTexture("block/deco/cirno");
+        bobble_adam_tex = getTexture("block/deco/adam29");
+        bobble_uffr_tex = getTexture("block/deco/uffr");
+        bobble_vaer_tex = getTexture("block/deco/vaer");
+        bobble_nos_tex = getTexture("block/deco/nos");
+        bobble_drillgon_tex = getTexture("block/deco/drillgon200");
+        bobble_microwave_tex = getTexture("block/deco/microwave");
+        bobble_peep_tex = getTexture("block/deco/peep");
+        bobble_mellow_tex = getTexture("block/deco/mellowrpg8");
+        bobble_abel_tex = getTexture("block/deco/abel");
+        bobble_socket_tex = getTexture("block/deco/socket");
+        bobble_pellet_glow_tex = getTexture("block/deco/pellet");
+        bobble_mellow_glow_tex = getTexture("block/deco/mellowrpg8_glow");
+        bobble_abel_glow_tex = getTexture("block/deco/abel_glow");
+        bobble_glow_tex = getTexture("block/deco/glow");
+        mini_nuke_tex = getTexture("models/projectiles/mini_nuke");
+        mini_mirv_tex = getTexture("models/projectiles/mini_mirv");
+        microwave_tex = getTexture("block/machines/machine_microwave");
+        toaster_iron_tex = getTexture("block/deco/toaster_iron");
+        toaster_steel_tex = getTexture("block/deco/toaster_steel");
+        toaster_wood_tex = getTexture("block/deco/toaster_wood");
+        rtg_tex = getTexture("block/machines/machine_rtg");
+        rtg_polonium_tex = getTexture("block/machines/machine_rtg_polonium");
+        rtg_cell_tex = getTexture("block/machines/machine_rtg_cell");
+        vending_machine_tex = getTexture("block/machines/vending_machine");
+        telex_tex = getTexture("block/machines/radio_telex");
+        hev_battery_tex = getTexture("block/hev_battery");
+        transition_seal_tex = getTexture("block/doors/transition_seal");
+        silo_hatch_tex = getTexture("block/doors/silo_hatch");
+        silo_hatch_large_tex = getTexture("block/doors/silo_hatch_large");
+
+        pheo_blast_door_tex = getTexture("block/doors/blast_door");
+        pheo_blast_door_industrial_tex = getTexture("block/doors/blast_door_industrial");
+
+        pheo_fire_door_tex = getTexture("block/doors/fire_door");
+        pheo_fire_door_black_tex = getTexture("block/doors/fire_door_black");
+        pheo_fire_door_orange_tex = getTexture("block/doors/fire_door_orange");
+        pheo_fire_door_yellow_tex = getTexture("block/doors/fire_door_yellow");
+        pheo_fire_door_trefoil_tex = getTexture("block/doors/fire_door_trefoil");
+
+        pheo_seal_door_tex = getTexture("block/doors/seal_door");
+        pheo_seal_door_clean_tex = getTexture("block/doors/seal_door_clean");
+        pheo_seal_door_trefoil_tex = getTexture("block/doors/seal_door_trefoil");
+
+        pheo_secure_door_tex = getTexture("block/doors/secure_door");
+        pheo_secure_door_grey_tex = getTexture("block/doors/secure_door_grey");
+        pheo_secure_door_black_tex = getTexture("block/doors/secure_door_black");
+        pheo_secure_door_yellow_tex = getTexture("block/doors/secure_door_yellow");
+
+        pheo_airlock_door_tex = getTexture("block/doors/airlock_door");
+        pheo_airlock_door_clean_tex = getTexture("block/doors/airlock_door_clean");
+        pheo_airlock_door_green_tex = getTexture("block/doors/airlock_door_green");
+
+        pheo_sliding_door_tex = getTexture("block/doors/sliding_door");
+        pheo_sliding_door_black_tex = getTexture("block/doors/sliding_door_black");
+        pheo_sliding_door_grid_tex = getTexture("block/doors/sliding_door_grid");
+        pheo_sliding_door_plate_tex = getTexture("block/doors/sliding_door_plate");
+        pheo_sliding_door_white_tex = getTexture("block/doors/sliding_door_white");
+
+        pheo_containment_door_tex = getTexture("block/doors/containment_door");
+        pheo_containment_door_trefoil_tex = getTexture("block/doors/containment_door_trefoil");
+        pheo_containment_door_trefoil_yellow_tex = getTexture("block/doors/containment_door_trefoil_yellow");
+
+        pheo_water_door_tex = getTexture("block/doors/water_door");
+        pheo_water_door_clean_tex = getTexture("block/doors/water_door_clean");
+
+        pheo_vehicle_door_tex = getTexture("block/doors/vehicle_door");
+        pheo_vehicle_door_black_tex = getTexture("block/doors/vehicle_door_black");
+        pheo_vehicle_door_blue_tex = getTexture("block/doors/vehicle_door_blue");
+        pheo_vehicle_door_red_tex = getTexture("block/doors/vehicle_door_red");
+
+        pheo_cargo_door_tex = getTexture("block/doors/cargo_door");
+
+        pheo_vault_door_3 = getTexture("block/doors/vault/vault_door_3");
+        pheo_vault_door_4 = getTexture("block/doors/vault/vault_door_4");
+        pheo_vault_door_s = getTexture("block/doors/vault/vault_door_s");
+        pheo_label_2 = getTexture("block/doors/vault/label_2");
+        pheo_label_81 = getTexture("block/doors/vault/label_81");
+        pheo_label_87 = getTexture("block/doors/vault/label_87");
+        pheo_label_99 = getTexture("block/doors/vault/label_99");
+        pheo_label_101 = getTexture("block/doors/vault/label_101");
+        pheo_label_106 = getTexture("block/doors/vault/label_106");
+        pheo_label_111 = getTexture("block/doors/vault/label_111");
+
+        charge_dynamite_tex = getTexture("block/bomb/charge_dynamite");
+        charge_miner_tex    = getTexture("block/bomb/charge_miner");
+        charge_c4_tex       = getTexture("block/bomb/charge_c4");
+        charge_semtex_tex   = getTexture("block/bomb/charge_semtex");
+        lantern_tex = getTexture("block/lantern");
+        lantern_rusty_tex = getTexture("block/lantern_rusty");
+        puf6_tex = getTexture("block/puf6");
+        uf6_tex = getTexture("block/uf6");
+        fan_tex = getTexture("block/fan");
+
     }
 
     /**
@@ -1219,6 +1524,7 @@ public class HBMResourceManager {
         armor_remnant = getModel("models/item/armor/armor_remnant.obj");
         armor_envsuit = getModel("models/item/armor/armor_envsuit.obj");
         armor_trenchmaster = getModel("models/item/armor/armor_trenchmaster.obj");
+        armor_taurun = getModel("models/item/armor/armor_taurun.obj");
         armor_hat = getModel("models/item/armor/armor_hat.obj");
         shimmer_sledge = getModel("models/item/weapon/shimmer_sledge.obj");
         shimmer_axe =  getModel("models/item/weapon/shimmer_axe.obj");
@@ -1226,6 +1532,7 @@ public class HBMResourceManager {
         gavel = getModel("models/item/weapon/gavel.obj");
         nuke_custom = getModel("models/block/bomb/nuke_custom.obj");
         n2 = getModel("models/block/bomb/n2.obj");
+        bomb_man = getModel("models/block/bomb/bomb_man.obj");
         cable_neo = getModel("models/block/cable_neo.obj");
         cage_lamp = getModel("models/block/cage_lamp.obj");
         fluorescent_lamp = getModel("models/block/fluorescent_lamp.obj");
@@ -1310,7 +1617,11 @@ public class HBMResourceManager {
         dud_nuke = getModel("models/block/bomb/dud_nuke.obj");
         dud_conventional = getModel("models/block/bomb/dud_conventional.obj");
         dud_salted = getModel("models/block/bomb/dud_salted.obj");
+
         turret_sentry = getModel("models/block/turrets/turret_sentry.obj");
+        turret_chekhov = getModel("models/block/turrets/turret_chekhov.obj");
+        turret_howard = getModel("models/block/turrets/turret_howard.obj");
+        turret_howard_damaged = getModel("models/block/turrets/turret_howard_damaged.obj");
 
         maskman = getModel("models/mobs/maskman.obj");
         ufo = getModel("models/mobs/ufo.obj");
@@ -1372,6 +1683,49 @@ public class HBMResourceManager {
         difurnace_extension = getModel("models/block/machines/machine_difurnace_extension.obj");
         blast_furnace = getModel("models/block/machines/machine_blast_furnace.obj");
         ammo_press = getModel("models/block/machines/machine_ammo_press.obj");
+        skeleton_holder = getModel("models/block/skeleton_holder.obj");
+        barbed_wire = getModel("models/block/barbed_wire.obj");
+        pipe = getModel("models/block/pipe.obj");
+        pipe_frame = getModel("models/block/pipe_framed.obj");
+        pipe_quad = getModel("models/block/pipe_quad.obj");
+        pipe_rim = getModel("models/block/pipe_rim.obj");
+        deco_computer = getModel("models/block/deco/deco_computer.obj");
+        funnel = getModel("models/block/machines/machine_funnel.obj");
+        spikes = getModel("models/block/spikes.obj");
+        steel_chain = getModel("models/block/steel_chain.obj");
+        fraction_spacer = getModel("models/block/machines/fraction_spacer.obj");
+        fraction_tower = getModel("models/block/machines/machine_fraction_tower.obj");
+        charger = getModel("models/block/machines/charger.obj");
+        bobble = getModel("models/block/deco/bobble.obj");
+        microwave = getModel("models/block/machines/machine_microwave.obj");
+        toaster = getModel("models/block/deco/deco_toaster.obj");
+        rtg = getModel("models/block/machines/machine_rtg.obj");
+        vending_machine = getModel("models/block/machines/vending_machine.obj");
+        telex = getModel("models/block/machines/radio_telex.obj");
+        hev_battery = getModel("models/block/hev_battery.obj");
+
+        pheo_airlock_door = getModel("models/block/doors/airlock_door.obj");
+        pheo_fire_door = getModel("models/block/doors/fire_door.obj");
+        pheo_blast_door = getModel("models/block/doors/blast_door.obj");
+        pheo_containment_door = getModel("models/block/doors/containment_door.obj");
+        pheo_seal_door = getModel("models/block/doors/seal_door.obj");
+        pheo_secure_door = getModel("models/block/doors/secure_door.obj");
+        pheo_sliding_door = getModel("models/block/doors/sliding_door.obj");
+        pheo_vehicle_door = getModel("models/block/doors/vehicle_door.obj");
+        pheo_water_door = getModel("models/block/doors/water_door.obj");
+        pheo_vault_door = getModel("models/block/doors/vault_door.obj");
+        pheo_cargo_door = getModel("models/block/doors/cargo_door.obj");
+        silo_hatch = getModel("models/block/doors/silo_hatch.obj");
+        silo_hatch_large = getModel("models/block/doors/silo_hatch_large.obj");
+
+        charge_dynamite = getModel("models/block/bomb/charge_dynamite.obj");
+        charge_c4       = getModel("models/block/bomb/charge_c4.obj");
+        battery_socket = getModel("models/item/machines/battery_socket.obj");
+        lantern = getModel("models/block/lantern.obj");
+        uf6_tank = getModel("models/block/uf6_tank.obj");
+        fan = getModel("models/block/fan.obj");
+        rtty = getModel("models/block/rtty.obj");
+        plastic_bag = getModel("models/mobs/plasticbag.obj");
     }
 
     /**

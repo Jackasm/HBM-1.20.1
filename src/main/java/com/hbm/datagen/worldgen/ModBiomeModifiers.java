@@ -6,6 +6,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
+
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.Biome;
@@ -55,28 +56,65 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_THORIUM_DEEPSLATE_ORE = registerKey("add_thorium_deepslate_ore");
     public static final ResourceKey<BiomeModifier> ADD_URANIUM_DEEPSLATE_ORE = registerKey("add_uranium_deepslate_ore");
 
-    public static final ResourceKey<BiomeModifier> ADD_BEDROCK_ORE = registerKey("add_bedrock_ore");
+
 
     public static final ResourceKey<BiomeModifier> ADD_IRON_CLUSTER = registerKey("add_iron_cluster");
     public static final ResourceKey<BiomeModifier> ADD_TITANIUM_CLUSTER = registerKey("add_titanium_cluster");
     public static final ResourceKey<BiomeModifier> ADD_ALUMINIUM_CLUSTER = registerKey("add_aluminium_cluster");
     public static final ResourceKey<BiomeModifier> ADD_COPPER_CLUSTER = registerKey("add_copper_cluster");
 
-    public static final ResourceKey<BiomeModifier> ADD_OIL_BUBBLE = registerKey("add_oil_bubble");
-
     public static final ResourceKey<BiomeModifier> ADD_GNEISS_GAS_ORE = registerKey("add_gneiss_gas_ore");
-    public static final ResourceKey<BiomeModifier> ADD_GAS_BUBBLE = registerKey("add_gas_bubble");
-    public static final ResourceKey<BiomeModifier> ADD_EXPLOSIVE_BUBBLE = registerKey("add_explosive_bubble");
+    public static final ResourceKey<BiomeModifier> ADD_GNEISS_IRON_ORE = registerKey("add_gneiss_iron_ore");
+    public static final ResourceKey<BiomeModifier> ADD_GNEISS_GOLD_ORE = registerKey("add_gneiss_gold_ore");
+    public static final ResourceKey<BiomeModifier> ADD_GNEISS_URANIUM_ORE = registerKey("add_gneiss_uranium_ore");
+    public static final ResourceKey<BiomeModifier> ADD_GNEISS_COPPER_ORE = registerKey("add_gneiss_copper_ore");
+    public static final ResourceKey<BiomeModifier> ADD_GNEISS_ASBESTOS_ORE = registerKey("add_gneiss_asbestos_ore");
+    public static final ResourceKey<BiomeModifier> ADD_GNEISS_LITHIUM_ORE = registerKey("add_gneiss_lithium_ore");
+    public static final ResourceKey<BiomeModifier> ADD_GNEISS_RARE_ORE = registerKey("add_gneiss_rare_ore");
+    public static final ResourceKey<BiomeModifier> ADD_GAS_FLAMMABLE_ORE = registerKey("add_gas_flammable_ore");
+    public static final ResourceKey<BiomeModifier> ADD_GAS_EXPLOSIVE_ORE = registerKey("add_gas_explosive_ore");
 
     public static final ResourceKey<BiomeModifier> ADD_BROADCASTER = registerKey("add_broadcaster");
     public static final ResourceKey<BiomeModifier> ADD_LANDMINE = registerKey("add_landmine");
+    public static final ResourceKey<BiomeModifier> ADD_MISC_FEATURES = registerKey("add_misc_features");
+    public static final ResourceKey<BiomeModifier> ADD_SOYUZ_CAPSULE = registerKey("add_soyuz_capsule");
+
+    /** Чистка декора внутри NBT-структур (#102) — шаг после деревьев и травы. */
+    public static final ResourceKey<BiomeModifier> ADD_STRUCTURE_CLEANUP = registerKey("add_structure_cleanup");
+
+
     public static final ResourceKey<BiomeModifier> ADD_CRATER = registerKey("add_crater");
     public static final ResourceKey<BiomeModifier> ADD_ANTENNA = registerKey("add_antenna");
+    public static final ResourceKey<BiomeModifier> ADD_BARREL = registerKey("add_barrel");
+    public static final ResourceKey<BiomeModifier> ADD_ARCTIC_VAULT = registerKey("add_arctic_vault");
+    public static final ResourceKey<BiomeModifier> ADD_ANCIENT_TOMB = registerKey("add_ancient_tomb");
+    public static final ResourceKey<BiomeModifier> ADD_LIBRARY_DUNGEON = registerKey("add_library_dungeon");
 
+
+    public static final ResourceKey<BiomeModifier> ADD_DUD = registerKey("add_dud");
+    public static final ResourceKey<BiomeModifier> ADD_OIL_SPOT = registerKey("add_oil_spot");
+    public static final ResourceKey<BiomeModifier> ADD_GEYSER_WATER = registerKey("add_geyser_water");
+    public static final ResourceKey<BiomeModifier> ADD_GEYSER_CHLORINE = registerKey("add_geyser_chlorine");
+    public static final ResourceKey<BiomeModifier> ADD_GEYSER_VAPOR = registerKey("add_geyser_vapor");
+    public static final ResourceKey<BiomeModifier> ADD_GEYSER_NETHER = registerKey("add_geyser_nether");
+    public static final ResourceKey<BiomeModifier> ADD_GEYSER_LARGE_WATER = registerKey("add_geyser_large_water");
+    public static final ResourceKey<BiomeModifier> ADD_GEYSER_LARGE_CHLORINE = registerKey("add_geyser_large_chlorine");
+    public static final ResourceKey<BiomeModifier> ADD_GEYSER_LARGE_VAPOR = registerKey("add_geyser_large_vapor");
+    public static final ResourceKey<BiomeModifier> ADD_GEYSER_LARGE_NETHER = registerKey("add_geyser_large_nether");
+    public static final ResourceKey<BiomeModifier> ADD_SURFACE_SPOT = registerKey("add_surface_spot");
+    public static final ResourceKey<BiomeModifier> ADD_METEORITE = registerKey("add_meteorite");
+    public static final ResourceKey<BiomeModifier> ADD_BEDROCK_ORE = registerKey("add_bedrock_ore");
+    public static final ResourceKey<BiomeModifier> ADD_BEDROCK_ORE_NETHER = registerKey("add_bedrock_ore_nether");
+    public static final ResourceKey<BiomeModifier> ADD_DEPTH_DEPOSITS = registerKey("add_depth_deposits");
+    public static final ResourceKey<BiomeModifier> ADD_DEPTH_DEPOSITS_NETHER = registerKey("add_depth_deposits_nether");
+    public static final ResourceKey<BiomeModifier> ADD_BIOME_CAVE = registerKey("add_biome_cave");
+    public static final ResourceKey<BiomeModifier> ADD_GLYPHID_HIVE = registerKey("add_glyphid_hive");
 
     public static final ResourceKey<BiomeModifier> ADD_CREEPER_PHOSGENE = registerKey("add_creeper_phosgene");
     public static final ResourceKey<BiomeModifier> ADD_CREEPER_VOLATILE = registerKey("add_creeper_volatile");
     public static final ResourceKey<BiomeModifier> ADD_CREEPER_GOLD = registerKey("add_creeper_gold");
+    public static final ResourceKey<BiomeModifier> ADD_PIGEON = registerKey("add_pigeon");
+    public static final ResourceKey<BiomeModifier> ADD_PLASTIC_BAG = registerKey("add_plastic_bag");
 
     public static final ResourceKey<BiomeModifier> ADD_FLOWER_FOXGLOVE = registerKey("add_flower_foxglove");
     public static final ResourceKey<BiomeModifier> ADD_FLOWER_NIGHTSHADE = registerKey("add_flower_nightshade");
@@ -86,6 +124,14 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_TALL_WEED = registerKey("add_tall_weed");
     public static final ResourceKey<BiomeModifier> ADD_TALL_CD2 = registerKey("add_tall_cd2");
     public static final ResourceKey<BiomeModifier> ADD_DEAD_PLANT = registerKey("add_dead_plant");
+    public static final ResourceKey<BiomeModifier> ADD_REEDS_RIVER = registerKey("add_reeds_river");
+    public static final ResourceKey<BiomeModifier> ADD_REEDS_BEACH = registerKey("add_reeds_beach");
+    public static final ResourceKey<BiomeModifier> ADD_TIKITE_ORE = registerKey("add_tikite_ore");
+    public static final ResourceKey<BiomeModifier> ADD_AUSTRALIUM_ORE = registerKey("add_australium_ore");
+    public static final ResourceKey<BiomeModifier> ADD_COLTAN_DEPOSIT = registerKey("add_coltan_deposit");
+    public static final ResourceKey<BiomeModifier> ADD_HEMATITE_LAYER = registerKey("add_hematite_layer");
+    public static final ResourceKey<BiomeModifier> ADD_BAUXITE_LAYER = registerKey("add_bauxite_layer");
+    public static final ResourceKey<BiomeModifier> ADD_MALACHITE_LAYER = registerKey("add_malachite_layer");
 
     public static final ResourceKey<BiomeModifier> ADD_NETHER_URANIUM_ORE = registerKey("add_nether_uranium_ore");
     public static final ResourceKey<BiomeModifier> ADD_NETHER_TUNGSTEN_ORE = registerKey("add_nether_tungsten_ore");
@@ -95,7 +141,9 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_NETHER_COBALT_ORE = registerKey("add_nether_cobalt_ore");
     public static final ResourceKey<BiomeModifier> ADD_NETHER_PLUTONIUM_ORE = registerKey("add_nether_plutonium_ore");
     public static final ResourceKey<BiomeModifier> ADD_NETHER_SMOLDERING_ORE = registerKey("add_nether_smoldering_ore");
-    public static final ResourceKey<BiomeModifier> ADD_NETHER_GEYSER = registerKey("add_nether_geyser");
+
+
+
 
     public static void bootstrap(BootstapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
@@ -297,6 +345,11 @@ public class ModBiomeModifiers {
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.BEDROCK_ORE_PLACED)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
 
+        context.register(ADD_BEDROCK_ORE_NETHER, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                netherBiomes,
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.BEDROCK_ORE_NETHER_PLACED)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+
         context.register(ADD_IRON_CLUSTER, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 overworldBiomes,
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.IRON_CLUSTER_PLACED)),
@@ -318,26 +371,41 @@ public class ModBiomeModifiers {
                 GenerationStep.Decoration.UNDERGROUND_ORES));
 
 
-        context.register(ADD_OIL_BUBBLE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
-                overworldBiomes,
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.OIL_BUBBLE_PLACED)),
-                GenerationStep.Decoration.UNDERGROUND_ORES
-        ));
-
-
         context.register(ADD_GNEISS_GAS_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 overworldBiomes,
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GNEISS_GAS_ORE_PLACED)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
 
-        context.register(ADD_GAS_BUBBLE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
-                overworldBiomes,
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GAS_BUBBLE_PLACED)),
+        context.register(ADD_GNEISS_IRON_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                overworldBiomes, HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GNEISS_IRON_ORE_PLACED)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+        context.register(ADD_GNEISS_GOLD_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                overworldBiomes, HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GNEISS_GOLD_ORE_PLACED)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+        context.register(ADD_GNEISS_URANIUM_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                overworldBiomes, HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GNEISS_URANIUM_ORE_PLACED)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+        context.register(ADD_GNEISS_COPPER_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                overworldBiomes, HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GNEISS_COPPER_ORE_PLACED)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+        context.register(ADD_GNEISS_ASBESTOS_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                overworldBiomes, HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GNEISS_ASBESTOS_ORE_PLACED)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+        context.register(ADD_GNEISS_LITHIUM_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                overworldBiomes, HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GNEISS_LITHIUM_ORE_PLACED)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+        context.register(ADD_GNEISS_RARE_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                overworldBiomes, HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GNEISS_RARE_ORE_PLACED)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
 
-        context.register(ADD_EXPLOSIVE_BUBBLE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_GAS_FLAMMABLE_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 overworldBiomes,
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.EXPLOSIVE_BUBBLE_PLACED)),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GAS_FLAMMABLE_ORE_PLACED)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+
+        context.register(ADD_GAS_EXPLOSIVE_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                overworldBiomes,
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GAS_EXPLOSIVE_ORE_PLACED)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
 
         context.register(ADD_BROADCASTER, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
@@ -352,6 +420,31 @@ public class ModBiomeModifiers {
                 GenerationStep.Decoration.SURFACE_STRUCTURES
         ));
 
+        context.register(ADD_MISC_FEATURES, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(
+                        placedFeatures.getOrThrow(ModPlacedFeatures.SAFE_PLACED),
+                        placedFeatures.getOrThrow(ModPlacedFeatures.PINK_LOG_PLACED),
+                        placedFeatures.getOrThrow(ModPlacedFeatures.STONE_KEYHOLE_PLACED),
+                        placedFeatures.getOrThrow(ModPlacedFeatures.LANTERN_BEHEMOTH_PLACED)
+                ),
+                GenerationStep.Decoration.SURFACE_STRUCTURES
+        ));
+
+        context.register(ADD_SOYUZ_CAPSULE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_BEACH),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.SOYUZ_CAPSULE_PLACED)),
+                GenerationStep.Decoration.SURFACE_STRUCTURES
+        ));
+
+        context.register(ADD_STRUCTURE_CLEANUP, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.STRUCTURE_CLEANUP_PLACED)),
+                GenerationStep.Decoration.TOP_LAYER_MODIFICATION
+        ));
+
+
+
         context.register(ADD_CRATER, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.CRATER_PLACED)),
@@ -363,6 +456,91 @@ public class ModBiomeModifiers {
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.ANTENNA_PLACED)),
                 GenerationStep.Decoration.SURFACE_STRUCTURES
         ));
+
+        context.register(ADD_BARREL, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_BADLANDS),   // пустыни, или свой тег
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.BARREL_PLACED)),
+                GenerationStep.Decoration.SURFACE_STRUCTURES
+        ));
+
+        context.register(ADD_ARCTIC_VAULT, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),  // или свой тег для холодных биомов
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.ARCTIC_VAULT_PLACED)),
+                GenerationStep.Decoration.UNDERGROUND_STRUCTURES
+        ));
+
+        context.register(ADD_ANCIENT_TOMB, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_BADLANDS),   // или свой тег для пустынь
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.ANCIENT_TOMB_PLACED)),
+                GenerationStep.Decoration.SURFACE_STRUCTURES
+        ));
+
+        context.register(ADD_LIBRARY_DUNGEON, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.LIBRARY_DUNGEON_PLACED)),
+                GenerationStep.Decoration.UNDERGROUND_STRUCTURES
+        ));
+
+        context.register(ADD_DUD, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.DUD_PLACED)),
+                GenerationStep.Decoration.SURFACE_STRUCTURES
+        ));
+
+        context.register(ADD_OIL_SPOT, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_BADLANDS),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.OIL_SPOT_PLACED)),
+                GenerationStep.Decoration.SURFACE_STRUCTURES
+        ));
+
+        context.register(ADD_SURFACE_SPOT, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.SURFACE_SPOT_PLACED)),
+                GenerationStep.Decoration.SURFACE_STRUCTURES
+        ));
+
+        context.register(ADD_METEORITE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.METEORITE_PLACED)),
+                GenerationStep.Decoration.SURFACE_STRUCTURES
+        ));
+
+        context.register(ADD_DEPTH_DEPOSITS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(
+                        placedFeatures.getOrThrow(ModPlacedFeatures.DEPTH_DEPOSIT_IRON_PLACED),
+                        placedFeatures.getOrThrow(ModPlacedFeatures.DEPTH_DEPOSIT_TITANIUM_PLACED),
+                        placedFeatures.getOrThrow(ModPlacedFeatures.DEPTH_DEPOSIT_TUNGSTEN_PLACED),
+                        placedFeatures.getOrThrow(ModPlacedFeatures.DEPTH_DEPOSIT_CINNABAR_PLACED),
+                        placedFeatures.getOrThrow(ModPlacedFeatures.DEPTH_DEPOSIT_ZIRCONIUM_PLACED),
+                        placedFeatures.getOrThrow(ModPlacedFeatures.DEPTH_DEPOSIT_BORAX_PLACED)
+                ),
+                GenerationStep.Decoration.UNDERGROUND_ORES
+        ));
+
+        context.register(ADD_DEPTH_DEPOSITS_NETHER, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_NETHER),
+                HolderSet.direct(
+                        placedFeatures.getOrThrow(ModPlacedFeatures.DEPTH_DEPOSIT_NETHER_NEODYMIUM_PLACED),
+                        placedFeatures.getOrThrow(ModPlacedFeatures.DEPTH_DEPOSIT_NETHER_NEODYMIUM_TOP_PLACED)
+                ),
+                GenerationStep.Decoration.UNDERGROUND_ORES
+        ));
+
+        context.register(ADD_BIOME_CAVE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.BIOME_CAVE_PLACED)),
+                GenerationStep.Decoration.UNDERGROUND_DECORATION
+        ));
+
+        context.register(ADD_GLYPHID_HIVE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(
+                        placedFeatures.getOrThrow(ModPlacedFeatures.GLYPHID_HIVE_PLACED)
+                ),
+                GenerationStep.Decoration.SURFACE_STRUCTURES
+        ));
+
 
 
 
@@ -388,6 +566,23 @@ public class ModBiomeModifiers {
                 allBiomes,
                 ModEntities.CREEPER_GOLD.get(),
                 1, 1, 1, MobCategory.MONSTER
+        ));
+
+        // Голубь — как в 1.7.10: BiomeDictionary.PLAINS, вес 1, группами 5-10.
+        context.register(ADD_PIGEON, new MobSpawnBiomeModifier(
+                HolderSet.direct(
+                        biomes.getOrThrow(Biomes.PLAINS),
+                        biomes.getOrThrow(Biomes.SUNFLOWER_PLAINS)
+                ),
+                ModEntities.PIGEON.get(),
+                1, 5, 10, MobCategory.CREATURE
+        ));
+
+        // Мусорный пакет — BiomeDictionary.OCEAN, вес 1, по 1-3.
+        context.register(ADD_PLASTIC_BAG, new MobSpawnBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OCEAN),
+                ModEntities.PLASTIC_BAG.get(),
+                1, 1, 3, MobCategory.WATER_CREATURE
         ));
 
         context.register(ADD_FLOWER_FOXGLOVE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
@@ -438,6 +633,44 @@ public class ModBiomeModifiers {
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
+        context.register(ADD_REEDS_RIVER, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_RIVER),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.REEDS_RIVER_PLACED)),
+                GenerationStep.Decoration.VEGETAL_DECORATION
+        ));
+
+        context.register(ADD_REEDS_BEACH, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_BEACH),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.REEDS_BEACH_PLACED)),
+                GenerationStep.Decoration.VEGETAL_DECORATION
+        ));
+
+        context.register(ADD_TIKITE_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_END),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.TIKITE_ORE_PLACED)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+        context.register(ADD_AUSTRALIUM_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.AUSTRALIUM_ORE_PLACED)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+        context.register(ADD_COLTAN_DEPOSIT, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.COLTAN_DEPOSIT_PLACED)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+
+        context.register(ADD_HEMATITE_LAYER, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.HEMATITE_LAYER_PLACED)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+        context.register(ADD_BAUXITE_LAYER, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.BAUXITE_LAYER_PLACED)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+        context.register(ADD_MALACHITE_LAYER, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.MALACHITE_LAYER_PLACED)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+
         // === НЕТЕР РУДЫ ===
         context.register(ADD_NETHER_URANIUM_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 netherBiomes,
@@ -481,10 +714,60 @@ public class ModBiomeModifiers {
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.NETHER_SMOLDERING_ORE_PLACED)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
 
-        context.register(ADD_NETHER_GEYSER, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
-                netherBiomes,
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.NETHER_GEYSER_PLACED)),
-                GenerationStep.Decoration.SURFACE_STRUCTURES));
+// ВОДНЫЕ — болота, океаны, реки
+        context.register(ADD_GEYSER_WATER, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GEYSER_WATER_PLACED)),
+                GenerationStep.Decoration.SURFACE_STRUCTURES
+        ));
+
+        context.register(ADD_GEYSER_LARGE_WATER, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GEYSER_LARGE_WATER_PLACED)),
+                GenerationStep.Decoration.SURFACE_STRUCTURES
+        ));
+
+// ХЛОРНЫЕ — пустоши, саванна, бэдленды, горы
+        context.register(ADD_GEYSER_CHLORINE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_BADLANDS),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GEYSER_CHLORINE_PLACED)),
+                GenerationStep.Decoration.SURFACE_STRUCTURES
+        ));
+
+        context.register(ADD_GEYSER_LARGE_CHLORINE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_BADLANDS),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GEYSER_LARGE_CHLORINE_PLACED)),
+                GenerationStep.Decoration.SURFACE_STRUCTURES
+        ));
+
+// ПАРОВЫЕ — тайга, горы, снежные
+        context.register(ADD_GEYSER_VAPOR, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_MOUNTAIN),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GEYSER_VAPOR_PLACED)),
+                GenerationStep.Decoration.SURFACE_STRUCTURES
+        ));
+
+        context.register(ADD_GEYSER_LARGE_VAPOR, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_MOUNTAIN),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GEYSER_LARGE_VAPOR_PLACED)),
+                GenerationStep.Decoration.SURFACE_STRUCTURES
+        ));
+
+// АДСКИЕ — только Нижний мир
+        context.register(ADD_GEYSER_NETHER, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_NETHER),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GEYSER_NETHER_PLACED)),
+                GenerationStep.Decoration.SURFACE_STRUCTURES
+        ));
+
+        context.register(ADD_GEYSER_LARGE_NETHER, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_NETHER),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GEYSER_LARGE_NETHER_PLACED)),
+                GenerationStep.Decoration.SURFACE_STRUCTURES
+        ));
+
+
+
     }
 
     private static ResourceKey<BiomeModifier> registerKey(String name) {

@@ -1,21 +1,22 @@
 package com.hbm.blocks.generic;
 
 import com.hbm.blocks.IBlockMulti;
-import com.hbm.inventory.gui.GUIScreenSnowglobe;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.items.block.ItemSnowglobe;
 import com.hbm.tileentity.block.TileEntitySnowglobe;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -34,14 +35,11 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
-public class BlockSnowglobe extends BaseEntityBlock implements IBlockMulti {
+public class BlockSnowglobe extends BaseEntityBlock implements IBlockMulti, ITooltipProvider {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
@@ -137,14 +135,29 @@ public class BlockSnowglobe extends BaseEntityBlock implements IBlockMulti {
     @Override
     public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
                                           @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
-        if (level.isClientSide) {
-            BlockEntity te = level.getBlockEntity(pos);
-            if (te instanceof TileEntitySnowglobe snowglobe) {
-                Minecraft.getInstance().setScreen(new GUIScreenSnowglobe(snowglobe));
-                return InteractionResult.SUCCESS;
-            }
+        if (level.isClientSide) return InteractionResult.SUCCESS;
+
+        BlockEntity te = level.getBlockEntity(pos);
+        if (te instanceof TileEntitySnowglobe snowglobe) {
+            NetworkHooks.openScreen((ServerPlayer) player,
+                    new SimpleMenuProvider(
+                            (windowId, inv, p) -> new AbstractContainerMenu(null, windowId) {
+                                @Override
+                                public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
+                                    return ItemStack.EMPTY;
+                                }
+
+                                @Override
+                                public boolean stillValid(@NotNull Player player) {
+                                    return true;
+                                }
+                            },
+                            Component.translatable("container.snowglobe")
+                    ),
+                    pos);
+            return InteractionResult.CONSUME;
         }
-        return InteractionResult.SUCCESS;
+        return InteractionResult.PASS;
     }
 
     @Nullable
@@ -171,17 +184,15 @@ public class BlockSnowglobe extends BaseEntityBlock implements IBlockMulti {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
+    public String[] getTooltipKeys(ItemStack stack) {
         CompoundTag tag = stack.getTag();
         int customModelData = 0;
         if (tag != null && tag.contains("CustomModelData")) {
             customModelData = tag.getInt("CustomModelData");
         }
         SnowglobeType type = SnowglobeType.values()[Math.abs(customModelData) % SnowglobeType.values().length];
-        if (type.inscription != null) {
-            tooltip.add(Component.literal(type.inscription));
-        }
+        if (type.inscription == null) return new String[0];
+        return new String[]{"snowglobe.inscription." + type.name().toLowerCase()};
     }
 
     public static Properties createProperties() {

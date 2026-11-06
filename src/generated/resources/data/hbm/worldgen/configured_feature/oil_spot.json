@@ -1,0 +1,8 @@
+{
+  "type": "hbm:oil_spot",
+  "config": {
+    "add_willows": true,
+    "count": 30,
+    "width": 6
+  }
+}

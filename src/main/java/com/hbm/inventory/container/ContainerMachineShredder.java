@@ -52,7 +52,7 @@ public class ContainerMachineShredder extends AbstractContainerMenu {
         addSlot(new SlotItemHandler(handler, 29, 8, 108) {
             @Override
             public boolean mayPlace(@NotNull ItemStack stack) {
-                return stack.getItem() instanceof IBatteryItem || stack.getItem() == ModItems.BATTERY_CREATIVE.get();
+                return stack.getItem() instanceof IBatteryItem;
             }
         });
 
@@ -80,7 +80,7 @@ public class ContainerMachineShredder extends AbstractContainerMenu {
                     return ItemStack.EMPTY;
                 }
             } else {
-                if (stack.getItem() instanceof IBatteryItem || stack.getItem() == ModItems.BATTERY_CREATIVE.get()) {
+                if (stack.getItem() instanceof IBatteryItem) {
                     if (!moveItemStackTo(stack, 29, 30, false)) return ItemStack.EMPTY;
                 } else if (stack.getItem() instanceof ItemBlades) {
                     if (!moveItemStackTo(stack, 27, 29, false)) return ItemStack.EMPTY;

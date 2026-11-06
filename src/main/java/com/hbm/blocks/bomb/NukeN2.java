@@ -136,7 +136,7 @@ public class NukeN2 extends BaseEntityBlock implements IBomb {
             if (tile.isReady()) {
                 level.removeBlock(pos, false);
                 tile.clearSlots();
-                igniteTestBomb(level, pos, BombConfig.n2Radius.get());
+                igniteTestBomb(level, pos, BombConfig.N2_RADIUS);
             }
         }
     }
@@ -175,7 +175,7 @@ public class NukeN2 extends BaseEntityBlock implements IBomb {
             if (te instanceof TileEntityNukeN2 tile && tile.isReady()) {
                 level.removeBlock(pos, false);
                 tile.clearSlots();
-                igniteTestBomb(level, pos, BombConfig.n2Radius.get());
+                igniteTestBomb(level, pos, BombConfig.N2_RADIUS);
                 return BombReturnCode.DETONATED;
             }
             return BombReturnCode.ERROR_MISSING_COMPONENT;

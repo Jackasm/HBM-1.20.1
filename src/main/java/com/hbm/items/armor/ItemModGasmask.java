@@ -3,7 +3,6 @@ package com.hbm.items.armor;
 import com.hbm.api.item.IGasMask;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.items.ModArmorItems;
-import com.hbm.render.model.ModelGasMask;
 import com.hbm.render.model.ModelM65Small;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
@@ -51,9 +50,6 @@ public class ItemModGasmask extends ItemArmorMod implements IGasMask, IRenderabl
         tooltip.add(Component.literal(""));
         super.appendHoverText(stack, level, tooltip, flag);
 
-        Player player = Minecraft.getInstance().player;
-        ArmorUtil.addGasMaskTooltip(stack, player, tooltip, flag.isAdvanced());
-
         List<HazardClass> haz = getBlacklist(stack, null);
 
         if (!haz.isEmpty()) {
@@ -71,8 +67,6 @@ public class ItemModGasmask extends ItemArmorMod implements IGasMask, IRenderabl
     public void addDesc(List<Component> list, ItemStack stack, ItemStack armor) {
         list.add(Component.literal("  " + stack.getHoverName().getString() + " (gas protection)")
                 .withStyle(ChatFormatting.GREEN));
-        Player player = Minecraft.getInstance().player;
-        ArmorUtil.addGasMaskTooltip(stack, player, list, false);
     }
 
 

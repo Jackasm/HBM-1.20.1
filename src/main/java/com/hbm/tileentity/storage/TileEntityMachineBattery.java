@@ -9,6 +9,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.uninos.EnergyNode;
 import com.hbm.uninos.EnergyNodespace;
 import com.hbm.util.Library;
+import com.hbm.util.MathHelper;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -192,37 +193,32 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
         power = Library.chargeItemsFromTE(inventory, 1, power, maxPower);
         power = Library.chargeTEFromItems(inventory, 0, power, maxPower);
 
-        // Логика узлов в зависимости от режима
-        if (mode == MODE_BUFFER) {
-            // Создаём или обновляем узел
+        // Узел нужен во всех режимах: батарея — проводник между сетями, а
+        // направление потока задают скорости приёма/отдачи (они уже привязаны
+        // к режиму, как в эталоне). Раньше узел жил только в BUFFER, и INPUT/
+        // OUTPUT не проводили энергию между двумя кабелями.
+        if (node == null || node.expired) {
+            node = EnergyNodespace.getNode(level, worldPosition);
             if (node == null || node.expired) {
-                node = EnergyNodespace.getNode(level, worldPosition);
-                if (node == null || node.expired) {
-                    node = createNode();
-                    EnergyNodespace.createNode(level, node);
-                }
+                node = createNode();
+                EnergyNodespace.createNode(level, node);
             }
-            if (node != null && node.hasValidNet()) {
-                node.net.addProvider(this);
-                node.net.addReceiver(this);
+        }
+        if (node != null && node.hasValidNet()) {
+            node.net.addProvider(this);
+            node.net.addReceiver(this);
+        }
+
+        // Прямые соседи без кабеля — портовое дополнение: INPUT тянет,
+        // OUTPUT отдаёт. Через сеть то же самое делает узел выше.
+        if (mode == MODE_INPUT) {
+            for (Direction dir : Direction.values()) {
+                trySubscribe(level, worldPosition.relative(dir), dir);
             }
-        } else {
-            // Удаляем узел, если он был создан ранее
-            if (node != null) {
-                EnergyNodespace.destroyNode(level, worldPosition);
-                node = null;
+        } else if (mode == MODE_OUTPUT) {
+            for (Direction dir : Direction.values()) {
+                tryProvide(level, worldPosition.relative(dir), dir);
             }
-            // Для INPUT и OUTPUT используем прямую подписку без узла
-            if (mode == MODE_INPUT) {
-                for (Direction dir : Direction.values()) {
-                    trySubscribe(level, worldPosition.relative(dir), dir);
-                }
-            } else if (mode == MODE_OUTPUT) {
-                for (Direction dir : Direction.values()) {
-                    tryProvide(level, worldPosition.relative(dir), dir);
-                }
-            }
-            // MODE_NONE — ничего не делаем
         }
 
         // Компаратор
@@ -248,13 +244,15 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
     }
 
     private EnergyNode createNode() {
-        // Создаём узел с соединениями во все 6 сторон
+        // Создаём узел с соединениями во все 6 сторон. Направление в точке
+        // соединения — наружу (dirs[i]): checkConnection ждёт соседа в
+        // позиции pos.relative(dir), а не наоборот.
         com.hbm.util.Library.PosDir[] connections = new com.hbm.util.Library.PosDir[6];
         Direction[] dirs = Direction.values();
         for (int i = 0; i < 6; i++) {
             connections[i] = new com.hbm.util.Library.PosDir(
                     worldPosition.relative(dirs[i]),
-                    dirs[i].getOpposite()
+                    dirs[i]
             );
         }
         return new EnergyNode(worldPosition).setConnections(connections);
@@ -285,6 +283,20 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
         int mode = getRelevantMode(true);
         return (mode == MODE_INPUT || mode == MODE_BUFFER) ? maxPower / 200 : 0;
     }
+
+    /**
+     * Приоритет из GUI (LOW/NORMAL/HIGH) — в терминах сети. Раньше у батареи был
+     * свой enum, а getPriority() не переопределялся, поэтому переключатель
+     * приоритета ни на что не влиял: сеть всегда видела NORMAL.
+     */
+    @Override
+    public IEnergyReceiver.ConnectionPriority getPriority() {
+        return switch (priority) {
+            case LOW -> IEnergyReceiver.ConnectionPriority.LOW;
+            case HIGH -> IEnergyReceiver.ConnectionPriority.HIGH;
+            default -> IEnergyReceiver.ConnectionPriority.NORMAL;
+        };
+    }
     @Override public boolean canConnect(Direction dir) { return true; }
     @Override public void usePower(long amount) { power -= amount; }
 
@@ -293,12 +305,6 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
         if (power == 0) return 0;
         double frac = (double) power / (double) maxPower * 15D;
         return (byte) (MathHelper.clamp((int) frac + 1, 0, 15));
-    }
-
-    private static class MathHelper {
-        public static double clamp(double value, double min, double max) {
-            return Math.max(min, Math.min(max, value));
-        }
     }
 
     // === Capabilities ===

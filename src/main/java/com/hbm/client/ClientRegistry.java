@@ -102,6 +102,8 @@ public class ClientRegistry {
         event.registerBlockEntityRenderer(ModTileEntity.DET_CORD.get(), DetCordRenderer::new);
         event.registerBlockEntityRenderer(ModTileEntity.TURRET_SENTRY.get(), RenderTurretSentry::new);
         event.registerBlockEntityRenderer(ModTileEntity.TURRET_SENTRY_DAMAGED.get(), RenderTurretSentryDamaged::new);
+        event.registerBlockEntityRenderer(ModTileEntity.TURRET_HOWARD.get(), RenderTurretHoward::new);
+        event.registerBlockEntityRenderer(ModTileEntity.TURRET_HOWARD_DAMAGED.get(), RenderTurretHowardDamaged::new);
         event.registerBlockEntityRenderer(ModTileEntity.CARGO_CONTAINER.get(), CargoContainerRenderer::new);
         event.registerBlockEntityRenderer(ModTileEntity.MACHINE_DIESEL.get(), DieselGenRenderer::new);
         event.registerBlockEntityRenderer(ModTileEntity.MACHINE_CENTRIFUGE.get(), CentrifugeRenderer::new);
@@ -132,6 +134,7 @@ public class ClientRegistry {
         event.registerBlockEntityRenderer(ModTileEntity.NUKE_CUSTOM.get(), RenderNukeCustom::new);
         event.registerBlockEntityRenderer(ModTileEntity.NUKE_N2.get(), RenderNukeN2::new);
         event.registerBlockEntityRenderer(ModTileEntity.SNOWGLOBE.get(), RenderSnowglobe::new);
+        event.registerBlockEntityRenderer(ModTileEntity.BOBBLE.get(), RenderBobble::new);
         event.registerBlockEntityRenderer(ModTileEntity.PLUSHIE.get(), RenderPlushie::new);
         event.registerBlockEntityRenderer(ModTileEntity.LAUNCH_PAD.get(), RenderLaunchPad::new);
         event.registerBlockEntityRenderer(ModTileEntity.SOLAR_BOILER.get(), RenderSolarBoiler::new);
@@ -144,6 +147,45 @@ public class ClientRegistry {
         event.registerBlockEntityRenderer(ModTileEntity.RADAR_SCREEN.get(), RenderRadarScreen::new);
         event.registerBlockEntityRenderer(ModTileEntity.MACHINE_BLAST_FURNACE.get(), RenderBlastFurnace::new);
         event.registerBlockEntityRenderer(ModTileEntity.MACHINE_AMMO_PRESS.get(), RenderAmmoPress::new);
+        event.registerBlockEntityRenderer(ModTileEntity.SKELETON_HOLDER.get(), RenderSkeletonHolder::new);
+        event.registerBlockEntityRenderer(ModTileEntity.PIPE_TE.get(), PipeBlockRenderer::new);
+        event.registerBlockEntityRenderer(ModTileEntity.METAL_FENCE.get(), RenderMetalFence::new);
+        event.registerBlockEntityRenderer(ModTileEntity.MACHINE_FUNNEL.get(), RenderFunnel::new);
+        event.registerBlockEntityRenderer(ModTileEntity.LOOT.get(), RenderLoot::new);
+        event.registerBlockEntityRenderer(ModTileEntity.SPIKES.get(), RenderSpikeBlock::new);
+        event.registerBlockEntityRenderer(ModTileEntity.MACHINE_ELECTRIC_FURNACE.get(), RenderElectricFurnace::new);
+        event.registerBlockEntityRenderer(ModTileEntity.CHAIN.get(), RenderChain::new);
+        event.registerBlockEntityRenderer(ModTileEntity.SPACER.get(), RenderSpacer::new);
+        event.registerBlockEntityRenderer(ModTileEntity.MACHINE_FRACTION_TOWER.get(), RenderFractionTower::new);
+        event.registerBlockEntityRenderer(ModTileEntity.CHARGER.get(), RenderCharger::new);
+        event.registerBlockEntityRenderer(ModTileEntity.MACHINE_MICROWAVE.get(), RenderMicrowave::new);
+        event.registerBlockEntityRenderer(ModTileEntity.DECO_TOASTER.get(), RenderToaster::new);
+        event.registerBlockEntityRenderer(ModTileEntity.MACHINE_RTG.get(), RenderRTG::new);
+        event.registerBlockEntityRenderer(ModTileEntity.MACHINE_MINI_RTG.get(), RenderMiniRTG::new);
+        event.registerBlockEntityRenderer(ModTileEntity.BARRIER.get(), RenderBarrier::new);
+        event.registerBlockEntityRenderer(ModTileEntity.WOOD_STRUCTURE.get(), RenderWoodStructure::new);
+        event.registerBlockEntityRenderer(ModTileEntity.VENDING_MACHINE.get(), RenderVendingMachine::new);
+        event.registerBlockEntityRenderer(ModTileEntity.SANDBAGS.get(), RenderSandbags::new);
+        event.registerBlockEntityRenderer(ModTileEntity.RADIO_TELEX.get(), RenderTelex::new);
+        event.registerBlockEntityRenderer(ModTileEntity.PEDESTAL.get(), RenderPedestalTile::new);
+        event.registerBlockEntityRenderer(ModTileEntity.DOOR_GENERIC.get(), RenderDoorGeneric::new);
+        event.registerBlockEntityRenderer(ModTileEntity.CHARGE.get(), RenderExplosiveCharge::new);
+        event.registerBlockEntityRenderer(ModTileEntity.GLYPHID.get(), RenderGlyphid::new);
+        event.registerBlockEntityRenderer(ModTileEntity.GLYPHID_SPAWNER.get(), RenderGlyphidSpawner::new);
+        event.registerBlockEntityRenderer(ModTileEntity.SOYUZ_CAPSULE.get(), RenderSoyuzCapsule::new);
+        event.registerBlockEntityRenderer(ModTileEntity.LANTERN.get(), RenderLantern::new);
+        event.registerBlockEntityRenderer(ModTileEntity.LANTERN_BEHEMOTH.get(), RenderLanternBehemoth::new);
+        event.registerBlockEntityRenderer(ModTileEntity.SELLAFIELD.get(), RenderSellafield::new);
+        event.registerBlockEntityRenderer(ModTileEntity.NUKE_MAN.get(), RenderNukeMan::new);
+        event.registerBlockEntityRenderer(ModTileEntity.UF6_TANK.get(), RenderUF6Tank::new);
+        event.registerBlockEntityRenderer(ModTileEntity.FAN.get(), RenderFan::new);
+        event.registerBlockEntityRenderer(ModTileEntity.CABLE_DIODE.get(), RenderDiode::new);
+        event.registerBlockEntityRenderer(ModTileEntity.RADIO_TORCH_SENDER.get(), RenderRTTY::new);
+        event.registerBlockEntityRenderer(ModTileEntity.RADIO_TORCH_RECEIVER.get(), RenderRTTY::new);
+        event.registerBlockEntityRenderer(ModTileEntity.RADIO_TORCH_LOGIC.get(), RenderRTTY::new);
+        event.registerBlockEntityRenderer(ModTileEntity.RADIO_TORCH_COUNTER.get(), RenderRTTY::new);
+        event.registerBlockEntityRenderer(ModTileEntity.RADIO_TORCH_READER.get(), RenderRTTY::new);
+        event.registerBlockEntityRenderer(ModTileEntity.RADIO_TORCH_CONTROLLER.get(), RenderRTTY::new);
 
 //======================================== Entity ========================================================================
 
@@ -259,6 +301,8 @@ public class ClientRegistry {
         event.registerEntityRenderer(ModEntities.CHEMICAL.get(), RenderChemical::new);
         event.registerEntityRenderer(ModEntities.DUCK.get(), RenderDuck::new);
         event.registerEntityRenderer(ModEntities.QUACKOS.get(), RenderQuackos::new);
+        event.registerEntityRenderer(ModEntities.PIGEON.get(), RenderPigeon::new);
+        event.registerEntityRenderer(ModEntities.PLASTIC_BAG.get(), RenderPlasticBag::new);
 
         event.registerEntityRenderer(ModEntities.TNT_PRIMED_BASE.get(), RenderTNTPrimedBase::new);
 
@@ -365,6 +409,7 @@ public class ClientRegistry {
         event.registerEntityRenderer(ModEntities.TOM.get(), RenderTom::new);
         event.registerEntityRenderer(ModEntities.CLOUD_TOM.get(), RenderCloudTom::new);
         event.registerEntityRenderer(ModEntities.MINER_ROCKET.get(), RenderMinerRocket::new);
+        event.registerEntityRenderer(ModEntities.BOBMAZON.get(), RenderMinerRocket::new);
         event.registerEntityRenderer(ModEntities.BOAT_RUBBER.get(), RenderBoatRubber::new);
 
         event.registerEntityRenderer(ModEntities.MISSILE_TAINT.get(), RenderMissileTaint::new);
@@ -399,6 +444,7 @@ public class ClientRegistry {
         event.registerEntityRenderer(ModEntities.MISSILE_DOOMSDAY.get(), RenderMissileNuclear::new);
         event.registerEntityRenderer(ModEntities.MISSILE_DOOMSDAY_RUSTED.get(), RenderMissileNuclear::new);
         event.registerEntityRenderer(ModEntities.FLAME_PONY_PAINTING.get(), FlamePonyPaintingRenderer::new);
+        event.registerEntityRenderer(ModEntities.UNDEAD_SOLDIER.get(), RenderUndeadSoldier::new);
     }
 
     @SubscribeEvent

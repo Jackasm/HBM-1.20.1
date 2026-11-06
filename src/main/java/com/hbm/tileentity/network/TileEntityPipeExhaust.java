@@ -13,27 +13,29 @@ public class TileEntityPipeExhaust extends TileEntityPipeBaseNT {
 
     private static final FluidTypeHBM[] SMOKES = {Fluids.SMOKE.get(), Fluids.SMOKE_LEADED.get(), Fluids.SMOKE_POISON.get()};
 
+    /** У каждого типа дыма свой узел: один общий не даёт создать остальные. */
+    private final FluidNode[] smokeNodes = new FluidNode[SMOKES.length];
+
     public TileEntityPipeExhaust(BlockPos pos, BlockState state) {
         super(ModTileEntity.FLUID_DUCT_EXHAUST.get(), pos, state);
     }
 
     @Override
     public void tick() {
-        if (level == null) return;
+        if (level == null || level.isClientSide) return;
 
-        if (!level.isClientSide) {
-            for (FluidTypeHBM smoke : SMOKES) {
-                if (this.node == null || this.node.expired) {
-                    this.node = (FluidNode) UniNodespace.getNode(level, worldPosition, smoke.getNetworkProvider());
+        for (int i = 0; i < SMOKES.length; i++) {
+            FluidNode node = smokeNodes[i];
+            if (node == null || node.expired) {
+                node = (FluidNode) UniNodespace.getNode(level, worldPosition, SMOKES[i].getNetworkProvider());
 
-                    if (this.node == null || this.node.expired) {
-                        this.node = this.createNode(smoke);
-                        UniNodespace.createNode(level, this.node);
-                    }
+                if (node == null || node.expired) {
+                    node = this.createNode(SMOKES[i]);
+                    UniNodespace.createNode(level, node);
                 }
+                smokeNodes[i] = node;
             }
         }
-        super.tick();
     }
 
     @Override
@@ -56,7 +58,7 @@ public class TileEntityPipeExhaust extends TileEntityPipeBaseNT {
     @Override
     public void setRemoved() {
         super.setRemoved();
-        if (level != null && !level.isClientSide) {
+        if (!chunkUnloaded && level != null && !level.isClientSide) {
             for (FluidTypeHBM smoke : SMOKES) {
                 UniNodespace.destroyNode(level, worldPosition, smoke.getNetworkProvider());
             }

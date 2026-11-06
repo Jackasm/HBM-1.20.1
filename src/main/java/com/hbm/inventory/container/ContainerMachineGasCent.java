@@ -1,5 +1,6 @@
 package com.hbm.inventory.container;
 
+import com.hbm.api.energy.IBatteryItem;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.items.machine.ItemMachineUpgrade;
@@ -80,7 +81,7 @@ public class ContainerMachineGasCent extends AbstractContainerMenu {
     }
 
     private boolean isBattery(ItemStack stack) {
-        return stack.getItem() instanceof com.hbm.api.energy.IBatteryItem || stack.getItem() == ModItems.BATTERY_CREATIVE.get();
+        return stack.getItem() instanceof IBatteryItem;
     }
 
     @Override

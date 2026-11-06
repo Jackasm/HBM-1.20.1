@@ -1,0 +1,6 @@
+{
+  "type": "hbm:geyser",
+  "config": {
+    "geyser_block": "hbm:geysir_water"
+  }
+}

@@ -1,5 +1,6 @@
 package com.hbm.tileentity.bomb;
 
+import com.hbm.api.energy.IBatteryItem;
 import com.hbm.api.energy.IEnergyReceiver;
 import com.hbm.api.fluid.IFluidStandardReceiver;
 import com.hbm.api.item.IDesignatorItem;
@@ -121,7 +122,7 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
             return switch (slot) {
                 case 0 -> isMissileValid(stack);
                 case 1 -> stack.getItem() instanceof IDesignatorItem;
-                case 2 -> stack.getItem() instanceof com.hbm.api.energy.IBatteryItem || stack.getItem() == ModItems.BATTERY_CREATIVE.get();
+                case 2 -> stack.getItem() instanceof IBatteryItem;
                 case 3, 5 -> true;  // входные слоты для жидкостей
                 case 4, 6 -> false; // выходные – только извлечение
                 default -> false;

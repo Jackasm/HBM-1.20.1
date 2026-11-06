@@ -1,10 +1,12 @@
 package com.hbm.commands;
 
-
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.util.BuildInfo;
 import com.hbm.util.RefStrings;
+
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -22,6 +24,13 @@ public class DebugCommands {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
 
         dispatcher.register(Commands.literal(RefStrings.MODID)
+                // Версия сборки — всем: по ней игрок сообщает, что у него стоит (#168).
+                .then(Commands.literal("version")
+                        .executes(ctx -> {
+                            ctx.getSource().sendSuccess(() -> Component.literal(BuildInfo.summary()), false);
+                            return 1;
+                        })
+                )
                 .then(Commands.literal("blacklung")
                         .requires(src -> src.hasPermission(2))
                         .then(Commands.argument("targets", EntityArgument.players())
@@ -52,9 +61,7 @@ public class DebugCommands {
                                 )
                         )
                 )
-
-
-
         );
     }
-}
+
+                                          }

@@ -1,6 +1,7 @@
 package com.hbm.items.weapon.sedna.factory;
 
 import com.hbm.entity.effect.EntityFireLingering;
+import com.hbm.items.ModAmmoItems;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.particle.SpentCasing;
@@ -39,7 +40,6 @@ public class BulletConfigRegistry {
             .setHeadshot(1F)
             .setSpread(0.025F)
             .setRicochetAngle(15)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setRenderRotations(true);
 
     public static final BulletConfig FLINT = new BulletConfig()
@@ -49,7 +49,6 @@ public class BulletConfigRegistry {
             .setRicochetAngle(5)
             .setDoesPenetrate(true)
             .setDamage(1.5F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setRenderRotations(true);
 
     public static BulletConfig IRON = new BulletConfig()
@@ -60,7 +59,6 @@ public class BulletConfigRegistry {
             .setDoesPenetrate(true)
             .setDamageFalloffByPen(false)
             .setDamage(1.5F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setRenderRotations(true);
 
     public static BulletConfig SHOT = new BulletConfig()
@@ -68,7 +66,6 @@ public class BulletConfigRegistry {
             .setSpread(0.1F).setRicochetAngle(45)
             .setProjectiles(6, 6)
             .setDamage(1F/6F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setRenderRotations(true);
 
     public static BulletConfig g12_bp = new BulletConfig()
@@ -76,7 +73,6 @@ public class BulletConfigRegistry {
         .setBlackPowder(true)
         .setProjectiles(8)
         .setDamage(0.75F/8F)
-        .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
         .setSpread(buckshotSpread)
         .setRicochetAngle(15)
         .setCasing(new SpentCasing(SpentCasing.CasingType.SHOTGUN)
@@ -89,7 +85,6 @@ public class BulletConfigRegistry {
         .setBlackPowder(true)
         .setProjectiles(4)
         .setDamage(0.75F/4F)
-        .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
         .setSpread(buckshotSpread)
         .setRicochetAngle(25)
         .setCasing(new SpentCasing(SpentCasing.CasingType.SHOTGUN)
@@ -101,7 +96,6 @@ public class BulletConfigRegistry {
         .setCasing(SHOTSHELL, 12)
         .setBlackPowder(true)
         .setDamage(0.75F)
-        .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
         .setSpread(0.01F)
         .setRicochetAngle(5)
         .setCasing(new SpentCasing(SpentCasing.CasingType.SHOTGUN)
@@ -113,7 +107,6 @@ public class BulletConfigRegistry {
         .setCasing(BUCKSHOT, 6)
         .setProjectiles(8)
         .setDamage(1F/8F)
-        .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
         .setSpread(buckshotSpread)
         .setRicochetAngle(15)
         .setThresholdNegation(2F)
@@ -125,7 +118,6 @@ public class BulletConfigRegistry {
     public static BulletConfig g12_slug = new BulletConfig()
             .setCasing(BUCKSHOT, 6)
             .setHeadshot(1.5F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setSpread(0.0F)
             .setRicochetAngle(25)
             .setThresholdNegation(4F)
@@ -139,7 +131,6 @@ public class BulletConfigRegistry {
             .setCasing(BUCKSHOT, 6)
             .setProjectiles(8)
             .setDamage(1F/8F)
-            .setRenderer(LegoClient.RENDER_FLECHETTE_BULLET)
             .setThresholdNegation(5F)
             .setArmorPiercing(0.2F)
             .setSpread(0.025F)
@@ -153,7 +144,6 @@ public class BulletConfigRegistry {
             .setCasing(BUCKSHOT_ADVANCED, 6)
             .setProjectiles(4)
             .setDamage(2F/4F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setSpread(magnumSpread)
             .setRicochetAngle(15)
             .setThresholdNegation(4F)
@@ -165,7 +155,6 @@ public class BulletConfigRegistry {
     public static BulletConfig g12_explosive = new BulletConfig()
             .setCasing(BUCKSHOT_ADVANCED, 6)
             .setDamage(2.5F)
-            .setRenderer(LegoClient.RENDER_EXPRESS_BULLET)
             .setOnImpact(LAMBDA_STANDARD_EXPLODE)
             .setSpread(0F)
             .setRicochetAngle(15)
@@ -178,7 +167,6 @@ public class BulletConfigRegistry {
             .setCasing(BUCKSHOT_ADVANCED, 6)
             .setProjectiles(8)
             .setDamage(1F/8F)
-            .setRenderer(LegoClient.RENDER_AP_BULLET)
             .setSpread(magnumSpread)
             .setRicochetAngle(15)
             .setCasing(new SpentCasing(SpentCasing.CasingType.SHOTGUN)
@@ -190,7 +178,6 @@ public class BulletConfigRegistry {
     public static BulletConfig g12_equestrian_bj = new BulletConfig()
             .setDamage(0F)
             .setOnImpact(LAMBDA_BOAT)
-            .setRenderer(LegoClient.RENDER_LEGENDARY_BULLET)
             .setCasing(new SpentCasing(SpentCasing.CasingType.SHOTGUN)
             .setColor(0xB52B2B, SpentCasing.COLOR_CASE_EQUESTRIAN)
             .setScale(0.75F)
@@ -198,7 +185,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig g12_equestrian_tkr = new BulletConfig()
             .setDamage(0F)
-            .setRenderer(LegoClient.RENDER_LEGENDARY_BULLET)
             .setCasing(new SpentCasing(SpentCasing.CasingType.SHOTGUN)
             .setColor(0xB52B2B, SpentCasing.COLOR_CASE_EQUESTRIAN)
             .setScale(0.75F)
@@ -211,7 +197,6 @@ public class BulletConfigRegistry {
             .setLife(50)
             .setupDamageClass(BulletConfig.DamageClass.LASER)
             .setBeam()
-            .setRendererBeam(LegoClient.RENDER_LASER_CYAN)
             .setRenderRotations(false)
             .setLife(5)
             .setDamage(g12.damageMult * g12.projectilesMax)
@@ -225,7 +210,6 @@ public class BulletConfigRegistry {
             .setLife(50)
             .setupDamageClass(BulletConfig.DamageClass.LASER)
             .setBeam()
-            .setRendererBeam(LegoClient.RENDER_LASER_CYAN)
             .setRenderRotations(false)
             .setLife(5)
             .setDamage(g12_slug.damageMult * g12_slug.projectilesMax)
@@ -239,7 +223,6 @@ public class BulletConfigRegistry {
             .setLife(50)
             .setupDamageClass(BulletConfig.DamageClass.LASER)
             .setBeam()
-            .setRendererBeam(LegoClient.RENDER_LASER_CYAN)
             .setRenderRotations(false)
             .setLife(5)
             .setDamage(g12_flechette.damageMult * g12_flechette.projectilesMax)
@@ -253,7 +236,6 @@ public class BulletConfigRegistry {
             .setLife(50)
             .setupDamageClass(BulletConfig.DamageClass.LASER)
             .setBeam()
-            .setRendererBeam(LegoClient.RENDER_LASER_CYAN)
             .setRenderRotations(false)
             .setLife(5)
             .setDamage(g12_magnum.damageMult * g12_magnum.projectilesMax)
@@ -267,7 +249,6 @@ public class BulletConfigRegistry {
             .setLife(50)
             .setupDamageClass(BulletConfig.DamageClass.LASER)
             .setBeam()
-            .setRendererBeam(LegoClient.RENDER_LASER_CYAN)
             .setRenderRotations(false)
             .setLife(5)
             .setDamage(g12_explosive.damageMult * g12_explosive.projectilesMax)
@@ -281,7 +262,6 @@ public class BulletConfigRegistry {
             .setLife(50)
             .setupDamageClass(BulletConfig.DamageClass.LASER)
             .setBeam()
-            .setRendererBeam(LegoClient.RENDER_LASER_CYAN)
             .setRenderRotations(false)
             .setLife(5)
             .setDamage(g12_phosphorus.damageMult * g12_phosphorus.projectilesMax)
@@ -292,7 +272,6 @@ public class BulletConfigRegistry {
             .setCasing(BUCKSHOT_ADVANCED, 4)
             .setProjectiles(10)
             .setDamage(1F/10F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setSpread(buckshotSpread)
             .setRicochetAngle(15)
             .setThresholdNegation(5F)
@@ -305,7 +284,6 @@ public class BulletConfigRegistry {
             .setCasing(BUCKSHOT_ADVANCED, 4)
             .setProjectiles(10)
             .setDamage(1F/10F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setSpread(buckshotSpread)
             .setRicochetAngle(90)
             .setRicochetCount(15)
@@ -319,7 +297,6 @@ public class BulletConfigRegistry {
             .setCasing(BUCKSHOT_ADVANCED, 4)
             .setProjectiles(10)
             .setDamage(1F/4F)
-            .setRenderer(LegoClient.RENDER_DU_BULLET)
             .setSpread(buckshotSpread)
             .setRicochetAngle(15)
             .setThresholdNegation(10F)
@@ -334,7 +311,6 @@ public class BulletConfigRegistry {
     public static BulletConfig g10_slug = new BulletConfig()
             .setCasing(BUCKSHOT_ADVANCED, 4)
             .setRicochetAngle(15)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setThresholdNegation(10F)
             .setArmorPiercing(0.1F)
             .setDoesPenetrate(true)
@@ -348,7 +324,6 @@ public class BulletConfigRegistry {
             .setWear(3F)
             .setProjectiles(10)
             .setDamage(1F/4F)
-            .setRenderer(LegoClient.RENDER_HE_BULLET)
             .setSpread(buckshotSpread)
             .setCasing(new SpentCasing(SpentCasing.CasingType.SHOTGUN)
             .setColor(0xFAC943, SpentCasing.COLOR_CASE_12GA)
@@ -359,7 +334,6 @@ public class BulletConfigRegistry {
     public static BulletConfig p9_sp = new BulletConfig()
             .setCasing(SMALL, 12)
             .setDamage(1.0F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setSpread(pistolSpread)
             .setRicochetAngle(5)
             .setCasing(new SpentCasing(SpentCasing.CasingType.STRAIGHT)
@@ -370,7 +344,6 @@ public class BulletConfigRegistry {
     public static BulletConfig p9_fmj = new BulletConfig()
             .setCasing(SMALL, 12)
             .setDamage(0.8F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setThresholdNegation(2F)
             .setArmorPiercing(0.1F)
             .setSpread(pistolSpread)
@@ -383,7 +356,6 @@ public class BulletConfigRegistry {
     public static BulletConfig p9_jhp = new BulletConfig()
             .setCasing(SMALL, 12)
             .setDamage(1.5F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setHeadshot(1.5F)
             .setArmorPiercing(-0.25F)
             .setSpread(pistolSpread)
@@ -398,7 +370,6 @@ public class BulletConfigRegistry {
             .setDoesPenetrate(true)
             .setDamageFalloffByPen(false)
             .setDamage(1.25F)
-            .setRenderer(LegoClient.RENDER_AP_BULLET)
             .setThresholdNegation(5F)
             .setArmorPiercing(0.15F)
             .setSpread(pistolSpread * 0.8F)
@@ -412,7 +383,6 @@ public class BulletConfigRegistry {
             .setCasing(SMALL, 24)
             .setKnockback(0F)
             .setDamage(1.0F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setSpread(pistolSpread * 0.5F)
             .setRicochetAngle(5)
             .setCasing(new SpentCasing(SpentCasing.CasingType.STRAIGHT)
@@ -424,7 +394,6 @@ public class BulletConfigRegistry {
             .setCasing(SMALL, 24)
             .setKnockback(0F)
             .setDamage(0.8F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setThresholdNegation(1F)
             .setArmorPiercing(0.1F)
             .setSpread(pistolSpread * 0.5F)
@@ -438,7 +407,6 @@ public class BulletConfigRegistry {
             .setCasing(SMALL, 24)
             .setKnockback(0F)
             .setDamage(1.5F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setHeadshot(1.5F)
             .setArmorPiercing(-0.25F)
             .setSpread(pistolSpread * 0.5F)
@@ -452,7 +420,6 @@ public class BulletConfigRegistry {
             .setCasing(SMALL_STEEL, 24)
             .setKnockback(0F)
             .setDoesPenetrate(true)
-            .setRenderer(LegoClient.RENDER_AP_BULLET)
             .setDamageFalloffByPen(false)
             .setDamage(1.25F)
             .setThresholdNegation(2.5F)
@@ -468,7 +435,6 @@ public class BulletConfigRegistry {
             .setCasing(SMALL, 16)
             .setBlackPowder(true)
             .setDamage(0.75F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setSpread(pistolSpread * 0.6F)
             .setRicochetAngle(5)
             .setCasing(new SpentCasing(SpentCasing.CasingType.STRAIGHT)
@@ -479,7 +445,6 @@ public class BulletConfigRegistry {
     public static BulletConfig m357_sp = new BulletConfig()
             .setCasing(SMALL, 8)
             .setDamage(1.0F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setSpread(pistolSpread * 0.6F)
             .setRicochetAngle(5)
             .setCasing(new SpentCasing(SpentCasing.CasingType.STRAIGHT)
@@ -490,7 +455,6 @@ public class BulletConfigRegistry {
     public static BulletConfig m357_fmj = new BulletConfig()
             .setCasing(SMALL, 8)
             .setDamage(0.8F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setThresholdNegation(2F)
             .setArmorPiercing(0.1F)
             .setSpread(pistolSpread * 0.6F)
@@ -503,7 +467,6 @@ public class BulletConfigRegistry {
     public static BulletConfig m357_jhp = new BulletConfig()
             .setCasing(SMALL, 8)
             .setDamage(1.5F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setHeadshot(1.5F)
             .setArmorPiercing(-0.25F)
             .setSpread(pistolSpread * 0.6F)
@@ -518,7 +481,6 @@ public class BulletConfigRegistry {
             .setDoesPenetrate(true)
             .setDamageFalloffByPen(false)
             .setDamage(1.25F)
-            .setRenderer(LegoClient.RENDER_AP_BULLET)
             .setThresholdNegation(5F)
             .setArmorPiercing(0.15F)
             .setSpread(pistolSpread * 0.6F * 0.8F)
@@ -532,7 +494,6 @@ public class BulletConfigRegistry {
             .setCasing(SMALL, 8)
             .setDoesPenetrate(true)
             .setDamage(1.5F)
-            .setRenderer(LegoClient.RENDER_EXPRESS_BULLET)
             .setThresholdNegation(2F)
             .setArmorPiercing(0.1F)
             .setWear(1.5F)
@@ -547,7 +508,6 @@ public class BulletConfigRegistry {
             .setCasing(SMALL, 12)
             .setBlackPowder(true)
             .setDamage(0.75F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setSpread(pistolSpread * 0.7F)
             .setRicochetAngle(5)
             .setCasing(new SpentCasing(SpentCasing.CasingType.STRAIGHT)
@@ -558,7 +518,6 @@ public class BulletConfigRegistry {
     public static BulletConfig m44_sp = new BulletConfig()
             .setCasing(SMALL, 6)
             .setDamage(1.0F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setSpread(pistolSpread * 0.7F)
             .setRicochetAngle(5)
             .setCasing(new SpentCasing(SpentCasing.CasingType.STRAIGHT)
@@ -569,7 +528,6 @@ public class BulletConfigRegistry {
     public static BulletConfig m44_fmj = new BulletConfig()
             .setCasing(SMALL, 6)
             .setDamage(0.8F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setThresholdNegation(3F)
             .setArmorPiercing(0.1F)
             .setSpread(pistolSpread * 0.7F)
@@ -582,7 +540,6 @@ public class BulletConfigRegistry {
     public static BulletConfig m44_jhp = new BulletConfig()
             .setCasing(SMALL, 6)
             .setDamage(1.5F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setHeadshot(1.5F)
             .setArmorPiercing(-0.25F)
             .setSpread(pistolSpread * 0.7F)
@@ -597,7 +554,6 @@ public class BulletConfigRegistry {
             .setDoesPenetrate(true)
             .setDamageFalloffByPen(false)
             .setDamage(1.25F)
-            .setRenderer(LegoClient.RENDER_AP_BULLET)
             .setThresholdNegation(7.5F)
             .setArmorPiercing(0.15F)
             .setSpread(pistolSpread * 0.7F * 0.8F)
@@ -611,7 +567,6 @@ public class BulletConfigRegistry {
             .setCasing(SMALL, 6)
             .setDoesPenetrate(true)
             .setDamage(1.5F)
-            .setRenderer(LegoClient.RENDER_EXPRESS_BULLET)
             .setThresholdNegation(3F)
             .setArmorPiercing(0.1F)
             .setWear(1.5F)
@@ -626,7 +581,6 @@ public class BulletConfigRegistry {
     public static BulletConfig bmg50_sp = new BulletConfig()
             .setCasing(LARGE, 12)
             .setDamage(1.0F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setSpread(pistolSpread * 0.3F)
             .setRicochetAngle(5)
             .setCasing(new SpentCasing(SpentCasing.CasingType.BOTTLENECK)
@@ -637,7 +591,6 @@ public class BulletConfigRegistry {
     public static BulletConfig bmg50_fmj = new BulletConfig()
             .setCasing(LARGE, 12)
             .setDamage(0.8F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setThresholdNegation(7F)
             .setArmorPiercing(0.1F)
             .setSpread(pistolSpread * 0.3F)
@@ -650,7 +603,6 @@ public class BulletConfigRegistry {
     public static BulletConfig bmg50_jhp = new BulletConfig()
             .setCasing(LARGE, 12)
             .setDamage(1.5F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setHeadshot(1.5F)
             .setArmorPiercing(-0.25F)
             .setSpread(pistolSpread * 0.3F)
@@ -665,7 +617,6 @@ public class BulletConfigRegistry {
             .setDoesPenetrate(true)
             .setDamageFalloffByPen(false)
             .setDamage(1.25F)
-            .setRenderer(LegoClient.RENDER_AP_BULLET)
             .setThresholdNegation(17.5F)
             .setArmorPiercing(0.15F)
             .setSpread(pistolSpread * 0.3F * 0.8F)
@@ -680,7 +631,6 @@ public class BulletConfigRegistry {
             .setDoesPenetrate(true)
             .setDamageFalloffByPen(false)
             .setDamage(1.5F)
-            .setRenderer(LegoClient.RENDER_DU_BULLET)
             .setThresholdNegation(21F)
             .setArmorPiercing(0.25F)
             .setSpread(pistolSpread * 0.3F * 0.8F)
@@ -696,7 +646,6 @@ public class BulletConfigRegistry {
             .setDoesPenetrate(true)
             .setDamageFalloffByPen(false)
             .setDamage(1.75F)
-            .setRenderer(LegoClient.RENDER_HE_BULLET)
             .setOnImpact(LAMBDA_STANDARD_EXPLODE)
             .setSpread(pistolSpread * 0.3F)
             .setRicochetAngle(15)
@@ -711,7 +660,6 @@ public class BulletConfigRegistry {
             .setDoesPenetrate(true)
             .setDamageFalloffByPen(false)
             .setDamage(2.5F)
-            .setRenderer(LegoClient.RENDER_SM_BULLET)
             .setThresholdNegation(30F)
             .setArmorPiercing(0.35F)
             .setSpread(pistolSpread * 0.3F * 0.7F)
@@ -724,7 +672,6 @@ public class BulletConfigRegistry {
     public static BulletConfig r556_sp = new BulletConfig()
             .setCasing(SMALL, 8)
             .setDamage(1.0F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setSpread(rifleSpread)
             .setRicochetAngle(3)
             .setCasing(new SpentCasing(SpentCasing.CasingType.BOTTLENECK)
@@ -735,7 +682,6 @@ public class BulletConfigRegistry {
     public static BulletConfig r556_fmj = new BulletConfig()
             .setCasing(SMALL, 8)
             .setDamage(0.8F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setThresholdNegation(4F)
             .setArmorPiercing(0.1F)
             .setSpread(rifleSpread)
@@ -748,7 +694,6 @@ public class BulletConfigRegistry {
     public static BulletConfig r556_jhp = new BulletConfig()
             .setCasing(SMALL, 8)
             .setDamage(1.5F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setHeadshot(1.5F)
             .setArmorPiercing(-0.25F)
             .setSpread(rifleSpread)
@@ -763,7 +708,6 @@ public class BulletConfigRegistry {
             .setDoesPenetrate(true)
             .setDamageFalloffByPen(false)
             .setDamage(1.25F)
-            .setRenderer(LegoClient.RENDER_AP_BULLET)
             .setThresholdNegation(10F)
             .setArmorPiercing(0.15F)
             .setSpread(rifleSpread * 0.8F)
@@ -775,7 +719,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig r556_inc_sp = r556_sp.clone()
             .setOnImpact(LAMBDA_INCENDIARY)
-            .setRenderer(LegoClient.RENDER_AP_BULLET)
             .setCasing(new SpentCasing(SpentCasing.CasingType.BOTTLENECK)
                     .setColor(0xFF4500)
                     .setScale(0.8F)
@@ -783,7 +726,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig r556_inc_fmj = r556_fmj.clone()
             .setOnImpact(LAMBDA_INCENDIARY)
-            .setRenderer(LegoClient.RENDER_AP_BULLET)
             .setCasing(new SpentCasing(SpentCasing.CasingType.BOTTLENECK)
                     .setColor(0xFF4500)
                     .setScale(0.8F)
@@ -791,7 +733,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig r556_inc_jhp = r556_jhp.clone()
             .setOnImpact(LAMBDA_INCENDIARY)
-            .setRenderer(LegoClient.RENDER_AP_BULLET)
             .setCasing(new SpentCasing(SpentCasing.CasingType.BOTTLENECK)
                     .setColor(0xFF4500)
                     .setScale(0.8F)
@@ -799,7 +740,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig r556_inc_ap = r556_ap.clone()
             .setOnImpact(LAMBDA_INCENDIARY)
-            .setRenderer(LegoClient.RENDER_AP_BULLET)
             .setCasing(new SpentCasing(SpentCasing.CasingType.BOTTLENECK)
                     .setColor(0xDA4127)
                     .setScale(0.8F)
@@ -808,7 +748,6 @@ public class BulletConfigRegistry {
     public static BulletConfig b75 = new BulletConfig()
             .setCasing(LARGE, 2)
             .setDamage(1.0F)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setSpread(0.05F)
             .setRicochetAngle(45)
             .setVel(0.5F)
@@ -822,7 +761,6 @@ public class BulletConfigRegistry {
     public static BulletConfig b75_inc = new BulletConfig()
             .setCasing(LARGE, 2)
             .setDamage(0.8F)
-            .setRenderer(LegoClient.RENDER_AP_BULLET)
             .setArmorPiercing(0.1F)
             .setSpread(0.05F)
             .setRicochetAngle(45)
@@ -837,7 +775,6 @@ public class BulletConfigRegistry {
     public static BulletConfig b75_exp = new BulletConfig()
             .setCasing(LARGE, 2)
             .setDamage(1.5F)
-            .setRenderer(LegoClient.RENDER_EXPRESS_BULLET)
             .setArmorPiercing(-0.25F)
             .setSpread(0.05F)
             .setRicochetAngle(45)
@@ -855,7 +792,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig r762_sp = new BulletConfig()
             .setCasing(SMALL, 6)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setDamage(0.75F)
             .setSpread(0.01F)
             .setRicochetAngle(25)
@@ -864,7 +800,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig r762_fmj = new BulletConfig()
             .setCasing(SMALL, 6)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setDamage(0.8F)
             .setSpread(0.01F)
             .setRicochetAngle(25)
@@ -874,7 +809,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig r762_jhp = new BulletConfig()
             .setCasing(SMALL, 6)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setDamage(1.5F)
             .setHeadshot(1.5F)
             .setSpread(0.01F)
@@ -884,7 +818,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig r762_ap = new BulletConfig()
             .setCasing(SMALL_STEEL, 6)
-            .setRenderer(LegoClient.RENDER_AP_BULLET)
             .setDoesPenetrate(true)
             .setDamageFalloffByPen(false)
             .setDamage(1.25F)
@@ -898,7 +831,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig r762_du = new BulletConfig()
             .setCasing(SMALL_STEEL, 6)
-            .setRenderer(LegoClient.RENDER_DU_BULLET)
             .setDoesPenetrate(true)
             .setDamageFalloffByPen(false)
             .setDamage(1.5F)
@@ -912,7 +844,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig r762_he = new BulletConfig()
             .setCasing(SMALL_STEEL, 6)
-            .setRenderer(LegoClient.RENDER_EXPRESS_BULLET)
             .setWear(3F)
             .setDamage(1.75F)
             .setSpread(0.01F)
@@ -924,7 +855,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig energy_lacunae = new BulletConfig()
             .setCasing(ItemStack.EMPTY, 4 * 40)
-            .setRendererBeam(LegoClient.RENDER_LASER_PURPLE)
             .setupDamageClass(BulletConfig.DamageClass.LASER)
             .setBeam()
             .setReloadCount(40)
@@ -935,7 +865,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig energy_lacunae_overcharge = new BulletConfig()
             .setCasing(ItemStack.EMPTY, 4 * 40)
-            .setRendererBeam(LegoClient.RENDER_LASER_PURPLE)
             .setupDamageClass(BulletConfig.DamageClass.LASER)
             .setBeam()
             .setReloadCount(40)
@@ -947,7 +876,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig energy_lacunae_ir = new BulletConfig()
             .setCasing(ItemStack.EMPTY, 4 * 40)
-            .setRendererBeam(LegoClient.RENDER_LASER_PURPLE)
             .setupDamageClass(BulletConfig.DamageClass.FIRE)
             .setBeam()
             .setReloadCount(40)
@@ -958,21 +886,18 @@ public class BulletConfigRegistry {
 
     public static BulletConfig p35800 = new BulletConfig()
             .setArmorPiercing(0.5F).setThresholdNegation(50F).setBeam().setSpread(0.0F).setLife(3).setRenderRotations(false)
-            .setRendererBeam(LegoClient.RENDER_CRACKLE_SIMPLE)
             .setCasing(new SpentCasing(SpentCasing.CasingType.STRAIGHT)
             .setColor(0xCEB78E).register("35-800"))
             .setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
 
     public static BulletConfig p35800_bl = new BulletConfig()
             .setArmorPiercing(0.5F).setThresholdNegation(50F).setBeam().setSpread(0.0F).setLife(3).setRenderRotations(false)
-            .setRendererBeam(LegoClient.RENDER_BLACK_LIGHTNING)
             .setCasing(new SpentCasing(SpentCasing.CasingType.STRAIGHT)
             .setColor(0xCEB78E).register("35-800"))
             .setOnBeamImpact(XFactory35800.LAMBDA_BLACK_IMPACT);
 
     public static BulletConfig energy_las = new BulletConfig()
             .setCasing(ItemStack.EMPTY, 4)
-            .setRendererBeam(LegoClient.RENDER_LASER_RED)
             .setupDamageClass(BulletConfig.DamageClass.LASER)
             .setBeam()
             .setSpread(0.0F)
@@ -982,7 +907,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig energy_las_overcharge = new BulletConfig()
             .setCasing(ItemStack.EMPTY, 4)
-            .setRendererBeam(LegoClient.RENDER_LASER_RED)
             .setupDamageClass(BulletConfig.DamageClass.LASER).setBeam()
             .setSpread(0.0F).setLife(5).setRenderRotations(false)
             .setDoesPenetrate(true)
@@ -990,7 +914,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig energy_las_ir = new BulletConfig()
             .setCasing(ItemStack.EMPTY, 4)
-            .setRendererBeam(LegoClient.RENDER_LASER_RED)
             .setupDamageClass(BulletConfig.DamageClass.FIRE).setBeam()
             .setSpread(0.0F).setLife(5).setRenderRotations(false)
             .setDoesPenetrate(true)
@@ -998,20 +921,16 @@ public class BulletConfigRegistry {
 
     public static BulletConfig energy_emerald = energy_las.clone()
             .setArmorPiercing(0.5F)
-            .setRendererBeam(LegoClient.RENDER_LASER_EMERALD)
             .setThresholdNegation(10F);
     public static BulletConfig energy_emerald_overcharge = energy_las_overcharge.clone()
             .setArmorPiercing(0.5F)
-            .setRendererBeam(LegoClient.RENDER_LASER_EMERALD)
             .setThresholdNegation(15F);
     public static BulletConfig energy_emerald_ir = energy_las_ir.clone()
             .setArmorPiercing(0.5F)
-            .setRendererBeam(LegoClient.RENDER_LASER_EMERALD)
             .setThresholdNegation(10F);
 
     public static BulletConfig energy_tesla = new BulletConfig()
             .setItem(GunFactory.EnumAmmo.CAPACITOR)
-            .setRendererBeam(LegoClient.RENDER_LIGHTNING)
             .setCasing(ItemStack.EMPTY, 4)
             .setupDamageClass(BulletConfig.DamageClass.ELECTRIC).setBeam()
             .setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true)
@@ -1019,7 +938,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig energy_tesla_overcharge = new BulletConfig()
             .setItem(GunFactory.EnumAmmo.CAPACITOR_OVERCHARGE)
-            .setRendererBeam(LegoClient.RENDER_LIGHTNING)
             .setCasing(ItemStack.EMPTY, 4)
             .setupDamageClass(BulletConfig.DamageClass.ELECTRIC).setBeam()
             .setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true)
@@ -1027,43 +945,37 @@ public class BulletConfigRegistry {
 
     public static BulletConfig energy_tesla_ir = new BulletConfig()
             .setItem(GunFactory.EnumAmmo.CAPACITOR_IR)
-            .setRendererBeam(LegoClient.RENDER_LIGHTNING)
             .setCasing(ItemStack.EMPTY, 4)
             .setupDamageClass(BulletConfig.DamageClass.ELECTRIC).setBeam().setSpread(0.0F).setLife(5).setRenderRotations(false)
             .setDamage(0.8F).setOnBeamImpact(XFactoryEnergy.LAMBDA_LIGHTNING_SPLIT);
 
     public static BulletConfig energy_tesla_ir_sub = new BulletConfig()
             .setItem(GunFactory.EnumAmmo.CAPACITOR_IR)
-            .setRendererBeam(LegoClient.RENDER_LIGHTNING_SUB)
             .setupDamageClass(BulletConfig.DamageClass.ELECTRIC).setBeam()
             .setSpread(0.0F).setLife(3).setWear(3F).setRenderRotations(false).setDoesPenetrate(true)
             .setDamage(0.5F).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
 
     public static BulletConfig g26_flare = new BulletConfig()
             .setCasing(HBMEnums.EnumCasingType.LARGE, 4).setLife(100).setVel(2F).setGrav(0.015D)
-            .setRenderer(LegoClient.RENDER_FLARE)
             .setRenderRotations(false).setOnImpact(XFactory40mm.LAMBDA_STANDARD_IGNITE)
             .setCasing(new SpentCasing(SpentCasing.CasingType.STRAIGHT).setColor(0x9E1616).setScale(2F)
             .register("g26Flare"));
 
     public static BulletConfig g26_flare_supply = new BulletConfig()
             .setCasing(HBMEnums.EnumCasingType.LARGE, 4).setLife(100).setVel(2F).setGrav(0.015D)
-            .setRenderer(LegoClient.RENDER_FLARE_SUPPLY)
             .setRenderRotations(false).setOnImpact(XFactory40mm.LAMBDA_STANDARD_IGNITE)
             .setOnUpdate(XFactory40mm.LAMBDA_SPAWN_C130_SUPPLIESS).setCasing(new SpentCasing(SpentCasing.CasingType.STRAIGHT).setColor(0x3C80F0).setScale(2F)
             .register("g26FlareSupply"));
 
     public static BulletConfig g26_flare_weapon = new BulletConfig()
             .setCasing(HBMEnums.EnumCasingType.LARGE, 4).setLife(100).setVel(2F).setGrav(0.015D)
-            .setRenderer(LegoClient.RENDER_FLARE_WEAPON)
             .setRenderRotations(false).setOnImpact(XFactory40mm.LAMBDA_STANDARD_IGNITE).setOnUpdate(XFactory40mm.LAMBDA_SPAWN_C130_WEAPONS)
             .setCasing(new SpentCasing(SpentCasing.CasingType.STRAIGHT).setColor(0x278400).setScale(2F)
             .register("g26FlareWeapon"));
 
     public static BulletConfig g40_base = new BulletConfig()
             .setLife(200).setVel(2F)
-            .setGrav(0.035D)
-            .setRenderer(LegoClient.RENDER_GRENADE);
+            .setGrav(0.035D);
 
     public static BulletConfig g40_he = g40_base.clone()
             .setCasing(HBMEnums.EnumCasingType.LARGE, 4)
@@ -1100,63 +1012,53 @@ public class BulletConfigRegistry {
 
     public static BulletConfig p45_sp = new BulletConfig()
             .setCasing(HBMEnums.EnumCasingType.SMALL, 8)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setCasing(casing9.clone().register("p45"));
 
     public static BulletConfig p45_fmj = new BulletConfig()
             .setCasing(HBMEnums.EnumCasingType.SMALL, 8)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setDamage(0.8F).setThresholdNegation(2F).setArmorPiercing(0.1F)
             .setCasing(casing9.clone().register("p45fmj"));
 
     public static BulletConfig p45_jhp = new BulletConfig()
             .setCasing(HBMEnums.EnumCasingType.SMALL, 8)
-            .setRenderer(LegoClient.RENDER_STANDARD_BULLET)
             .setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
             .setCasing(casing9.clone().register("p45jhp"));
 
     public static BulletConfig p45_ap = new BulletConfig()
             .setCasing(HBMEnums.EnumCasingType.SMALL_STEEL, 8).setDoesPenetrate(true)
-            .setRenderer(LegoClient.RENDER_AP_BULLET)
             .setDamageFalloffByPen(false).setDamage(1.25F).setThresholdNegation(5F).setArmorPiercing(0.15F)
             .setCasing(casing9.clone().setColor(SpentCasing.COLOR_CASE_44).register("p45ap"));
 
     public static BulletConfig p45_du = new BulletConfig()
             .setCasing(HBMEnums.EnumCasingType.SMALL_STEEL, 8).setDoesPenetrate(true)
-            .setRenderer(LegoClient.RENDER_DU_BULLET)
             .setDamageFalloffByPen(false).setDamage(2.5F).setThresholdNegation(15F).setArmorPiercing(0.25F)
             .setCasing(casing9.clone().setColor(SpentCasing.COLOR_CASE_44).register("p45du"));
 
     public static BulletConfig tau_uranium = new BulletConfig()
             .setCasing(ItemStack.EMPTY, 16)
             .setupDamageClass(BulletConfig.DamageClass.SUBATOMIC).setBeam().setLife(5)
-            .setRendererBeam(LegoClient.RENDER_TAU)
             .setRenderRotations(false).setDoesPenetrate(true).setDamageFalloffByPen(false)
             .setOnBeamImpact(XFactoryAccelerator.LAMBDA_BEAM_HIT);
 
     public static BulletConfig tau_uranium_charge = new BulletConfig()
             .setCasing(ItemStack.EMPTY, 16)
             .setupDamageClass(BulletConfig.DamageClass.SUBATOMIC).setBeam().setLife(5)
-            .setRendererBeam(LegoClient.RENDER_TAU_CHARGE)
             .setRenderRotations(false).setDoesPenetrate(true).setDamageFalloffByPen(false).setSpectral(true)
             .setOnBeamImpact(XFactoryAccelerator.LAMBDA_BEAM_HIT);
 
     public static BulletConfig coil_tungsten = new BulletConfig()
             .setVel(7.5F).setLife(50)
-            .setRenderer(LegoClient.RENDER_AP_BULLET)
             .setDoesPenetrate(true).setDamageFalloffByPen(false).setSpectral(true)
             .setOnUpdate(XFactoryAccelerator.LAMBDA_UPDATE_TUNGSTEN);
 
     public static BulletConfig coil_ferrouranium = new BulletConfig()
             .setVel(7.5F).setLife(50)
-            .setRenderer(LegoClient.RENDER_AP_BULLET)
             .setDoesPenetrate(true).setDamageFalloffByPen(false).setSpectral(true)
             .setOnUpdate(XFactoryAccelerator.LAMBDA_UPDATE_FERRO);
 
     public static BulletConfig ni4ni_arc = new BulletConfig()
             .setupDamageClass(BulletConfig.DamageClass.PHYSICAL)
             .setBeam().setLife(5).setThresholdNegation(10F).setArmorPiercing(0.2F)
-            .setRendererBeam(LegoClient.RENDER_NI4NI_BOLT)
             .setRenderRotations(false).setDoesPenetrate(false)
             .setOnBeamImpact(XFactoryAccelerator.LAMBDA_BEAM_HIT);
 
@@ -1207,8 +1109,7 @@ public class BulletConfigRegistry {
             .setOnRicochet(null)
             .setOnUpdate(XFactoryRocket.LAMBDA_STANDARD_ACCELERATE)
             .setItem(GunFactory.EnumAmmo.ROCKET_HE)
-            .setOnImpact(LAMBDA_STANDARD_EXPLODE)
-            .setRenderer(LegoClient.RENDER_RPZB);
+            .setOnImpact(LAMBDA_STANDARD_EXPLODE);
 
     public static BulletConfig rocket_rpzb_heat = new BulletConfig()
             .setLife(300)
@@ -1220,8 +1121,7 @@ public class BulletConfigRegistry {
             .setOnUpdate(XFactoryRocket.LAMBDA_STANDARD_ACCELERATE)
             .setItem(GunFactory.EnumAmmo.ROCKET_HEAT)
             .setDamage(0.5F)
-            .setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT)
-            .setRenderer(LegoClient.RENDER_RPZB);
+            .setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT);
 
     public static BulletConfig rocket_rpzb_demo = new BulletConfig()
             .setLife(300)
@@ -1233,8 +1133,7 @@ public class BulletConfigRegistry {
             .setOnUpdate(XFactoryRocket.LAMBDA_STANDARD_ACCELERATE)
             .setItem(GunFactory.EnumAmmo.ROCKET_DEMO)
             .setDamage(0.75F)
-            .setOnImpact(LAMBDA_STANDARD_EXPLODE_DEMO)
-            .setRenderer(LegoClient.RENDER_RPZB);
+            .setOnImpact(LAMBDA_STANDARD_EXPLODE_DEMO);
 
     public static BulletConfig rocket_rpzb_inc = new BulletConfig()
             .setLife(300)
@@ -1246,8 +1145,7 @@ public class BulletConfigRegistry {
             .setOnUpdate(XFactoryRocket.LAMBDA_STANDARD_ACCELERATE)
             .setItem(GunFactory.EnumAmmo.ROCKET_INC)
             .setDamage(0.75F)
-            .setOnImpact(LAMBDA_STANDARD_EXPLODE_INC)
-            .setRenderer(LegoClient.RENDER_RPZB);
+            .setOnImpact(LAMBDA_STANDARD_EXPLODE_INC);
 
     public static BulletConfig rocket_rpzb_phosphorus = new BulletConfig()
             .setLife(300)
@@ -1259,8 +1157,7 @@ public class BulletConfigRegistry {
             .setOnUpdate(XFactoryRocket.LAMBDA_STANDARD_ACCELERATE)
             .setItem(GunFactory.EnumAmmo.ROCKET_PHOSPHORUS)
             .setDamage(0.75F)
-            .setOnImpact(LAMBDA_STANDARD_EXPLODE_PHOSPHORUS)
-            .setRenderer(LegoClient.RENDER_RPZB);
+            .setOnImpact(LAMBDA_STANDARD_EXPLODE_PHOSPHORUS);
 
     public static BulletConfig rocket_qd_he = new BulletConfig()
             .setLife(400)
@@ -1271,8 +1168,7 @@ public class BulletConfigRegistry {
             .setOnRicochet(null)
             .setOnUpdate(XFactoryRocket.LAMBDA_STEERING_ACCELERATE)
             .setItem(GunFactory.EnumAmmo.ROCKET_HE)
-            .setOnImpact(LAMBDA_STANDARD_EXPLODE)
-            .setRenderer(LegoClient.RENDER_QD);
+            .setOnImpact(LAMBDA_STANDARD_EXPLODE);
 
     public static BulletConfig rocket_qd_heat = new BulletConfig()
             .setLife(400)
@@ -1284,8 +1180,7 @@ public class BulletConfigRegistry {
             .setOnUpdate(XFactoryRocket.LAMBDA_STEERING_ACCELERATE)
             .setItem(GunFactory.EnumAmmo.ROCKET_HEAT)
             .setDamage(0.5F)
-            .setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT)
-            .setRenderer(LegoClient.RENDER_QD);
+            .setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT);
 
     public static BulletConfig rocket_qd_demo = new BulletConfig()
             .setLife(400)
@@ -1297,8 +1192,7 @@ public class BulletConfigRegistry {
             .setOnUpdate(XFactoryRocket.LAMBDA_STEERING_ACCELERATE)
             .setItem(GunFactory.EnumAmmo.ROCKET_DEMO)
             .setDamage(0.75F)
-            .setOnImpact(LAMBDA_STANDARD_EXPLODE_DEMO)
-            .setRenderer(LegoClient.RENDER_QD);
+            .setOnImpact(LAMBDA_STANDARD_EXPLODE_DEMO);
 
     public static BulletConfig rocket_qd_inc = new BulletConfig()
             .setLife(400)
@@ -1310,8 +1204,7 @@ public class BulletConfigRegistry {
             .setOnUpdate(XFactoryRocket.LAMBDA_STEERING_ACCELERATE)
             .setItem(GunFactory.EnumAmmo.ROCKET_INC)
             .setDamage(0.75F)
-            .setOnImpact(LAMBDA_STANDARD_EXPLODE_INC)
-            .setRenderer(LegoClient.RENDER_QD);
+            .setOnImpact(LAMBDA_STANDARD_EXPLODE_INC);
 
     public static BulletConfig rocket_qd_phosphorus = new BulletConfig()
             .setLife(400)
@@ -1323,8 +1216,7 @@ public class BulletConfigRegistry {
             .setOnUpdate(XFactoryRocket.LAMBDA_STEERING_ACCELERATE)
             .setItem(GunFactory.EnumAmmo.ROCKET_PHOSPHORUS)
             .setDamage(0.75F)
-            .setOnImpact(LAMBDA_STANDARD_EXPLODE_PHOSPHORUS)
-            .setRenderer(LegoClient.RENDER_QD);
+            .setOnImpact(LAMBDA_STANDARD_EXPLODE_PHOSPHORUS);
 
     public static BulletConfig rocket_ml_he = new BulletConfig()
             .setLife(300)
@@ -1335,8 +1227,7 @@ public class BulletConfigRegistry {
             .setOnRicochet(null)
             .setOnUpdate(XFactoryRocket.LAMBDA_STANDARD_ACCELERATE)
             .setItem(GunFactory.EnumAmmo.ROCKET_HE)
-            .setOnImpact(LAMBDA_STANDARD_EXPLODE)
-            .setRenderer(LegoClient.RENDER_ML);
+            .setOnImpact(LAMBDA_STANDARD_EXPLODE);
 
     public static BulletConfig rocket_ml_heat = new BulletConfig()
             .setLife(300)
@@ -1348,8 +1239,7 @@ public class BulletConfigRegistry {
             .setOnUpdate(XFactoryRocket.LAMBDA_STANDARD_ACCELERATE)
             .setItem(GunFactory.EnumAmmo.ROCKET_HEAT)
             .setDamage(0.5F)
-            .setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT)
-            .setRenderer(LegoClient.RENDER_ML);
+            .setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT);
 
     public static BulletConfig rocket_ml_demo = new BulletConfig()
             .setLife(300)
@@ -1361,8 +1251,7 @@ public class BulletConfigRegistry {
             .setOnUpdate(XFactoryRocket.LAMBDA_STANDARD_ACCELERATE)
             .setItem(GunFactory.EnumAmmo.ROCKET_DEMO)
             .setDamage(0.75F)
-            .setOnImpact(LAMBDA_STANDARD_EXPLODE_DEMO)
-            .setRenderer(LegoClient.RENDER_ML);
+            .setOnImpact(LAMBDA_STANDARD_EXPLODE_DEMO);
 
     public static BulletConfig rocket_ml_inc = new BulletConfig()
             .setLife(300)
@@ -1374,8 +1263,7 @@ public class BulletConfigRegistry {
             .setOnUpdate(XFactoryRocket.LAMBDA_STANDARD_ACCELERATE)
             .setItem(GunFactory.EnumAmmo.ROCKET_INC)
             .setDamage(0.75F)
-            .setOnImpact(LAMBDA_STANDARD_EXPLODE_INC)
-            .setRenderer(LegoClient.RENDER_ML);
+            .setOnImpact(LAMBDA_STANDARD_EXPLODE_INC);
 
     public static BulletConfig rocket_ml_phosphorus = new BulletConfig()
             .setLife(300)
@@ -1387,26 +1275,22 @@ public class BulletConfigRegistry {
             .setOnUpdate(XFactoryRocket.LAMBDA_STANDARD_ACCELERATE)
             .setItem(GunFactory.EnumAmmo.ROCKET_PHOSPHORUS)
             .setDamage(0.75F)
-            .setOnImpact(LAMBDA_STANDARD_EXPLODE_PHOSPHORUS)
-            .setRenderer(LegoClient.RENDER_ML);
+            .setOnImpact(LAMBDA_STANDARD_EXPLODE_PHOSPHORUS);
 
     public static BulletConfig nuke_standard = new BulletConfig()
             .setLife(300).setVel(3F)
             .setGrav(0.025F)
-            .setRenderer(LegoClient.RENDER_NUKE)
             .setOnImpact(LAMBDA_NUKE_STANDARD);
 
     public static BulletConfig nuke_demo = new BulletConfig()
             .setLife(300).setVel(3F)
             .setGrav(0.025F)
-            .setRenderer(LegoClient.RENDER_NUKE)
             .setOnImpact(LAMBDA_NUKE_DEMO);
 
     public static BulletConfig nuke_high = new BulletConfig()
             .setLife(300)
             .setVel(3F)
             .setGrav(0.025F)
-            .setRenderer(LegoClient.RENDER_NUKE)
             .setOnImpact(LAMBDA_NUKE_HIGH);
 
     public static BulletConfig nuke_tots = new BulletConfig()
@@ -1416,7 +1300,6 @@ public class BulletConfigRegistry {
             .setGrav(0.025F)
             .setSpread(0.1F)
             .setDamage(0.35F)
-            .setRenderer(LegoClient.RENDER_NUKE)
             .setOnImpact(LAMBDA_NUKE_TINYTOT);
 
     public static BulletConfig nuke_hive = new BulletConfig()
@@ -1426,7 +1309,6 @@ public class BulletConfigRegistry {
             .setGrav(0.025F)
             .setSpread(0.15F)
             .setDamage(0.25F)
-            .setRenderer(LegoClient.RENDER_HIVE)
             .setOnImpact(LAMBDA_NUKE_HIVE);
 
     public static BulletConfig nuke_balefire = new BulletConfig()
@@ -1434,12 +1316,10 @@ public class BulletConfigRegistry {
             .setLife(300)
             .setVel(3F)
             .setGrav(0.025F)
-            .setRenderer(LegoClient.RENDER_NUKE_BALEFIRE)
             .setOnImpact(LAMBDA_NUKE_BALEFIRE);
 
     public static BulletConfig folly_sm = new BulletConfig()
             .setupDamageClass(BulletConfig.DamageClass.SUBATOMIC)
-            .setRendererBeam(LegoClient.RENDER_FOLLY)
             .setBeam().setLife(100).setVel(2F).setGrav(0.015D)
             .setRenderRotations(false).setSpectral(true)
             .setDoesPenetrate(true)
@@ -1447,7 +1327,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig folly_nuke = new BulletConfig()
             .setChunkloading().setLife(600).setVel(4F).setGrav(0.015D)
-            .setRendererBeam(LegoClient.RENDER_FOLLY)
             .setOnImpact(XFactoryFolly.LAMBDA_NUKE_IMPACT)
             .setOnUpdate(XFactoryFolly.LAMBDA_SM_UPDATE);
 
@@ -1471,7 +1350,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig ct_hook = new BulletConfig()
             .setRenderRotations(false)
-            .setRenderer(LegoClient.RENDER_CT_HOOK)
             .setLife(6_000).setVel(3F)
             .setGrav(0.035D)
             .setDoesPenetrate(true)
@@ -1481,7 +1359,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig ct_mortar = new BulletConfig()
             .setDamage(2.5F)
-            .setRenderer(LegoClient.RENDER_CT_MORTAR)
             .setLife(200)
             .setVel(3F)
             .setGrav(0.035D)
@@ -1489,7 +1366,6 @@ public class BulletConfigRegistry {
 
     public static BulletConfig ct_mortar_charge = new BulletConfig()
             .setDamage(5F)
-            .setRenderer(LegoClient.RENDER_CT_MORTAR_CHARGE)
             .setLife(200)
             .setVel(3F)
             .setGrav(0.035D)
@@ -1631,12 +1507,10 @@ public class BulletConfigRegistry {
             .setRenderRotations(false)
             .setVel(2F)
             .setDamageRange(15, 25)
-            .setRendererBeam(LegoClient.RENDER_LASER_RED)
             .setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
 
     // ==================== TURBINE (из GunEnergyFactory) ====================
     public static final BulletConfig TURBINE = new BulletConfig()
-
             .setDamageRange(100, 150)
             .setVel(1.0F)
             .setGrav(0.0D)
@@ -1645,6 +1519,38 @@ public class BulletConfigRegistry {
             .setBlockDamage(true)
             .setRicochetAngle(0.0F)
             .setRicochetCount(0);
+
+    // ==================== TURRET ====================
+    public static SpentCasing CASINNG240MM = new SpentCasing(SpentCasing.CasingType.BOTTLENECK).setScale(7.5F).setBounceMotion(0.02F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS);
+    public static SpentCasing CASINGDGK = new SpentCasing(SpentCasing.CasingType.STRAIGHT).setScale(1.5F).setBounceMotion(1F, 0.5F).setColor(SpentCasing.COLOR_CASE_BRASS).register("DGK").setMaxAge(60);
+
+    public static final BulletConfig DGK_NORMAL = new BulletConfig()
+            .setCasing(CASINGDGK.clone().register("dgk_normal"));
+
+    public static final BulletConfig SHELL_240_NORMAL = new BulletConfig()
+            .setDamage(1F)
+            .setCasing(CASINNG240MM.clone().register("240standard"))
+            .setOnImpact(XFactoryTurret.LAMBDA_STANDARD_EXPLODE);
+
+    public static final BulletConfig SHELL_240_EXPLOSIVE = new BulletConfig()
+            .setDamage(1.5F).setCasing(CASINNG240MM.clone().register("240ext"))
+            .setOnImpact(XFactoryTurret.LAMBDA_EXPLOSIVE);
+
+    public static final BulletConfig SHELL_240_AP = new BulletConfig()
+            .setDamage(2F)
+            .setDoesPenetrate(true)
+            .setCasing(CASINNG240MM.clone().register("240w"));
+
+    public static final BulletConfig SHELL_240_DU = new BulletConfig()
+            .setDamage(2.5F).setDoesPenetrate(true)
+            .setDamageFalloffByPen(false)
+            .setCasing(CASINNG240MM.clone().register("240u"));
+
+    public static final BulletConfig SHELL_240_W9 = new BulletConfig()
+            .setDamage(2.5F)
+            .setCasing(CASINNG240MM.clone().register("240n"))
+            .setOnImpact(XFactoryCatapult.LAMBDA_NUKE_STANDARD);
+
 
     public static void initLate() {
         energy_lacunae.setCasing(new ItemStack(ModItems.INGOT_POLYMER.get(),2), 4 * 40);
@@ -1837,6 +1743,12 @@ public class BulletConfigRegistry {
         linkItem(ct_mortar, GunFactory.EnumAmmo.CT_MORTAR);
         linkItem(ct_mortar_charge, GunFactory.EnumAmmo.CT_MORTAR_CHARGE);
 
+        linkItem(DGK_NORMAL, GunFactory.EnumAmmo.DGK);
+        linkItem(SHELL_240_NORMAL, GunFactory.EnumAmmo.SHELL_240_NORMAL);
+        linkItem(SHELL_240_EXPLOSIVE, GunFactory.EnumAmmo.SHELL_240_EXPLOSIVE);
+        linkItem(SHELL_240_AP, GunFactory.EnumAmmo.SHELL_240_APFSDS_T);
+        linkItem(SHELL_240_DU, GunFactory.EnumAmmo.SHELL_240_APFSDS_DU);
+        linkItem(SHELL_240_W9, GunFactory.EnumAmmo.SHELL_240_W9);
 
     }
 

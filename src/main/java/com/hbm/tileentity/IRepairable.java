@@ -27,7 +27,7 @@ public interface IRepairable {
 
     List<AStack> getRepairMaterials();
 
-    void repair();
+    void repair(Player player);
 
     static List<AStack> getRepairMaterials(Level level, BlockPos pos, BlockDummyable multiBlock, Player player) {
 
@@ -55,7 +55,7 @@ public interface IRepairable {
 
         List<AStack> list = repairable.getRepairMaterials();
         if (list == null || list.isEmpty() || InventoryUtil.doesPlayerHaveAStacks(player, list, true)) {
-            if (!level.isClientSide) repairable.repair();
+            if (!level.isClientSide) repairable.repair(player);
             return true;
         }
 

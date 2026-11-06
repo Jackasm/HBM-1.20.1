@@ -1,0 +1,15 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 11011,
+    "separation": 10,
+    "spacing": 32,
+    "spread_type": "linear"
+  },
+  "structures": [
+    {
+      "structure": "hbm:spaceship",
+      "weight": 1
+    }
+  ]
+}

@@ -29,6 +29,7 @@ public class MobConfig {
     public static ForgeConfigSpec.BooleanValue ENABLE_DUCKS;
     public static ForgeConfigSpec.BooleanValue ENABLE_MOB_GEAR;
     public static ForgeConfigSpec.BooleanValue ENABLE_MOB_WEAPONS;
+    public static ForgeConfigSpec.DoubleValue MOB_WEAPON_SOOT_REDUCTION;
 
     public static ForgeConfigSpec.BooleanValue ENABLE_HIVES;
     public static ForgeConfigSpec.IntValue HIVE_SPAWN;
@@ -41,6 +42,7 @@ public class MobConfig {
     public static ForgeConfigSpec.IntValue SWARM_COOLDOWN;
     public static ForgeConfigSpec.IntValue BASE_SWARM_SIZE;
     public static ForgeConfigSpec.DoubleValue SWARM_SCALING_MULT;
+
     public static ForgeConfigSpec.IntValue SOOT_STEP;
 
     public static ForgeConfigSpec.DoubleValue SPAWN_MAX;
@@ -71,7 +73,7 @@ public class MobConfig {
 
     // Публичные переменные для доступа (с значениями по умолчанию)
     public static boolean enableMaskman = true;
-    public static int maskmanDelay = 60 * 60 * 60;
+    public static int maskmanDelay = 20 * 60;
     public static int maskmanChance = 3;
     public static int maskmanMinRad = 50;
     public static boolean maskmanUnderground = true;
@@ -94,6 +96,7 @@ public class MobConfig {
     public static boolean enableDucks = true;
     public static boolean enableMobGear = true;
     public static boolean enableMobWeapons = true;
+    public static double mobWeaponSootReduction = 0;
 
     public static boolean enableHives = true;
     public static int hiveSpawn = 256;
@@ -241,6 +244,10 @@ public class MobConfig {
                 .comment("Whether skeletons should have bows replaced with guns when spawning at higher soot levels")
                 .define("enableMobWeapons", true);
 
+        MOB_WEAPON_SOOT_REDUCTION = BUILDER
+                .comment("Reduces the amount of soot needed for skeleton guns to appear")
+                .defineInRange("mobWeaponSootReduction", 0.0D, 0.0D, Double.MAX_VALUE);
+
         BUILDER.pop();
 
         BUILDER.comment("Glyphid Hive settings")
@@ -256,7 +263,7 @@ public class MobConfig {
 
         SCOUT_THRESHOLD = BUILDER
                 .comment("Minimum amount of soot for scouts to spawn")
-                .defineInRange("scoutThreshold", 1.0, 0.0, Double.MAX_VALUE);
+                .defineInRange("scoutThreshold", 5.0, 0.0, Double.MAX_VALUE);
 
         SPAWN_MAX = BUILDER
                 .comment("Maximum amount of glyphids being able to exist at once through natural spawning")
@@ -443,6 +450,7 @@ public class MobConfig {
         enableDucks = ENABLE_DUCKS.get();
         enableMobGear = ENABLE_MOB_GEAR.get();
         enableMobWeapons = ENABLE_MOB_WEAPONS.get();
+        mobWeaponSootReduction = MOB_WEAPON_SOOT_REDUCTION.get();
 
         enableHives = ENABLE_HIVES.get();
         hiveSpawn = HIVE_SPAWN.get();
@@ -497,5 +505,8 @@ public class MobConfig {
             }
             // Note: RadiationConfig.sootFogThreshold *= pollutionMult should be handled in RadiationConfig
         }
-    }
+            raidAttackDelay = RAID_ATTACK_DELAY.get();
+        raidAttackReach = RAID_ATTACK_REACH.get();
+        rampantExtendedTargeting = RAMPANT_EXTENDED_TARGETING.get();
+}
 }

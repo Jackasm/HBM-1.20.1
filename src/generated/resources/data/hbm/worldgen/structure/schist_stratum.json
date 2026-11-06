@@ -1,0 +1,9 @@
+{
+  "type": "hbm:schist_stratum",
+  "settings": {
+    "biomes": "#hbm:schist_stratum_biomes",
+    "spawn_overrides": {},
+    "step": "underground_ores",
+    "terrain_adaptation": "none"
+  }
+}

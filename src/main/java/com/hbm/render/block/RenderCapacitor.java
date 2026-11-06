@@ -8,11 +8,8 @@ import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -36,28 +33,20 @@ public class RenderCapacitor implements BlockEntityRenderer<BlockEntity> {
         float rotation = 0F;
         float flip = 0F;
 
-        // Обработка направления
-        if (facing == Direction.DOWN) {
-            flip = (float) Math.PI;
-        } else if (facing == Direction.SOUTH) {
-            rotation = 90F / 180F * (float) Math.PI;
-        } else if (facing == Direction.NORTH) {
-            rotation = 270F / 180F * (float) Math.PI;
-        } else if (facing == Direction.EAST) {
-            rotation = 180F / 180F * (float) Math.PI;
-        } else if (facing == Direction.UP || facing == Direction.WEST) {
-            flip = (float) Math.PI * 0.5F;
+        switch (facing) {
+            case DOWN -> flip = (float) Math.PI;
+            case UP -> flip = 0F;
+            case SOUTH -> rotation = 90F / 180F * (float) Math.PI;
+            case NORTH -> rotation = 270F / 180F * (float) Math.PI;
+            case EAST -> rotation = 180F / 180F * (float) Math.PI;
+            case WEST -> rotation = 0F;
         }
 
         if (rotation != 0F) {
             poseStack.mulPose(Axis.YP.rotation(rotation));
         }
         if (flip != 0F) {
-            if (flip == (float)Math.PI) {
-                poseStack.mulPose(Axis.XP.rotation((float)Math.PI));
-            } else if (flip == (float)Math.PI * 0.5F) {
-                poseStack.mulPose(Axis.XP.rotation((float)Math.PI * 0.5F));
-            }
+            poseStack.mulPose(Axis.XP.rotation(flip));
         }
 
         HFRWavefrontObject model = HBMResourceManager.capacitor;

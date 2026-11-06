@@ -2,12 +2,14 @@ package com.hbm.tileentity.turret;
 
 import com.hbm.api.energy.IEnergyReceiver;
 
+import com.hbm.blocks.turret.TurretBaseNT;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.handler.CasingEjector;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemTurretBiometry;
 import com.hbm.items.weapon.sedna.BulletConfig;
 
+import com.hbm.network.PacketDispatcher;
 import com.hbm.particle.SpentCasing;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.Library;
@@ -100,7 +102,25 @@ public abstract class TileEntityTurretBaseNT extends TileEntityLoadedBase implem
     protected abstract boolean usesCasings();
     public abstract CasingEjector getEjector();
     protected abstract int casingDelay();
-    protected abstract void spawnCasing();   // реализуется в конкретной турели
+
+    protected void spawnCasing() {
+        if (cachedCasingConfig == null) return;
+
+        CasingEjector ej = getEjector();
+        Vec3 spawn = getCasingSpawnPos();
+
+        CompoundTag data = new CompoundTag();
+        data.putString("type", "casing");
+        data.putFloat("pitch", (float) -rotationPitch);
+        data.putFloat("yaw", (float) rotationYaw);
+        data.putBoolean("crouched", false);
+        data.putString("name", cachedCasingConfig.getName());
+        if (ej != null) data.putInt("ej", ej.getId());
+
+        PacketDispatcher.sendAuxParticleNT(data, spawn.x, spawn.y, spawn.z, level, worldPosition);
+
+        cachedCasingConfig = null;
+    }
     protected abstract Vec3 getCasingSpawnPos();
     protected abstract boolean entityAcceptableTarget(Entity e);
     public abstract long getMaxPower();
@@ -118,6 +138,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityLoadedBase implem
     public abstract boolean isOn();
 
     // ==================== Базовые геттеры ====================
+    @NotNull
     public Component getDisplayName() {
         return Component.translatable(getName());
     }
@@ -165,7 +186,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityLoadedBase implem
     }
 
     // Расход боеприпаса
-    protected void conusmeAmmo(BulletConfig config) {
+    protected void consumeAmmo(BulletConfig config) {
         for (int i = 1; i <= 9; i++) {
             ItemStack stack = inventory.getStackInSlot(i);
             if (!stack.isEmpty() && config.ammo != null &&
@@ -260,6 +281,14 @@ public abstract class TileEntityTurretBaseNT extends TileEntityLoadedBase implem
         if (hitResult.getType() != HitResult.Type.MISS) {
             Vec3 hitPos = hitResult.getLocation();
             double hitDist = hitPos.distanceTo(pos);
+
+            BlockPos hPos = hitResult.getBlockPos();
+            BlockState hitState = level.getBlockState(hPos);
+
+            // Если препятствие — это блок турели, игнорируем его
+            if (hitState.getBlock() instanceof TurretBaseNT) {
+                return true;
+            }
             // Если препятствие ближе, чем цель - цель не видна
             return hitDist >= length - 0.5; // небольшая погрешность
         }
@@ -351,6 +380,19 @@ public abstract class TileEntityTurretBaseNT extends TileEntityLoadedBase implem
     }
 
     // ==================== NBT / Синхронизация ====================
+    public void handleButtonPacket(int meta) {
+        switch(meta) {
+            case 0: this.isOn = !this.isOn; break;
+            case 1: this.targetPlayers = !this.targetPlayers; break;
+            case 2: this.targetAnimals = !this.targetAnimals; break;
+            case 3: this.targetMobs = !this.targetMobs; break;
+            case 4: this.targetMachines = !this.targetMachines; break;
+        }
+        if (level != null && !level.isClientSide) {
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
+        }
+    }
+
     @Override
     public void load(@NotNull CompoundTag nbt) {
         super.load(nbt);

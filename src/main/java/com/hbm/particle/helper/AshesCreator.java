@@ -1,6 +1,6 @@
 package com.hbm.particle.helper;
 
-import com.hbm.main.ClientProxy;
+import com.hbm.client.ClientProxy;
 import com.hbm.particle.ModParticles;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.core.particles.ParticleTypes;

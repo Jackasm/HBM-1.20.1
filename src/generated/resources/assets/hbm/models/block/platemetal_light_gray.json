@@ -1,0 +1,7 @@
+{
+  "loader": "hbm:ct_geometry",
+  "textures": {
+    "particle": "hbm:block/platemetal_light_gray",
+    "texture": "hbm:block/platemetal_light_gray"
+  }
+}

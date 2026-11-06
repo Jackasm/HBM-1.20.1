@@ -1,0 +1,13 @@
+{
+  "type": "hbm:simple_nbt",
+  "height_offset": -5,
+  "max_height": 67,
+  "min_height": 58,
+  "nbt_file": "beached_patrol",
+  "settings": {
+    "biomes": "#hbm:beach_biomes",
+    "spawn_overrides": {},
+    "step": "surface_structures",
+    "terrain_adaptation": "none"
+  }
+}

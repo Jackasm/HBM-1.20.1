@@ -390,7 +390,7 @@ public class WeaponRecipes {
                 .define('B', ModItems.HEAVY_BARREL_FERROURANIUM.get())
                 .define('R', ModItems.HEAVY_RECEIVER_FERROURANIUM.get())
                 .define('M', ModItems.GUN_MECHANISM_WEAPON_STEEL.get())
-                .define('C', ModItems.WEAPON_MOD_SCOPE.get())
+                .define('C', ModItems.WEAPON_MOD_SPECIAL_SCOPE.get())
                 .define('S', ModItems.PART_STOCK_WOOD.get())
                 .unlockedBy("has_ferrouranium_heavy_barrel", has.apply(ModItems.HEAVY_BARREL_FERROURANIUM.get()))
                 .save(writer, MODID + ":gun_amat");
@@ -505,7 +505,7 @@ public class WeaponRecipes {
                 .pattern(" D ")
                 .pattern("BRS")
                 .pattern("GGM")
-                .define('D', ModItems.WEAPON_MOD_SCOPE.get())
+                .define('D', ModItems.WEAPON_MOD_SPECIAL_SCOPE.get())
                 .define('B', ModItems.LIGHT_BARREL_SATURNITE.get())
                 .define('R', ModItems.LIGHT_RECEIVER_SATURNITE.get())
                 .define('S', ModItemTags.ANY_HARDPLASTIC_STOCK)
@@ -547,7 +547,7 @@ public class WeaponRecipes {
                 .pattern("BRS")
                 .pattern("MG ")
                 .define('D', ModItems.CRYSTAL_REDSTONE.get())
-                .define('L', ModItems.WEAPON_MOD_SCOPE.get())
+                .define('L', ModItems.WEAPON_MOD_SPECIAL_SCOPE.get())
                 .define('C', ModItems.CIRCUIT_BISMOID.get())
                 .define('B', ModItemTags.ANY_BISMOID_BRONZE_LIGHT_BARREL)
                 .define('R', ModItemTags.ANY_BISMOID_BRONZE_LIGHT_RECEIVER)
@@ -626,142 +626,142 @@ public class WeaponRecipes {
                 .unlockedBy("has_iron_ingot", has.apply(Items.IRON_INGOT))
                 .save(writer, MODID + ":ammo_standard_stone_iron");
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_IRON_DAMAGE.get(), 1)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_GENERIC_IRON_DAMAGE.get(), 1)
                 .requires(ModItems.INGOT_GUNMETAL.get())
                 .requires(Items.IRON_INGOT, 3)
                 .requires(ModItems.DUCTTAPE.get())
                 .unlockedBy("has_ducttape", has.apply(ModItems.DUCTTAPE.get()))
-                .save(writer, MODID + ":weapon_mod_generic_iron_damage");
+                .save(writer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_IRON_DURA.get(), 1)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_GENERIC_IRON_DURA.get(), 1)
                 .requires(ModItems.INGOT_GUNMETAL.get())
                 .requires(Items.IRON_INGOT)
                 .requires(ModItems.DUCTTAPE.get())
                 .unlockedBy("has_ducttape", has.apply(ModItems.DUCTTAPE.get()))
-                .save(writer, MODID + ":weapon_mod_generic_iron_dura");
+                .save(writer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_STEEL_DAMAGE.get(), 1)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_GENERIC_STEEL_DAMAGE.get(), 1)
                 .requires(ModItems.GUN_MECHANISM_GUNMETAL.get())
                 .requires(ModItems.PLATE_CAST_STEEL.get(), 3)
                 .requires(ModItems.DUCTTAPE.get())
                 .unlockedBy("has_ducttape", has.apply(ModItems.DUCTTAPE.get()))
-                .save(writer, MODID + ":weapon_mod_generic_steel_damage");
+                .save(writer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_STEEL_DURA.get(), 1)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_GENERIC_STEEL_DURA.get(), 1)
                 .requires(ModItems.PLATE_GUNMETAL.get())
                 .requires(ModItems.PLATE_CAST_STEEL.get())
                 .requires(ModItems.DUCTTAPE.get())
                 .unlockedBy("has_ducttape", has.apply(ModItems.DUCTTAPE.get()))
-                .save(writer, MODID + ":weapon_mod_generic_steel_dura");
+                .save(writer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_DURA_DAMAGE.get(), 1)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_GENERIC_DURA_DAMAGE.get(), 1)
                 .requires(ModItems.GUN_MECHANISM_GUNMETAL.get())
                 .requires(ModItems.PLATE_CAST_DURA.get(), 3)
                 .requires(ModItems.DUCTTAPE.get())
                 .unlockedBy("has_ducttape", has.apply(ModItems.DUCTTAPE.get()))
-                .save(writer, MODID + ":weapon_mod_generic_dura_damage");
+                .save(writer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_DURA_DURA.get(), 1)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_GENERIC_DURA_DURA.get(), 1)
                 .requires(ModItems.PLATE_GUNMETAL.get())
                 .requires(ModItems.PLATE_CAST_DURA.get())
                 .requires(ModItems.DUCTTAPE.get())
                 .unlockedBy("has_ducttape", has.apply(ModItems.DUCTTAPE.get()))
-                .save(writer, MODID + ":weapon_mod_generic_dura_dura");
+                .save(writer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_DESH_DAMAGE.get(), 1)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_GENERIC_DESH_DAMAGE.get(), 1)
                 .requires(ModItems.GUN_MECHANISM_GUNMETAL.get())
                 .requires(ModItems.PLATE_CAST_DESH.get(), 3)
                 .requires(ModItems.DUCTTAPE.get())
                 .unlockedBy("has_ducttape", has.apply(ModItems.DUCTTAPE.get()))
-                .save(writer, MODID + ":weapon_mod_generic_desh_damage");
+                .save(writer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_DESH_DURA.get(), 1)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_GENERIC_DESH_DURA.get(), 1)
                 .requires(ModItems.PLATE_GUNMETAL.get())
                 .requires(ModItems.PLATE_CAST_DESH.get())
                 .requires(ModItems.DUCTTAPE.get())
                 .unlockedBy("has_ducttape", has.apply(ModItems.DUCTTAPE.get()))
-                .save(writer, MODID + ":weapon_mod_generic_desh_dura");
+                .save(writer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_WSTEEL_DAMAGE.get(), 1)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_GENERIC_WSTEEL_DAMAGE.get(), 1)
                 .requires(ModItems.GUN_MECHANISM_WEAPON_STEEL.get())
                 .requires(ModItems.PLATE_CAST_WEAPON_STEEL.get(), 3)
                 .requires(ModItems.DUCTTAPE.get())
                 .unlockedBy("has_ducttape", has.apply(ModItems.DUCTTAPE.get()))
-                .save(writer, MODID + ":weapon_mod_generic_wsteel_damage");
+                .save(writer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_WSTEEL_DURA.get(), 1)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_GENERIC_WSTEEL_DURA.get(), 1)
                 .requires(ModItems.PLATE_WEAPON_STEEL.get())
                 .requires(ModItems.PLATE_CAST_WEAPON_STEEL.get())
                 .requires(ModItems.DUCTTAPE.get())
                 .unlockedBy("has_ducttape", has.apply(ModItems.DUCTTAPE.get()))
-                .save(writer, MODID + ":weapon_mod_generic_wsteel_dura");
+                .save(writer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_FERRO_DAMAGE.get(), 1)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_GENERIC_FERRO_DAMAGE.get(), 1)
                 .requires(ModItems.GUN_MECHANISM_WEAPON_STEEL.get())
                 .requires(ModItems.PLATE_CAST_FERROURANIUM.get(), 3)
                 .requires(ModItems.DUCTTAPE.get())
                 .unlockedBy("has_ducttape", has.apply(ModItems.DUCTTAPE.get()))
-                .save(writer, MODID + ":weapon_mod_generic_ferro_damage");
+                .save(writer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_FERRO_DURA.get(), 1)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_GENERIC_FERRO_DURA.get(), 1)
                 .requires(ModItems.PLATE_WEAPON_STEEL.get())
                 .requires(ModItems.PLATE_CAST_FERROURANIUM.get())
                 .requires(ModItems.DUCTTAPE.get())
                 .unlockedBy("has_ducttape", has.apply(ModItems.DUCTTAPE.get()))
-                .save(writer, MODID + ":weapon_mod_generic_ferro_dura");
+                .save(writer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_TCALLOY_DAMAGE.get(), 1)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_GENERIC_TCALLOY_DAMAGE.get(), 1)
                 .requires(ModItems.GUN_MECHANISM_WEAPON_STEEL.get())
                 .requires(Ingredient.of(ModItemTags.ANY_RESISTANTALLOY_PLATE_CAST), 3)
                 .requires(ModItems.DUCTTAPE.get())
                 .unlockedBy("has_ducttape", has.apply(ModItems.DUCTTAPE.get()))
-                .save(writer, MODID + ":weapon_mod_generic_tcalloy_damage");
+                .save(writer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_TCALLOY_DURA.get(), 1)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_GENERIC_TCALLOY_DURA.get(), 1)
                 .requires(ModItems.PLATE_WEAPON_STEEL.get())
                 .requires(ModItemTags.ANY_RESISTANTALLOY_PLATE_CAST)
                 .requires(ModItems.DUCTTAPE.get())
                 .unlockedBy("has_ducttape", has.apply(ModItems.DUCTTAPE.get()))
-                .save(writer, MODID + ":weapon_mod_generic_tcalloy_dura");
+                .save(writer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_BIGMT_DAMAGE.get(), 1)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_GENERIC_BIGMT_DAMAGE.get(), 1)
                 .requires(ModItems.GUN_MECHANISM_SATURNITE.get())
                 .requires(ModItems.PLATE_CAST_SATURNITE.get(), 3)
                 .requires(ModItems.DUCTTAPE.get())
                 .unlockedBy("has_ducttape", has.apply(ModItems.DUCTTAPE.get()))
-                .save(writer, MODID + ":weapon_mod_generic_bigmt_damage");
+                .save(writer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_BIGMT_DURA.get(), 1)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_GENERIC_BIGMT_DURA.get(), 1)
                 .requires(ModItems.PLATE_SATURNITE.get())
                 .requires(ModItems.PLATE_CAST_SATURNITE.get())
                 .requires(ModItems.DUCTTAPE.get())
                 .unlockedBy("has_ducttape", has.apply(ModItems.DUCTTAPE.get()))
-                .save(writer, MODID + ":weapon_mod_generic_bigmt_dura");
+                .save(writer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_BRONZE_DAMAGE.get(), 1)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_GENERIC_BRONZE_DAMAGE.get(), 1)
                 .requires(ModItems.GUN_MECHANISM_SATURNITE.get())
                 .requires(Ingredient.of(ModItemTags.ANY_BISMOID_BRONZE_PLATE_CAST), 3)
                 .requires(ModItems.DUCTTAPE.get())
                 .unlockedBy("has_ducttape", has.apply(ModItems.DUCTTAPE.get()))
-                .save(writer, MODID + ":weapon_mod_generic_bronze_damage");
+                .save(writer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_BRONZE_DURA.get(), 1)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_GENERIC_BRONZE_DURA.get(), 1)
                 .requires(ModItems.PLATE_SATURNITE.get())
                 .requires(ModItemTags.ANY_BISMOID_BRONZE_PLATE_CAST)
                 .requires(ModItems.DUCTTAPE.get())
                 .unlockedBy("has_ducttape", has.apply(ModItems.DUCTTAPE.get()))
-                .save(writer, MODID + ":weapon_mod_generic_bronze_dura");
+                .save(writer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SILENCER.get(), 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SPECIAL_SILENCER.get(), 1)
                 .pattern("P")
                 .pattern("B")
                 .pattern("P")
                 .define('P', ModItemTags.ANY_PLASTIC_INGOT)
                 .define('B', ModItems.LIGHT_BARREL_STEEL.get())
                 .unlockedBy("has_steel_light_barrel", has.apply(ModItems.LIGHT_BARREL_STEEL.get()))
-                .save(writer, MODID + ":weapon_mod_special_silencer");
+                .save(writer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SCOPE.get(), 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SPECIAL_SCOPE.get(), 1)
                 .pattern("SPS")
                 .pattern("G G")
                 .pattern("SPS")
@@ -769,36 +769,36 @@ public class WeaponRecipes {
                 .define('S', ModItems.PLATE_STEEL.get())
                 .define('G', ModItemTags.ANY_GLASS_PANES)
                 .unlockedBy("has_steel_plate", has.apply(ModItems.PLATE_STEEL.get()))
-                .save(writer, MODID + ":weapon_mod_special_scope");
+                .save(writer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SAW.get(), 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SPECIAL_SAW.get(), 1)
                 .pattern("BBS")
                 .pattern("BHS")
                 .define('B', ModItems.BOLT_STEEL.get())
                 .define('S', ItemTags.PLANKS)
                 .define('H', ModItems.PLATE_DURA_STEEL.get())
                 .unlockedBy("has_dura_plate", has.apply(ModItems.PLATE_DURA_STEEL.get()))
-                .save(writer, MODID + ":weapon_mod_special_saw");
+                .save(writer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SPEEDLOADER.get(), 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SPECIAL_SPEEDLOADER.get(), 1)
                 .pattern(" B ")
                 .pattern("BSB")
                 .pattern(" B ")
                 .define('B', ModItems.BOLT_STEEL.get())
                 .define('S', ModItems.PLATE_WEAPON_STEEL.get())
                 .unlockedBy("has_weapon_steel_plate", has.apply(ModItems.PLATE_WEAPON_STEEL.get()))
-                .save(writer, MODID + ":weapon_mod_special_speedloader");
+                .save(writer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SLOWDOWN.get(), 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SPECIAL_SLOWDOWN.get(), 1)
                 .pattern(" I ")
                 .pattern(" M ")
                 .pattern("I I")
                 .define('I', ModItems.INGOT_WEAPON_STEEL.get())
                 .define('M', ModItems.GUN_MECHANISM_WEAPON_STEEL.get())
                 .unlockedBy("has_weapon_steel_ingot", has.apply(ModItems.INGOT_WEAPON_STEEL.get()))
-                .save(writer, MODID + ":weapon_mod_special_slowdown");
+                .save(writer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SPEEDUP.get(), 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SPECIAL_SPEEDUP.get(), 1)
                 .pattern("PIP")
                 .pattern("WWW")
                 .pattern("PIP")
@@ -806,9 +806,9 @@ public class WeaponRecipes {
                 .define('I', ModItems.INGOT_GUNMETAL.get())
                 .define('W', ModItems.WIRE_DENSE_GOLD.get())
                 .unlockedBy("has_gold_dense_wire", has.apply(ModItems.WIRE_DENSE_GOLD.get()))
-                .save(writer, MODID + ":weapon_mod_special_speedup");
+                .save(writer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_GREASEGUN.get(), 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SPECIAL_GREASEGUN.get(), 1)
                 .pattern("BRM")
                 .pattern("P G")
                 .define('B', ModItems.LIGHT_BARREL_WEAPON_STEEL.get())
@@ -817,18 +817,18 @@ public class WeaponRecipes {
                 .define('P', ModItems.PLATE_DURA_STEEL.get())
                 .define('G', ModItemTags.ANY_PLASTIC_GRIP)
                 .unlockedBy("has_weapon_steel_light_barrel", has.apply(ModItems.LIGHT_BARREL_WEAPON_STEEL.get()))
-                .save(writer, MODID + ":weapon_mod_special_greasegun");
+                .save(writer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_CHOKE.get(), 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SPECIAL_CHOKE.get(), 1)
                 .pattern("P")
                 .pattern("B")
                 .pattern("P")
                 .define('P', ModItems.PLATE_WEAPON_STEEL.get())
                 .define('B', ModItems.LIGHT_BARREL_DURA_STEEL.get())
                 .unlockedBy("has_dura_steel_light_barrel", has.apply(ModItems.LIGHT_BARREL_DURA_STEEL.get()))
-                .save(writer, MODID + ":weapon_mod_special_choke");
+                .save(writer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_FURNITURE_GREEN.get(), 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SPECIAL_FURNITURE_GREEN.get(), 1)
                 .pattern("PDS")
                 .pattern("  G")
                 .define('P', ModItemTags.ANY_PLASTIC_INGOT)
@@ -836,9 +836,9 @@ public class WeaponRecipes {
                 .define('S', ModItemTags.ANY_PLASTIC_STOCK)
                 .define('G', ModItemTags.ANY_PLASTIC_GRIP)
                 .unlockedBy("has_plastic_grip", hasTag(ModItemTags.ANY_PLASTIC_GRIP))
-                .save(writer, MODID + ":weapon_mod_special_furniture_green");
+                .save(writer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_FURNITURE_BLACK.get(), 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SPECIAL_FURNITURE_BLACK.get(), 1)
                 .pattern("PDS")
                 .pattern("  G")
                 .define('P', ModItemTags.ANY_PLASTIC_INGOT)
@@ -846,9 +846,9 @@ public class WeaponRecipes {
                 .define('S', ModItemTags.ANY_PLASTIC_STOCK)
                 .define('G', ModItemTags.ANY_PLASTIC_GRIP)
                 .unlockedBy("has_plastic_grip", hasTag(ModItemTags.ANY_PLASTIC_GRIP))
-                .save(writer, MODID + ":weapon_mod_special_furniture_black");
+                .save(writer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SKIN_SATURNITE.get(), 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SPECIAL_SKIN_SATURNITE.get(), 1)
                 .pattern("BRM")
                 .pattern(" P ")
                 .define('B', ModItems.LIGHT_BARREL_SATURNITE.get())
@@ -856,26 +856,26 @@ public class WeaponRecipes {
                 .define('M', ModItems.GUN_MECHANISM_SATURNITE.get())
                 .define('P', ModItems.PLATE_SATURNITE.get())
                 .unlockedBy("has_saturnite_plate", has.apply(ModItems.PLATE_SATURNITE.get()))
-                .save(writer, MODID + ":weapon_mod_special_skin_saturnite");
+                .save(writer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_STACK_MAG.get(), 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SPECIAL_STACK_MAG.get(), 1)
                 .pattern("P P")
                 .pattern("P P")
                 .pattern("PMP")
                 .define('P', ModItems.PLATE_WEAPON_STEEL.get())
                 .define('M', ModItems.GUN_MECHANISM_SATURNITE.get())
                 .unlockedBy("has_saturnite_mechanism", has.apply(ModItems.GUN_MECHANISM_SATURNITE.get()))
-                .save(writer, MODID + ":weapon_mod_special_stack_mag");
+                .save(writer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_BAYONET.get(), 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SPECIAL_BAYONET.get(), 1)
                 .pattern("  P")
                 .pattern("BBB")
                 .define('P', ModItems.PLATE_WEAPON_STEEL.get())
                 .define('B', ModItems.BOLT_STEEL.get())
                 .unlockedBy("has_weapon_steel_plate", has.apply(ModItems.PLATE_WEAPON_STEEL.get()))
-                .save(writer, MODID + ":weapon_mod_special_bayonet");
+                .save(writer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_LAS_SHOTGUN.get(), 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SPECIAL_LAS_SHOTGUN.get(), 1)
                 .pattern("PPP")
                 .pattern("RCR")
                 .pattern("PPP")
@@ -883,18 +883,18 @@ public class WeaponRecipes {
                 .define('R', ModItems.CRYSTAL_REDSTONE.get())
                 .define('C', ModItems.CIRCUIT_ADVANCED.get())
                 .unlockedBy("has_advanced_circuit", has.apply(ModItems.CIRCUIT_ADVANCED.get()))
-                .save(writer, MODID + ":weapon_mod_special_las_shotgun");
+                .save(writer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_LAS_CAPACITOR.get(), 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SPECIAL_LAS_CAPACITOR.get(), 1)
                 .pattern("CCC")
                 .pattern("PIP")
                 .define('C', ModItems.CIRCUIT_CAPACITOR_TANTALIUM.get())
                 .define('P', ModItemTags.ANY_HARDPLASTIC_INGOT)
                 .define('I', ModItems.CIRCUIT_CHIP_BISMOID.get())
                 .unlockedBy("has_tantalium_capacitor", has.apply(ModItems.CIRCUIT_CAPACITOR_TANTALIUM.get()))
-                .save(writer, MODID + ":weapon_mod_special_las_capacitor");
+                .save(writer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_LAS_AUTO.get(), 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.WEAPON_MOD_SPECIAL_LAS_AUTO.get(), 1)
                 .pattern(" C ")
                 .pattern("RFR")
                 .pattern(" C ")
@@ -902,7 +902,7 @@ public class WeaponRecipes {
                 .define('R', ModItems.CRYSTAL_REDSTONE.get())
                 .define('F', ModItemTags.ANY_BISMOID_BRONZE_HEAVY_RECEIVER)
                 .unlockedBy("has_bismoid_chip", has.apply(ModItems.CIRCUIT_CHIP_BISMOID.get()))
-                .save(writer, MODID + ":weapon_mod_special_las_auto");
+                .save(writer);
 
         addNitraRecipe(writer, ModAmmoItems.AMMO_M357_SP.get(), 6);
         addNitraRecipe(writer, ModAmmoItems.AMMO_M44_SP.get(), 6);
@@ -989,7 +989,7 @@ public class WeaponRecipes {
                 .pattern("PSP")
                 .pattern("P P")
                 .define('P', ModItems.PLATE_STEEL.get())
-                .define('S', ModBlocks.STEEL_SCAFFOLD.get().asItem())
+                .define('S', ModItemTags.ANY_STEEL_SCAFFOLD)
                 .unlockedBy("has_steel_plate", has.apply(ModItems.PLATE_STEEL.get()))
                 .save(writer);
 
@@ -999,7 +999,7 @@ public class WeaponRecipes {
                 .pattern("PSP")
                 .define('A', ModItems.PLATE_TITANIUM.get())
                 .define('P', ModItems.PLATE_STEEL.get())
-                .define('S', ModBlocks.STEEL_SCAFFOLD.get().asItem())
+                .define('S', ModItemTags.ANY_STEEL_SCAFFOLD)
                 .unlockedBy("has_titanium_plate", has.apply(ModItems.PLATE_TITANIUM.get()))
                 .save(writer);
 
@@ -1008,7 +1008,7 @@ public class WeaponRecipes {
                 .pattern("PSP")
                 .define('A', ModItems.PLATE_ALUMINIUM.get())
                 .define('P', ModItems.INGOT_STEEL.get())
-                .define('S', ModBlocks.STEEL_SCAFFOLD.get().asItem())
+                .define('S', ModItemTags.ANY_STEEL_SCAFFOLD)
                 .unlockedBy("has_aluminium_plate", has.apply(ModItems.PLATE_ALUMINIUM.get()))
                 .save(writer);
 
@@ -1017,7 +1017,7 @@ public class WeaponRecipes {
                 .pattern("PSP")
                 .define('A', ModItems.PLATE_ALUMINIUM.get())
                 .define('P', ModItems.PLATE_STEEL.get())
-                .define('S', ModBlocks.STEEL_SCAFFOLD.get().asItem())
+                .define('S', ModItemTags.ANY_STEEL_SCAFFOLD)
                 .unlockedBy("has_aluminium_plate", has.apply(ModItems.PLATE_ALUMINIUM.get()))
                 .save(writer);
 
@@ -1027,7 +1027,7 @@ public class WeaponRecipes {
                 .pattern("PSP")
                 .define('A', ModItems.PLATE_ALUMINIUM.get())
                 .define('P', ModItems.PLATE_STEEL.get())
-                .define('S', ModBlocks.STEEL_SCAFFOLD.get().asItem())
+                .define('S', ModItemTags.ANY_STEEL_SCAFFOLD)
                 .unlockedBy("has_aluminium_plate", has.apply(ModItems.PLATE_ALUMINIUM.get()))
                 .save(writer);
 
@@ -1151,7 +1151,7 @@ public class WeaponRecipes {
                 .pattern("S")
                 .define('P', ModItemTags.ANY_RUBBER_INGOT)
                 .define('C', ModItems.CIRCUIT_VACUUM_TUBE.get())
-                .define('S', ModBlocks.STEEL_SCAFFOLD.get().asItem())
+                .define('S', ModItemTags.ANY_STEEL_SCAFFOLD)
                 .unlockedBy("has_vacuum_tube", has.apply(ModItems.CIRCUIT_VACUUM_TUBE.get()))
                 .save(writer, MODID + ":mp_chip_1");
 
@@ -1161,7 +1161,7 @@ public class WeaponRecipes {
                 .pattern("S")
                 .define('P', ModItemTags.ANY_RUBBER_INGOT)
                 .define('C', ModItems.CIRCUIT_ANALOG.get())
-                .define('S', ModBlocks.STEEL_SCAFFOLD.get().asItem())
+                .define('S', ModItemTags.ANY_STEEL_SCAFFOLD)
                 .unlockedBy("has_analog_circuit", has.apply(ModItems.CIRCUIT_ANALOG.get()))
                 .save(writer, MODID + ":mp_chip_2");
 
@@ -1171,7 +1171,7 @@ public class WeaponRecipes {
                 .pattern("S")
                 .define('P', ModItemTags.ANY_RUBBER_INGOT)
                 .define('C', ModItems.CIRCUIT_BASIC.get())
-                .define('S', ModBlocks.STEEL_SCAFFOLD.get().asItem())
+                .define('S', ModItemTags.ANY_STEEL_SCAFFOLD)
                 .unlockedBy("has_basic_circuit", has.apply(ModItems.CIRCUIT_BASIC.get()))
                 .save(writer, MODID + ":mp_chip_3");
 
@@ -1181,7 +1181,7 @@ public class WeaponRecipes {
                 .pattern("S")
                 .define('P', ModItemTags.ANY_RUBBER_INGOT)
                 .define('C', ModItems.CIRCUIT_ADVANCED.get())
-                .define('S', ModBlocks.STEEL_SCAFFOLD.get().asItem())
+                .define('S', ModItemTags.ANY_STEEL_SCAFFOLD)
                 .unlockedBy("has_advanced_circuit", has.apply(ModItems.CIRCUIT_ADVANCED.get()))
                 .save(writer, MODID + ":mp_chip_4");
 
@@ -1191,7 +1191,7 @@ public class WeaponRecipes {
                 .pattern("S")
                 .define('P', ModItemTags.ANY_RUBBER_INGOT)
                 .define('C', ModItems.CIRCUIT_BISMOID.get())
-                .define('S', ModBlocks.STEEL_SCAFFOLD.get().asItem())
+                .define('S', ModItemTags.ANY_STEEL_SCAFFOLD)
                 .unlockedBy("has_bismoid_circuit", has.apply(ModItems.CIRCUIT_BISMOID.get()))
                 .save(writer, MODID + ":mp_chip_5");
 
@@ -1202,7 +1202,7 @@ public class WeaponRecipes {
                 .define('P', ModItems.PLATE_STEEL.get())
                 .define('M', ModItems.MOTOR.get())
                 .define('L', ModItems.GUN_MECHANISM_GUNMETAL.get())
-                .define('S', ModBlocks.STEEL_SCAFFOLD.get().asItem())
+                .define('S', ModItemTags.ANY_STEEL_SCAFFOLD)
                 .define('C', ModItems.CIRCUIT_BASIC.get())
                 .define('D', ModItems.CRT_DISPLAY.get())
                 .unlockedBy("has_basic_circuit", has.apply(ModItems.CIRCUIT_BASIC.get()))
@@ -1223,14 +1223,14 @@ public class WeaponRecipes {
                 .pattern(" WP")
                 .pattern("SEP")
                 .pattern(" WP")
-                .define('W', ModItems.WIRE_GOLD.get())
+                .define('W', ModItems.WIRE_FINE_GOLD.get())
                 .define('P', ModItems.PLATE_WEAPON_STEEL.get())
                 .define('S', ModItems.SHELL_WEAPON_STEEL.get())
                 .define('E', ModItems.BALL_TATB.get())
                 .unlockedBy("has_tatb_ball", has.apply(ModItems.BALL_TATB.get()))
                 .save(writer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_SHELL.get(), 4)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_240_SHELL.get(), 4)
                 .pattern(" T ")
                 .pattern("GHG")
                 .pattern("CCC")
@@ -1241,7 +1241,7 @@ public class WeaponRecipes {
                 .unlockedBy("has_steel_shell", has.apply(ModItems.SHELL_STEEL.get()))
                 .save(writer, MODID + ":ammo_shell_gunpowder");
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_SHELL.get(), 4)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_240_SHELL.get(), 4)
                 .pattern(" T ")
                 .pattern("GHG")
                 .pattern("CCC")
@@ -1252,7 +1252,7 @@ public class WeaponRecipes {
                 .unlockedBy("has_ballistite", has.apply(ModItems.BALLISTITE.get()))
                 .save(writer, MODID + ":ammo_shell_ballistite");
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_SHELL.get(), 6)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_240_SHELL.get(), 6)
                 .pattern(" T ")
                 .pattern("GHG")
                 .pattern("CCC")
@@ -1263,7 +1263,7 @@ public class WeaponRecipes {
                 .unlockedBy("has_cordite", has.apply(ModItems.CORDITE.get()))
                 .save(writer, MODID + ":ammo_shell_cordite");
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_SHELL_EXPLOSIVE.get(), 4)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_240_SHELL_EXPLOSIVE.get(), 4)
                 .pattern(" T ")
                 .pattern("GHG")
                 .pattern("CCC")
@@ -1274,7 +1274,7 @@ public class WeaponRecipes {
                 .unlockedBy("has_plastic_explosive", hasTag(ModItemTags.ANY_PLASTICEXPLOSIVE_INGOT))
                 .save(writer, MODID + ":ammo_shell_explosive_gunpowder");
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_SHELL_EXPLOSIVE.get(), 4)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_240_SHELL_EXPLOSIVE.get(), 4)
                 .pattern(" T ")
                 .pattern("GHG")
                 .pattern("CCC")
@@ -1285,7 +1285,7 @@ public class WeaponRecipes {
                 .unlockedBy("has_ballistite", has.apply(ModItems.BALLISTITE.get()))
                 .save(writer, MODID + ":ammo_shell_explosive_ballistite");
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_SHELL_EXPLOSIVE.get(), 6)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_240_SHELL_EXPLOSIVE.get(), 6)
                 .pattern(" T ")
                 .pattern("GHG")
                 .pattern("CCC")
@@ -1296,7 +1296,7 @@ public class WeaponRecipes {
                 .unlockedBy("has_cordite", has.apply(ModItems.CORDITE.get()))
                 .save(writer, MODID + ":ammo_shell_explosive_cordite");
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_SHELL_APFSDS_T.get(), 4)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_240_SHELL_APFSDS_T.get(), 4)
                 .pattern(" I ")
                 .pattern("GIG")
                 .pattern("CCC")
@@ -1306,7 +1306,7 @@ public class WeaponRecipes {
                 .unlockedBy("has_tungsten_ingot", has.apply(ModItems.INGOT_TUNGSTEN.get()))
                 .save(writer, MODID + ":ammo_shell_apfsds_t_gunpowder");
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_SHELL_APFSDS_T.get(), 4)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_240_SHELL_APFSDS_T.get(), 4)
                 .pattern(" I ")
                 .pattern("GIG")
                 .pattern("CCC")
@@ -1316,7 +1316,7 @@ public class WeaponRecipes {
                 .unlockedBy("has_ballistite", has.apply(ModItems.BALLISTITE.get()))
                 .save(writer, MODID + ":ammo_shell_apfsds_t_ballistite");
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_SHELL_APFSDS_T.get(), 6)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_240_SHELL_APFSDS_T.get(), 6)
                 .pattern(" I ")
                 .pattern("GIG")
                 .pattern("CCC")
@@ -1326,7 +1326,7 @@ public class WeaponRecipes {
                 .unlockedBy("has_cordite", has.apply(ModItems.CORDITE.get()))
                 .save(writer, MODID + ":ammo_shell_apfsds_t_cordite");
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_SHELL_APFSDS_DU.get(), 4)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_240_SHELL_APFSDS_DU.get(), 4)
                 .pattern(" I ")
                 .pattern("GIG")
                 .pattern("CCC")
@@ -1336,7 +1336,7 @@ public class WeaponRecipes {
                 .unlockedBy("has_u238_ingot", has.apply(ModItems.INGOT_U238.get()))
                 .save(writer, MODID + ":ammo_shell_apfsds_du_gunpowder");
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_SHELL_APFSDS_DU.get(), 4)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_240_SHELL_APFSDS_DU.get(), 4)
                 .pattern(" I ")
                 .pattern("GIG")
                 .pattern("CCC")
@@ -1346,7 +1346,7 @@ public class WeaponRecipes {
                 .unlockedBy("has_ballistite", has.apply(ModItems.BALLISTITE.get()))
                 .save(writer, MODID + ":ammo_shell_apfsds_du_ballistite");
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_SHELL_APFSDS_DU.get(), 6)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_240_SHELL_APFSDS_DU.get(), 6)
                 .pattern(" I ")
                 .pattern("GIG")
                 .pattern("CCC")
@@ -1356,13 +1356,13 @@ public class WeaponRecipes {
                 .unlockedBy("has_cordite", has.apply(ModItems.CORDITE.get()))
                 .save(writer, MODID + ":ammo_shell_apfsds_du_cordite");
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_SHELL_W9.get(), 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModAmmoItems.AMMO_240_SHELL_W9.get(), 1)
                 .pattern(" P ")
                 .pattern("NSN")
                 .pattern(" P ")
                 .define('P', ModItems.NUGGET_PU239.get())
                 .define('N', ModItems.NEUTRON_REFLECTOR.get())
-                .define('S', ModAmmoItems.AMMO_SHELL_EXPLOSIVE.get())
+                .define('S', ModAmmoItems.AMMO_240_SHELL_EXPLOSIVE.get())
                 .unlockedBy("has_plutonium_nugget", has.apply(ModItems.NUGGET_PU239.get()))
                 .save(writer, MODID + ":ammo_shell_w9");
 

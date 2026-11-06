@@ -1,6 +1,7 @@
 package com.hbm.render.item;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.deco.BlockSteelScaffold;
 import com.hbm.main.HBMResourceManager;
 import com.hbm.render.loader.HFRWavefrontObject;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -12,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
 
 public class SimpleOBJItemRenderer extends BlockEntityWithoutLevelRenderer {
@@ -42,6 +44,7 @@ public class SimpleOBJItemRenderer extends BlockEntityWithoutLevelRenderer {
         boolean isBarrel = isBarrelItem(item);
         boolean isSpotlight = isSpotlightItem(item);
         boolean isFloodlight = item == ModBlocks.FLOODLIGHT.get().asItem();
+        boolean isBarbedWire = isBarbedWireItem(item);
 
         switch (context) {
             case GUI:
@@ -76,7 +79,7 @@ public class SimpleOBJItemRenderer extends BlockEntityWithoutLevelRenderer {
 
                 } else if (isFloodlight) {
                     poseStack.translate(0.5, 0.15, 0.5);
-                    poseStack.scale(0.5f, 0.5f, 0.5f);
+                    poseStack.scale(0.4f, 0.4f, 0.4f);
                     poseStack.mulPose(Axis.XP.rotationDegrees(15));
                     poseStack.mulPose(Axis.YP.rotationDegrees(45));
 
@@ -130,7 +133,7 @@ public class SimpleOBJItemRenderer extends BlockEntityWithoutLevelRenderer {
             HBMResourceManager.barrel.renderAll(poseStack, buffer, texture, packedLight, packedOverlay);
         } else if (item == ModBlocks.STEEL_BEAM.get().asItem()) {
             HBMResourceManager.steel_beam.renderAll(poseStack, buffer, texture, packedLight, packedOverlay);
-        } else if (item == ModBlocks.STEEL_SCAFFOLD.get().asItem()) {
+        } else if (Block.byItem(item) instanceof BlockSteelScaffold) {
             HBMResourceManager.steel_scaffold.renderAll(poseStack, buffer, texture, packedLight, packedOverlay);
         } else if (item == ModBlocks.STEEL_GRATE.get().asItem()) {
             HBMResourceManager.steel_grate.renderAll(poseStack, buffer, texture, packedLight, packedOverlay);
@@ -155,7 +158,24 @@ public class SimpleOBJItemRenderer extends BlockEntityWithoutLevelRenderer {
             }
         } else if (item == ModBlocks.FLOODLIGHT.get().asItem()) {
             HBMResourceManager.floodlight.renderAll(poseStack, buffer, HBMResourceManager.floodlight_tex, packedLight, packedOverlay);
+        } else if (isBarbedWireItem(item)) {
+            HBMResourceManager.barbed_wire.renderAll(poseStack, buffer, getBarbedWireTexture(item), packedLight, packedOverlay);
         }
+    }
+
+    private ResourceLocation getBarbedWireTexture(Item item) {
+        if (item == ModBlocks.BARBED_WIRE_FIRE.get().asItem()) {
+            return HBMResourceManager.barbed_wire_fire_tex;
+        } else if (item == ModBlocks.BARBED_WIRE_POISON.get().asItem()) {
+            return HBMResourceManager.barbed_wire_poison_tex;
+        } else if (item == ModBlocks.BARBED_WIRE_ACID.get().asItem()) {
+            return HBMResourceManager.barbed_wire_acid_tex;
+        } else if (item == ModBlocks.BARBED_WIRE_WITHER.get().asItem()) {
+            return HBMResourceManager.barbed_wire_wither_tex;
+        } else if (item == ModBlocks.BARBED_WIRE_ULTRA_DEATH.get().asItem()) {
+            return HBMResourceManager.barbed_wire_ultradeath_tex;
+        }
+        return HBMResourceManager.barbed_wire_tex;
     }
 
     private boolean isSpotlightItem(Item item) {
@@ -221,10 +241,18 @@ public class SimpleOBJItemRenderer extends BlockEntityWithoutLevelRenderer {
             return HBMResourceManager.barrel_lox_tex;
         } else if (item == ModBlocks.TAINT_BARREL.get().asItem()) {
             return HBMResourceManager.barrel_taint_tex;
+        }  else if (item == ModBlocks.VITRIFIED_BARREL.get().asItem()) {
+            return HBMResourceManager.barrel_vitrified_tex;
         } else if (item == ModBlocks.STEEL_BEAM.get().asItem()) {
             return HBMResourceManager.steel_beam_tex;
-        } else if (item == ModBlocks.STEEL_SCAFFOLD.get().asItem()) {
-            return HBMResourceManager.steel_scaffold_tex;
+        } else if (item == ModBlocks.STEEL_SCAFFOLD_STEEL.get().asItem()) {
+            return HBMResourceManager.steel_scaffold_steel_tex;
+        } else if (item == ModBlocks.STEEL_SCAFFOLD_RED.get().asItem()) {
+            return HBMResourceManager.steel_scaffold_red_tex;
+        } else if (item == ModBlocks.STEEL_SCAFFOLD_WHITE.get().asItem()) {
+            return HBMResourceManager.steel_scaffold_white_tex;
+        } else if (item == ModBlocks.STEEL_SCAFFOLD_YELLOW.get().asItem()) {
+            return HBMResourceManager.steel_scaffold_yellow_tex;
         } else if (item == ModBlocks.STEEL_GRATE.get().asItem()) {
             return HBMResourceManager.steel_grate_tex;
         } else if (item == ModBlocks.STEEL_GRATE_WIDE.get().asItem()) {
@@ -261,5 +289,14 @@ public class SimpleOBJItemRenderer extends BlockEntityWithoutLevelRenderer {
                 item == ModBlocks.YELLOW_BARREL.get().asItem() ||
                 item == ModBlocks.LOX_BARREL.get().asItem() ||
                 item == ModBlocks.TAINT_BARREL.get().asItem();
+    }
+
+    private boolean isBarbedWireItem(Item item) {
+        return item == ModBlocks.BARBED_WIRE.get().asItem() ||
+                item == ModBlocks.BARBED_WIRE_FIRE.get().asItem() ||
+                item == ModBlocks.BARBED_WIRE_POISON.get().asItem() ||
+                item == ModBlocks.BARBED_WIRE_ACID.get().asItem() ||
+                item == ModBlocks.BARBED_WIRE_WITHER.get().asItem() ||
+                item == ModBlocks.BARBED_WIRE_ULTRA_DEATH.get().asItem();
     }
 }

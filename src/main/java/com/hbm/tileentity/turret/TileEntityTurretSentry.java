@@ -5,8 +5,6 @@ import com.hbm.inventory.container.ContainerTurretSentry;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.factory.BulletConfigRegistry;
 
-import com.hbm.network.PacketDispatcher;
-import com.hbm.network.client.AuxParticlePacketNT;
 import com.hbm.sound.ModSounds;
 import com.hbm.tileentity.ModTileEntity;
 import io.netty.buffer.ByteBuf;
@@ -23,7 +21,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
@@ -195,7 +192,7 @@ public class TileEntityTurretSentry extends TileEntityTurretBaseNT implements Me
             BulletConfig conf = getFirstConfigLoaded();
             if (conf != null) {
                 // Расходуем патрон (метод из базового класса)
-                conusmeAmmo(conf);
+                consumeAmmo(conf);
                 // Звук
                 float pitch = shotSide ? 1.0F : 0.75F;
                 Objects.requireNonNull(level).playSound(null, worldPosition, ModSounds.TURRET_SENTRY_FIRE.get(), SoundSource.BLOCKS, 2.0F, pitch);
@@ -284,23 +281,6 @@ public class TileEntityTurretSentry extends TileEntityTurretBaseNT implements Me
         vec = vec.xRot((float) -rotationPitch);
         vec = vec.yRot((float) -(rotationYaw + Math.PI * 0.5));
         return new Vec3(pos.x + vec.x, pos.y + vec.y, pos.z + vec.z);
-    }
-
-    @Override
-    protected void spawnCasing() {
-        if (cachedCasingConfig == null) return;
-        CasingEjector ej = getEjector();
-        Vec3 spawn = getCasingSpawnPos();
-        CompoundTag data = new CompoundTag();
-        data.putString("type", "casingNT");
-        data.putFloat("pitch", (float) -rotationPitch);
-        data.putFloat("yaw", (float) rotationYaw);
-        data.putBoolean("crouched", false);
-        data.putString("name", cachedCasingConfig.getName());
-        if (ej != null) data.putInt("ej", ej.getId());
-        PacketDispatcher.sendToAllAround(new AuxParticlePacketNT(data, spawn.x, spawn.y, spawn.z),
-                level, worldPosition, 50);
-        cachedCasingConfig = null;
     }
 
     // ========== Клиентская анимация ==========
@@ -396,19 +376,5 @@ public class TileEntityTurretSentry extends TileEntityTurretBaseNT implements Me
     public boolean stillValid(Player player) {
         if (level == null || level.getBlockEntity(worldPosition) != this) return false;
         return player.distanceToSqr(worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5) <= 64.0;
-    }
-
-    public void handleButtonPacket(int value, int meta) {
-        switch(meta) {
-            case 0: this.isOn = !this.isOn; break;
-            case 1: this.targetPlayers = !this.targetPlayers; break;
-            case 2: this.targetAnimals = !this.targetAnimals; break;
-            case 3: this.targetMobs = !this.targetMobs; break;
-            case 4: this.targetMachines = !this.targetMachines; break;
-        }
-        // Отправляем обновление клиенту
-        if (level != null && !level.isClientSide) {
-            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
-        }
     }
 }

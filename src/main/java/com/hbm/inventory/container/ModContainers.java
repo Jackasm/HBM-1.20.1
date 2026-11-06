@@ -2,8 +2,12 @@ package com.hbm.inventory.container;
 
 import com.hbm.items.tool.ItemRebarPlacer;
 import com.hbm.tileentity.bomb.*;
+import com.hbm.tileentity.deco.TileEntityBobble;
 import com.hbm.tileentity.machine.*;
+import com.hbm.tileentity.network.TileEntityRadioTelex;
+import com.hbm.tileentity.network.TileEntityRadioTorchBase;
 import com.hbm.tileentity.storage.*;
+import com.hbm.tileentity.turret.TileEntityTurretHoward;
 import com.hbm.tileentity.turret.TileEntityTurretSentry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.inventory.MenuType;
@@ -483,4 +487,160 @@ public class ModContainers {
             MENUS.register("machine_ammo_press", () -> IForgeMenuType.create(
                     (windowId, inv, data) -> new ContainerMachineAmmoPress(windowId, inv, (TileEntityMachineAmmoPress) inv.player.level().getBlockEntity(data.readBlockPos()))
             ));
+
+    public static final RegistryObject<MenuType<ContainerFunnel>> FUNNEL =
+            MENUS.register("funnel", () -> IForgeMenuType.create((windowId, inv, data) -> {
+                BlockPos pos = data.readBlockPos();
+                BlockEntity te = inv.player.level().getBlockEntity(pos);
+                if (te instanceof TileEntityMachineFunnel funnel) {
+                    return new ContainerFunnel(windowId, inv, funnel);
+                }
+                return null;
+            }));
+
+    public static final RegistryObject<MenuType<ContainerElectricFurnace>> ELECTRIC_FURNACE =
+            MENUS.register("electric_furnace", () -> IForgeMenuType.create((windowId, inv, data) -> {
+                BlockPos pos = data.readBlockPos();
+                BlockEntity te = inv.player.level().getBlockEntity(pos);
+                if (te instanceof TileEntityMachineElectricFurnace furnace) {
+                    return new ContainerElectricFurnace(windowId, inv, furnace);
+                }
+                return null;
+            }));
+
+    public static final RegistryObject<MenuType<ContainerTurretHoward>> TURRET_HOWARD = MENUS.register("turret_howard",
+            () -> IForgeMenuType.create((windowId, inv, data) -> {
+                BlockPos pos = data.readBlockPos();
+                var level = inv.player.level();
+                var be = level.getBlockEntity(pos);
+                if (be instanceof TileEntityTurretHoward turret) {
+                    return new ContainerTurretHoward(windowId, inv, turret);
+                }
+                return null;
+            }));
+
+    public static final RegistryObject<MenuType<ContainerGuideBook>> GUIDE_BOOK =
+            MENUS.register("guide_book", () -> IForgeMenuType.create(
+                    (windowId, inv, data) -> new ContainerGuideBook(windowId, inv, readBookType(data))
+            ));
+
+    /** Тип книги приходит от предмета; при открытии без данных — стартовая. */
+    private static com.hbm.items.tool.ItemGuideBook.BookType readBookType(net.minecraft.network.FriendlyByteBuf data) {
+        var values = com.hbm.items.tool.ItemGuideBook.BookType.values();
+        if (data == null || !data.isReadable()) return com.hbm.items.tool.ItemGuideBook.BookType.STARTER;
+        int ordinal = data.readByte();
+        return ordinal >= 0 && ordinal < values.length
+                ? values[ordinal]
+                : com.hbm.items.tool.ItemGuideBook.BookType.STARTER;
+    }
+
+    public static final RegistryObject<MenuType<ContainerDesignator>> DESIGNATOR =
+            MENUS.register("designator", () -> IForgeMenuType.create(
+                    (windowId, inv, data) -> new ContainerDesignator(windowId, inv)
+            ));
+
+    public static final RegistryObject<MenuType<ContainerCatalog>> CATALOG =
+            MENUS.register("catalog", () -> IForgeMenuType.create(
+                    (windowId, inv, data) -> new ContainerCatalog(windowId, inv)
+            ));
+
+    public static final RegistryObject<MenuType<ContainerClayTablet>> CLAY_TABLET =
+            MENUS.register("clay_tablet", () -> IForgeMenuType.create(
+                    (windowId, inv, data) -> new ContainerClayTablet(windowId, inv)
+            ));
+
+    public static final RegistryObject<MenuType<ContainerBobble>> BOBBLEHEAD =
+            MENUS.register("bobble",
+                    () -> IForgeMenuType.create((windowId, inv, data) -> {
+                        BlockPos pos = data.readBlockPos();
+                        var te = inv.player.level().getBlockEntity(pos);
+                        if (te instanceof TileEntityBobble bobble) {
+                            return new ContainerBobble(windowId, inv, bobble);
+                        }
+                        return null;
+                    }));
+
+    public static final RegistryObject<MenuType<ContainerMicrowave>> MICROWAVE = MENUS.register("microwave",
+            () -> IForgeMenuType.create((windowId, inv, data) -> {
+                BlockPos pos = data.readBlockPos();
+                var be = inv.player.level().getBlockEntity(pos);
+                if (be instanceof TileEntityMicrowave microwave) {
+                    return new ContainerMicrowave(windowId, inv, microwave);
+                }
+                return null;
+            }));
+
+    public static final RegistryObject<MenuType<ContainerMachineRTG>> MACHINE_RTG = MENUS.register("machine_rtg",
+            () -> IForgeMenuType.create((windowId, inv, data) -> {
+                BlockPos pos = data.readBlockPos();
+                var be = inv.player.level().getBlockEntity(pos);
+                if (be instanceof TileEntityMachineRTG rtg) {
+                    return new ContainerMachineRTG(windowId, inv, rtg);
+                }
+                return null;
+            }));
+
+    public static final RegistryObject<MenuType<ContainerRadioTelex>> RADIO_TELEX = MENUS.register("radio_telex",
+            () -> IForgeMenuType.create((windowId, inv, data) -> {
+                BlockPos pos = data.readBlockPos();
+                var be = inv.player.level().getBlockEntity(pos);
+                if (be instanceof TileEntityRadioTelex telex) {
+                    return new ContainerRadioTelex(windowId, inv, telex);
+                }
+                return null;
+            }));
+
+    public static final RegistryObject<MenuType<ContainerSoyuzCapsule>> SOYUZ_CAPSULE =
+            MENUS.register("soyuz_capsule", () -> IForgeMenuType.create((id, inv, buf) -> {
+                BlockPos pos = buf.readBlockPos();
+                if (inv.player.level().getBlockEntity(pos) instanceof TileEntitySoyuzCapsule te) {
+                    return new ContainerSoyuzCapsule(id, inv, te);
+                }
+                return null;
+            }));
+
+    public static final RegistryObject<MenuType<ContainerMachineKeyForge>> MACHINE_KEY_FORGE =
+            MENUS.register("machine_key_forge", () -> IForgeMenuType.create((id, inv, buf) -> {
+                BlockPos pos = buf.readBlockPos();
+                if (inv.player.level().getBlockEntity(pos) instanceof TileEntityMachineKeyForge te) {
+                    return new ContainerMachineKeyForge(id, inv, te);
+                }
+                return null;
+            }));
+
+    public static final RegistryObject<MenuType<ContainerNukeMan>> NUKE_MAN =
+            MENUS.register("nuke_man", () -> IForgeMenuType.create((id, inv, buf) -> {
+                BlockPos pos = buf.readBlockPos();
+                if (inv.player.level().getBlockEntity(pos) instanceof TileEntityNukeMan te) {
+                    return new ContainerNukeMan(id, inv, te);
+                }
+                return null;
+            }));
+
+    public static final RegistryObject<MenuType<ContainerRadioTorch>> RADIO_TORCH =
+            MENUS.register("radio_torch", () -> IForgeMenuType.create((id, inv, buf) -> {
+                BlockPos pos = buf.readBlockPos();
+                // Слотов нет, поэтому подходит любой RTTY-факел: reader и
+                // controller живут на своих TE, но в базовом меню.
+                net.minecraft.world.level.block.entity.BlockEntity be =
+                        inv.player.level().getBlockEntity(pos);
+                if (be instanceof net.minecraft.world.MenuProvider) {
+                    return new ContainerRadioTorch(id, inv, be);
+                }
+                return null;
+            }));
+
+    public static final RegistryObject<MenuType<ContainerRadioTorchCounter>> RADIO_TORCH_COUNTER =
+            MENUS.register("radio_torch_counter", () -> IForgeMenuType.create((id, inv, buf) -> {
+                BlockPos pos = buf.readBlockPos();
+                if (inv.player.level().getBlockEntity(pos) instanceof com.hbm.tileentity.network.TileEntityRadioTorchCounter te) {
+                    return new ContainerRadioTorchCounter(id, inv, te);
+                }
+                return null;
+            }));
+
+    public static final RegistryObject<MenuType<ContainerBookLore>> BOOK_LORE =
+            MENUS.register("book_lore",
+                    () -> IForgeMenuType.create((windowId, inv, data) ->
+                            new ContainerBookLore(windowId, inv, data)));
 }

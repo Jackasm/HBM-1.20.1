@@ -1,0 +1,9 @@
+{
+  "type": "hbm:sand_bubble",
+  "settings": {
+    "biomes": "#hbm:sand_bubble_biomes",
+    "spawn_overrides": {},
+    "step": "underground_structures",
+    "terrain_adaptation": "none"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "hbm:block/wand_loot_top",
+    "side": "hbm:block/wand_loot_side",
+    "top": "hbm:block/wand_loot_top"
+  }
+}

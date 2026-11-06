@@ -2,10 +2,10 @@ package com.hbm.handler.ability;
 
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockBobble;
 import com.hbm.items.ModItems;
 import com.hbm.potion.HbmPotion;
 import com.hbm.sound.ModSounds;
-import com.hbm.tileentity.deco.TileEntityBobble;
 import com.hbm.util.ContaminationUtil;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -333,7 +333,7 @@ public interface IWeaponAbility extends IBaseAbility {
                 }
 
                 if (world.random.nextInt(chance) == 0) {
-                    int type = world.random.nextInt(TileEntityBobble.BobbleType.values().length - 1) + 1;
+                    int type = world.random.nextInt(BlockBobble.BobbleType.values().length - 1) + 1;
                     ItemStack stack = new ItemStack(ModBlocks.BOBBLEHEAD.get(), 1);
                     stack.setDamageValue(type);
                     mob.spawnAtLocation(stack, 0.0F);

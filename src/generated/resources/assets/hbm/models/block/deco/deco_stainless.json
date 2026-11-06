@@ -1,5 +1,5 @@
 {
-  "loader": "hbm:deco_ct_geometry",
+  "loader": "hbm:ct_geometry",
   "textures": {
     "particle": "hbm:block/deco/deco_stainless",
     "texture": "hbm:block/deco/deco_stainless"

@@ -1,6 +1,7 @@
 package com.hbm.datagen.worldgen.feature;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.datagen.worldgen.feature.config.LandmineConfiguration;
 import com.hbm.tileentity.bomb.TileEntityLandmine;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;

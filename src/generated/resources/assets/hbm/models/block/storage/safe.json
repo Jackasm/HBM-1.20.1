@@ -1,8 +1,12 @@
 {
-  "parent": "minecraft:block/cube_bottom_top",
+  "parent": "minecraft:block/cube",
   "textures": {
-    "bottom": "hbm:block/storage/safe_front",
-    "side": "hbm:block/storage/safe_side",
-    "top": "hbm:block/storage/safe_front"
+    "down": "hbm:block/storage/safe_side",
+    "east": "hbm:block/storage/safe_side",
+    "north": "hbm:block/storage/safe_front",
+    "particle": "hbm:block/storage/safe_front",
+    "south": "hbm:block/storage/safe_side",
+    "up": "hbm:block/storage/safe_side",
+    "west": "hbm:block/storage/safe_side"
   }
 }

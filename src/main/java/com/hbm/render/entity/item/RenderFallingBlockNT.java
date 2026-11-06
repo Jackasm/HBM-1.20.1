@@ -46,7 +46,8 @@ public class RenderFallingBlockNT extends EntityRenderer<EntityFallingBlockNT> {
                 poseStack.translate(0, 0, 0);
 
                 BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
-                BlockState state = block.defaultBlockState();
+                // Состояние с сущности, иначе ориентированные блоки рисуются дефолтными.
+                BlockState state = entity.getState();
 
                 // Проверяем, нужно ли кастомное отображение
                 if (block instanceof BlockFallingNT falling && falling.shouldOverrideRenderer()) {

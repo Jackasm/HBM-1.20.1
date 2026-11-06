@@ -24,11 +24,14 @@ public class MobAttributes {
         event.put(ModEntities.CREEPER_PHOSGENE.get(), EntityCreeperPhosgene.createAttributes().build());
         event.put(ModEntities.CREEPER_VOLATILE.get(), EntityCreeperVolatile.createAttributes().build());
         event.put(ModEntities.TAINT_CRAB.get(), EntityTaintCrab.createAttributes().build());
-        event.put(ModEntities.CYBER_CRAB.get(), EntityTaintCrab.createAttributes().build());
-        event.put(ModEntities.GLYPHID.get(), EntityTaintCrab.createAttributes().build());
-        event.put(ModEntities.GLYPHID_DIGGER.get(), EntityTaintCrab.createAttributes().build());
-        event.put(ModEntities.GLYPHID_NUCLEAR.get(), EntityTaintCrab.createAttributes().build());
-        event.put(ModEntities.GLYPHID_SCOUT.get(), EntityTaintCrab.createAttributes().build());
+        // Ниже стояли атрибуты песчаного краба у всех подряд — копипаста: киберкраб и четыре
+        // глифида получали 25 HP / 5 урона вместо своих. Их собственные createAttributes
+        // были при этом мёртвым кодом.
+        event.put(ModEntities.CYBER_CRAB.get(), EntityCyberCrab.createAttributes().build());
+        event.put(ModEntities.GLYPHID.get(), EntityGlyphid.createAttributes().build());
+        event.put(ModEntities.GLYPHID_DIGGER.get(), EntityGlyphidDigger.createAttributes().build());
+        event.put(ModEntities.GLYPHID_NUCLEAR.get(), EntityGlyphidNuclear.createAttributes().build());
+        event.put(ModEntities.GLYPHID_SCOUT.get(), EntityGlyphidScout.createAttributes().build());
         event.put(ModEntities.GLYPHID_BRAWLER.get(), EntityGlyphidBrawler.createAttributes().build());
         event.put(ModEntities.GLYPHID_BOMBARDIER.get(), EntityGlyphidBombardier.createAttributes().build());
         event.put(ModEntities.GLYPHID_BLASTER.get(), EntityGlyphidBlaster.createAttributes().build());
@@ -37,14 +40,20 @@ public class MobAttributes {
         event.put(ModEntities.CUSTOM_SKELETON.get(), CustomSkeleton.createAttributes().build());
         event.put(ModEntities.DUCK.get(), Chicken.createAttributes().build());
         event.put(ModEntities.QUACKOS.get(), Chicken.createAttributes().build());
+        event.put(ModEntities.PIGEON.get(), EntityPigeon.createAttributes().build());
+        event.put(ModEntities.PLASTIC_BAG.get(), EntityPlasticBag.createAttributes().build());
         event.put(ModEntities.GHOST.get(), EntityGhost.createAttributes().build());
         event.put(ModEntities.RADBEAST.get(), EntityRADBeast.createAttributes().build());
         event.put(ModEntities.FBI.get(), EntityFBI.createAttributes().build());
         event.put(ModEntities.FBI_DRONE.get(), EntityFBIDrone.createAttributes().build());
         event.put(ModEntities.UFO.get(), EntityUFO.createAttributes().build());
+        // Chopper — FlyingMob, то есть живая сущность: без этой строки у типа нет
+        // поставщика атрибутов, и любой спавн вертолёта падал с «no attributes registered».
+        event.put(ModEntities.CHOPPER.get(), EntityHunterChopper.createAttributes().build());
         event.put(ModEntities.MASKMAN.get(), EntityMaskMan.createAttributes().build());
         event.put(ModEntities.BOT_PRIME_HEAD.get(), EntityBOTPrimeHead.createAttributes().build());
         event.put(ModEntities.BOT_PRIME_BODY.get(), EntityBOTPrimeBody.createAttributes().build());
+        event.put(ModEntities.UNDEAD_SOLDIER.get(), EntityUndeadSoldier.createAttributes().build());
 
 
     }

@@ -109,7 +109,7 @@ public class EntityBomber extends EntityPlaneBase {
 
         Vec3 vector = new Vec3(level.random.nextDouble() - 0.5, 0, level.random.nextDouble() - 0.5);
         vector = vector.normalize();
-        vector = vector.scale(GeneralConfig.enableBomberShortMode.get() ? 1 : 2);
+        vector = vector.scale(GeneralConfig.enableBomberShortModeValue ? 1 : 2);
 
         this.setPos(x - vector.x * 100, y + 50, z - vector.z * 100);
         this.loadNeighboringChunks((ServerLevel) level, new ChunkPos((int) (x / 16), (int) (z / 16)), RefStrings.MODID);

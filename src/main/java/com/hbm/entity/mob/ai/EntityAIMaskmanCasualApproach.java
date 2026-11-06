@@ -32,7 +32,7 @@ public class EntityAIMaskmanCasualApproach extends Goal {
         this.attacker = owner;
         this.speedTowardsTarget = speed;
         this.longMemory = longMemory;
-        this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        this.setFlags(EnumSet.of(Flag.MOVE));
     }
 
     @Override

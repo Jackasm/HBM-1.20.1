@@ -1,11 +1,8 @@
 package com.hbm.blocks.network;
 
 import com.hbm.tileentity.network.TileEntityConnector;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -14,12 +11,8 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 public class ConnectorRedWire extends PylonBase {
 
@@ -60,9 +53,10 @@ public class ConnectorRedWire extends PylonBase {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public void addInformation(ItemStack stack, Player player, List<Component> tooltip, boolean flag) {
-        tooltip.add(Component.literal(ChatFormatting.GOLD + "Connection Type: " + ChatFormatting.YELLOW + "Single"));
-        tooltip.add(Component.literal(ChatFormatting.GOLD + "Connection Range: " + ChatFormatting.YELLOW + "10m"));
+    public String[] getTooltipKeys(ItemStack stack) {
+        return new String[]{
+                "tooltip.hbm.connection.type.single",
+                "tooltip.hbm.connection.range.10m"
+        };
     }
 }

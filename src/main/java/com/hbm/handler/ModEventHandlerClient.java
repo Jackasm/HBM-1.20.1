@@ -1,6 +1,7 @@
 package com.hbm.handler;
 
-import com.hbm.blocks.ICustomBlockHighlight;
+import com.hbm.blocks.ITooltipProvider;
+import com.hbm.client.ClientBlockHighlightHandler;
 import com.hbm.config.ClientConfig;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
@@ -11,11 +12,14 @@ import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.IHelmetOverlay;
 import com.hbm.items.armor.ItemArmorMod;
-import com.hbm.main.ClientProxy;
+import com.hbm.client.ClientProxy;
+import com.hbm.items.armor.ItemModGasmask;
+import com.hbm.items.special.ScramblingNameHolder;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.update.UpdateChecker;
 import com.hbm.util.ArmorRegistry;
+import com.hbm.util.ArmorUtil;
 import com.hbm.util.ItemStackUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -26,9 +30,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
@@ -37,10 +41,10 @@ import net.minecraftforge.client.event.RenderHighlightEvent;
 
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 
 import java.text.DecimalFormat;
@@ -58,9 +62,14 @@ public class ModEventHandlerClient {
     @SubscribeEvent
     public static void onPlayerLogin(ClientPlayerNetworkEvent.LoggingIn event) {
         UpdateChecker.checkForUpdates();
-        checkOptiFineAndWarn(event.getPlayer());
     }
 
+    @SubscribeEvent
+    public static void onClientTick(TickEvent.ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            ScramblingNameHolder.update();
+        }
+    }
 
     @SubscribeEvent
     public static void onRenderHighlight(RenderHighlightEvent.Block event) {
@@ -68,14 +77,10 @@ public class ModEventHandlerClient {
         Level level = Minecraft.getInstance().level;
         if (level == null) return;
 
-        BlockState state = level.getBlockState(pos);
-        if (!(state.getBlock() instanceof ICustomBlockHighlight highlightBlock)) return;
-
-        if (!highlightBlock.shouldDrawHighlight(level, pos)) return;
+        if (!ClientBlockHighlightHandler.shouldDraw(level, pos)) return;
 
         event.setCanceled(true);
-
-        highlightBlock.drawHighlight(event.getPoseStack(), event.getMultiBufferSource(), level, pos);
+        ClientBlockHighlightHandler.draw(event.getPoseStack(), event.getMultiBufferSource(), level, pos);
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -133,6 +138,13 @@ public class ModEventHandlerClient {
         ItemStack stack = event.getItemStack();
         List<Component> tooltip = event.getToolTip();
         boolean showDetails = Screen.hasShiftDown();
+
+        if (stack.getItem() instanceof ITooltipProvider provider) {
+            provider.addTooltip(stack, tooltip, showDetails);
+        } else if (stack.getItem() instanceof BlockItem blockItem
+                && blockItem.getBlock() instanceof ITooltipProvider provider) {
+            provider.addTooltip(stack, tooltip, showDetails);
+        }
 
         if (!showDetails) {
             /// DAMAGE RESISTANCE ///
@@ -231,6 +243,13 @@ public class ModEventHandlerClient {
                     tooltip.add(Component.literal(ChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type));
             }
         }
+
+        if (stack.getItem() instanceof ItemModGasmask) {
+            Player player = Minecraft.getInstance().player;
+            if (player != null) {
+                ArmorUtil.addGasMaskTooltip(stack, player, tooltip, event.getFlags().isAdvanced());
+            }
+        }
         //TODO QuickManualAndWiki
         /*
         try {
@@ -261,30 +280,5 @@ public class ModEventHandlerClient {
         }
 
          */
-    }
-
-    private static void checkOptiFineAndWarn(Player player) {
-        if (!isOptiFinePresent()) return;
-        if (player == null) return;
-
-        String[] messages = {
-                "§c§l=====================================================",
-                "§c§l  ⚠ OPTIFINE DETECTED! ⚠",
-                "§c  This mod is NOT compatible with OptiFine!",
-                "§c  OptiFine causes rendering issues and game crashes.",
-                "§c§l====================================================="
-        };
-
-        for (String msg : messages) {
-            player.displayClientMessage(Component.literal(msg), false);
-        }
-    }
-
-    private static boolean isOptiFinePresent() {
-        if (ModList.get().isLoaded("optifine")) return true;
-        try { Class.forName("optifine.OptiFine"); return true; } catch (ClassNotFoundException ignored) {}
-        try { Class.forName("net.optifine.Config"); return true; } catch (ClassNotFoundException ignored) {}
-        try { Class.forName("optifine.Insight"); return true; } catch (ClassNotFoundException ignored) {}
-        return false;
     }
 }

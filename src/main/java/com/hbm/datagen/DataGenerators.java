@@ -3,6 +3,10 @@ package com.hbm.datagen;
 import com.hbm.datagen.advancements.ModAdvancementProvider;
 import com.hbm.datagen.models.ModelProvider;
 import com.hbm.datagen.recipes.ModRecipeProvider;
+import com.hbm.datagen.worldgen.structure.ModBubbleStructureJsonGenerator;
+import com.hbm.datagen.worldgen.structure.ModNtmFeaturesJsonGenerator;
+import com.hbm.datagen.worldgen.structure.ModOreStructureJsonGenerator;
+import com.hbm.datagen.worldgen.structure.ModStructureJsonGenerator;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -36,5 +40,11 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), new ModAdvancementProvider(packOutput, lookupProvider, existingFileHelper));
 
         generator.addProvider(event.includeClient(), new ModelProvider(packOutput));
+
+        generator.addProvider(true, new ModStructureJsonGenerator(generator));
+        generator.addProvider(event.includeServer(), new ModOreStructureJsonGenerator(generator));
+        generator.addProvider(event.includeServer(), new ModBubbleStructureJsonGenerator(generator));
+        generator.addProvider(event.includeServer(), new ModNtmFeaturesJsonGenerator(event.getGenerator())
+        );
     }
 }

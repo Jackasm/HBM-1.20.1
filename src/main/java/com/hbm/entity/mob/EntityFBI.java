@@ -183,8 +183,8 @@ public class EntityFBI extends Monster implements RangedAttackMob {
             return;
         }
 
-        if (this.tickCount % MobConfig.RAID_ATTACK_DELAY.get() == 0) {
-            Vec3 vec = new Vec3(MobConfig.RAID_ATTACK_REACH.get(), 0, 0);
+        if (this.tickCount % MobConfig.raidAttackDelay == 0) {
+            Vec3 vec = new Vec3(MobConfig.raidAttackReach, 0, 0);
             vec = vec.yRot((float) (Math.PI * 2) * this.random.nextFloat());
 
             Vec3 start = new Vec3(this.getX(), this.getY() + 0.5 + this.random.nextFloat(), this.getZ());

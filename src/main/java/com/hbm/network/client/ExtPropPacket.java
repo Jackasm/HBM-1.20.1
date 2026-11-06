@@ -1,5 +1,8 @@
 package com.hbm.network.client;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.extprop.HbmPlayerProps.IHbmPlayerProps;
@@ -43,25 +46,26 @@ public class ExtPropPacket extends PacketBase implements PacketBase.DecodablePac
 
     @Override
     public void process(Supplier<NetworkEvent.Context> context) {
-        NetworkEvent.Context ctx = context.get();
-        ctx.enqueueWork(() -> {
-            if (ctx.getDirection().getReceptionSide().isClient()) {
-                Minecraft mc = Minecraft.getInstance();
-                if (mc.level == null) return;
+        context.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> this::handleClient));
+        context.get().setPacketHandled(true);
+    }
 
-                Player player = mc.player;
-                if (player == null) return;
+    @OnlyIn(Dist.CLIENT)
+    private void handleClient() {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.level == null) return;
 
-                HbmLivingProps props = HbmLivingProps.getData(player);
-                IHbmPlayerProps pprps = HbmPlayerProps.getData(player);
+        Player player = mc.player;
+        if (player == null) return;
 
-                if (props != null && pprps != null && buffer != null) {
-                    props.deserialize(buffer);
-                    pprps.deserialize(buffer);
-                    buffer.release();
-                }
-            }
-        });
-        ctx.setPacketHandled(true);
+        HbmLivingProps props = HbmLivingProps.getData(player);
+        IHbmPlayerProps pprps = HbmPlayerProps.getData(player);
+
+        if (props != null && pprps != null && buffer != null) {
+            props.deserialize(buffer);
+            pprps.deserialize(buffer);
+            buffer.release();
+        }
+    
     }
 }

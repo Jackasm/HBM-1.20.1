@@ -3,9 +3,6 @@ package com.hbm.entity.projectile;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
@@ -14,8 +11,11 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.PlayMessages;
+import org.jetbrains.annotations.NotNull;
 
 public class EntityWaterSplash extends ThrowableProjectile {
+
+    private int maxAge = 100;
 
     public EntityWaterSplash(EntityType<? extends EntityWaterSplash> entityType, Level level) {
         super(entityType, level);
@@ -36,6 +36,10 @@ public class EntityWaterSplash extends ThrowableProjectile {
         this((EntityType<? extends EntityWaterSplash>) BuiltInRegistries.ENTITY_TYPE.byId(spawnEntity.getTypeId()), level);
     }
 
+    public void setMaxAge(int age) {
+        this.maxAge = age;
+    }
+
     @Override
     protected void defineSynchedData() {
         // Никаких синхронизируемых данных
@@ -46,7 +50,7 @@ public class EntityWaterSplash extends ThrowableProjectile {
         super.tick();
 
         if (!level().isClientSide) {
-            if (this.tickCount > 200) {
+            if (this.tickCount > maxAge) {
                 this.discard();
             }
         } else {
@@ -76,7 +80,7 @@ public class EntityWaterSplash extends ThrowableProjectile {
     }
 
     @Override
-    protected void onHit(HitResult result) {
+    protected void onHit(@NotNull HitResult result) {
         if (this.tickCount > 5) {
             this.level().addParticle(ParticleTypes.SPLASH,
                     this.getX(), this.getY(), this.getZ(),
@@ -97,24 +101,13 @@ public class EntityWaterSplash extends ThrowableProjectile {
     }
 
     @Override
-    protected float getGravity() {
-        return 0.03F;
+    public boolean save(@NotNull CompoundTag nbt) {
+        return false;
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag nbt) {
-        super.readAdditionalSaveData(nbt);
-        this.discard();
-    }
-
-    @Override
-    public void addAdditionalSaveData(CompoundTag nbt) {
+    public void addAdditionalSaveData(@NotNull CompoundTag nbt) {
         super.addAdditionalSaveData(nbt);
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return new ClientboundAddEntityPacket(this);
     }
 
     @Override

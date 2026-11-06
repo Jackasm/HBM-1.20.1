@@ -1,5 +1,6 @@
 package com.hbm.datagen.worldgen.feature;
 
+import com.hbm.datagen.worldgen.feature.config.CraterConfiguration;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;

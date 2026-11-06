@@ -1,6 +1,7 @@
 package com.hbm.datagen.worldgen.feature;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.datagen.worldgen.feature.config.BedrockOreConfiguration;
 import com.hbm.tileentity.block.TileEntityBedrockOre;
 import com.hbm.util.WeightedRandomGeneric;
 import com.mojang.serialization.Codec;
@@ -30,8 +31,9 @@ public class BedrockOreFeature extends Feature<BedrockOreConfiguration> {
         // Шанс генерации
         if (rand.nextInt(config.chance()) != 0) return false;
 
-        // Выбираем случайную руду
-        WeightedRandomGeneric<BedrockOreDefinition> randomItem = getRandomItem(rand, BedrockOre.weightedOres);
+        // Выбираем случайную руду из списка нужного измерения
+        WeightedRandomGeneric<BedrockOreDefinition> randomItem = getRandomItem(rand,
+                config.nether() ? BedrockOre.weightedOresNether : BedrockOre.weightedOres);
         if (randomItem == null) return false;
         BedrockOreDefinition def = randomItem.get();
 
@@ -88,11 +90,12 @@ public class BedrockOreFeature extends Feature<BedrockOreConfiguration> {
     }
 
     private int findBedrockY(WorldGenLevel level, int x, int z) {
-        // Поиск сверху вниз для быстрого нахождения bedrock
-        for (int y = level.getMaxBuildHeight() - 1; y >= level.getMinBuildHeight(); y--) {
+        // Ищем верхний блок бедрока (обычно на -60)
+        int minY = level.getMinBuildHeight();
+        int maxY = minY + 10;  // проверяем первые 10 блоков от дна
+        for (int y = maxY; y >= minY; y--) {
             BlockPos pos = new BlockPos(x, y, z);
             if (level.getBlockState(pos).is(Blocks.BEDROCK)) {
-                // Возвращаем позицию бедрока, не выше
                 return y;
             }
         }

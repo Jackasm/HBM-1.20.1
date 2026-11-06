@@ -1,0 +1,4 @@
+{
+  "loader": "hbm:hfr_obj",
+  "model": "models/block/bomb/charge_c4.obj"
+}

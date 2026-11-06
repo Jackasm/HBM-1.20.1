@@ -1,5 +1,8 @@
 package com.hbm.network.client;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import com.hbm.network.PacketBase;
 import com.hbm.network.PermaSyncHandler;
 import net.minecraft.client.Minecraft;
@@ -40,19 +43,20 @@ public class PermaSyncPacket extends PacketBase implements PacketBase.DecodableP
 
     @Override
     public void process(Supplier<NetworkEvent.Context> context) {
-        NetworkEvent.Context ctx = context.get();
-        ctx.enqueueWork(() -> {
-            if (ctx.getDirection().getReceptionSide().isClient()) {
-                Minecraft mc = Minecraft.getInstance();
-                if (mc.level == null) return;
+        context.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> this::handleClient));
+        context.get().setPacketHandled(true);
+    }
 
-                Player player = mc.player;
-                if (player != null && buffer != null) {
-                    PermaSyncHandler.readPacket(buffer, player);
-                    buffer.release();
-                }
-            }
-        });
-        ctx.setPacketHandled(true);
+    @OnlyIn(Dist.CLIENT)
+    private void handleClient() {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.level == null) return;
+
+        Player player = mc.player;
+        if (player != null && buffer != null) {
+            PermaSyncHandler.readPacket(buffer, player);
+            buffer.release();
+        }
+    
     }
 }

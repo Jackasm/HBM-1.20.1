@@ -44,7 +44,7 @@ public class BossSpawnHandler {
                 Item acidizerItem = Item.byBlock(ModBlocks.MACHINE_CRYSTALLIZER.get());
                 int id = Item.getId(acidizerItem);
 
-                if (!GeneralConfig.enableStatReRegistering.get()) {
+                if (!GeneralConfig.enableStatReRegisteringValue) {
                     hasAcidizer = true;
                 } else {
                     hasAcidizer = stats.getValue(Stats.ITEM_CRAFTED.get(acidizerItem)) > 0 ||

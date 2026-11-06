@@ -115,7 +115,7 @@ public class EntityEffectHandler {
                 }
             }
 
-            if (GeneralConfig.enable528.get() && GeneralConfig.enable528NetherBurn.get() &&
+            if (GeneralConfig.enable528Value && GeneralConfig.enable528NetherBurnValue &&
                     entity instanceof Player && !entity.fireImmune() &&
                     entity.level().dimension() == Level.NETHER) {
                 entity.setRemainingFireTicks(100); // 5 секунд огня
@@ -126,15 +126,15 @@ public class EntityEffectHandler {
                 ResourceKey<Biome> biomeKey = entity.level().getBiome(entity.blockPosition()).unwrapKey().orElse(null);
 
                 if (biomeKey == ModBiomes.CRATER_OUTER) {
-                    radiation = WorldConfig.craterBiomeOuterRad.get().floatValue();
+                    radiation = (float) WorldConfig.CRATER_BIOME_OUTER_RAD;
                 } else if (biomeKey == ModBiomes.CRATER) {
-                    radiation = WorldConfig.craterBiomeRad.get().floatValue();
+                    radiation = (float) WorldConfig.CRATER_BIOME_RAD;
                 } else if (biomeKey == ModBiomes.CRATER_INNER) {
-                    radiation = WorldConfig.craterBiomeInnerRad.get().floatValue();
+                    radiation = (float) WorldConfig.CRATER_BIOME_INNER_RAD;
                 }
             }
 
-            if (entity.isInWaterRainOrBubble()) radiation *= WorldConfig.craterBiomeWaterMult.get().floatValue();
+            if (entity.isInWaterRainOrBubble()) radiation *= (float) WorldConfig.CRATER_BIOME_WATER_MULT;
 
             if (radiation > 0) {
                 ContaminationUtil.contaminate(entity, ContaminationUtil.HazardType.RADIATION, ContaminationUtil.ContaminationType.CREATIVE, radiation / 20F);
@@ -291,8 +291,8 @@ public class EntityEffectHandler {
 
             float rad = RadiationEvents.getRadiation(world, new BlockPos(ix, iy, iz));
 
-            if (world.dimension() == Level.NETHER && RadiationConfig.hellRad.get() > 0 && rad < RadiationConfig.hellRad.get())
-                rad = (float) (double) RadiationConfig.hellRad.get();
+            if (world.dimension() == Level.NETHER && RadiationConfig.HELL_RAD > 0 && rad < RadiationConfig.HELL_RAD)
+                rad = (float) (double) RadiationConfig.HELL_RAD;
 
             if (rad > 0) ContaminationUtil.contaminate(entity, ContaminationUtil.HazardType.RADIATION, ContaminationUtil.ContaminationType.CREATIVE, rad / 20F);
 
@@ -601,9 +601,9 @@ public class EntityEffectHandler {
 
     private static void handlePollution(LivingEntity entity) {
 
-        if (!RadiationConfig.enablePollution.get()) return;
+        if (!RadiationConfig.ENABLE_POLLUTION) return;
 
-        if (RadiationConfig.enablePoison.get() && !ArmorRegistry.hasProtection(entity, 3, ArmorRegistry.HazardClass.GAS_BLISTERING) && entity.tickCount % 60 == 0) {
+        if (RadiationConfig.ENABLE_POISON && !ArmorRegistry.hasProtection(entity, 3, ArmorRegistry.HazardClass.GAS_BLISTERING) && entity.tickCount % 60 == 0) {
 
             float poison = PollutionHandler.getPollution(entity.level(),
                     new BlockPos(
@@ -625,7 +625,7 @@ public class EntityEffectHandler {
             }
         }
 
-        if (RadiationConfig.enableLeadPoisoning.get() && !ArmorRegistry.hasProtection(entity, 3, ArmorRegistry.HazardClass.PARTICLE_FINE) && entity.tickCount % 60 == 0) {
+        if (RadiationConfig.ENABLE_LEAD_POISONING && !ArmorRegistry.hasProtection(entity, 3, ArmorRegistry.HazardClass.PARTICLE_FINE) && entity.tickCount % 60 == 0) {
 
             float poison = PollutionHandler.getPollution(entity.level(),
                     new BlockPos(

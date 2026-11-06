@@ -1,6 +1,7 @@
 package com.hbm.tileentity.network;
 
 import com.hbm.blocks.network.CableSwitch;
+import com.hbm.tileentity.ModTileEntity;
 import com.hbm.uninos.EnergyNodespace;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
@@ -8,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class TileEntityCableSwitch extends TileEntityCableBaseNT {
 
     public TileEntityCableSwitch(BlockPos pos, BlockState state) {
-        super(pos, state);
+        super(ModTileEntity.CABLE_SWITCH.get(), pos, state);
     }
 
     public void updateState() {

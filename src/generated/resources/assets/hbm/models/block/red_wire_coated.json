@@ -1,0 +1,7 @@
+{
+  "loader": "hbm:ct_geometry",
+  "textures": {
+    "particle": "hbm:block/red_wire_coated",
+    "texture": "hbm:block/red_wire_coated"
+  }
+}

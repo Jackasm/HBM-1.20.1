@@ -3,7 +3,12 @@ package com.hbm.items.armor;
 import com.hbm.handler.ArmorResistanceHandler;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.render.model.CompositeArmorModel;
-import com.hbm.util.RefStrings;
+import com.hbm.util.RefStrings;import com.hbm.extprop.HbmLivingProps;
+import com.hbm.items.tool.ItemDosimeter;
+import com.hbm.items.tool.ItemGeigerCounter;
+import com.hbm.sound.ModSounds;
+import com.hbm.util.ContaminationUtil;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -64,7 +69,7 @@ public class ArmorFSB extends ArmorItem implements IArmorDisableModel, IHelmetOv
         super(material, type, properties);
     }
 
-    // Билдер методы как в оригинале
+    // Р‘РёР»РґРµСЂ РјРµС‚РѕРґС‹ РєР°Рє РІ РѕСЂРёРіРёРЅР°Р»Рµ
 
     public ArmorFSB addEffect(MobEffectInstance effect) {
         effects.add(effect);
@@ -149,7 +154,7 @@ public class ArmorFSB extends ArmorItem implements IArmorDisableModel, IHelmetOv
         this.step = original.step;
         this.jump = original.jump;
         this.fall = original.fall;
-        // overlay не копируется, т.к. специфичен для шлема
+        // overlay РЅРµ РєРѕРїРёСЂСѓРµС‚СЃСЏ, С‚.Рє. СЃРїРµС†РёС„РёС‡РµРЅ РґР»СЏ С€Р»РµРјР°
         return this;
     }
 
@@ -178,14 +183,57 @@ public class ArmorFSB extends ArmorItem implements IArmorDisableModel, IHelmetOv
                 if (step && chestplate.step != null && player.level().isClientSide && player.onGround()) {
                     steppy(player, chestplate.step);
                 }
+
+                // Р”РѕР·РёРјРµС‚СЂ РІ Р±СЂРѕРЅРµ. Р’ 1.7.10 (ArmorFSB.onArmorTick) РїРѕРєР°Р· СѓРјРЅРѕР¶Р°Р»СЃСЏ
+                // РЅР° Р·Р°С‰РёС‚Сѓ РєРѕСЃС‚СЋРјР°: РёРіСЂРѕРє РІ С…Р°Р·РјР°С‚Рµ СЃР»С‹С€Р°Р» РЅРµ С„РѕРЅ РІРѕРєСЂСѓРі, Р° РґРѕР·Сѓ
+                // РІРЅСѓС‚СЂРё Р±СЂРѕРЅРё. Р­С‚Рѕ РµРґРёРЅСЃС‚РІРµРЅРЅРѕРµ РјРµСЃС‚Рѕ, РіРґРµ РѕСЂРёРіРёРЅР°Р» РґРµР»Р°Р» РїРµСЂРµСЃС‡С‘С‚;
+                // СЃР°Рј РїСЂРµРґРјРµС‚-РґРѕР·РёРјРµС‚СЂ Рё РіРµР№РіРµСЂ РїРѕРєР°Р·С‹РІР°СЋС‚ РїРѕР»Рµ РєР°Рє РµСЃС‚СЊ вЂ” С‚Р°Рє Рё РІ СЌС‚Р°Р»РѕРЅРµ.
+                // РЎС‡С‘С‚С‡РёРє РІ РёРЅРІРµРЅС‚Р°СЂРµ РїРѕРєР°Р· Р±СЂРѕРЅРё РїРµСЂРµР±РёРІР°РµС‚, РїРѕСЌС‚РѕРјСѓ РјРѕР»С‡РёРј.
+                if (chestplate.geigerSound && !player.level().isClientSide
+                        && player.level().getGameTime() % 5 == 0
+                        && !hasRadiationMeter(player)) {
+                    float dose = HbmLivingProps.getRadBuf(player)
+                            * ContaminationUtil.calculateRadiationMod(player);
+                    playArmorGeiger(player, dose);
+                }
             }
         }
     }
 
-    public static void steppy(Player player, SoundEvent sound) {
+    /** РЎС‡С‘С‚С‡РёРє РёР»Рё РґРѕР·РёРјРµС‚СЂ РІ РёРЅРІРµРЅС‚Р°СЂРµ РїРµСЂРµР±РёРІР°СЋС‚ РїРѕРєР°Р· Р±СЂРѕРЅРё вЂ” РєР°Рє РІ СЌС‚Р°Р»РѕРЅРµ. */
+    private static boolean hasRadiationMeter(Player player) {
+        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+            ItemStack stack = player.getInventory().getItem(i);
+            if (stack.getItem() instanceof ItemGeigerCounter || stack.getItem() instanceof ItemDosimeter) {
+                return true;
+            }
+        }
+        return false;
+    }
 
+    /**
+     * Р©РµР»С‡РєРё РґРѕР·РёРјРµС‚СЂР° Р±СЂРѕРЅРё РїРѕ РґРѕР·Рµ СЃ СѓС‡С‘С‚РѕРј Р·Р°С‰РёС‚С‹.
+     * РЈ СЌС‚Р°Р»РѕРЅР° С€РєР°Р»Р° 0..6, РІ РїРѕСЂС‚Рµ С‚СЂРё Р·РІСѓРєР° вЂ” СЃР¶РёРјР°РµРј, СЃРѕС…СЂР°РЅСЏСЏ СЃРјС‹СЃР»:
+     * С‡Р°С‰Рµ Рё Р·Р»РµРµ С‰С‘Р»РєР°РµС‚ РїРѕ РјРµСЂРµ СЂРѕСЃС‚Р° РґРѕР·С‹.
+     */
+    private static void playArmorGeiger(Player player, float dose) {
+        if (dose <= 1E-5F) return;
+
+        int level = dose < 0.5F ? 0 : dose < 1F ? 1 : dose < 2F ? 2 : 3;
+        if (level == 0) return;
+
+        SoundEvent sound = switch (level) {
+            case 1 -> ModSounds.GEIGER_1.get();
+            case 2 -> ModSounds.GEIGER_2.get();
+            default -> ModSounds.GEIGER_3.get();
+        };
+        player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
+                sound, SoundSource.PLAYERS, 1.0F, 1.0F);
+    }
+
+    public static void steppy(Player player, SoundEvent sound) {
         try {
-            // В 1.20.1 эти поля могут быть private, используем отражение
+            // Р’ 1.20.1 СЌС‚Рё РїРѕР»СЏ РјРѕРіСѓС‚ Р±С‹С‚СЊ private, РёСЃРїРѕР»СЊР·СѓРµРј РѕС‚СЂР°Р¶РµРЅРёРµ
             Field nextStepDistance = ObfuscationReflectionHelper.findField(Entity.class, "nextStepDistance");
             Field distanceWalkedOnStepModified = ObfuscationReflectionHelper.findField(Entity.class, "distanceWalkedOnStepModified");
 
@@ -210,7 +258,7 @@ public class ArmorFSB extends ArmorItem implements IArmorDisableModel, IHelmetOv
         }
     }
 
-    // Геттеры
+    // Р“РµС‚С‚РµСЂС‹
 
     public List<MobEffectInstance> getEffects() { return effects; }
     public boolean hasNoHelmet() { return noHelmet; }
@@ -235,7 +283,7 @@ public class ArmorFSB extends ArmorItem implements IArmorDisableModel, IHelmetOv
                                     int width, int height, float partialTicks) {
         if (overlayPath == null) return;
 
-        // Просто рендерим текстуру на весь экран
+        // РџСЂРѕСЃС‚Рѕ СЂРµРЅРґРµСЂРёРј С‚РµРєСЃС‚СѓСЂСѓ РЅР° РІРµСЃСЊ СЌРєСЂР°РЅ
         guiGraphics.blit(ResLocation(RefStrings.MODID, overlayPath), 0, 0, 0, 0, width, height, width, height);
     }
 
@@ -393,7 +441,7 @@ public class ArmorFSB extends ArmorItem implements IArmorDisableModel, IHelmetOv
                     HumanoidModel<?> baseModel = defaultModel;
                     CompositeArmorModel compositeModel = new CompositeArmorModel(baseModel);
 
-                    // Проверяем все слоты модов на наличие IRenderableMod
+                    // РџСЂРѕРІРµСЂСЏРµРј РІСЃРµ СЃР»РѕС‚С‹ РјРѕРґРѕРІ РЅР° РЅР°Р»РёС‡РёРµ IRenderableMod
                     for (int i = 0; i < ArmorModHandler.MOD_SLOTS; i++) {
                         ItemStack mod = ArmorModHandler.pryMod(stack, i);
                         if (!mod.isEmpty() && mod.getItem() instanceof IRenderableMod renderableMod) {

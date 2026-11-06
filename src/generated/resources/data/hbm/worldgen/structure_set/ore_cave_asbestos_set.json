@@ -1,0 +1,15 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 987654321,
+    "separation": 0,
+    "spacing": 1,
+    "spread_type": "linear"
+  },
+  "structures": [
+    {
+      "structure": "hbm:ore_cave_asbestos",
+      "weight": 1
+    }
+  ]
+}

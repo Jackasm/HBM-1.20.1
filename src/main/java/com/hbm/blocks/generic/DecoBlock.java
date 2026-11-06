@@ -3,7 +3,6 @@ package com.hbm.blocks.generic;
 import com.hbm.api.block.IToolable;
 import com.hbm.blocks.ModBlocks;
 
-import com.hbm.datagen.worldgen.nbt.INBTBlockTransformable;
 import com.hbm.tileentity.deco.TileEntityDeco;
 
 
@@ -17,6 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -31,7 +31,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class DecoBlock extends BaseEntityBlock implements IToolable, INBTBlockTransformable {
+public class DecoBlock extends BaseEntityBlock implements IToolable {
 
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 
@@ -46,6 +46,11 @@ public class DecoBlock extends BaseEntityBlock implements IToolable, INBTBlockTr
                 .strength(10.0F, 10.0F)
                 .noOcclusion()
                 .requiresCorrectToolForDrops();
+    }
+
+    @Override
+    public @NotNull BlockState rotate(@NotNull BlockState state, @NotNull Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
     @Override
@@ -148,14 +153,5 @@ public class DecoBlock extends BaseEntityBlock implements IToolable, INBTBlockTr
             Direction facing = placer.getDirection().getOpposite();
             level.setBlock(pos, state.setValue(FACING, facing), 2);
         }
-    }
-
-    @Override
-    public BlockState transformState(BlockState state, int rotation) {
-        Direction newFacing = state.getValue(FACING);
-        for (int i = 0; i < rotation; i++) {
-            newFacing = newFacing.getClockWise();
-        }
-        return state.setValue(FACING, newFacing);
     }
 }

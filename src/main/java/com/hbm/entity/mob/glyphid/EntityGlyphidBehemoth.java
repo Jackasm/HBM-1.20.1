@@ -37,7 +37,7 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
     public static AttributeSupplier.Builder createAttributes() {
         return EntityGlyphid.createAttributes()
                 .add(Attributes.MAX_HEALTH, GlyphidStats.getStats().getBehemoth().health)
-                .add(Attributes.MOVEMENT_SPEED, GlyphidStats.getStats().getBehemoth().speed)
+                .add(Attributes.MOVEMENT_SPEED, GlyphidStats.getStats().getBehemoth().speed * EntityGlyphid.SPEED_FACTOR)
                 .add(Attributes.ATTACK_DAMAGE, GlyphidStats.getStats().getBehemoth().damage);
     }
 

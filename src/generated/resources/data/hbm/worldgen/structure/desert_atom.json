@@ -1,0 +1,9 @@
+{
+  "type": "hbm:atom",
+  "settings": {
+    "biomes": "#hbm:atom_biomes",
+    "spawn_overrides": {},
+    "step": "surface_structures",
+    "terrain_adaptation": "none"
+  }
+}

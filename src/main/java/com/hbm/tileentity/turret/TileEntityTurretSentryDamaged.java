@@ -105,7 +105,7 @@ public class TileEntityTurretSentryDamaged extends TileEntityTurretSentry {
     }
 
     @Override
-    public void conusmeAmmo(BulletConfig config) {
+    public void consumeAmmo(BulletConfig config) {
         // Не расходуем патроны
     }
 

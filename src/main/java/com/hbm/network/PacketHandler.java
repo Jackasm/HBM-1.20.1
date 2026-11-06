@@ -42,7 +42,6 @@ public class PacketHandler {
         registerPacket(PermaSyncPacket.class, NetworkDirection.PLAY_TO_CLIENT);
         registerPacket(PlayerInformPacket.class, NetworkDirection.PLAY_TO_CLIENT);
         registerPacket(TeleportLoadingPacket.class, NetworkDirection.PLAY_TO_CLIENT);
-        registerPacket(QuestSyncPacket.class, NetworkDirection.PLAY_TO_CLIENT);
         registerPacket(HbmAnimationPacket.class, NetworkDirection.PLAY_TO_CLIENT);
         registerPacket(ParticleBurstPacket.class, NetworkDirection.PLAY_TO_CLIENT);
         registerPacket(CrafterSyncPacket.class, NetworkDirection.PLAY_TO_CLIENT);
@@ -52,7 +51,6 @@ public class PacketHandler {
         registerPacket(AuxButtonPacket.class, NetworkDirection.PLAY_TO_SERVER);
         registerPacket(KeybindPacket.class, NetworkDirection.PLAY_TO_SERVER);
         registerPacket(NBTControlPacket.class, NetworkDirection.PLAY_TO_SERVER);
-        registerPacket(QuestActionPacket.class, NetworkDirection.PLAY_TO_SERVER);
         registerPacket(CargoContainerExtractPacket.class, NetworkDirection.PLAY_TO_SERVER);
         registerPacket(CargoContainerInsertPacket.class, NetworkDirection.PLAY_TO_SERVER);
         registerPacket(ItemDesignatorPacket.class, NetworkDirection.PLAY_TO_SERVER);
@@ -63,7 +61,8 @@ public class PacketHandler {
         LOGGER.info("HBM network registration completed - registered {} packets", packetId);
     }
 
-    private static <T extends PacketBase> void registerPacket(Class<T> packetClass, NetworkDirection direction) {
+    /** Открыт для аддонов: они регистрируют свои пакеты после основных. */
+    public static <T extends PacketBase> void registerPacket(Class<T> packetClass, NetworkDirection direction) {
         CHANNEL.registerMessage(
                 packetId++,
                 packetClass,

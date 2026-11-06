@@ -1,5 +1,8 @@
 package com.hbm.network.client;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.inventory.recipes.RecipeType;
 import com.hbm.network.PacketBase;
@@ -35,22 +38,26 @@ public class CrafterSyncPacket extends PacketBase implements PacketBase.Decodabl
 
     @Override
     public void process(Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> {
-            // Получаем игрока на клиентской стороне
-            net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getInstance();
-            if (mc.player != null) {
-                HbmPlayerProps.IHbmPlayerProps props = HbmPlayerProps.getData(mc.player);
-                if (props != null) {
-                    // Очищаем и добавляем полученные крафтеры
-                    // Используем рефлексию или добавляем метод setUnlockedCrafters
-                    // Пока просто очищаем и добавляем через публичные методы
-                    for (RecipeType type : unlockedCrafters) {
-                        props.addCrafter(type);
-                    }
+        context.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> this::handleClient));
+        context.get().setPacketHandled(true);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void handleClient() {
+        // Получаем игрока на клиентской стороне
+        net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getInstance();
+        if (mc.player != null) {
+            HbmPlayerProps.IHbmPlayerProps props = HbmPlayerProps.getData(mc.player);
+            if (props != null) {
+                // Очищаем и добавляем полученные крафтеры
+                // Используем рефлексию или добавляем метод setUnlockedCrafters
+                // Пока просто очищаем и добавляем через публичные методы
+                for (RecipeType type : unlockedCrafters) {
+                    props.addCrafter(type);
                 }
             }
-        });
-        context.get().setPacketHandled(true);
+        }
+    
     }
 
     @Override

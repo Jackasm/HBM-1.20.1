@@ -1,6 +1,5 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.datagen.worldgen.nbt.INBTBlockTransformable;
 import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.tileentity.ModTileEntity;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
@@ -38,7 +37,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class MachineDiesel extends BaseEntityBlock implements INBTBlockTransformable {
+public class MachineDiesel extends BaseEntityBlock {
 
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     private static final VoxelShape SHAPE = Block.box(2, 0, 2, 14, 16, 14);
@@ -133,16 +132,6 @@ public class MachineDiesel extends BaseEntityBlock implements INBTBlockTransform
 
     public ItemStack getMachineItem() {
         return new ItemStack(this);
-    }
-
-    @Override
-    public BlockState transformState(BlockState state, int rotation) {
-        // Поворачиваем FACING
-        Direction newFacing = state.getValue(FACING);
-        for (int i = 0; i < rotation; i++) {
-            newFacing = newFacing.getClockWise();
-        }
-        return state.setValue(FACING, newFacing);
     }
 
     @Override

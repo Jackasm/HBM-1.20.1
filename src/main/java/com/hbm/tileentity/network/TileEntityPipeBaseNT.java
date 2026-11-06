@@ -90,14 +90,16 @@ public class TileEntityPipeBaseNT extends TileEntityLoadedBase implements IFluid
         return dir != null && type == this.type;
     }
 
+    /** Выставляется в onChunkUnloaded: при выгрузке чанка setRemoved тоже вызывается. */
+    protected boolean chunkUnloaded = false;
+
     @Override
     public void setRemoved() {
         super.setRemoved();
 
-        if (level != null && !level.isClientSide) {
-            if (this.node != null) {
-                UniNodespace.destroyNode(level, worldPosition, type.getNetworkProvider());
-            }
+        if (!chunkUnloaded && level != null && !level.isClientSide && this.node != null) {
+            UniNodespace.destroyNode(level, worldPosition, type.getNetworkProvider());
+            this.node = null;
         }
     }
 
@@ -136,6 +138,7 @@ public class TileEntityPipeBaseNT extends TileEntityLoadedBase implements IFluid
 
     @Override
     public void onChunkUnloaded() {
+        this.chunkUnloaded = true;
         super.onChunkUnloaded();
         this.isLoaded = false;
     }

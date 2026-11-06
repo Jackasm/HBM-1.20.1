@@ -38,7 +38,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         // Генерация обычных рецептов
         generateCraftingRecipes(pWriter);
 
-        generateColoredConcreteRecipes(pWriter);
+
 
         SmeltingRecipes.generateSmeltingRecipes(pWriter, RecipeProvider::has);
         WeaponRecipes.generateWeaponRecipes(pWriter, RecipeProvider::has);
@@ -49,56 +49,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ToolRecipes.generateToolRecipes(pWriter, RecipeProvider::has);
     }
 
-
-    private void generateColoredConcreteRecipes(Consumer<FinishedRecipe> pWriter) {
-        String[] colors = {"white", "orange", "magenta", "light_blue", "yellow", "lime",
-                "pink", "gray", "light_gray", "cyan", "purple", "blue", "brown",
-                "green", "red", "black"};
-
-        Item[] dyes = {
-                Items.WHITE_DYE, Items.ORANGE_DYE, Items.MAGENTA_DYE, Items.LIGHT_BLUE_DYE,
-                Items.YELLOW_DYE, Items.LIME_DYE, Items.PINK_DYE, Items.GRAY_DYE,
-                Items.LIGHT_GRAY_DYE, Items.CYAN_DYE, Items.PURPLE_DYE, Items.BLUE_DYE,
-                Items.BROWN_DYE, Items.GREEN_DYE, Items.RED_DYE, Items.BLACK_DYE
-        };
-
-        for (int i = 0; i < colors.length; i++) {
-            String color = colors[i];
-            Item dye = dyes[i];
-
-            // Рецепт: 8 бетонных блоков + краситель = 8 покрашенных бетонных блоков
-            ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CONCRETE_COLORED.get(), 8)
-                    .requires(ModBlocks.CONCRETE.get(), 8)
-                    .requires(dye)
-                    .unlockedBy("has_concrete", has(ModBlocks.CONCRETE.get()))
-                    .save(pWriter, MODID + ":concrete_colored_" + color);
-
-            // Рецепт перекрашивания: 1 покрашенный бетон + краситель = 1 покрашенный бетон нового цвета
-            ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CONCRETE_COLORED.get(), 1)
-                    .requires(ModBlocks.CONCRETE_COLORED.get())
-                    .requires(dye)
-                    .unlockedBy("has_concrete_colored", has(ModBlocks.CONCRETE_COLORED.get()))
-                    .save(pWriter, MODID + ":concrete_recolor_to_" + color);
-        }
-
-        // Рецепты для concrete_colored_ext (специальные текстуры)
-        String[] extTypes = {"machine", "machine_stripe", "indigo", "purple", "pink", "hazard", "sand", "bronze"};
-        Item[] extDyes = {
-                Items.GRAY_DYE, Items.LIGHT_GRAY_DYE, Items.BLUE_DYE, Items.PURPLE_DYE,
-                Items.PINK_DYE, Items.ORANGE_DYE, Items.YELLOW_DYE, Items.BROWN_DYE
-        };
-
-        for (int i = 0; i < extTypes.length; i++) {
-            String type = extTypes[i];
-            Item dye = extDyes[i];
-
-            ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CONCRETE_COLORED_EXT.get(), 8)
-                    .requires(ModBlocks.CONCRETE.get(), 8)
-                    .requires(dye)
-                    .unlockedBy("has_concrete", has(ModBlocks.CONCRETE.get()))
-                    .save(pWriter, MODID + ":concrete_colored_ext_" + type);
-        }
-    }
 
     private void generateCraftingRecipes(Consumer<FinishedRecipe> pWriter) {
 
@@ -168,7 +118,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("WWW")
                 .pattern(" P ")
                 .define('P', ModItems.PLATE_POLYMER.get())
-                .define('W', ModItems.WIRE_RED_COPPER.get())
+                .define('W', ModItems.WIRE_FINE_RED_COPPER.get())
                 .unlockedBy("has_polymer_plate", has(ModItems.PLATE_POLYMER.get()))
                 .save(pWriter);
 
@@ -313,45 +263,45 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("WWW")
                 .pattern("WIW")
                 .pattern("WWW")
-                .define('W', ModItems.WIRE_RED_COPPER.get())
+                .define('W', ModItems.WIRE_FINE_RED_COPPER.get())
                 .define('I', Items.IRON_INGOT)
-                .unlockedBy("has_red_copper_wire", has(ModItems.WIRE_RED_COPPER.get()))
+                .unlockedBy("has_red_copper_wire", has(ModItems.WIRE_FINE_RED_COPPER.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.COIL_ADVANCED_ALLOY.get(), 1)
                 .pattern("WWW")
                 .pattern("WIW")
                 .pattern("WWW")
-                .define('W', ModItems.WIRE_ADVANCED_ALLOY.get())
+                .define('W', ModItems.WIRE_FINE_ADVANCED_ALLOY.get())
                 .define('I', Items.IRON_INGOT)
-                .unlockedBy("has_alloy_wire", has(ModItems.WIRE_ADVANCED_ALLOY.get()))
+                .unlockedBy("has_alloy_wire", has(ModItems.WIRE_FINE_ADVANCED_ALLOY.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.COIL_GOLD.get(), 1)
                 .pattern("WWW")
                 .pattern("WIW")
                 .pattern("WWW")
-                .define('W', ModItems.WIRE_GOLD.get())
+                .define('W', ModItems.WIRE_FINE_GOLD.get())
                 .define('I', Items.IRON_INGOT)
-                .unlockedBy("has_gold_wire", has(ModItems.WIRE_GOLD.get()))
+                .unlockedBy("has_gold_wire", has(ModItems.WIRE_FINE_GOLD.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.COIL_TUNGSTEN.get(), 1)
                 .pattern("WWW")
                 .pattern("WIW")
                 .pattern("WWW")
-                .define('W', ModItems.WIRE_TUNGSTEN.get())
+                .define('W', ModItems.WIRE_FINE_TUNGSTEN.get())
                 .define('I', Items.IRON_INGOT)
-                .unlockedBy("has_tungsten_wire", has(ModItems.WIRE_TUNGSTEN.get()))
+                .unlockedBy("has_tungsten_wire", has(ModItems.WIRE_FINE_TUNGSTEN.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.COIL_MAGNETIZED_TUNGSTEN.get(), 1)
                 .pattern("WWW")
                 .pattern("WIW")
                 .pattern("WWW")
-                .define('W', ModItems.WIRE_MAGNETIZED_TUNGSTEN.get())
+                .define('W', ModItems.WIRE_FINE_MAGNETIZED_TUNGSTEN.get())
                 .define('I', Items.IRON_INGOT)
-                .unlockedBy("has_magtung_wire", has(ModItems.WIRE_MAGNETIZED_TUNGSTEN.get()))
+                .unlockedBy("has_magtung_wire", has(ModItems.WIRE_FINE_MAGNETIZED_TUNGSTEN.get()))
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.COIL_COPPER_TORUS.get(), 2)
@@ -412,22 +362,22 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern(" R ")
                 .pattern("ICI")
                 .pattern("ITI")
-                .define('R', ModItems.WIRE_RED_COPPER.get())
+                .define('R', ModItems.WIRE_FINE_RED_COPPER.get())
                 .define('C', ModItems.COIL_COPPER.get())
                 .define('T', ModItems.COIL_COPPER_TORUS.get())
                 .define('I', ModItems.PLATE_IRON.get())
-                .unlockedBy("has_mingrade_wire", has(ModItems.WIRE_RED_COPPER.get()))
+                .unlockedBy("has_mingrade_wire", has(ModItems.WIRE_FINE_RED_COPPER.get()))
                 .save(pWriter, MODID + ":motor_iron");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.MOTOR.get(), 2)
                 .pattern(" R ")
                 .pattern("ICI")
                 .pattern(" T ")
-                .define('R', ModItems.WIRE_RED_COPPER.get())
+                .define('R', ModItems.WIRE_FINE_RED_COPPER.get())
                 .define('C', ModItems.COIL_COPPER.get())
                 .define('T', ModItems.COIL_COPPER_TORUS.get())
                 .define('I', ModItems.PLATE_STEEL.get())
-                .unlockedBy("has_mingrade_wire", has(ModItems.WIRE_RED_COPPER.get()))
+                .unlockedBy("has_mingrade_wire", has(ModItems.WIRE_FINE_RED_COPPER.get()))
                 .save(pWriter, MODID + ":motor_steel");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.MOTOR_DESH.get(), 1)
@@ -492,7 +442,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("W")
                 .pattern("I")
                 .define('G', ModItemTags.ANY_GLASS_PANES)
-                .define('W', ModItems.WIRE_TUNGSTEN.get())
+                .define('W', ModItems.WIRE_FINE_TUNGSTEN.get())
                 .define('I', ModItems.PLATE_POLYMER.get())
                 .unlockedBy("has_glass_pane", has(ModItemTags.ANY_GLASS_PANES))
                 .save(pWriter, MODID + ":circuit_vacuum_tube_tungsten");
@@ -502,7 +452,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("W")
                 .pattern("I")
                 .define('G', ModItemTags.ANY_GLASS_PANES)
-                .define('W', ModItems.WIRE_CARBON.get())
+                .define('W', ModItems.WIRE_FINE_CARBON.get())
                 .define('I', ModItems.PLATE_POLYMER.get())
                 .unlockedBy("has_glass_pane", has(ModItemTags.ANY_GLASS_PANES))
                 .save(pWriter, MODID + ":circuit_vacuum_tube_carbon");
@@ -514,7 +464,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("W")
                 .define('I', ModItems.PLATE_POLYMER.get())
                 .define('N', ModItems.NUGGET_NIOBIUM.get())
-                .define('W', ModItems.WIRE_ALUMINIUM.get())
+                .define('W', ModItems.WIRE_FINE_ALUMINIUM.get())
                 .unlockedBy("has_niobium_nugget", has(ModItems.NUGGET_NIOBIUM.get()))
                 .save(pWriter, MODID + ":circuit_capacitor_aluminium");
 
@@ -524,7 +474,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("W")
                 .define('I', ModItems.PLATE_POLYMER.get())
                 .define('N', ModItems.NUGGET_NIOBIUM.get())
-                .define('W', ModItems.WIRE_COPPER.get())
+                .define('W', ModItems.WIRE_FINE_COPPER.get())
                 .unlockedBy("has_niobium_nugget", has(ModItems.NUGGET_NIOBIUM.get()))
                 .save(pWriter, MODID + ":circuit_capacitor_copper");
 
@@ -534,8 +484,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("W W")
                 .define('I', ModItems.PLATE_POLYMER.get())
                 .define('A', ModItems.POWDER_ALUMINIUM.get())
-                .define('W', ModItems.WIRE_ALUMINIUM.get())
-                .unlockedBy("has_aluminium_wire", has(ModItems.WIRE_ALUMINIUM.get()))
+                .define('W', ModItems.WIRE_FINE_ALUMINIUM.get())
+                .unlockedBy("has_aluminium_wire", has(ModItems.WIRE_FINE_ALUMINIUM.get()))
                 .save(pWriter, MODID + ":circuit_capacitor_x2_aluminium");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.CIRCUIT_CAPACITOR.get(), 2)
@@ -543,8 +493,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("W W")
                 .define('I', ModItems.PLATE_POLYMER.get())
                 .define('A', ModItems.POWDER_ALUMINIUM.get())
-                .define('W', ModItems.WIRE_COPPER.get())
-                .unlockedBy("has_copper_wire", has(ModItems.WIRE_COPPER.get()))
+                .define('W', ModItems.WIRE_FINE_COPPER.get())
+                .unlockedBy("has_copper_wire", has(ModItems.WIRE_FINE_COPPER.get()))
                 .save(pWriter, MODID + ":circuit_capacitor_x2_copper");
 
 // Tantalium Capacitor
@@ -554,7 +504,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("W")
                 .define('I', ModItems.PLATE_POLYMER.get())
                 .define('N', ModItems.NUGGET_TANTALIUM.get())
-                .define('W', ModItems.WIRE_ALUMINIUM.get())
+                .define('W', ModItems.WIRE_FINE_ALUMINIUM.get())
                 .unlockedBy("has_tantalium_nugget", has(ModItems.NUGGET_TANTALIUM.get()))
                 .save(pWriter, MODID + ":circuit_capacitor_tantalium_aluminium");
 
@@ -564,7 +514,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("W")
                 .define('I', ModItems.PLATE_POLYMER.get())
                 .define('N', ModItems.NUGGET_TANTALIUM.get())
-                .define('W', ModItems.WIRE_COPPER.get())
+                .define('W', ModItems.WIRE_FINE_COPPER.get())
                 .unlockedBy("has_tantalium_nugget", has(ModItems.NUGGET_TANTALIUM.get()))
                 .save(pWriter, MODID + ":circuit_capacitor_tantalium_copper");
 
@@ -593,7 +543,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("W")
                 .define('I', ModItems.PLATE_POLYMER.get())
                 .define('S', ModItems.CIRCUIT_SILICON.get())
-                .define('W', ModItems.WIRE_COPPER.get())
+                .define('W', ModItems.WIRE_FINE_COPPER.get())
                 .unlockedBy("has_silicon_chip", has(ModItems.CIRCUIT_SILICON.get()))
                 .save(pWriter, MODID + ":circuit_chip_copper");
 
@@ -603,8 +553,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("W")
                 .define('I', ModItems.PLATE_POLYMER.get())
                 .define('S', ModItems.CIRCUIT_SILICON.get())
-                .define('W', ModItems.WIRE_GOLD.get())
-                .unlockedBy("has_gold_wire", has(ModItems.WIRE_GOLD.get()))
+                .define('W', ModItems.WIRE_FINE_GOLD.get())
+                .unlockedBy("has_gold_wire", has(ModItems.WIRE_FINE_GOLD.get()))
                 .save(pWriter, MODID + ":circuit_chip_gold");
 
 // Bismoid Chip
@@ -615,7 +565,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('I', ModItems.PLATE_POLYMER.get())
                 .define('S', ModItems.CIRCUIT_SILICON.get())
                 .define('N', ModItemTags.ANY_BISMOID_NUGGET)
-                .define('W', ModItems.WIRE_COPPER.get())
+                .define('W', ModItems.WIRE_FINE_COPPER.get())
                 .unlockedBy("has_bismoid_nugget", has(ModItemTags.ANY_BISMOID_NUGGET))
                 .save(pWriter, MODID + ":circuit_chip_bismoid_copper");
 
@@ -626,8 +576,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('I', ModItems.PLATE_POLYMER.get())
                 .define('S', ModItems.CIRCUIT_SILICON.get())
                 .define('N', ModItemTags.ANY_BISMOID_NUGGET)
-                .define('W', ModItems.WIRE_GOLD.get())
-                .unlockedBy("has_gold_wire", has(ModItems.WIRE_GOLD.get()))
+                .define('W', ModItems.WIRE_FINE_GOLD.get())
+                .unlockedBy("has_gold_wire", has(ModItems.WIRE_FINE_GOLD.get()))
                 .save(pWriter, MODID + ":circuit_chip_bismoid_gold");
 
 // Quantum Chip
@@ -638,7 +588,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('H', ModItemTags.ANY_HARDPLASTIC_INGOT)
                 .define('S', ModItems.WIRE_DENSE_BSCCO.get())
                 .define('I', ModItems.PELLET_CHARGED.get())
-                .define('W', ModItems.WIRE_COPPER.get())
+                .define('W', ModItems.WIRE_FINE_COPPER.get())
                 .unlockedBy("has_charged_pellet", has(ModItems.PELLET_CHARGED.get()))
                 .save(pWriter, MODID + ":circuit_chip_quantum_copper");
 
@@ -649,8 +599,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('H', ModItemTags.ANY_HARDPLASTIC_INGOT)
                 .define('S', ModItems.WIRE_DENSE_BSCCO.get())
                 .define('I', ModItems.PELLET_CHARGED.get())
-                .define('W', ModItems.WIRE_GOLD.get())
-                .unlockedBy("has_gold_wire", has(ModItems.WIRE_GOLD.get()))
+                .define('W', ModItems.WIRE_FINE_GOLD.get())
+                .unlockedBy("has_gold_wire", has(ModItems.WIRE_FINE_GOLD.get()))
                 .save(pWriter, MODID + ":circuit_chip_quantum_gold");
 
 // Controller Chassis
@@ -800,7 +750,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_ingot_steel", has(ModItems.INGOT_STEEL.get()))
                 .save(pWriter, MODID + ":steel_beam_from_ingot");
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.STEEL_SCAFFOLD.get(), 8)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.STEEL_SCAFFOLD_STEEL.get(), 8)
                 .pattern("SSS")
                 .pattern(" S ")
                 .pattern("SSS")
@@ -812,8 +762,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("S")
                 .pattern("S")
                 .pattern("S")
-                .define('S', ModBlocks.STEEL_SCAFFOLD.get())
-                .unlockedBy("has_steel_scaffold", has(ModBlocks.STEEL_SCAFFOLD.get()))
+                .define('S', ModBlocks.STEEL_SCAFFOLD_STEEL.get())
+                .unlockedBy("has_steel_scaffold", has(ModBlocks.STEEL_SCAFFOLD_STEEL.get()))
                 .save(pWriter, MODID + ":steel_beam_from_scaffold");
 
 

@@ -22,7 +22,7 @@ public class HazardTypeAsbestos extends HazardTypeBase {
 
     @Override
     public void onUpdate(@NotNull LivingEntity target, float level, @NotNull ItemStack stack) {
-        if (RadiationConfig.disableAsbestos.get()) return;
+        if (RadiationConfig.DISABLE_ASBESTOS) return;
 
         if (!ArmorRegistry.hasProtection(target, 3, HazardClass.PARTICLE_FINE)) {
             HbmLivingProps.incrementAsbestos(target, (int) Math.min(level, 10));

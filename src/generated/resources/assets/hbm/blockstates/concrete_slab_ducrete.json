@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "hbm:block/concrete_slab_ducrete_bottom"
+    },
+    "type=double": {
+      "model": "hbm:block/concrete_slab_ducrete_double"
+    },
+    "type=top": {
+      "model": "hbm:block/concrete_slab_ducrete_top"
+    }
+  }
+}

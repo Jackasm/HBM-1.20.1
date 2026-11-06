@@ -273,8 +273,8 @@ public class EntityGlyphidScout extends EntityGlyphid {
 
     public static AttributeSupplier.Builder createAttributes() {
         return EntityGlyphid.createAttributes()
-                .add(Attributes.MAX_HEALTH, 20.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.35D)
-                .add(Attributes.ATTACK_DAMAGE, 5.0D);
+                .add(Attributes.MAX_HEALTH, GlyphidStats.getStats().getScout().health)
+                .add(Attributes.MOVEMENT_SPEED, GlyphidStats.getStats().getScout().speed * EntityGlyphid.SPEED_FACTOR)
+                .add(Attributes.ATTACK_DAMAGE, GlyphidStats.getStats().getScout().damage);
     }
 }

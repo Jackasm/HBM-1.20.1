@@ -49,7 +49,7 @@ public class BlockMeteoriteTreasure extends Block {
         int count = 1 + rand.nextInt(3);
 
         // Используем статический пул из ItemPoolsLegacy
-        ItemPool pool = ItemPoolsLegacy.POOL_METEORITE_TREASURE;
+        ItemPool pool = ItemPool.getPool(ItemPoolsLegacy.POOL_METEORITE_TREASURE);
 
         for (int i = 0; i < count; i++) {
             ItemStack stack = pool.generateOne(rand);

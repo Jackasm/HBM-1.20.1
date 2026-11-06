@@ -65,10 +65,15 @@
               "function": "minecraft:set_count"
             },
             {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops",
+              "function": "minecraft:apply_bonus"
+            },
+            {
               "function": "minecraft:explosion_decay"
             }
           ],
-          "name": "hbm:ore_schrabidium"
+          "name": "hbm:raw_schrabidium"
         }
       ],
       "rolls": 1.0

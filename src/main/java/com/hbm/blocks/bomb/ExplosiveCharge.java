@@ -62,8 +62,8 @@ public class ExplosiveCharge extends BlockDetonatable implements IBomb, IDetConn
             }
 
             if (this == ModBlocks.DET_NUKE.get()) {
-                EntityNukeExplosionMK5.statFac(serverLevel, BombConfig.missileRadius.get(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-                EntityNukeTorex.statFacStandard(serverLevel, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, BombConfig.missileRadius.get());
+                EntityNukeExplosionMK5.statFac(serverLevel, BombConfig.MISSILE_RADIUS, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+                EntityNukeTorex.statFacStandard(serverLevel, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, BombConfig.MISSILE_RADIUS);
             }
         }
         return BombReturnCode.DETONATED;

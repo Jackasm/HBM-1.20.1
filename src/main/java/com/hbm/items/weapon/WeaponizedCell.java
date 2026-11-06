@@ -33,7 +33,7 @@ public class WeaponizedCell extends Item {
 
         if (entity.tickCount > DETONATION_TIME || entity.isOnFire()) {
             if (!level.isClientSide) {
-                if (WeaponConfig.dropStar.get()) {
+                if (WeaponConfig.DROP_STAR) {
                     double x = entity.getX();
                     double y = entity.getY();
                     double z = entity.getZ();

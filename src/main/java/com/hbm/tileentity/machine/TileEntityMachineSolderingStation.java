@@ -76,7 +76,7 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             if (slot == 7) {
-                return stack.getItem() instanceof IBatteryItem || stack.getItem() == ModItems.BATTERY_CREATIVE.get();
+                return stack.getItem() instanceof IBatteryItem;
             }
 
             if (slot == 8) {

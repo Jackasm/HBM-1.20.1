@@ -96,6 +96,7 @@ public class ModItemTags {
     public static final TagKey<Item> ANY_SMOKELESS_DUST = modTag("any_smokeless_dust");
     public static final TagKey<Item> ANY_ELECTRODE = modTag("any_electrode");
     public static final TagKey<Item> ANY_QUARTZ_BLOCK = modTag("any_quartz_block");
+    public static final TagKey<Item> ANY_STEEL_SCAFFOLD = modTag("any_steel_scaffold");
 
 
     // === FORGE ТЕГИ ===

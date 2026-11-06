@@ -5,6 +5,7 @@
     "hbm:frozen_grass",
     "hbm:burning_earth",
     "hbm:impact_dirt",
+    "hbm:stone_cracked",
     "hbm:sand_dirty",
     "hbm:sand_dirty_red",
     "hbm:fallout",
@@ -17,6 +18,8 @@
     "hbm:dirt_oily",
     "hbm:foam_layer",
     "hbm:sand_boron_layer",
+    "hbm:oil_spill",
+    "hbm:leaves_layer",
     "hbm:machine_transformer",
     "hbm:machine_transformer_dnt",
     "hbm:block_fallout",
@@ -29,6 +32,7 @@
     "hbm:sand_polonium",
     "hbm:sand_quartz",
     "hbm:ash_digamma",
+    "hbm:sandbags",
     "hbm:fallout"
   ]
 }

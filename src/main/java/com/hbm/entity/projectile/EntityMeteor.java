@@ -1,11 +1,11 @@
 package com.hbm.entity.projectile;
 
 import com.hbm.config.WorldConfig;
+import com.hbm.datagen.worldgen.feature.MeteoriteFeature;
 import com.hbm.entity.ModEntities;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.main.MainRegistry;
 
-import com.hbm.world.feature.Meteorite;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -63,7 +63,7 @@ public class EntityMeteor extends Entity {
                 ExplosionLarge.spawnParticles(this.level(), this.getX(), this.getY(), this.getZ() - 5, 75);
             }
 
-            new Meteorite().generate(
+            MeteoriteFeature.generate(
                     this.level(),
                     this.random,
                     (int)Math.floor(this.getX() - 0.5),

@@ -131,7 +131,7 @@ public class EntityBombletZeta extends ThrowableProjectile {
                 }
                 case 4: {
                     level().addFreshEntity(EntityNukeExplosionMK5.statFac(level(),
-                            (int) (BombConfig.fatmanRadius.get() * 1.5),
+                            (int) (BombConfig.FATMAN_RADIUS * 1.5),
                             this.getX(), this.getY(), this.getZ()));
 
                     CompoundTag data = new CompoundTag();

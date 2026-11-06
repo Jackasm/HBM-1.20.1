@@ -548,7 +548,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
     }
 
     @Override
-    public void repair() {
+    public void repair(Player player) {
         this.hasExploded = false;
         this.setChanged();
     }
