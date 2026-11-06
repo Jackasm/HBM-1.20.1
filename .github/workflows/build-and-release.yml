@@ -44,11 +44,14 @@ jobs:
             echo "exists=false" >> $GITHUB_OUTPUT
           fi
 
+      # Флаги как в приватном релизном воркфлоу:
+      # -Paddons_default_enabled=false — аддоны уходят выключенными;
+      # -Phbm.release=true — версия ровно mod_version, без -dev.<sha>.
       - name: Build
         if: steps.release_exists.outputs.exists == 'false'
         run: |
           chmod +x gradlew
-          ./gradlew build
+          ./gradlew build -Paddons_default_enabled=false -Phbm.release=true
 
       - name: Create Release
         if: steps.release_exists.outputs.exists == 'false'
