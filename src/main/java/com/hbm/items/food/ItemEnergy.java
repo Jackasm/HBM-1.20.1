@@ -245,58 +245,58 @@ public class ItemEnergy extends Item {
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         if (this == ModItems.CAN_SMART.get()) {
-            tooltip.add(Component.literal("Cheap and full of bubbles"));
+            tooltip.add(Component.translatable("hbm.text.cheap_and_full_of_bubbles"));
         }
         if (this == ModItems.CAN_CREATURE.get()) {
-            tooltip.add(Component.literal("Basically gasoline in a tin can"));
+            tooltip.add(Component.translatable("hbm.text.basically_gasoline_in_a_tin_can"));
         }
         if (this == ModItems.CAN_REDBOMB.get()) {
-            tooltip.add(Component.literal("Liquefied explosives"));
+            tooltip.add(Component.translatable("hbm.text.liquefied_explosives"));
         }
         if (this == ModItems.CAN_MRSUGAR.get()) {
-            tooltip.add(Component.literal("An intellectual drink, for the chosen ones!"));
+            tooltip.add(Component.translatable("hbm.text.an_intellectual_drink_for_the_chosen_ones"));
         }
         if (this == ModItems.CAN_OVERCHARGE.get()) {
-            tooltip.add(Component.literal("Possible side effects include heart attacks, seizures or zombification"));
+            tooltip.add(Component.translatable("hbm.text.possible_side_effects_include_heart_attacks_seiz"));
         }
         if (this == ModItems.CAN_LUNA.get()) {
-            tooltip.add(Component.literal("Contains actual selenium and star metal. Tastes like night."));
+            tooltip.add(Component.translatable("hbm.text.contains_actual_selenium_and_star_metal_tastes_l"));
         }
         if (this == ModItems.CAN_BEPIS.get()) {
-            tooltip.add(Component.literal("beppp"));
+            tooltip.add(Component.translatable("hbm.text.beppp"));
         }
         if (this == ModItems.CAN_BREEN.get()) {
-            tooltip.add(Component.literal("Don't drink the water. They put something in it, to make you forget."));
-            tooltip.add(Component.literal("I don't even know how I got here."));
+            tooltip.add(Component.translatable("hbm.text.don_t_drink_the_water_they_put_something_in_it_t"));
+            tooltip.add(Component.translatable("hbm.text.i_don_t_even_know_how_i_got_here"));
         }
         if (this == ModItems.CHOCOLATE_MILK.get()) {
-            tooltip.add(Component.literal("Regular chocolate milk. Safe to drink."));
-            tooltip.add(Component.literal("Totally not made from nitroglycerine."));
+            tooltip.add(Component.translatable("hbm.text.regular_chocolate_milk_safe_to_drink"));
+            tooltip.add(Component.translatable("hbm.text.totally_not_made_from_nitroglycerine"));
         }
         if (this == ModItems.BOTTLE_NUKA.get()) {
-            tooltip.add(Component.literal("Contains about 210 kcal and 1500 mSv."));
+            tooltip.add(Component.translatable("hbm.text.contains_about_210_kcal_and_1500_msv"));
         }
         if (this == ModItems.BOTTLE_CHERRY.get()) {
-            tooltip.add(Component.literal("Now with severe radiation poisoning in every seventh bottle!"));
+            tooltip.add(Component.translatable("hbm.text.now_with_severe_radiation_poisoning_in_every_sev"));
         }
         if (this == ModItems.BOTTLE_QUANTUM.get()) {
-            tooltip.add(Component.literal("Comes with a colorful mix of over 70 isotopes!"));
+            tooltip.add(Component.translatable("hbm.text.comes_with_a_colorful_mix_of_over_70_isotopes"));
         }
         if (this == ModItems.BOTTLE2_KORL.get()) {
-            tooltip.add(Component.literal("Contains actual orange juice!"));
+            tooltip.add(Component.translatable("hbm.text.contains_actual_orange_juice"));
         }
         if (this == ModItems.BOTTLE2_FRITZ.get()) {
-            tooltip.add(Component.literal("moremore caffeine"));
+            tooltip.add(Component.translatable("hbm.text.moremore_caffeine"));
         }
         if (this == ModItems.BOTTLE_SPARKLE.get()) {
-            tooltip.add(Component.literal("The most delicious beverage in the wasteland!"));
+            tooltip.add(Component.translatable("hbm.text.the_most_delicious_beverage_in_the_wasteland"));
         }
         if (this == ModItems.BOTTLE_RAD.get()) {
-            tooltip.add(Component.literal("Tastes like radish and radiation."));
+            tooltip.add(Component.translatable("hbm.text.tastes_like_radish_and_radiation"));
         }
 
         if (this.requiresOpener) {
-            tooltip.add(Component.literal("[Requires bottle opener]"));
+            tooltip.add(Component.translatable("hbm.text.requires_bottle_opener"));
         }
     }
 

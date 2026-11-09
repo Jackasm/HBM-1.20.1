@@ -271,7 +271,7 @@ public class CraftingOverviewScreen extends Screen {
         if (!availableTypes.isEmpty()) {
             renderRecipes(graphics, mouseX, mouseY);
         } else {
-            graphics.drawString(font, "No crafters unlocked",
+            graphics.drawString(font, Component.translatable("hbm.text.no_crafters_unlocked"),
                     guiLeft + 20, guiTop + 60, 0xFF6666, false);
         }
 
@@ -335,7 +335,7 @@ public class CraftingOverviewScreen extends Screen {
                 List<Component> tooltip = new ArrayList<>();
                 tooltip.add(Component.literal(type.getDisplayName()));
                 if (!selected) {
-                    tooltip.add(Component.literal("Click to view").withStyle(net.minecraft.ChatFormatting.GRAY));
+                    tooltip.add(Component.translatable("hbm.text.click_to_view").withStyle(net.minecraft.ChatFormatting.GRAY));
                 }
                 graphics.renderTooltip(font, tooltip, Optional.empty(), mouseX, mouseY);
             }
@@ -392,10 +392,10 @@ public class CraftingOverviewScreen extends Screen {
                 if (!ingredients.isEmpty()) {
                     for (ItemStack ingredient : ingredients) {
                         tooltip.add(Component.literal("• ").append(ingredient.getHoverName())
-                                .append(Component.literal(" x" + ingredient.getCount())));
+                                .append(Component.translatable("hbm.text.x", ingredient.getCount())));
                     }
                 } else {
-                    tooltip.add(Component.literal("  No ingredients").withStyle(net.minecraft.ChatFormatting.DARK_GRAY));
+                    tooltip.add(Component.translatable("hbm.text.no_ingredients").withStyle(net.minecraft.ChatFormatting.DARK_GRAY));
                 }
 
                 graphics.renderTooltip(font, tooltip, Optional.empty(), mouseX, mouseY);

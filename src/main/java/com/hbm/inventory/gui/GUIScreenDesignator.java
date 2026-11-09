@@ -128,10 +128,10 @@ public class GUIScreenDesignator extends AbstractContainerScreen<ContainerDesign
         // Отображение координат (в относительных координатах GUI)
         String x = String.valueOf(shownX);
         String z = String.valueOf(shownZ);
-        graphics.drawString(font, "X: " + x,
-                this.imageWidth / 2 - font.width("X: " + x) / 2, 50, 0x404040, false);
-        graphics.drawString(font, "Z: " + z,
-                this.imageWidth / 2 - font.width("Z: " + z) / 2, 50 + 18 * 4, 0x404040, false);
+        graphics.drawString(font, Component.translatable("hbm.text.designator_x", x),
+                this.imageWidth / 2 - font.width(Component.translatable("hbm.text.designator_x", x)) / 2, 50, 0x404040, false);
+        graphics.drawString(font, Component.translatable("hbm.text.designator_z", z),
+                this.imageWidth / 2 - font.width(Component.translatable("hbm.text.designator_z", z)) / 2, 50 + 18 * 4, 0x404040, false);
     }
 
     @Override

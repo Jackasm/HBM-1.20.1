@@ -27,7 +27,7 @@ public class ItemBook extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("Edition 4, gold lined pages"));
+        tooltip.add(Component.translatable("hbm.text.edition_4_gold_lined_pages"));
     }
 
     @Override

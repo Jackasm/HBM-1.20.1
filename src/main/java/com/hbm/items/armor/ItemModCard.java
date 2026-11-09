@@ -28,12 +28,12 @@ public class ItemModCard extends ItemArmorMod {
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level,
                                 @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         if (this == ModItems.CARD_AOS.get()) {
-            tooltip.add(Component.literal("Top of the line!").withStyle(ChatFormatting.RED));
-            tooltip.add(Component.literal("Guns now have a 33% chance to not consume ammo.").withStyle(ChatFormatting.RED));
+            tooltip.add(Component.translatable("hbm.text.top_of_the_line").withStyle(ChatFormatting.RED));
+            tooltip.add(Component.translatable("hbm.text.guns_now_have_a_33_chance_to_not_consume_ammo").withStyle(ChatFormatting.RED));
         }
         if (this == ModItems.CARD_QOS.get()) {
-            tooltip.add(Component.literal("Power!").withStyle(ChatFormatting.RED));
-            tooltip.add(Component.literal("Adds a 33% chance to tank damage with no cap.").withStyle(ChatFormatting.RED));
+            tooltip.add(Component.translatable("hbm.text.power").withStyle(ChatFormatting.RED));
+            tooltip.add(Component.translatable("hbm.text.adds_a_33_chance_to_tank_damage_with_no_cap").withStyle(ChatFormatting.RED));
         }
         tooltip.add(Component.literal(""));
         super.appendHoverText(stack, level, tooltip, flag);

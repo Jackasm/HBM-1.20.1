@@ -27,7 +27,7 @@ public class GUIScreenBobble extends AbstractContainerScreen<ContainerBobble> {
     private final TileEntityBobble bobble;
 
     public GUIScreenBobble(ContainerBobble container, Inventory playerInv, Component title) {
-        super(container, playerInv, Component.literal("Bobblehead"));
+        super(container, playerInv, Component.translatable("hbm.text.bobblehead"));
         this.bobble = container.bobble;
     }
 

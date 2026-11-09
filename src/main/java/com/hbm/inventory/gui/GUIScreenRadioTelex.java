@@ -168,11 +168,11 @@ public class GUIScreenRadioTelex extends AbstractContainerScreen<ContainerRadioT
     }
 
     private void renderTooltips(GuiGraphics graphics, int mouseX, int mouseY) {
-        if (checkClick(mouseX, mouseY, 7, 85, 18, 18)) graphics.renderComponentTooltip(font, List.of(Component.literal(ChatFormatting.GOLD + "BELL"), Component.literal("Plays a bell when this character is received")), mouseX, mouseY);
-        if (checkClick(mouseX, mouseY, 27, 85, 18, 18)) graphics.renderComponentTooltip(font, List.of(Component.literal(ChatFormatting.GOLD + "PRINT"), Component.literal("Forces recipient to print message after transmission ends")), mouseX, mouseY);
-        if (checkClick(mouseX, mouseY, 47, 85, 18, 18)) graphics.renderComponentTooltip(font, List.of(Component.literal(ChatFormatting.GOLD + "CLEAR SCREEN"), Component.literal("Wipes message buffer when this character is received")), mouseX, mouseY);
-        if (checkClick(mouseX, mouseY, 67, 85, 18, 18)) graphics.renderComponentTooltip(font, List.of(Component.literal(ChatFormatting.GOLD + "FORMAT"), Component.literal("Inserts format character for message formatting")), mouseX, mouseY);
-        if (checkClick(mouseX, mouseY, 87, 85, 18, 18)) graphics.renderComponentTooltip(font, List.of(Component.literal(ChatFormatting.GOLD + "PAUSE"), Component.literal("Pauses message transmission for one second")), mouseX, mouseY);
+        if (checkClick(mouseX, mouseY, 7, 85, 18, 18)) graphics.renderComponentTooltip(font, List.of(Component.literal(ChatFormatting.GOLD + "BELL"), Component.translatable("hbm.text.plays_a_bell_when_this_character_is_received")), mouseX, mouseY);
+        if (checkClick(mouseX, mouseY, 27, 85, 18, 18)) graphics.renderComponentTooltip(font, List.of(Component.literal(ChatFormatting.GOLD + "PRINT"), Component.translatable("hbm.text.forces_recipient_to_print_message_after_transmis")), mouseX, mouseY);
+        if (checkClick(mouseX, mouseY, 47, 85, 18, 18)) graphics.renderComponentTooltip(font, List.of(Component.literal(ChatFormatting.GOLD + "CLEAR SCREEN"), Component.translatable("hbm.text.wipes_message_buffer_when_this_character_is_rece")), mouseX, mouseY);
+        if (checkClick(mouseX, mouseY, 67, 85, 18, 18)) graphics.renderComponentTooltip(font, List.of(Component.literal(ChatFormatting.GOLD + "FORMAT"), Component.translatable("hbm.text.inserts_format_character_for_message_formatting")), mouseX, mouseY);
+        if (checkClick(mouseX, mouseY, 87, 85, 18, 18)) graphics.renderComponentTooltip(font, List.of(Component.literal(ChatFormatting.GOLD + "PAUSE"), Component.translatable("hbm.text.pauses_message_transmission_for_one_second")), mouseX, mouseY);
 
         if (checkClick(mouseX, mouseY, 127, 105, 18, 18)) graphics.renderComponentTooltip(font, List.of(Component.literal(ChatFormatting.GREEN + "SAVE ID")), mouseX, mouseY);
         if (checkClick(mouseX, mouseY, 147, 105, 18, 18)) graphics.renderComponentTooltip(font, List.of(Component.literal(ChatFormatting.YELLOW + "SEND MESSAGE")), mouseX, mouseY);

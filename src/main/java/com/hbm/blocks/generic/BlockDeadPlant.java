@@ -6,6 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
@@ -37,8 +38,16 @@ public class BlockDeadPlant extends Block implements IPlantable {
     // ========== ЛОГИКА БЛОКА ==========
     protected boolean canPlaceBlockOn(Block block) {
         return block == Blocks.GRASS_BLOCK || block == Blocks.DIRT ||
+                // В 1.7.10 это был Blocks.dirt с метаданными: грубая земля (1) и подзол (2).
+                block == Blocks.COARSE_DIRT || block == Blocks.PODZOL ||
                 block == ModBlocks.WASTE_EARTH.get() || block == ModBlocks.DIRT_OILY.get() ||
                 block == ModBlocks.DIRT_DEAD.get();
+    }
+
+    /** Предикат для фичи: без него мёртвое растение садилось на камень, песок и листву. */
+    @Override
+    public boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos) {
+        return canPlaceBlockOn(level.getBlockState(pos.below()).getBlock());
     }
 
     @Override

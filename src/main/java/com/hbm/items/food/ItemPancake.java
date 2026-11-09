@@ -58,9 +58,9 @@ public class ItemPancake extends Item {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("Can be eaten to recharge lunar cybernetic armor"));
-        tooltip.add(Component.literal("Not for people with weak molars"));
+        tooltip.add(Component.translatable("hbm.text.can_be_eaten_to_recharge_lunar_cybernetic_armor"));
+        tooltip.add(Component.translatable("hbm.text.not_for_people_with_weak_molars"));
         tooltip.add(Component.empty());
-        tooltip.add(Component.literal("Half burnt and smells horrible"));
+        tooltip.add(Component.translatable("hbm.text.half_burnt_and_smells_horrible"));
     }
 }

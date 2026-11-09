@@ -2,6 +2,7 @@ package com.hbm.render.item;
 
 import com.hbm.blocks.generic.BlockPipe;
 import com.hbm.main.HBMResourceManager;
+import com.hbm.util.RefStrings;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
@@ -43,43 +44,43 @@ public class PipeItemRenderer extends BlockEntityWithoutLevelRenderer {
             switch (pipe.getPipeType()) {
                 case NORMAL:
                     HBMResourceManager.pipe.renderPart(poseStack, buffer, "Top",
-                            ResLocation("hbm", "textures/block/" + topTexture + ".png"),
+                            ResLocation(RefStrings.MODID, "textures/block/" + topTexture + ".png"),
                             packedLight, packedOverlay);
                     HBMResourceManager.pipe.renderPart(poseStack, buffer, "Side",
-                            ResLocation("hbm", "textures/block/" + sideTexture + ".png"),
+                            ResLocation(RefStrings.MODID, "textures/block/" + sideTexture + ".png"),
                             packedLight, packedOverlay);
                     break;
 
                 case RIM:
                     HBMResourceManager.pipe_rim.renderPart(poseStack, buffer, "Top",
-                            ResLocation("hbm", "textures/block/" + topTexture + ".png"),
+                            ResLocation(RefStrings.MODID, "textures/block/" + topTexture + ".png"),
                             packedLight, packedOverlay);
                     HBMResourceManager.pipe_rim.renderPart(poseStack, buffer, "Side",
-                            ResLocation("hbm", "textures/block/" + sideTexture + ".png"),
+                            ResLocation(RefStrings.MODID, "textures/block/" + sideTexture + ".png"),
                             packedLight, packedOverlay);
                     break;
 
                 case QUAD:
                     HBMResourceManager.pipe_quad.renderPart(poseStack, buffer, "Top",
-                            ResLocation("hbm", "textures/block/" + topTexture + ".png"),
+                            ResLocation(RefStrings.MODID, "textures/block/" + topTexture + ".png"),
                             packedLight, packedOverlay);
                     HBMResourceManager.pipe_quad.renderPart(poseStack, buffer, "Side",
-                            ResLocation("hbm", "textures/block/" + sideTexture + ".png"),
+                            ResLocation(RefStrings.MODID, "textures/block/" + sideTexture + ".png"),
                             packedLight, packedOverlay);
                     break;
 
                 case FRAMED:
                     HBMResourceManager.pipe_rim.renderPart(poseStack, buffer, "Top",
-                            ResLocation("hbm", "textures/block/" + topTexture + ".png"),
+                            ResLocation(RefStrings.MODID, "textures/block/" + topTexture + ".png"),
                             packedLight, packedOverlay);
                     HBMResourceManager.pipe_rim.renderPart(poseStack, buffer, "Side",
-                            ResLocation("hbm", "textures/block/" + sideTexture + ".png"),
+                            ResLocation(RefStrings.MODID, "textures/block/" + sideTexture + ".png"),
                             packedLight, packedOverlay);
                     HBMResourceManager.pipe_frame.renderPart(poseStack, buffer, "Frame",
-                            ResLocation("hbm", "textures/block/pipe_frame.png"),
+                            ResLocation(RefStrings.MODID, "textures/block/pipe_frame.png"),
                             packedLight, packedOverlay);
                     HBMResourceManager.pipe_frame.renderPart(poseStack, buffer, "Mesh",
-                            ResLocation("hbm", "textures/block/pipe_mesh.png"),
+                            ResLocation(RefStrings.MODID, "textures/block/pipe_mesh.png"),
                             packedLight, packedOverlay);
                     break;
             }

@@ -68,11 +68,11 @@ public class ItemBobmazonPacket extends PacketBase implements PacketBase.Decodab
 
         if (offer == null) {
             player.displayClientMessage(
-                    Component.literal("[BOBMAZON] There appears to be a mismatch between the offer you have requested and the offers that exist."),
+                    Component.translatable("hbm.text.bobmazon_there_appears_to_be_a_mismatch_between"),
                     false
             );
             player.displayClientMessage(
-                    Component.literal("[BOBMAZON] Engaging fail-safe..."),
+                    Component.translatable("hbm.text.bobmazon_engaging_fail_safe"),
                     false
             );
             player.hurt(level.damageSources().generic(), 1000);
@@ -93,10 +93,10 @@ public class ItemBobmazonPacket extends PacketBase implements PacketBase.Decodab
 
                 level.addFreshEntity(bob);
             } else {
-                player.displayClientMessage(Component.literal("[BOBMAZON] Not enough caps!"), false);
+                player.displayClientMessage(Component.translatable("hbm.text.bobmazon_not_enough_caps"), false);
             }
         } else {
-            player.displayClientMessage(Component.literal("[BOBMAZON] Achievement requirement not met!"), false);
+            player.displayClientMessage(Component.translatable("hbm.text.bobmazon_achievement_requirement_not_met"), false);
         }
     }
 

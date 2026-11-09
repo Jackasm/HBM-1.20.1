@@ -31,7 +31,7 @@ public class DamageSourceSednaWithAttacker extends DamageSourceSednaNoAttacker {
         Component entityName = entity.getDisplayName();
         Component killerName = this.causingEntity != null ?
                 this.causingEntity.getDisplayName() :
-                Component.literal("Unknown").withStyle(ChatFormatting.OBFUSCATED);
+                Component.translatable("hbm.text.unknown").withStyle(ChatFormatting.OBFUSCATED);
         return Component.translatable("death.sedna." + this.typeName + ".attacker", entityName, killerName);
     }
 

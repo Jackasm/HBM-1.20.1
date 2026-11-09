@@ -55,7 +55,7 @@ public class FT_Coolable extends FluidTrait {
 
     @Override
     public void addInfoHidden(List<Component> info) {
-        info.add(Component.literal("Thermal capacity: " + heatEnergy + " TU per " + amountReq + "mB")
+        info.add(Component.translatable("hbm.text.thermal_capacity", heatEnergy, amountReq)
                 .withStyle(ChatFormatting.RED));
 
         for (CoolingType type : CoolingType.values()) {
@@ -64,7 +64,7 @@ public class FT_Coolable extends FluidTrait {
             if (eff > 0) {
                 MutableComponent text = Component.literal("[" + type.name + "] ")
                         .withStyle(ChatFormatting.YELLOW)
-                        .append(Component.literal("Efficiency: " + ((int) (eff * 100D)) + "%")
+                        .append(Component.translatable("hbm.text.efficiency", ((int) (eff * 100D)))
                                 .withStyle(ChatFormatting.AQUA));
                 info.add(text);
             }

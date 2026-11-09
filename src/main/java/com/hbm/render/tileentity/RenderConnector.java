@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import com.hbm.blocks.network.ConnectorRedWire;
 import com.hbm.main.HBMResourceManager;
 import com.hbm.tileentity.network.TileEntityConnector;
+import com.hbm.util.RefStrings;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -17,7 +18,7 @@ import static com.hbm.util.ResLocation.ResLocation;
 public class RenderConnector extends RenderPylonBase<TileEntityConnector> {
 
     private static final ResourceLocation CONNECTOR_TEX =
-            ResLocation("hbm", "textures/block/network/red_connector.png");
+            ResLocation(RefStrings.MODID, "textures/block/network/red_connector.png");
 
     public RenderConnector(BlockEntityRendererProvider.Context context) {
         super(context);

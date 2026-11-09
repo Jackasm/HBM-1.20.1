@@ -74,7 +74,7 @@ public class GUIBlastFurnace extends AbstractContainerScreen<ContainerBlastFurna
             int fuel = menu.getFuel();
             int maxFuel = menu.getMaxFuel();
             graphics.renderTooltip(this.font,
-                    Component.literal("Fuel: " + fuel + " / " + maxFuel),
+                    Component.translatable("hbm.text.fuel", fuel, maxFuel),
                     mouseX, mouseY);
         }
     }

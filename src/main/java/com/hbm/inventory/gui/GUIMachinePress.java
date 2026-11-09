@@ -33,7 +33,7 @@ public class GUIMachinePress extends AbstractContainerScreen<ContainerMachinePre
 
         if(isHovering(25, 16, 18, 18, mouseX, mouseY)) {
             int speedPercent = (int)(speed * 100 / 400.0f);
-            guiGraphics.renderTooltip(this.font, Component.literal("Speed: " + speedPercent + "%"), mouseX, mouseY);
+            guiGraphics.renderTooltip(this.font, Component.translatable("hbm.text.speed", speedPercent), mouseX, mouseY);
         }
 
         if(isHovering(25, 34, 18, 18, mouseX, mouseY)) {

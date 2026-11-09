@@ -146,6 +146,6 @@ public class NTMAnvil extends BlockFallingNT implements EntityBlock {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter world, List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("Tier " + tier + " Anvil").withStyle(net.minecraft.ChatFormatting.GOLD));
+        tooltip.add(Component.translatable("hbm.text.tier", tier).withStyle(net.minecraft.ChatFormatting.GOLD));
     }
 }

@@ -2745,6 +2745,14 @@ public class ModItems {
             () -> new ForgeSpawnEggItem(ModEntities.UNDEAD_SOLDIER, 0x2F4F4F, 0x8B0000, new Item.Properties()),
             ItemModelType.SPAWN_EGG);
 
+    public static final RegistryObject<Item> PIGEON_SPAWN_EGG = register(CONSUMABLE_TAB, "pigeon_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.PIGEON, 0x858894, 0x4E4755, new Item.Properties()),
+            ItemModelType.SPAWN_EGG);
+
+    public static final RegistryObject<Item> PLASTIC_BAG_SPAWN_EGG = register(CONSUMABLE_TAB, "plastic_bag_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.PLASTIC_BAG, 0x808080, 0x0026FF, new Item.Properties()),
+            ItemModelType.SPAWN_EGG);
+
     public static final RegistryObject<Item> STICK_TNT = register(PARTS_TAB, "stick_tnt",
             () -> new Item(new Item.Properties()), ItemModelType.GENERATED);
 
@@ -6980,14 +6988,7 @@ public class ModItems {
     public static final RegistryObject<Item> PLASTIC_BAG = register(CONSUMABLE_TAB, "plastic_bag",
             () -> new Item(new Item.Properties()),
             ItemModelType.GENERATED);
-    // Яйца призыва: цвета взяты из текстур мобов (pigeon.png, plasticbag.png).
-    public static final RegistryObject<Item> PIGEON_SPAWN_EGG = register(CONSUMABLE_TAB, "pigeon_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.PIGEON, 0x858894, 0x4E4755, new Item.Properties()),
-            ItemModelType.SPAWN_EGG);
 
-    public static final RegistryObject<Item> PLASTIC_BAG_SPAWN_EGG = register(CONSUMABLE_TAB, "plastic_bag_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.PLASTIC_BAG, 0x808080, 0x0026FF, new Item.Properties()),
-            ItemModelType.SPAWN_EGG);
     public static final RegistryObject<Item> SCRAP_PLASTIC = register("scrap_plastic",
             () -> new ItemPlasticScrap(new Item.Properties()),
             ItemModelType.GENERATED);

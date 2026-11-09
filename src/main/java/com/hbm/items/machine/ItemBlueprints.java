@@ -38,9 +38,9 @@ public class ItemBlueprints extends Item {
         if (pool == null || pool.isEmpty()) return;
 
         if (poolName.startsWith(GenericRecipes.POOL_PREFIX_SECRET)) {
-            tooltip.add(Component.literal("Cannot be copied!").withStyle(ChatFormatting.RED));
+            tooltip.add(Component.translatable("hbm.text.cannot_be_copied").withStyle(ChatFormatting.RED));
         } else {
-            tooltip.add(Component.literal("Right-click to copy (requires paper)").withStyle(ChatFormatting.YELLOW));
+            tooltip.add(Component.translatable("hbm.text.right_click_to_copy_requires_paper").withStyle(ChatFormatting.YELLOW));
         }
 
         for (String name : pool) {

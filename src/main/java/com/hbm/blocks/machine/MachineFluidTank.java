@@ -121,7 +121,7 @@ public class MachineFluidTank extends BlockDummyable implements ILookOverlay {
                 tank.setChanged();
 
                 player.sendSystemMessage(
-                        Component.literal("Changed type to ")
+                        Component.translatable("hbm.text.changed_type_to")
                                 .append(Component.translatable(type.getLocalizedName()))
                                 .append(Component.literal("!"))
                 );

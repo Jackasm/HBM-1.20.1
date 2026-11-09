@@ -32,14 +32,14 @@ public class ItemBattery extends Item implements IBatteryItem {
         long charge = getCharge(stack);
 
         if (this != ModItems.FUSION_CORE.get() && this != ModItems.ENERGY_CORE.get()) {
-            tooltip.add(Component.literal("Energy stored: " + BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + " HE"));
+            tooltip.add(Component.translatable("hbm.text.energy_stored", BobMathUtil.getShortNumber(charge), BobMathUtil.getShortNumber(maxCharge)));
         } else {
             String charge1 = BobMathUtil.getShortNumber((charge * 100) / this.maxCharge);
-            tooltip.add(Component.literal("Charge: " + charge1 + "%"));
+            tooltip.add(Component.translatable("hbm.text.charge", charge1));
             tooltip.add(Component.literal("(" + BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + " HE)"));
         }
-        tooltip.add(Component.literal("Charge rate: " + BobMathUtil.getShortNumber(chargeRate) + " HE/t"));
-        tooltip.add(Component.literal("Discharge rate: " + BobMathUtil.getShortNumber(dischargeRate) + " HE/t"));
+        tooltip.add(Component.translatable("hbm.text.charge_rate", BobMathUtil.getShortNumber(chargeRate)));
+        tooltip.add(Component.translatable("hbm.text.discharge_rate", BobMathUtil.getShortNumber(dischargeRate)));
     }
 
     public void chargeBattery(ItemStack stack, long amount) {

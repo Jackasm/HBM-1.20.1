@@ -62,40 +62,40 @@ public class ItemMachineUpgrade extends Item {
         if (this == ModItems.UPGRADE_RADIUS.get()) {
             tooltip.add(Component.literal(ChatFormatting.RED + "Forcefield Range Upgrade"));
             tooltip.add(Component.literal("Radius +16 / Consumption +500"));
-            tooltip.add(Component.literal("Stacks to 16"));
+            tooltip.add(Component.translatable("hbm.text.stacks_to_16"));
         }
 
         if (this == ModItems.UPGRADE_HEALTH.get()) {
             tooltip.add(Component.literal(ChatFormatting.RED + "Forcefield Health Upgrade"));
             tooltip.add(Component.literal("Max. Health +50 / Consumption +250"));
-            tooltip.add(Component.literal("Stacks to 16"));
+            tooltip.add(Component.translatable("hbm.text.stacks_to_16"));
         }
 
         if (this == ModItems.UPGRADE_SMELTER.get()) {
             tooltip.add(Component.literal(ChatFormatting.RED + "Mining Laser Upgrade"));
-            tooltip.add(Component.literal("Smelts blocks. Easy enough."));
+            tooltip.add(Component.translatable("hbm.text.smelts_blocks_easy_enough"));
         }
 
         if (this == ModItems.UPGRADE_SHREDDER.get()) {
             tooltip.add(Component.literal(ChatFormatting.RED + "Mining Laser Upgrade"));
-            tooltip.add(Component.literal("Crunches ores"));
+            tooltip.add(Component.translatable("hbm.text.crunches_ores"));
         }
 
         if (this == ModItems.UPGRADE_CENTRIFUGE.get()) {
             tooltip.add(Component.literal(ChatFormatting.RED + "Mining Laser Upgrade"));
-            tooltip.add(Component.literal("Hopefully self-explanatory"));
+            tooltip.add(Component.translatable("hbm.text.hopefully_self_explanatory"));
         }
 
         if (this == ModItems.UPGRADE_CRYSTALLIZER.get()) {
             tooltip.add(Component.literal(ChatFormatting.RED + "Mining Laser Upgrade"));
-            tooltip.add(Component.literal("Your new best friend"));
+            tooltip.add(Component.translatable("hbm.text.your_new_best_friend"));
         }
 
         if (this == ModItems.UPGRADE_SCREM.get()) {
             tooltip.add(Component.literal(ChatFormatting.RED + "Mining Laser Upgrade"));
-            tooltip.add(Component.literal("It's like in Super Mario where all blocks are"));
-            tooltip.add(Component.literal("actually Toads, but here it's Half-Life scientists"));
-            tooltip.add(Component.literal("and they scream. A lot."));
+            tooltip.add(Component.translatable("hbm.text.it_s_like_in_super_mario_where_all_blocks_are"));
+            tooltip.add(Component.translatable("hbm.text.actually_toads_but_here_it_s_half_life_scientist"));
+            tooltip.add(Component.translatable("hbm.text.and_they_scream_a_lot"));
         }
 
         if (this == ModItems.UPGRADE_NULLIFIER.get()) {
@@ -106,7 +106,7 @@ public class ItemMachineUpgrade extends Item {
 
         if (this == ModItems.UPGRADE_GC_SPEED.get()) {
             tooltip.add(Component.literal(ChatFormatting.RED + "Gas Centrifuge Upgrade"));
-            tooltip.add(Component.literal("Allows for total isotopic separation of HEUF6"));
+            tooltip.add(Component.translatable("hbm.text.allows_for_total_isotopic_separation_of_heuf6"));
             tooltip.add(Component.literal(ChatFormatting.YELLOW + "also your centrifuge goes sicko mode"));
         }
     }

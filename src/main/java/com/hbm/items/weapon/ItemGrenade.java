@@ -220,14 +220,14 @@ public class ItemGrenade extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("Fuse: " + translateFuse()));
+        tooltip.add(Component.translatable("hbm.text.fuse", translateFuse()));
 
         Item item = stack.getItem();
 
         if (item == ModItems.GRENADE_SMART.get()) {
             tooltip.add(Component.literal(""));
             tooltip.add(Component.literal("\"Why did it not blow up????\""));
-            tooltip.add(Component.literal("If it didn't blow up it means it worked.").withStyle(ChatFormatting.ITALIC));
+            tooltip.add(Component.translatable("hbm.text.if_it_didn_t_blow_up_it_means_it_worked").withStyle(ChatFormatting.ITALIC));
         }
 
         if (item == ModItems.GRENADE_IF_GENERIC.get()) {

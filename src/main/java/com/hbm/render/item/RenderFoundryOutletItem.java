@@ -2,6 +2,7 @@ package com.hbm.render.item;
 
 import com.hbm.items.block.ItemFoundryOutlet;
 import com.hbm.main.HBMResourceManager;
+import com.hbm.util.RefStrings;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -15,8 +16,8 @@ import static com.hbm.util.ResLocation.ResLocation;
 
 public class RenderFoundryOutletItem extends BlockEntityWithoutLevelRenderer {
 
-    private static final ResourceLocation TEXTURE_OUTLET = ResLocation("hbm", "textures/block/network/foundry_outlet.png");
-    private static final ResourceLocation TEXTURE_SLAGTAP = ResLocation("hbm", "textures/block/network/foundry_slagtap.png");
+    private static final ResourceLocation TEXTURE_OUTLET = ResLocation(RefStrings.MODID, "textures/block/network/foundry_outlet.png");
+    private static final ResourceLocation TEXTURE_SLAGTAP = ResLocation(RefStrings.MODID, "textures/block/network/foundry_slagtap.png");
 
     public RenderFoundryOutletItem() {
         super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());

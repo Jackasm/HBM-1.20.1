@@ -26,7 +26,7 @@ public class GUIBook extends AbstractContainerScreen<ContainerBook> {
 
     @Override
     protected void renderLabels(@NotNull GuiGraphics graphics, int mouseX, int mouseY) {
-        graphics.drawString(font, "Extended 4-Slot Crafting", 28, 6, 0x404040, false);
+        graphics.drawString(font, Component.translatable("hbm.text.extended_4_slot_crafting"), 28, 6, 0x404040, false);
         graphics.drawString(font, Component.translatable("container.inventory"), 8, this.imageHeight - 96 + 2, 0x404040, false);
     }
 

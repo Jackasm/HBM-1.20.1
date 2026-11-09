@@ -154,7 +154,7 @@ public interface ICustomWarhead {
 
             switch (getWarheadType(data)) {
                 case NUCLEAR, TX, HE -> {
-                    tooltip.add(Component.literal("Composition:"));
+                    tooltip.add(Component.translatable("hbm.text.composition"));
                     addCompositionalInfo(data, tooltip, combinedFuels);
                 }
                 default -> { }
@@ -165,20 +165,20 @@ public interface ICustomWarhead {
             tooltip.add(Component.empty());
 
             switch (warhead) {
-                case CHEM, BIO -> tooltip.add(Component.literal("Type: " + getColorFromWarhead(warhead)
-                        + Component.translatable("warhead." + warhead, Component.translatable(data.getString(NBT_SPECIAL))).getString()));
-                default -> tooltip.add(Component.literal("Type: " + getColorFromWarhead(warhead) + warhead.getLoc().getString()));
+                case CHEM, BIO -> tooltip.add(Component.translatable("hbm.text.warhead_type", getColorFromWarhead(warhead),
+                        Component.translatable("warhead." + warhead, Component.translatable(data.getString(NBT_SPECIAL))).getString()));
+                default -> tooltip.add(Component.translatable("hbm.text.type", getColorFromWarhead(warhead), warhead.getLoc().getString()));
             }
-            tooltip.add(Component.literal("Function: " + getWeaponType(data).getLoc().getString()));
+            tooltip.add(Component.translatable("hbm.text.function", getWeaponType(data).getLoc().getString()));
 
             switch (warhead) {
                 case AMAT, BF, FUSION, GRAV, HE, NUCLEAR, TX ->
-                        tooltip.add(Component.literal("Yield: " + BobMathUtil.getShortNumber(data.getInt(NBT_YIELD)) + "T"));
+                        tooltip.add(Component.translatable("hbm.text.yield", BobMathUtil.getShortNumber(data.getInt(NBT_YIELD))));
                 case BIO, CHEM, SCHRAB ->
-                        tooltip.add(Component.literal("Radius: " + BobMathUtil.getShortNumber(data.getInt(NBT_YIELD)) + "M"));
+                        tooltip.add(Component.translatable("hbm.text.radius", BobMathUtil.getShortNumber(data.getInt(NBT_YIELD))));
                 default -> { }
             }
-            tooltip.add(Component.literal("Trait: " + getWeaponTrait(data).getLoc().getString()));
+            tooltip.add(Component.translatable("hbm.text.trait", getWeaponTrait(data).getLoc().getString()));
         } catch (Exception e) {
             LOGGER.catching(Level.ERROR, e);
         }

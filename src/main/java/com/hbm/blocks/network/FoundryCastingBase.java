@@ -197,7 +197,7 @@ public abstract class FoundryCastingBase extends BaseEntityBlock implements ICru
                 String amountStr = foundryBase.amount + " / " + foundryBase.getCapacity() + " q";
                 mainSection.addLine(Component.literal(matName + ": " + amountStr).withStyle(style -> style.withColor(color)));
             } else {
-                mainSection.addLine(Component.literal("Empty").withStyle(ChatFormatting.GRAY));
+                mainSection.addLine(Component.translatable("hbm.text.empty").withStyle(ChatFormatting.GRAY));
             }
         }
 
@@ -206,19 +206,19 @@ public abstract class FoundryCastingBase extends BaseEntityBlock implements ICru
             // Фильтр
             if (outlet.filter != null) {
                 String filterName = Component.translatable(outlet.filter.getUnlocalizedName()).getString();
-                mainSection.addLine(Component.literal("Filter: " + filterName).withStyle(ChatFormatting.AQUA));
+                mainSection.addLine(Component.translatable("hbm.text.filter", filterName).withStyle(ChatFormatting.AQUA));
                 if (outlet.invertFilter) {
-                    mainSection.addLine(Component.literal("  (Inverted)").withStyle(ChatFormatting.GRAY));
+                    mainSection.addLine(Component.translatable("hbm.text.inverted").withStyle(ChatFormatting.GRAY));
                 }
             } else {
-                mainSection.addLine(Component.literal("Filter: None").withStyle(ChatFormatting.GRAY));
+                mainSection.addLine(Component.translatable("hbm.text.filter_none").withStyle(ChatFormatting.GRAY));
             }
 
             // Состояние
-            mainSection.addLine(Component.literal("Closed: " + (outlet.isClosed() ? "Yes" : "No"))
+            mainSection.addLine(Component.translatable("hbm.text.closed", (outlet.isClosed() ? "Yes" : "No"))
                     .withStyle(outlet.isClosed() ? ChatFormatting.RED : ChatFormatting.GREEN));
             if (outlet.invertRedstone) {
-                mainSection.addLine(Component.literal("  (Redstone Inverted)").withStyle(ChatFormatting.GRAY));
+                mainSection.addLine(Component.translatable("hbm.text.redstone_inverted").withStyle(ChatFormatting.GRAY));
             }
         }
 
@@ -227,9 +227,9 @@ public abstract class FoundryCastingBase extends BaseEntityBlock implements ICru
             // Установленный молд
             ItemMold.MoldType mold = cast.getInstalledMold();
             if (mold != null) {
-                mainSection.addLine(Component.literal("Mold: " + mold.getSerializedName()).withStyle(ChatFormatting.BLUE));
+                mainSection.addLine(Component.translatable("hbm.text.mold", mold.getSerializedName()).withStyle(ChatFormatting.BLUE));
             } else {
-                mainSection.addLine(Component.literal("No mold installed").withStyle(ChatFormatting.RED));
+                mainSection.addLine(Component.translatable("hbm.text.no_mold_installed").withStyle(ChatFormatting.RED));
             }
 
             // Материал и количество
@@ -243,13 +243,13 @@ public abstract class FoundryCastingBase extends BaseEntityBlock implements ICru
             // Готовый предмет на выходе
             ItemStack output = cast.inventory.getStackInSlot(1);
             if (!output.isEmpty()) {
-                mainSection.addLine(Component.literal("Output: " + output.getHoverName().getString()).withStyle(ChatFormatting.GREEN));
+                mainSection.addLine(Component.translatable("hbm.text.output", output.getHoverName().getString()).withStyle(ChatFormatting.GREEN));
             }
 
             // Прогресс охлаждения
             if (mold != null && cast.amount == cast.getCapacity() && output.isEmpty()) {
                 int progress = (200 - cast.cooloff) * 100 / 200;
-                mainSection.addLine(Component.literal("Casting: " + progress + "%").withStyle(ChatFormatting.YELLOW));
+                mainSection.addLine(Component.translatable("hbm.text.casting", progress).withStyle(ChatFormatting.YELLOW));
             }
         }
 

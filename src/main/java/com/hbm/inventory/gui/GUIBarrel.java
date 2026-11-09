@@ -131,7 +131,7 @@ public class GUIBarrel extends AbstractContainerScreen<ContainerBarrel> {
             if (fluidType != Fluids.NONE.get()) {
                 tooltip.add(Component.literal(fluidType.getLocalizedName()));
             } else {
-                tooltip.add(Component.literal("Empty"));
+                tooltip.add(Component.translatable("hbm.text.empty"));
             }
 
             tooltip.add(Component.literal("§7" + fill + "/" + capacity + "mB"));
@@ -145,22 +145,22 @@ public class GUIBarrel extends AbstractContainerScreen<ContainerBarrel> {
 
             switch (mode) {
                 case 0 -> {
-                    tooltip.add(Component.literal("§aMode: Input Only"));
-                    tooltip.add(Component.literal("§7Accepts fluid from network"));
-                    tooltip.add(Component.literal("§7Does not provide fluid"));
+                    tooltip.add(Component.translatable("hbm.text.mode_input_only"));
+                    tooltip.add(Component.translatable("hbm.text.accepts_fluid_from_network"));
+                    tooltip.add(Component.translatable("hbm.text.does_not_provide_fluid"));
                 }
                 case 1 -> {
-                    tooltip.add(Component.literal("§eMode: Input & Output"));
-                    tooltip.add(Component.literal("§7Both accepts and provides fluid"));
+                    tooltip.add(Component.translatable("hbm.text.mode_input_output"));
+                    tooltip.add(Component.translatable("hbm.text.both_accepts_and_provides_fluid"));
                 }
                 case 2 -> {
-                    tooltip.add(Component.literal("§6Mode: Output Only"));
-                    tooltip.add(Component.literal("§7Provides fluid to network"));
-                    tooltip.add(Component.literal("§7Does not accept fluid"));
+                    tooltip.add(Component.translatable("hbm.text.mode_output_only"));
+                    tooltip.add(Component.translatable("hbm.text.provides_fluid_to_network"));
+                    tooltip.add(Component.translatable("hbm.text.does_not_accept_fluid"));
                 }
             }
 
-            tooltip.add(Component.literal("§7Click to cycle mode"));
+            tooltip.add(Component.translatable("hbm.text.click_to_cycle_mode"));
             guiGraphics.renderTooltip(this.font, tooltip, Optional.empty(), mouseX, mouseY);
         }
     }

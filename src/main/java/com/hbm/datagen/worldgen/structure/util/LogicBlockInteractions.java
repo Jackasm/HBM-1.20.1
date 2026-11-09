@@ -6,6 +6,7 @@ import com.hbm.items.ModItems;
 import com.hbm.potion.HbmPotion;
 
 import com.hbm.tileentity.TileEntityLockableBase;
+import com.hbm.util.RefStrings;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -107,7 +108,7 @@ public class LogicBlockInteractions {
                 safe.unlock();
                 world.playSound(null, player.getX(), player.getY(), player.getZ(),
                         SoundEvent.createVariableRangeEvent(
-                                net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("hbm", "block.lockopen")),
+                                net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(RefStrings.MODID, "block.lockopen")),
                         SoundSource.PLAYERS, 3.0F, 0.8F);
             }
         }

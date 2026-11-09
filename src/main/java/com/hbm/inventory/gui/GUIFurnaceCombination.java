@@ -147,7 +147,7 @@ public class GUIFurnaceCombination extends AbstractContainerScreen<ContainerFurn
             if (fluidType != Fluids.NONE.get()) {
                 tooltip.add(Component.literal(fluidType.getLocalizedName()));
             } else {
-                tooltip.add(Component.literal("Empty"));
+                tooltip.add(Component.translatable("hbm.text.empty"));
             }
 
             tooltip.add(Component.literal("§7" + fill + "/" + capacity + "mB"));

@@ -156,7 +156,7 @@ public class QuestBookScreen extends Screen {
         int x = (width - BOOK_WIDTH) / 2;
         int y = (height - BOOK_HEIGHT) / 2;
 
-        refreshButton = Button.builder(Component.literal("Refresh"), btn -> {
+        refreshButton = Button.builder(Component.translatable("hbm.text.refresh"), btn -> {
             refreshQuests();
             rebuildWidgets();
         }).pos(x + BOOK_WIDTH - 60, y + 10).size(50, 20).build();
@@ -170,7 +170,7 @@ public class QuestBookScreen extends Screen {
             Object entry = allEntries.get(i);
             if (entry instanceof QuestEntry qe) {
                 if (qe.type == QuestEntry.Type.ACTIVE) {
-                    Button abandonBtn = Button.builder(Component.literal("Abandon"),
+                    Button abandonBtn = Button.builder(Component.translatable("hbm.text.abandon"),
                                     btn -> {
                                         if (player.level().isClientSide()) {
                                             QuestManager.removeLocalActiveQuest(qe.questId);
@@ -188,7 +188,7 @@ public class QuestBookScreen extends Screen {
                     currentY += 5;
                 } else {
                     if (qe.cooldown <= 0) {
-                        Button acceptBtn = Button.builder(Component.literal("Accept"),
+                        Button acceptBtn = Button.builder(Component.translatable("hbm.text.accept"),
                                         btn -> {
                                             if (player.level().isClientSide()) {
                                                 QuestManager.addLocalActiveQuest(qe.questId);

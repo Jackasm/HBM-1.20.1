@@ -53,7 +53,7 @@ public class ItemScraps extends Item {
         if (isLiquid(stack)) {
             tooltip.add(Component.literal(Mats.formatAmount(contents.amount, shiftDown)));
             if (contents.material.smeltable == SmeltingBehavior.ADDITIVE) {
-                tooltip.add(Component.literal("Additive, not castable!").withStyle(ChatFormatting.DARK_RED));
+                tooltip.add(Component.translatable("hbm.text.additive_not_castable").withStyle(ChatFormatting.DARK_RED));
             }
         } else {
             tooltip.add(Component.literal(

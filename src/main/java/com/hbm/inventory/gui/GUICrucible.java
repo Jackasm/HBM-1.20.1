@@ -89,7 +89,7 @@ public class GUICrucible extends AbstractContainerScreen<ContainerCrucible> {
         boolean shiftDown = GLFW.glfwGetKey(Objects.requireNonNull(minecraft).getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) == GLFW.GLFW_PRESS;
 
         if (stack.isEmpty()) {
-            list.add(Component.literal("Empty").withStyle(net.minecraft.ChatFormatting.RED));
+            list.add(Component.translatable("hbm.text.empty").withStyle(net.minecraft.ChatFormatting.RED));
         }
 
         List<MaterialStack> reversed = new ArrayList<>(stack);

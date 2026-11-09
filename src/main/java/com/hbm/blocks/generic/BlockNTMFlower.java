@@ -73,7 +73,18 @@ public class BlockNTMFlower extends Block implements IPlantable, BonemealableBlo
 
     protected boolean canPlaceBlockOn(Block block) {
         return block == Blocks.GRASS_BLOCK || block == Blocks.DIRT || block == Blocks.FARMLAND ||
+                // В 1.7.10 это был Blocks.dirt с метаданными: грубая земля (1) и подзол (2).
+                block == Blocks.COARSE_DIRT || block == Blocks.PODZOL ||
                 block == ModBlocks.DIRT_DEAD.get() || block == ModBlocks.DIRT_OILY.get();
+    }
+
+    /**
+     * Предикат для фичи и для постановки: без него растение садилось на камень,
+     * песок, лёд и листву, а потом падало от первого обновления соседей.
+     */
+    @Override
+    public boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos) {
+        return canPlaceBlockOn(level.getBlockState(pos.below()).getBlock());
     }
 
     @Override
@@ -92,7 +103,6 @@ public class BlockNTMFlower extends Block implements IPlantable, BonemealableBlo
     public boolean canBlockStay(Level level, BlockPos pos) {
         return canPlaceBlockOn(level.getBlockState(pos.below()).getBlock());
     }
-
     @Override
     public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return Shapes.empty();

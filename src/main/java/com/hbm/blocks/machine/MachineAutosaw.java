@@ -75,7 +75,7 @@ public class MachineAutosaw extends BaseEntityBlock implements ILookOverlay, ITo
             if (TileEntityMachineAutosaw.acceptedFuels.contains(type)) {
                 Objects.requireNonNull(saw).tank.setType(type);
                 saw.setChanged();
-                player.sendSystemMessage(Component.literal("Changed type to ")
+                player.sendSystemMessage(Component.translatable("hbm.text.changed_type_to")
                         .append(Component.translatable(type.getDescriptionId()))
                         .append(Component.literal("!")));
                 return InteractionResult.SUCCESS;

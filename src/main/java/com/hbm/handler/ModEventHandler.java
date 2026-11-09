@@ -430,7 +430,7 @@ public class ModEventHandler {
 
             /// GHOST FIX START ///
             if (!Float.isFinite(player.getHealth()) || !Float.isFinite(player.getAbsorptionAmount())) {
-                player.sendSystemMessage(Component.literal("Your health has been restored!"));
+                player.sendSystemMessage(Component.translatable("hbm.text.your_health_has_been_restored"));
                 player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
                         ModSounds.SYRINGE.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                 player.setHealth(player.getMaxHealth());

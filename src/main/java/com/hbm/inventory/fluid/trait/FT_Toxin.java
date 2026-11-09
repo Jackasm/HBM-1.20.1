@@ -36,7 +36,7 @@ public class FT_Toxin extends FluidTrait {
 
     @Override
     public void addInfoHidden(List<Component> info) {
-        info.add(Component.literal("[Toxin]").withStyle(ChatFormatting.LIGHT_PURPLE));
+        info.add(Component.translatable("hbm.text.toxin").withStyle(ChatFormatting.LIGHT_PURPLE));
 
         for (ToxinEntry entry : entries) {
             entry.addInfo(info);
@@ -115,7 +115,7 @@ public class FT_Toxin extends FluidTrait {
                     .withStyle(ChatFormatting.YELLOW);
 
             if (fullBody) {
-                line.append(Component.literal(" (requires hazmat suit)").withStyle(ChatFormatting.RED));
+                line.append(Component.translatable("hbm.text.requires_hazmat_suit").withStyle(ChatFormatting.RED));
             }
 
             line.append(Component.literal(": ").withStyle(ChatFormatting.YELLOW));
@@ -162,7 +162,7 @@ public class FT_Toxin extends FluidTrait {
                     .withStyle(ChatFormatting.YELLOW);
 
             if (fullBody) {
-                line.append(Component.literal(" (requires hazmat suit)").withStyle(ChatFormatting.RED));
+                line.append(Component.translatable("hbm.text.requires_hazmat_suit").withStyle(ChatFormatting.RED));
             }
 
             info.add(line);

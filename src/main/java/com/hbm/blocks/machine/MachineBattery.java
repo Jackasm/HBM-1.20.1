@@ -128,9 +128,9 @@ public class MachineBattery extends BaseEntityBlock {
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter level, @NotNull List<Component> tooltip,
                                 @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("Stores up to " + formatNumber(maxPower) + " HE"));
-        tooltip.add(Component.literal("Charge speed: " + formatNumber(maxPower / 200) + " HE/t"));
-        tooltip.add(Component.literal("Discharge speed: " + formatNumber(maxPower / 600) + " HE/t"));
+        tooltip.add(Component.translatable("hbm.text.stores_up_to", formatNumber(maxPower)));
+        tooltip.add(Component.translatable("hbm.text.charge_speed", formatNumber(maxPower / 200)));
+        tooltip.add(Component.translatable("hbm.text.discharge_speed", formatNumber(maxPower / 600)));
         if (stack.getTag() != null && stack.getTag().contains("BlockEntityTag")) {
             long power = stack.getTag().getCompound("BlockEntityTag").getLong("power");
             tooltip.add(Component.literal(formatNumber(power) + " / " + formatNumber(maxPower) + " HE"));

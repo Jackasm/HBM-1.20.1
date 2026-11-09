@@ -277,11 +277,11 @@ public class ArmorUtil {
         ItemStack filter = ((IGasMask) mask.getItem()).getFilter(mask, player);
 
         if(filter.isEmpty()) {
-            list.add(Component.literal("No filter installed!").withStyle(ChatFormatting.RED));
+            list.add(Component.translatable("hbm.text.no_filter_installed").withStyle(ChatFormatting.RED));
             return;
         }
 
-        list.add(Component.literal("Installed filter:").withStyle(ChatFormatting.GOLD));
+        list.add(Component.translatable("hbm.text.installed_filter").withStyle(ChatFormatting.GOLD));
 
         int damage = filter.getDamageValue();
         int maxDamage = filter.getMaxDamage();

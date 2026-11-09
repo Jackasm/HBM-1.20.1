@@ -34,15 +34,15 @@ public class GUISatDock extends AbstractContainerScreen<ContainerSatDock> {
         // Рисуем информационную панель
         if (mouseX >= this.leftPos - 16 && mouseX < this.leftPos && mouseY >= this.topPos + 36 && mouseY < this.topPos + 52) {
             guiGraphics.renderTooltip(font,
-                    Component.literal("Requires linked miner sat chip."),
+                    Component.translatable("hbm.text.requires_linked_miner_sat_chip"),
                     mouseX, mouseY
             );
             guiGraphics.renderTooltip(font,
-                    Component.literal("Cargo ship will land periodically to"),
+                    Component.translatable("hbm.text.cargo_ship_will_land_periodically_to"),
                     mouseX, mouseY + 10
             );
             guiGraphics.renderTooltip(font,
-                    Component.literal("deliver resources."),
+                    Component.translatable("hbm.text.deliver_resources"),
                     mouseX, mouseY + 20
             );
         }

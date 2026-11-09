@@ -20,7 +20,7 @@ public class ItemModBandaid extends ItemArmorMod {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("3% chance for full heal when damaged").withStyle(ChatFormatting.RED));
+        tooltip.add(Component.translatable("hbm.text.3_chance_for_full_heal_when_damaged").withStyle(ChatFormatting.RED));
         tooltip.add(Component.empty());
         super.appendHoverText(stack, level, tooltip, flag);
     }

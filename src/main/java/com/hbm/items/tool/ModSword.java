@@ -28,26 +28,26 @@ public class ModSword  extends SwordItem {
         super.appendHoverText(stack, level, tooltip, flag);
 
         if (this == ModToolItems.SAW.get()) {
-            tooltip.add(Component.literal("Prepare for your examination!").withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.translatable("hbm.text.prepare_for_your_examination").withStyle(ChatFormatting.GRAY));
         }
         if (this == ModToolItems.BAT.get()) {
-            tooltip.add(Component.literal("Do you like hurting other people?").withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.translatable("hbm.text.do_you_like_hurting_other_people").withStyle(ChatFormatting.GRAY));
         }
         if (this == ModToolItems.BAT_NAIL.get()) {
-            tooltip.add(Component.literal("Or is it a classic?").withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.translatable("hbm.text.or_is_it_a_classic").withStyle(ChatFormatting.GRAY));
         }
         if (this == ModToolItems.GOLF_CLUB.get()) {
-            tooltip.add(Component.literal("Property of Miami Beach Golf Club.").withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.translatable("hbm.text.property_of_miami_beach_golf_club").withStyle(ChatFormatting.GRAY));
         }
         if (this == ModToolItems.PIPE_RUSTY.get()) {
-            tooltip.add(Component.literal("Ouch! Ouch! Ouch!").withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.translatable("hbm.text.ouch_ouch_ouch").withStyle(ChatFormatting.GRAY));
         }
         if (this == ModToolItems.PIPE_LEAD.get()) {
-            tooltip.add(Component.literal("Manually override anything by smashing it with this pipe.").withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.translatable("hbm.text.manually_override_anything_by_smashing_it_with_t").withStyle(ChatFormatting.GRAY));
         }
         if (this == ModToolItems.REER_GRAAR.get()) {
-            tooltip.add(Component.literal("Call now!").withStyle(ChatFormatting.GRAY));
-            tooltip.add(Component.literal("555-10-3728-ZX7-INFINITE").withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.translatable("hbm.text.call_now").withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.translatable("hbm.text.555_10_3728_zx7_infinite").withStyle(ChatFormatting.GRAY));
         }
     }
 }

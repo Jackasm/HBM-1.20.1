@@ -104,7 +104,7 @@ public class MachineFractionTower extends BlockDummyable implements ILookOverlay
         BlockEntity above = level.getBlockEntity(core.above(3));
         if (above instanceof TileEntityMachineFractionTower) {
             player.displayClientMessage(
-                    Component.literal("You can only change the type in the bottom segment!")
+                    Component.translatable("hbm.text.you_can_only_change_the_type_in_the_bottom_segme")
                             .withStyle(ChatFormatting.RED), false);
         } else {
             FluidTypeHBM type = ((IItemFluidIdentifier) held.getItem())
@@ -112,7 +112,7 @@ public class MachineFractionTower extends BlockDummyable implements ILookOverlay
             frac.tanks[0].setType(type);
             frac.setChanged();
             player.displayClientMessage(
-                    Component.literal("Changed type to ")
+                    Component.translatable("hbm.text.changed_type_to")
                             .withStyle(ChatFormatting.YELLOW)
                             .append(Component.literal(type.getLocalizedName()))
                             .append(Component.literal("!")), false);

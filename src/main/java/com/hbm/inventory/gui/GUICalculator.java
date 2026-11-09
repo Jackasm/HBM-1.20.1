@@ -26,7 +26,7 @@ public class GUICalculator extends Screen {
 
     // Конструктор теперь принимает Component
     public GUICalculator() {
-        super(Component.literal("Calculator"));
+        super(Component.translatable("hbm.text.calculator"));
     }
 
     @Override

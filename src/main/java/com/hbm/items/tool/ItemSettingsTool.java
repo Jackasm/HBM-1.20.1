@@ -76,16 +76,16 @@ public class ItemSettingsTool extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("Can copy the settings (filters, fluid ID, etc) of machines"));
-        tooltip.add(Component.literal("Shift right-click to copy, right click to paste"));
-        tooltip.add(Component.literal("Ctrl click on pipes to paste settings to multiple pipes"));
+        tooltip.add(Component.translatable("hbm.text.can_copy_the_settings_filters_fluid_id_etc_of_ma"));
+        tooltip.add(Component.translatable("hbm.text.shift_right_click_to_copy_right_click_to_paste"));
+        tooltip.add(Component.translatable("hbm.text.ctrl_click_on_pipes_to_paste_settings_to_multipl"));
         if (stack.hasTag()) {
             CompoundTag nbt = stack.getTag();
             if (Objects.requireNonNull(nbt).contains("tileName")) {
                 tooltip.add(Component.translatable(nbt.getString("tileName") + ".name")
                         .withStyle(ChatFormatting.BLUE));
             } else {
-                tooltip.add(Component.literal("None").withStyle(ChatFormatting.RED));
+                tooltip.add(Component.translatable("hbm.text.none").withStyle(ChatFormatting.RED));
             }
         }
     }

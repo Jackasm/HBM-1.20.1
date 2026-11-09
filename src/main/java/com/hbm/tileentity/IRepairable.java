@@ -76,7 +76,7 @@ public interface IRepairable {
             try {
                 ItemStack display = stack.extractForCyclingDisplay(20);
                 text.add(Component.literal("- ").append(display.getHoverName())
-                        .append(Component.literal(" x" + display.getCount())));
+                        .append(Component.translatable("hbm.text.x", display.getCount())));
             } catch (Exception ex) {
                 text.add(Component.literal(ChatFormatting.RED + "- ERROR"));
             }
@@ -108,7 +108,7 @@ public interface IRepairable {
                 try {
                     ItemStack display = stack.extractForCyclingDisplay(20);
                     text.add(Component.literal("- ").append(display.getHoverName())
-                            .append(Component.literal(" x" + display.getCount())));
+                            .append(Component.translatable("hbm.text.x", display.getCount())));
                 } catch (Exception ex) {
                     text.add(Component.literal(ChatFormatting.RED + "- ERROR"));
                 }

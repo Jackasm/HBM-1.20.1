@@ -149,11 +149,11 @@ public class ItemChopper extends Item {
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         if (this == ModItems.SPAWN_WORM.get()) {
-            tooltip.add(Component.literal("Without a player in survival mode"));
-            tooltip.add(Component.literal("to target, he struggles around a lot."));
+            tooltip.add(Component.translatable("hbm.text.without_a_player_in_survival_mode"));
+            tooltip.add(Component.translatable("hbm.text.to_target_he_struggles_around_a_lot"));
             tooltip.add(Component.literal(""));
-            tooltip.add(Component.literal("He's doing his best so please show him"));
-            tooltip.add(Component.literal("some consideration."));
+            tooltip.add(Component.translatable("hbm.text.he_s_doing_his_best_so_please_show_him"));
+            tooltip.add(Component.translatable("hbm.text.some_consideration"));
         }
     }
 }

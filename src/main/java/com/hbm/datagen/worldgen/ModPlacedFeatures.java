@@ -744,7 +744,11 @@ public class ModPlacedFeatures {
                 List.of(
                         RarityFilter.onAverageOnceEvery(rarity),
                         InSquarePlacement.spread(),
-                        PlacementUtils.HEIGHTMAP_WORLD_SURFACE
+                        // MOTION_BLOCKING, а не WORLD_SURFACE: трава и цветы не считаются
+                        // поверхностью, поэтому растение садится на грунт и заменяет траву,
+                        // как ванильный цветок. Вода и листва грунтом не становятся —
+                        // их отсекает canSurvive у блока.
+                        PlacementUtils.HEIGHTMAP
                 )
         ));
     }

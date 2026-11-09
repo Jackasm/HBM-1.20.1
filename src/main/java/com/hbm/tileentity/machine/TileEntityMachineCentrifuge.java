@@ -303,14 +303,14 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
     @Override
     public void provideInfo(UpgradeType type, int level, List<Component> info, boolean extendedInfo) {
         if (type == UpgradeType.SPEED) {
-            info.add(Component.literal("§aDelay: -" + (100 - 100 / (level + 1)) + "%"));
-            info.add(Component.literal("§cConsumption: +" + (level * 100) + "%"));
+            info.add(Component.translatable("hbm.text.delay", (100 - 100 / (level + 1))));
+            info.add(Component.translatable("hbm.text.consumption", (level * 100)));
         }
         if (type == UpgradeType.POWER) {
-            info.add(Component.literal("§aConsumption: -" + (100 - 100 / (level + 1)) + "%"));
+            info.add(Component.translatable("hbm.text.consumption_2", (100 - 100 / (level + 1))));
         }
         if (type == UpgradeType.OVERDRIVE) {
-            info.add(Component.literal("§cYES"));
+            info.add(Component.translatable("hbm.text.yes"));
         }
     }
 

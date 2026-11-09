@@ -167,7 +167,7 @@ public class ItemToolAbilityPower extends ItemToolAbility {
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level,
                                 @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("Charge: " + BobMathUtil.getShortNumber(getCharge(stack)) + " / " +
+        tooltip.add(Component.translatable("hbm.text.charge_amount", BobMathUtil.getShortNumber(getCharge(stack)),
                 BobMathUtil.getShortNumber(maxPower)).withStyle(ChatFormatting.GOLD));
         super.appendHoverText(stack, level, tooltip, flag);
     }

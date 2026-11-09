@@ -29,7 +29,7 @@ public class ItemAmmoContainer extends Item {
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         if (this == ModItems.AMMO_CONTAINER.get()) {
-            tooltip.add(Component.literal("to be implemented :P"));
+            tooltip.add(Component.translatable("hbm.text.to_be_implemented_p"));
         }
     }
 }

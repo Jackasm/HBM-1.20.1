@@ -1,6 +1,7 @@
 package com.hbm.integration.jei;
 
 import com.hbm.inventory.fluid.FluidTypeHBM;
+import com.hbm.util.RefStrings;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientRenderer;
@@ -176,7 +177,7 @@ public class FluidColorIngredient {
 
         @Override
         public @NotNull String getDisplayModId(@NotNull FluidColorIngredient ingredient) {
-            return "hbm";
+            return RefStrings.MODID;
         }
 
         @Override
@@ -208,7 +209,7 @@ public class FluidColorIngredient {
         @Override
         public @NotNull ResourceLocation getResourceLocation(FluidColorIngredient ingredient) {
             // Используем registry name из getName() (латиница)
-            return ResLocation("hbm", ingredient.getRegistryName());
+            return ResLocation(RefStrings.MODID, ingredient.getRegistryName());
         }
     }
 }

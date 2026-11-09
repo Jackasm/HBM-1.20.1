@@ -151,15 +151,15 @@ public class BlockWandLoot extends Block implements EntityBlock, ILookOverlay, I
         OverlaySection section = new OverlaySection(OverlaySection.Type.BLOCK_MAIN);
         section.setIcon(new ItemStack(this));
 
-        section.addLine(Component.literal("Loot Block")
+        section.addLine(Component.translatable("hbm.text.loot_block")
                 .withStyle(style -> style.withColor(0xffff00)));
 
         String blockName = loot.getReplaceBlock() != null ?
                 loot.getReplaceBlock().getDescriptionId() : "null";
-        section.addLine(Component.literal("Replace: " + blockName));
-        section.addLine(Component.literal("Meta: " + loot.getReplaceMeta()));
-        section.addLine(Component.literal("Pool: " + loot.getPoolName()));
-        section.addLine(Component.literal("Min: " + loot.getMinItems() + " Max: " + loot.getMaxItems()));
+        section.addLine(Component.translatable("hbm.text.replace", blockName));
+        section.addLine(Component.translatable("hbm.text.meta", loot.getReplaceMeta()));
+        section.addLine(Component.translatable("hbm.text.pool", loot.getPoolName()));
+        section.addLine(Component.translatable("hbm.text.min", loot.getMinItems(), loot.getMaxItems()));
 
         sections.add(section);
         return sections;

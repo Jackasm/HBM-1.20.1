@@ -1,5 +1,6 @@
 package com.hbm_addons.test;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.datagen.worldgen.structure.cleanup.CleanablePiece;
 import com.hbm.datagen.worldgen.structure.cleanup.TemplateLayout;
 import com.hbm.datagen.worldgen.structure.pieces.ConformingNBTStructurePiece;
@@ -72,6 +73,7 @@ public class StructuresScanTestRunner extends TestRunner {
 
     private int foreignLogs = 0;
     private int foreignLeaves = 0;
+    private int leftoverWandLoot = 0;
     private final Map<String, Integer> foreignByStructure = new TreeMap<>();
 
     public StructuresScanTestRunner(ServerLevel level, String scenario) {
@@ -157,6 +159,7 @@ public class StructuresScanTestRunner extends TestRunner {
         info("cells_over_one", cellsOverOne);
         info("foreign_logs", foreignLogs);
         info("foreign_leaves", foreignLeaves);
+        info("leftover_wand_loot", leftoverWandLoot);
         info("foreign_by_structure", foreignByStructure);
 
         boolean ok = true;
@@ -186,6 +189,7 @@ public class StructuresScanTestRunner extends TestRunner {
         metric("over_one", cellsOverOne);
         metric("foreign_logs", foreignLogs);
         metric("foreign_leaves", foreignLeaves);
+        metric("leftover_wand_loot", leftoverWandLoot);
 
         // #156: страховка от возврата записи в чужие чанки. Ловим предупреждение
         // WorldGenRegion целиком, а не по источникам: любая строка — красный стенд.
@@ -227,6 +231,16 @@ public class StructuresScanTestRunner extends TestRunner {
             }
         }
         checkForeignDecor(start);
+        // wand_loot — заглушка, она обязана замениться на целевой блок.
+        for (int x = bb.minX(); x <= bb.maxX(); x++) {
+            for (int y = bb.minY(); y <= bb.maxY(); y++) {
+                for (int z = bb.minZ(); z <= bb.maxZ(); z++) {
+                    if (level.getBlockState(new BlockPos(x, y, z)).is(ModBlocks.WAND_LOOT.get())) {
+                        leftoverWandLoot++;
+                    }
+                }
+            }
+        }
         info("structure_at", structureName(start.getStructure()) + " " + bb.minX() + "," + bb.minY() + "," + bb.minZ());
     }
 

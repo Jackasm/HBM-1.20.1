@@ -26,7 +26,7 @@ public class FT_VentRadiation extends FluidTrait {
 
     @Override
     public void addInfo(List<Component> info) {
-        info.add(Component.literal("§aRadioactive§r"));
+        info.add(Component.translatable("hbm.text.radioactive"));
     }
 
     public float getRadPerMB() {

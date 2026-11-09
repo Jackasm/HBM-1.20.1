@@ -1,6 +1,6 @@
-{
+﻿{
   "type": "hbm:simple_nbt",
-  "height_offset": -13,
+  "height_offset": -5,
   "max_height": 128,
   "min_height": 1,
   "nbt_file": "crane",

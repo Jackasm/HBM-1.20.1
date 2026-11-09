@@ -86,11 +86,11 @@ public class GUIFileCabinet extends AbstractContainerScreen<ContainerFileCabinet
                     tooltip.add(stack.getHoverName());
 
                     // Добавляем информацию о количестве
-                    tooltip.add(Component.literal("§7Count: " + stack.getCount()));
+                    tooltip.add(Component.translatable("hbm.text.count", stack.getCount()));
 
                     // Можно добавить другую информацию
                     if (stack.hasTag()) {
-                        tooltip.add(Component.literal("§8Has NBT Data"));
+                        tooltip.add(Component.translatable("hbm.text.has_nbt_data"));
                     }
 
                     guiGraphics.renderTooltip(this.font, tooltip, Optional.empty(), mouseX, mouseY);

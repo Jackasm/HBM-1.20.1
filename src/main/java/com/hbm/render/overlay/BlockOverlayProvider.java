@@ -89,7 +89,7 @@ public class BlockOverlayProvider implements IOverlayProvider {
             }
         } else {
             // Нерушимые блоки
-            section.addLine(Component.literal("⛏ Нерушимый")
+            section.addLine(Component.translatable("hbm.text.overlay_indestructible")
                     .withStyle(style -> style.withColor(0xFF0000)));
         }
     }

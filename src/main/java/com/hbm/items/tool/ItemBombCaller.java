@@ -53,8 +53,8 @@ public class ItemBombCaller extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("Aim & click to call an airstrike!"));
-        tooltip.add(Component.literal("Type: " + type.name));
+        tooltip.add(Component.translatable("hbm.text.aim_click_to_call_an_airstrike"));
+        tooltip.add(Component.translatable("hbm.text.type_2", type.name));
     }
 
     @Override
@@ -83,7 +83,7 @@ public class ItemBombCaller extends Item {
             };
 
             WorldUtil.loadAndSpawnEntityInWorld(bomber);
-            player.sendSystemMessage(Component.literal("Called in airstrike!"));
+            player.sendSystemMessage(Component.translatable("hbm.text.called_in_airstrike"));
             level.playSound(null, player.getX(), player.getY(), player.getZ(),
                     ModSounds.TECH_BLEEP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
         }

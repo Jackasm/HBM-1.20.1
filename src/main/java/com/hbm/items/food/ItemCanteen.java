@@ -77,15 +77,15 @@ public class ItemCanteen extends Item {
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         if (this == ModItems.CANTEEN_VODKA.get()) {
-            tooltip.add(Component.literal("Cooldown: 3 minutes"));
-            tooltip.add(Component.literal("Nausea I for 10 seconds"));
-            tooltip.add(Component.literal("Strength III for 30 seconds"));
+            tooltip.add(Component.translatable("hbm.text.cooldown_3_minutes"));
+            tooltip.add(Component.translatable("hbm.text.nausea_i_for_10_seconds"));
+            tooltip.add(Component.translatable("hbm.text.strength_iii_for_30_seconds"));
             tooltip.add(Component.empty());
 
             if (MainRegistry.polaroidID == 11) {
-                tooltip.add(Component.literal("Time to get hammered & sickled!"));
+                tooltip.add(Component.translatable("hbm.text.time_to_get_hammered_sickled"));
             } else {
-                tooltip.add(Component.literal("Smells like disinfectant, tastes like disinfectant."));
+                tooltip.add(Component.translatable("hbm.text.smells_like_disinfectant_tastes_like_disinfectan"));
             }
         }
     }

@@ -42,7 +42,7 @@ public class ItemTurretBiometry extends Item {
 
         if (!level.isClientSide) {
             addName(stack, player.getGameProfile().getName());
-            player.sendSystemMessage(Component.literal("Added player data!"));
+            player.sendSystemMessage(Component.translatable("hbm.text.added_player_data"));
         }
 
         level.playSound(player, player.getX(), player.getY(), player.getZ(),

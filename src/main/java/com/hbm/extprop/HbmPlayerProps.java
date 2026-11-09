@@ -228,12 +228,12 @@ public class HbmPlayerProps {
                         this.enableBackpack = !this.enableBackpack;
                         if(this.enableBackpack) {
                             player.displayClientMessage(
-                                    Component.literal("Jetpack ON").withStyle(net.minecraft.ChatFormatting.GREEN),
+                                    Component.translatable("hbm.text.jetpack_on").withStyle(net.minecraft.ChatFormatting.GREEN),
                                     true
                             );
                         } else {
                             player.displayClientMessage(
-                                    Component.literal("Jetpack OFF").withStyle(net.minecraft.ChatFormatting.RED),
+                                    Component.translatable("hbm.text.jetpack_off").withStyle(net.minecraft.ChatFormatting.RED),
                                     true
                             );
                         }
@@ -243,12 +243,12 @@ public class HbmPlayerProps {
                         this.enableMagnet = !this.enableMagnet;
                         if(this.enableMagnet) {
                             player.displayClientMessage(
-                                    Component.literal("Magnet ON").withStyle(net.minecraft.ChatFormatting.GREEN),
+                                    Component.translatable("hbm.text.magnet_on").withStyle(net.minecraft.ChatFormatting.GREEN),
                                     true
                             );
                         } else {
                             player.displayClientMessage(
-                                    Component.literal("Magnet OFF").withStyle(net.minecraft.ChatFormatting.RED),
+                                    Component.translatable("hbm.text.magnet_off").withStyle(net.minecraft.ChatFormatting.RED),
                                     true
                             );
                         }
@@ -258,12 +258,12 @@ public class HbmPlayerProps {
                         this.enableHUD = !this.enableHUD;
                         if(this.enableHUD) {
                             player.displayClientMessage(
-                                    Component.literal("HUD ON").withStyle(net.minecraft.ChatFormatting.GREEN),
+                                    Component.translatable("hbm.text.hud_on").withStyle(net.minecraft.ChatFormatting.GREEN),
                                     true
                             );
                         } else {
                             player.displayClientMessage(
-                                    Component.literal("HUD OFF").withStyle(net.minecraft.ChatFormatting.RED),
+                                    Component.translatable("hbm.text.hud_off").withStyle(net.minecraft.ChatFormatting.RED),
                                     true
                             );
                         }

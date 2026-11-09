@@ -43,7 +43,7 @@ public class ItemCatalog extends Item {
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         if (this == ModItems.BOBMAZON_HIDDEN.get()) {
             tooltip.add(Component.literal("For a guide on how to obtain this, visit https://bit.ly/2TPgcqT"));
-            tooltip.add(Component.literal("No tricks this time, i promise."));
+            tooltip.add(Component.translatable("hbm.text.no_tricks_this_time_i_promise"));
         }
     }
 }

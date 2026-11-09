@@ -30,7 +30,7 @@ public class ItemStamp extends Item {
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         if((this.type == StampType.PLATE || this.type == StampType.WIRE || this.type == StampType.CIRCUIT) && this.getMaxDamage(stack) > 0) {
-            tooltip.add(Component.literal("[CREATED USING ANVIL]").withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.translatable("hbm.text.created_using_anvil").withStyle(ChatFormatting.GRAY));
         }
     }
 

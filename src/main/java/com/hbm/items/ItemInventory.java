@@ -54,7 +54,7 @@ public abstract class ItemInventory implements Container {
             byte[] abyte = byteOutput.toByteArray();
 
             if (abyte.length > 6000) {
-                player.displayClientMessage(Component.literal("Warning: Container NBT exceeds 6kB, contents will be ejected!").withStyle(style -> style.withColor(0xFF0000)), false);
+                player.displayClientMessage(Component.translatable("hbm.text.warning_container_nbt_exceeds_6kb_contents_will").withStyle(style -> style.withColor(0xFF0000)), false);
 
                 for (int i1 = 0; i1 < this.getContainerSize(); ++i1) {
                     ItemStack itemstack = this.getItem(i1);

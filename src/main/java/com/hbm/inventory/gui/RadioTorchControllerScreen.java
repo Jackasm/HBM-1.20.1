@@ -99,7 +99,7 @@ public class RadioTorchControllerScreen extends RadioTorchScreenBase {
 
         if (isHovering(137, 17, 18, 18, mouseX, mouseY)) {
             List<Component> lines = new ArrayList<>();
-            lines.add(Component.literal("Доступные функции:"));
+            lines.add(Component.translatable("hbm.text.text"));
             for (String function : availableFunctions()) {
                 lines.add(Component.literal("§b" + function));
             }
@@ -114,7 +114,7 @@ public class RadioTorchControllerScreen extends RadioTorchScreenBase {
 
         if (isHovering(209, 17, 18, 18, mouseX, mouseY)) {
             graphics.renderTooltip(this.font,
-                    List.of(Component.literal("Save Settings")),
+                    List.of(Component.translatable("hbm.text.save_settings")),
                     Optional.empty(), mouseX, mouseY);
         }
     }

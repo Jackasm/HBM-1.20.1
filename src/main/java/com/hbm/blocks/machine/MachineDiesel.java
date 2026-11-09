@@ -96,7 +96,7 @@ public class MachineDiesel extends BaseEntityBlock {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("§eFuel efficiency:"));
+        tooltip.add(Component.translatable("hbm.text.fuel_efficiency"));
         for (FuelGrade grade : FuelGrade.values()) {
             Double efficiency = TileEntityMachineDiesel.fuelEfficiency.get(grade);
             if (efficiency != null) {

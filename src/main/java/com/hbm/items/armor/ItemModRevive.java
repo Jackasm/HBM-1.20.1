@@ -24,14 +24,14 @@ public class ItemModRevive extends ItemArmorMod {
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         if (this == ModItems.SCRUMPY.get()) {
-            tooltip.add(Component.literal("But how did you survive?").withStyle(ChatFormatting.GOLD));
-            tooltip.add(Component.literal("I was drunk.").withStyle(ChatFormatting.RED));
+            tooltip.add(Component.translatable("hbm.text.but_how_did_you_survive").withStyle(ChatFormatting.GOLD));
+            tooltip.add(Component.translatable("hbm.text.i_was_drunk").withStyle(ChatFormatting.RED));
         }
         if (this == ModItems.WILD_P.get()) {
-            tooltip.add(Component.literal("Explosive ").withStyle(ChatFormatting.DARK_GRAY)
-                    .append(Component.literal("Reactive ").withStyle(ChatFormatting.RED))
-                    .append(Component.literal("Plot ").withStyle(ChatFormatting.DARK_GRAY))
-                    .append(Component.literal("Armor").withStyle(ChatFormatting.RED)));
+            tooltip.add(Component.translatable("hbm.text.explosive").withStyle(ChatFormatting.DARK_GRAY)
+                    .append(Component.translatable("hbm.text.reactive").withStyle(ChatFormatting.RED))
+                    .append(Component.translatable("hbm.text.plot").withStyle(ChatFormatting.DARK_GRAY))
+                    .append(Component.translatable("hbm.text.armor").withStyle(ChatFormatting.RED)));
         }
 
         tooltip.add(Component.empty());

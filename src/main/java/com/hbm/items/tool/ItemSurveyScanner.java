@@ -68,14 +68,14 @@ public class ItemSurveyScanner extends Item {
                 }
             }
 
-            if (hasOil) player.displayClientMessage(Component.literal("Found OIL!").withStyle(style -> style.withColor(0x000000)), false);
-            if (hasBedrockOil) player.displayClientMessage(Component.literal("Found BEDROCK OIL!").withStyle(style -> style.withColor(0x000000)), false);
-            if (hasColtan) player.displayClientMessage(Component.literal("Found COLTAN!").withStyle(style -> style.withColor(0xFFA500)), false);
-            if (hasDepth) player.displayClientMessage(Component.literal("Found DEPTH ROCK!").withStyle(style -> style.withColor(0x808080)), false);
-            if (hasSchist) player.displayClientMessage(Component.literal("Found SCHIST!").withStyle(style -> style.withColor(0x00CED1)), false);
-            if (hasAussie) player.displayClientMessage(Component.literal("Found AUSTRALIUM!").withStyle(style -> style.withColor(0xFFFF00)), false);
+            if (hasOil) player.displayClientMessage(Component.translatable("hbm.text.found_oil").withStyle(style -> style.withColor(0x000000)), false);
+            if (hasBedrockOil) player.displayClientMessage(Component.translatable("hbm.text.found_bedrock_oil").withStyle(style -> style.withColor(0x000000)), false);
+            if (hasColtan) player.displayClientMessage(Component.translatable("hbm.text.found_coltan").withStyle(style -> style.withColor(0xFFA500)), false);
+            if (hasDepth) player.displayClientMessage(Component.translatable("hbm.text.found_depth_rock").withStyle(style -> style.withColor(0x808080)), false);
+            if (hasSchist) player.displayClientMessage(Component.translatable("hbm.text.found_schist").withStyle(style -> style.withColor(0x00CED1)), false);
+            if (hasAussie) player.displayClientMessage(Component.translatable("hbm.text.found_australium").withStyle(style -> style.withColor(0xFFFF00)), false);
             if (tile != null && tile.resource != null) {
-                player.displayClientMessage(Component.literal("Found BEDROCK ORE for " + tile.resource.getDisplayName() + "!")
+                player.displayClientMessage(Component.translatable("hbm.text.found_bedrock_ore_for", tile.resource.getDisplayName())
                         .withStyle(style -> style.withColor(0xFF0000)), false);
             }
         }

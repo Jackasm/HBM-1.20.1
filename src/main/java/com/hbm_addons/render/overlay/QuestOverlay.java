@@ -76,7 +76,7 @@ public class QuestOverlay implements IOverlayProvider {
         // Если временный режим активен
         if (isTemporaryVisible()) {
             // Заголовок
-            questSection.addLine(Component.literal("Active Quests").withStyle(ChatFormatting.BOLD, ChatFormatting.GOLD));
+            questSection.addLine(Component.translatable("hbm.text.active_quests").withStyle(ChatFormatting.BOLD, ChatFormatting.GOLD));
 
             // Если нет активных квестов - показываем сообщение
             if (active.isEmpty()) {

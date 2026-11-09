@@ -137,9 +137,9 @@ public class QuestManager {
         worldData.setDirty();
         syncToClient(player);
 
-        Component message = Component.literal("§6[Quest] §r")
+        Component message = Component.translatable("hbm.text.quest")
                 .append(Component.translatable(def.getTitleKey()).withStyle(ChatFormatting.YELLOW))
-                .append(Component.literal(" §7- quest accepted"));
+                .append(Component.translatable("hbm.text.quest_accepted"));
         player.sendSystemMessage(message);
 
         player.playSound(SoundEvents.NOTE_BLOCK_BELL.get(), 1.0F, 1.0F);

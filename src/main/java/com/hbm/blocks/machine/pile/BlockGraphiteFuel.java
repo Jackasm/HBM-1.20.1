@@ -97,16 +97,16 @@ public class BlockGraphiteFuel extends BlockGraphiteDrilledTE implements IToolab
 
             if (tool == ToolType.HAND_DRILL) {
                 if (level.getBlockEntity(pos) instanceof TileEntityPileFuel pile) {
-                    player.sendSystemMessage(Component.literal("CP1 FUEL ASSEMBLY " + pos.getX() + " " + pos.getY() + " " + pos.getZ())
+                    player.sendSystemMessage(Component.translatable("hbm.text.cp1_fuel_assembly", pos.getX(), pos.getY(), pos.getZ())
                             .withStyle(ChatFormatting.GOLD));
-                    player.sendSystemMessage(Component.literal("HEAT: " + pile.heat + "/" + TileEntityPileFuel.maxHeat)
+                    player.sendSystemMessage(Component.translatable("hbm.text.heat", pile.heat, TileEntityPileFuel.maxHeat)
                             .withStyle(ChatFormatting.YELLOW));
-                    player.sendSystemMessage(Component.literal("DEPLETION: " + pile.progress + "/" + TileEntityPileFuel.getMaxProgress())
+                    player.sendSystemMessage(Component.translatable("hbm.text.depletion", pile.progress, TileEntityPileFuel.getMaxProgress())
                             .withStyle(ChatFormatting.YELLOW));
-                    player.sendSystemMessage(Component.literal("FLUX: " + pile.lastNeutrons)
+                    player.sendSystemMessage(Component.translatable("hbm.text.flux", pile.lastNeutrons)
                             .withStyle(ChatFormatting.YELLOW));
                     if ((meta & 8) == 8) {
-                        player.sendSystemMessage(Component.literal("PU-239 RICH")
+                        player.sendSystemMessage(Component.translatable("hbm.text.pu_239_rich")
                                 .withStyle(ChatFormatting.DARK_GREEN));
                     }
                 }

@@ -247,12 +247,12 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
     @Override
     public void provideInfo(ItemMachineUpgrade.UpgradeType type, int level, List<Component> info, boolean extendedInfo) {
         if (type == ItemMachineUpgrade.UpgradeType.SPEED) {
-            info.add(Component.literal("§aSpeed: +" + (level * 25) + "%"));
-            info.add(Component.literal("§cConsumption: +" + (level * 100) + "%"));
+            info.add(Component.translatable("hbm.text.speed_2", (level * 25)));
+            info.add(Component.translatable("hbm.text.consumption", (level * 100)));
         }
         if (type == ItemMachineUpgrade.UpgradeType.POWER) {
-            info.add(Component.literal("§aConsumption: -" + (level * 30) + "%"));
-            info.add(Component.literal("§cSpeed: -" + (level * 10) + "%"));
+            info.add(Component.translatable("hbm.text.consumption_2", (level * 30)));
+            info.add(Component.translatable("hbm.text.speed_3", (level * 10)));
         }
     }
 

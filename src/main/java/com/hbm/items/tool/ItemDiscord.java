@@ -85,19 +85,19 @@ public class ItemDiscord extends Item {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("I've seen the Rod of Discord and honestly")
+        tooltip.add(Component.translatable("hbm.text.i_ve_seen_the_rod_of_discord_and_honestly")
                 .withStyle(ChatFormatting.YELLOW, ChatFormatting.ITALIC));
-        tooltip.add(Component.literal("it's not as amazing as people say.")
+        tooltip.add(Component.translatable("hbm.text.it_s_not_as_amazing_as_people_say")
                 .withStyle(ChatFormatting.YELLOW, ChatFormatting.ITALIC));
         tooltip.add(Component.empty());
-        tooltip.add(Component.literal("Rod of Discord is crucial in so many boss fights.")
+        tooltip.add(Component.translatable("hbm.text.rod_of_discord_is_crucial_in_so_many_boss_fights")
                 .withStyle(ChatFormatting.RED, ChatFormatting.ITALIC));
-        tooltip.add(Component.literal("Imagine getting coiled by worm bosses.")
+        tooltip.add(Component.translatable("hbm.text.imagine_getting_coiled_by_worm_bosses")
                 .withStyle(ChatFormatting.RED, ChatFormatting.ITALIC));
         tooltip.add(Component.empty());
-        tooltip.add(Component.literal("Oh, you mean the Terraria item.")
+        tooltip.add(Component.translatable("hbm.text.oh_you_mean_the_terraria_item")
                 .withStyle(ChatFormatting.YELLOW, ChatFormatting.ITALIC));
-        tooltip.add(Component.literal("Idk about that thing.")
+        tooltip.add(Component.translatable("hbm.text.idk_about_that_thing")
                 .withStyle(ChatFormatting.YELLOW, ChatFormatting.ITALIC));
     }
 }

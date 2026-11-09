@@ -2,6 +2,14 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'org.spongepowered.mixin' version '0.7.+'
+}
+
+// Миксин для отложенных тегов DUMMY (#204): точка, в которой ваниль разбирает
+// тег, недоступна через события, поэтому правим её точечно. См. ADR-0030.
+mixin {
+    add sourceSets.main, 'hbm.refmap.json'
+    config 'hbm.mixins.json'
 }
 
 // ---- Идентичность сборки (#168) ----
@@ -113,6 +121,9 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-1.20.1-common-api:${jei_version}")
     compileOnly fg.deobf("mezz.jei:jei-1.20.1-forge-api:${jei_version}")
     runtimeOnly fg.deobf("mezz.jei:jei-1.20.1-forge:${jei_version}")
+
+    // Рефмапа для миксина: без неё в продакшене имена методов не совпадут.
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 tasks.named('processResources', ProcessResources).configure {

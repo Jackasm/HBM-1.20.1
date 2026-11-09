@@ -49,10 +49,10 @@ public class GUIMachineSolderingStation extends AbstractContainerScreen<Containe
 
         if (isHovering(5, 66, 10, 10, mouseX, mouseY)) {
             List<Component> tooltip = new ArrayList<>();
-            tooltip.add(Component.literal("Recipe Collision Prevention: " + (solderer.collisionPrevention ?
+            tooltip.add(Component.translatable("hbm.text.recipe_collision_prevention", (solderer.collisionPrevention ?
                     ChatFormatting.GREEN + "ON" : ChatFormatting.RED + "OFF")));
-            tooltip.add(Component.literal("Prevents no-fluid recipes from being processed"));
-            tooltip.add(Component.literal("when fluid is present."));
+            tooltip.add(Component.translatable("hbm.text.prevents_no_fluid_recipes_from_being_processed"));
+            tooltip.add(Component.translatable("hbm.text.when_fluid_is_present"));
             graphics.renderComponentTooltip(font, tooltip, mouseX, mouseY);
         }
     }

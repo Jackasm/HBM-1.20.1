@@ -75,10 +75,10 @@ public class GUIRadioRec extends AbstractContainerScreen<ContainerRadioRec> {
         graphics.drawString(this.font, name, guiLeft + this.xSize / 2 - this.font.width(name) / 2, guiTop + 6, 4210752, false);
 
         if (guiLeft + 137 <= x && guiLeft + 137 + 18 > x && guiTop + 17 < y && guiTop + 17 + 18 >= y) {
-            graphics.renderComponentTooltip(this.font, List.of(Component.literal("Save Settings")), x, y);
+            graphics.renderComponentTooltip(this.font, List.of(Component.translatable("hbm.text.save_settings")), x, y);
         }
         if (guiLeft + 173 <= x && guiLeft + 173 + 18 > x && guiTop + 17 < y && guiTop + 17 + 18 >= y) {
-            graphics.renderComponentTooltip(this.font, List.of(Component.literal("Toggle")), x, y);
+            graphics.renderComponentTooltip(this.font, List.of(Component.translatable("hbm.text.toggle")), x, y);
         }
     }
 

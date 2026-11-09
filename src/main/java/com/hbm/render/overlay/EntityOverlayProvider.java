@@ -46,7 +46,7 @@ public class EntityOverlayProvider implements IOverlayProvider {
 
             // Health bar
             String healthBar = createHealthBar(percentage);
-            mainSection.addLine(Component.literal("HP: " + String.format("%.1f/%.1f", health, maxHealth))
+            mainSection.addLine(Component.translatable("hbm.text.hp", String.format("%.1f/%.1f", health, maxHealth))
                     .withStyle(style -> style.withColor(getHealthColor(percentage))));
             mainSection.addLine(Component.literal(healthBar)
                     .withStyle(style -> style.withColor(getHealthColor(percentage))));
@@ -55,7 +55,7 @@ public class EntityOverlayProvider implements IOverlayProvider {
             if (living instanceof Player player) {
                 int armor = player.getArmorValue();
                 if (armor > 0) {
-                    mainSection.addLine(Component.literal("Броня: " + armor)
+                    mainSection.addLine(Component.translatable("hbm.text.overlay_love", armor)
                             .withStyle(style -> style.withColor(0x87CEEB)));
                 }
             }
@@ -65,10 +65,10 @@ public class EntityOverlayProvider implements IOverlayProvider {
                 // Кулдаун размножения
                 if (animal.getAge() < 0) {
                     int cooldown = -animal.getAge() / 20; // в секундах
-                    mainSection.addLine(Component.literal("Размножение: " + cooldown + " сек")
+                    mainSection.addLine(Component.translatable("hbm.text.overlay_debuffs", cooldown)
                             .withStyle(style -> style.withColor(0xFF69B4)));
                 } else if (animal.isInLove()) {
-                    mainSection.addLine(Component.literal("♥ Влюблён")
+                    mainSection.addLine(Component.translatable("hbm.text.overlay_love")
                             .withStyle(style -> style.withColor(0xFF1493)));
                 }
             }
@@ -139,7 +139,7 @@ public class EntityOverlayProvider implements IOverlayProvider {
         int phosphorus = HbmLivingProps.getPhosphorus(entity);
         if (phosphorus > 0) {
             String timeLeft = formatTicksToTime(phosphorus);
-            debuffLines.add(Component.literal("☠ Фосфор: " + timeLeft)
+            debuffLines.add(Component.translatable("hbm.text.text_4", timeLeft)
                     .withStyle(ChatFormatting.RED));
         }
 
@@ -147,7 +147,7 @@ public class EntityOverlayProvider implements IOverlayProvider {
         int fire = HbmLivingProps.getFire(entity);
         if (fire > 0) {
             String timeLeft = formatTicksToTime(fire);
-            debuffLines.add(Component.literal("🔥 Огонь: " + timeLeft)
+            debuffLines.add(Component.translatable("hbm.text.text_5", timeLeft)
                     .withStyle(ChatFormatting.GOLD));
         }
 
@@ -155,7 +155,7 @@ public class EntityOverlayProvider implements IOverlayProvider {
         int balefire = HbmLivingProps.getBalefire(entity);
         if (balefire > 0) {
             String timeLeft = formatTicksToTime(balefire);
-            debuffLines.add(Component.literal("☢ Balefire: " + timeLeft)
+            debuffLines.add(Component.translatable("hbm.text.balefire", timeLeft)
                     .withStyle(ChatFormatting.DARK_GREEN));
         }
 
@@ -163,7 +163,7 @@ public class EntityOverlayProvider implements IOverlayProvider {
         int blackFire = HbmLivingProps.getBlackFire(entity);
         if (blackFire > 0) {
             String timeLeft = formatTicksToTime(blackFire);
-            debuffLines.add(Component.literal("☠ Черный огонь: " + timeLeft)
+            debuffLines.add(Component.translatable("hbm.text.text_6", timeLeft)
                     .withStyle(ChatFormatting.DARK_PURPLE));
         }
 
@@ -171,7 +171,7 @@ public class EntityOverlayProvider implements IOverlayProvider {
         int blackLung = HbmLivingProps.getBlackLung(entity);
         if (blackLung > 0) {
             String severity = String.format("%.1f%%", (blackLung / (float)HbmLivingProps.MAX_BLACK_LUNG) * 100);
-            debuffLines.add(Component.literal("🫁 Черные легкие: " + severity)
+            debuffLines.add(Component.translatable("hbm.text.text_7", severity)
                     .withStyle(ChatFormatting.DARK_GRAY));
         }
 
@@ -179,7 +179,7 @@ public class EntityOverlayProvider implements IOverlayProvider {
         int asbestos = HbmLivingProps.getAsbestos(entity);
         if (asbestos > 0) {
             String severity = String.format("%.1f%%", (asbestos / (float)HbmLivingProps.MAX_ASBESTOS) * 100);
-            debuffLines.add(Component.literal("🪨 Асбестоз: " + severity)
+            debuffLines.add(Component.translatable("hbm.text.text_8", severity)
                     .withStyle(ChatFormatting.GRAY));
         }
 
@@ -187,7 +187,7 @@ public class EntityOverlayProvider implements IOverlayProvider {
         float radiation = HbmLivingProps.getRadiation(entity);
         if (radiation > 0) {
             String radLevel = String.format("%.1f RAD", radiation);
-            debuffLines.add(Component.literal("☢ Радиация: " + radLevel)
+            debuffLines.add(Component.translatable("hbm.text.text_9", radLevel)
                     .withStyle(getRadiationColor(radiation)));
         }
 
@@ -195,7 +195,7 @@ public class EntityOverlayProvider implements IOverlayProvider {
         float digamma = HbmLivingProps.getDigamma(entity);
         if (digamma > 0) {
             String digammaLevel = String.format("%.2f ψ", digamma);
-            debuffLines.add(Component.literal("ψ Digamma: " + digammaLevel)
+            debuffLines.add(Component.translatable("hbm.text.digamma", digammaLevel)
                     .withStyle(ChatFormatting.DARK_PURPLE));
         }
 
@@ -203,7 +203,7 @@ public class EntityOverlayProvider implements IOverlayProvider {
         int oil = HbmLivingProps.getOil(entity);
         if (oil > 0) {
             String timeLeft = formatTicksToTime(oil);
-            debuffLines.add(Component.literal("🛢️ Нефть: " + timeLeft)
+            debuffLines.add(Component.translatable("hbm.text.text_10", timeLeft)
                     .withStyle(ChatFormatting.DARK_GRAY));
         }
 
@@ -211,7 +211,7 @@ public class EntityOverlayProvider implements IOverlayProvider {
         int contagion = HbmLivingProps.getContagion(entity);
         if (contagion > 0) {
             String timeLeft = formatTicksToTime(contagion);
-            debuffLines.add(Component.literal("🦠 Заражение: " + timeLeft)
+            debuffLines.add(Component.translatable("hbm.text.text_11", timeLeft)
                     .withStyle(ChatFormatting.DARK_GREEN));
         }
 
@@ -219,7 +219,7 @@ public class EntityOverlayProvider implements IOverlayProvider {
         int timer = HbmLivingProps.getTimer(entity);
         if (timer > 0) {
             String timeLeft = formatTicksToTime(timer);
-            debuffLines.add(Component.literal("⏱️ Таймер: " + timeLeft)
+            debuffLines.add(Component.translatable("hbm.text.text_12", timeLeft)
                     .withStyle(ChatFormatting.RED));
         }
 
@@ -228,7 +228,7 @@ public class EntityOverlayProvider implements IOverlayProvider {
         }
 
         OverlaySection debuffSection = new OverlaySection(OverlaySection.Type.DEBUFFS);
-        debuffSection.addLine(Component.literal("Дебаффы:")
+        debuffSection.addLine(Component.translatable("hbm.text.overlay_debuffs")
                 .withStyle(ChatFormatting.DARK_RED));
 
         for (Component line : debuffLines) {
@@ -255,7 +255,7 @@ public class EntityOverlayProvider implements IOverlayProvider {
         }
 
         OverlaySection effectsSection = new OverlaySection(OverlaySection.Type.EFFECTS);
-        effectsSection.addLine(Component.literal("Эффекты Minecraft:")
+        effectsSection.addLine(Component.translatable("hbm.text.overlay_minecraft_effects")
                 .withStyle(ChatFormatting.DARK_PURPLE));
 
         for (MobEffectInstance effect : debuffs) {

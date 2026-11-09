@@ -157,12 +157,11 @@ public class BlockBedrockOreTE extends Block implements EntityBlock, ILookOverla
                     .withStyle(style -> style.withColor(0xffff55)));
         }
 
-        mainSection.addLine(Component.literal("⛏ Требуется уровень бура: " + ore.tier)
+        mainSection.addLine(Component.translatable("hbm.text.text", ore.tier)
                 .withStyle(style -> style.withColor(0xffaa00)));
 
         if (ore.acidRequirement != null) {
-            mainSection.addLine(Component.literal("🧪 Требуется: " + ore.acidRequirement.fill + "mB " +
-                            ore.acidRequirement.type.getLocalizedName())
+            mainSection.addLine(Component.translatable("hbm.text.requires_acid", ore.acidRequirement.fill, ore.acidRequirement.type.getLocalizedName())
                     .withStyle(style -> style.withColor(0xff5555)));
         }
 

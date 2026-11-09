@@ -166,14 +166,14 @@ public class BlockWandLogic extends BaseEntityBlock implements ILookOverlay, ITo
 
         OverlaySection section = new OverlaySection(OverlaySection.Type.BLOCK_MAIN);
 
-        section.addLine(Component.literal("Action: " + logic.actionID));
-        section.addLine(Component.literal("Condition: " + logic.conditionID));
-        section.addLine(Component.literal("Interaction: " + (logic.interactionID != null ? logic.interactionID : "None")));
+        section.addLine(Component.translatable("hbm.text.action", logic.actionID));
+        section.addLine(Component.translatable("hbm.text.condition", logic.conditionID));
+        section.addLine(Component.translatable("hbm.text.interaction", (logic.interactionID != null ? logic.interactionID : "None")));
 
         String disguiseName = (logic.disguise != null)
                 ? Component.translatable(logic.disguise.getDescriptionId()).getString()
                 : "None";
-        section.addLine(Component.literal("Disguise Block: " + disguiseName));
+        section.addLine(Component.translatable("hbm.text.disguise_block", disguiseName));
 
         sections.add(section);
         return sections;

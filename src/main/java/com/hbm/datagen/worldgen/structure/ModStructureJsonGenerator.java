@@ -134,7 +134,9 @@ public class ModStructureJsonGenerator implements DataProvider {
     static {
         // ---------- FLAT ----------
         STRUCTURES.add(new StructureData("spire",                 "flat",   2,  -1,  0,  0, "none"));
-        STRUCTURES.add(new StructureData("crane",                 "flat",  20, -13,  0,  0, "none"));
+        // crane.nbt — старый шаблон (не crane_mod): его наземный слой на y=5,
+        // поэтому −5, а не −13. С −13 база из решёток/мин уходила на 8 в землю.
+        STRUCTURES.add(new StructureData("crane",                 "flat",  20,  -5,  0,  0, "none"));
         STRUCTURES.add(new StructureData("factory",               "flat",  40, -10,  0,  0, "none"));
         STRUCTURES.add(new StructureData("laboratory",            "flat",  20, -10, 53, 65, "none"));
         STRUCTURES.add(new StructureData("forest_chem",           "flat",  30,  -9,  0,  0, "none"));

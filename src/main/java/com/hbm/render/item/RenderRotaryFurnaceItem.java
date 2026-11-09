@@ -1,6 +1,7 @@
 package com.hbm.render.item;
 
 import com.hbm.main.HBMResourceManager;
+import com.hbm.util.RefStrings;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -14,7 +15,7 @@ import static com.hbm.util.ResLocation.ResLocation;
 
 public class RenderRotaryFurnaceItem extends BlockEntityWithoutLevelRenderer {
 
-    private static final ResourceLocation TEXTURE = ResLocation("hbm", "textures/block/machines/rotary_furnace.png");
+    private static final ResourceLocation TEXTURE = ResLocation(RefStrings.MODID, "textures/block/machines/rotary_furnace.png");
 
     public RenderRotaryFurnaceItem() {
         super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());

@@ -32,7 +32,7 @@ public abstract class JetpackBase extends ArmorItem {
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
-        tooltip.add(Component.literal("Can be worn on its own!").withStyle(ChatFormatting.GOLD));
+        tooltip.add(Component.translatable("hbm.text.can_be_worn_on_its_own").withStyle(ChatFormatting.GOLD));
     }
 
     @Override

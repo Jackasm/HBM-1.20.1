@@ -57,7 +57,7 @@ public class GUIMachineRotaryFurnace extends AbstractContainerScreen<ContainerMa
         // Output tooltip
         if (furnace.output == null) {
             if (isHovering(98, 18, 16, 52, mouseX, mouseY)) {
-                graphics.renderTooltip(font, Component.literal("Empty"), mouseX, mouseY);
+                graphics.renderTooltip(font, Component.translatable("hbm.text.empty"), mouseX, mouseY);
             }
         } else {
             if (isHovering(98, 18, 16, 52, mouseX, mouseY)) {

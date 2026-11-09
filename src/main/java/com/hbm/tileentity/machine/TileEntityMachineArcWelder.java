@@ -360,7 +360,7 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
                     .withStyle(ChatFormatting.RED));
         }
         if (type == UpgradeType.OVERDRIVE) {
-            info.add(Component.literal("YES")
+            info.add(Component.translatable("hbm.text.yes_plain")
                     .withStyle(BobMathUtil.getBlink() ? ChatFormatting.RED : ChatFormatting.DARK_GRAY));
         }
     }

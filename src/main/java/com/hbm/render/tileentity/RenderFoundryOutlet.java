@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import com.hbm.blocks.network.FoundryOutlet;
 import com.hbm.main.HBMResourceManager;
 import com.hbm.tileentity.network.TileEntityFoundryOutlet;
+import com.hbm.util.RefStrings;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -15,8 +16,8 @@ import static com.hbm.util.ResLocation.ResLocation;
 
 public class RenderFoundryOutlet implements BlockEntityRenderer<TileEntityFoundryOutlet> {
 
-    private static final ResourceLocation TEXTURE_OUTLET = ResLocation("hbm", "textures/block/network/foundry_outlet.png");
-    private static final ResourceLocation TEXTURE_SLAGTAP = ResLocation("hbm", "textures/block/network/foundry_slagtap.png");
+    private static final ResourceLocation TEXTURE_OUTLET = ResLocation(RefStrings.MODID, "textures/block/network/foundry_outlet.png");
+    private static final ResourceLocation TEXTURE_SLAGTAP = ResLocation(RefStrings.MODID, "textures/block/network/foundry_slagtap.png");
 
     public RenderFoundryOutlet(BlockEntityRendererProvider.Context ignoredContext) {}
 

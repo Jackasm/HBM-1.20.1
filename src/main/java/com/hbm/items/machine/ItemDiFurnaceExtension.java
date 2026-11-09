@@ -64,7 +64,7 @@ public class ItemDiFurnaceExtension extends Item {
         // Проверяем, не стоит ли уже расширение
         if (furnace.hasExtension) {
             if (!level.isClientSide) {
-                Objects.requireNonNull(context.getPlayer()).sendSystemMessage(Component.literal("This furnace already has an extension!"));
+                Objects.requireNonNull(context.getPlayer()).sendSystemMessage(Component.translatable("hbm.text.this_furnace_already_has_an_extension"));
             }
             return InteractionResult.FAIL;
         }
@@ -74,7 +74,7 @@ public class ItemDiFurnaceExtension extends Item {
             // Создаём extra-блок сверху
             BlockPos above = pos.above();
             if (!level.getBlockState(above).isAir()) {
-                Objects.requireNonNull(context.getPlayer()).sendSystemMessage(Component.literal("There is no space above the furnace!"));
+                Objects.requireNonNull(context.getPlayer()).sendSystemMessage(Component.translatable("hbm.text.there_is_no_space_above_the_furnace"));
                 return InteractionResult.FAIL;
             }
 
@@ -101,7 +101,7 @@ public class ItemDiFurnaceExtension extends Item {
                 context.getItemInHand().shrink(1);
             }
 
-            context.getPlayer().sendSystemMessage(Component.literal("Furnace upgraded with extension!"));
+            context.getPlayer().sendSystemMessage(Component.translatable("hbm.text.furnace_upgraded_with_extension"));
         }
 
         return InteractionResult.SUCCESS;

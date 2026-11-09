@@ -135,10 +135,10 @@ public abstract class FluidDuctBase extends BaseEntityBlock implements IBlockFlu
                     com.hbm.api.fluid.FluidNet net = node.net;
 
                     List<Component> debug = new ArrayList<>();
-                    debug.add(Component.literal("Links: " + net.getLinks().size()));
-                    debug.add(Component.literal("Subscribers: " + net.getReceivers().size()));
-                    debug.add(Component.literal("Providers: " + net.getProviders().size()));
-                    debug.add(Component.literal("Transfer: " + net.fluidTracker));
+                    debug.add(Component.translatable("hbm.text.links", net.getLinks().size()));
+                    debug.add(Component.translatable("hbm.text.subscribers", net.getReceivers().size()));
+                    debug.add(Component.translatable("hbm.text.providers", net.getProviders().size()));
+                    debug.add(Component.translatable("hbm.text.transfer", net.fluidTracker));
                     return debug;
                 }
             }

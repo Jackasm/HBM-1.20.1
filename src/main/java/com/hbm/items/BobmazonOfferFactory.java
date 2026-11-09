@@ -166,11 +166,11 @@ public class BobmazonOfferFactory {
         ), Requirement.HIDDEN, 64));
 
         special.add(new Offer(ItemKitNBT.create(
-                new ItemStack(ModToolItems.ROD_OF_DISCORD.get()).setHoverName(Component.literal("Cock Joke")),
-                conserveStack(5, 64).setHoverName(Component.literal("Class A Horse Semen")),
-                new ItemStack(ModToolItems.PIPE_LEAD.get()).setHoverName(Component.literal("Get Nutted, Dumbass")),
+                new ItemStack(ModToolItems.ROD_OF_DISCORD.get()).setHoverName(Component.translatable("hbm.text.cock_joke")),
+                conserveStack(5, 64).setHoverName(Component.translatable("hbm.text.class_a_horse_semen")),
+                new ItemStack(ModToolItems.PIPE_LEAD.get()).setHoverName(Component.translatable("hbm.text.get_nutted_dumbass")),
                 new ItemStack(ModItems.GEM_ALEXANDRITE.get())
-        ).setHoverName(Component.literal("The Nut Bucket")), Requirement.HIDDEN, 64));
+        ).setHoverName(Component.translatable("hbm.text.the_nut_bucket")), Requirement.HIDDEN, 64));
 
         special.add(new Offer(ItemKitNBT.create(
                 new ItemStack(ModArmorItems.RPA_HELMET.get()),
@@ -181,7 +181,7 @@ public class BobmazonOfferFactory {
                 new ItemStack(ModAmmoItems.AMMO_CAPACITOR_OVERCHARGE.get(), 64),
                 new ItemStack(ModAmmoItems.AMMO_CAPACITOR_OVERCHARGE.get(), 64),
                 new ItemStack(ModAmmoItems.AMMO_CAPACITOR_OVERCHARGE.get(), 64)
-        ).setHoverName(Component.literal("Frenchie's Reward")), Requirement.HIDDEN, 32));
+        ).setHoverName(Component.translatable("hbm.text.frenchie_s_reward")), Requirement.HIDDEN, 32));
     }
 
     public static List<Offer> getOffers(ItemStack stack) {

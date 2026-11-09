@@ -1059,7 +1059,7 @@ public class ClientProxy extends CommonProxy {
         LocalPlayer player = mc.player;
 
         if (player != null) {
-            player.sendSystemMessage(net.minecraft.network.chat.Component.literal("§c[DEBUG] Unhandled particle effect: §e" + type));
+            player.sendSystemMessage(net.minecraft.network.chat.Component.translatable("hbm.text.debug_unhandled_particle_effect", type));
         }
 
         // Также выводим в консоль для удобства

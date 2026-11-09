@@ -111,7 +111,7 @@ public class RadioTorchReaderScreen extends RadioTorchScreenBase {
 
         if (isHovering(29, 17, 18, 18, mouseX, mouseY)) {
             List<Component> lines = new ArrayList<>();
-            lines.add(Component.literal("Доступные значения:"));
+            lines.add(Component.translatable("hbm.text.text_3"));
             for (String value : availableValues()) {
                 lines.add(Component.literal("§d" + value));
             }
@@ -126,7 +126,7 @@ public class RadioTorchReaderScreen extends RadioTorchScreenBase {
 
         if (isHovering(209, 17, 18, 18, mouseX, mouseY)) {
             graphics.renderTooltip(this.font,
-                    List.of(Component.literal("Save Settings")),
+                    List.of(Component.translatable("hbm.text.save_settings")),
                     Optional.empty(), mouseX, mouseY);
         }
     }

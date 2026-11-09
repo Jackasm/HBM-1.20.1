@@ -46,10 +46,10 @@ public class GUIMachineCompactLauncher extends AbstractContainerScreen<Container
             launcher.tanks[1].renderTankInfo(graphics, mouseX, mouseY, leftPos + 134, topPos + 36, 16, 34);
         }
         if (isHovering(152, 36, 16, 52, mouseX, mouseY)) {
-            graphics.renderTooltip(font, Component.literal("Solid Fuel: " + launcher.solidFuel + "l"), mouseX, mouseY);
+            graphics.renderTooltip(font, Component.translatable("hbm.text.solid_fuel", launcher.solidFuel), mouseX, mouseY);
         }
         if (isHovering(134, 113, 34, 6, mouseX, mouseY)) {
-            graphics.renderTooltip(font, Component.literal("Power: " + launcher.getPower() + " / " + launcher.getMaxPower()), mouseX, mouseY);
+            graphics.renderTooltip(font, Component.translatable("hbm.text.power", launcher.getPower(), launcher.getMaxPower()), mouseX, mouseY);
         }
     }
 

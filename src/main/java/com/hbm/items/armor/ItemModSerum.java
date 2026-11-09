@@ -22,7 +22,7 @@ public class ItemModSerum extends ItemArmorMod {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("Cures poison and gives strength").withStyle(ChatFormatting.GREEN));
+        tooltip.add(Component.translatable("hbm.text.cures_poison_and_gives_strength").withStyle(ChatFormatting.GREEN));
         tooltip.add(Component.empty());
         super.appendHoverText(stack, level, tooltip, flag);
     }

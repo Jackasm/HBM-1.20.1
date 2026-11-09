@@ -112,6 +112,6 @@ public class FluidTankRenderer implements BlockEntityRenderer<TileEntityMachineF
             name = "DANGER";
         }
 
-        return ResLocation("hbm", "textures/block/storage/tank/tank_" + name + ".png");
+        return ResLocation(RefStrings.MODID, "textures/block/storage/tank/tank_" + name + ".png");
     }
 }

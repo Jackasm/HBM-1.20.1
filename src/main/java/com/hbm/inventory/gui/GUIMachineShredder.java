@@ -39,7 +39,7 @@ public class GUIMachineShredder extends AbstractContainerScreen<ContainerMachine
         boolean warn = (shredder.getGearLeft() == 0 || shredder.getGearLeft() == 3) ||
                 (shredder.getGearRight() == 0 || shredder.getGearRight() == 3);
         if (warn && mouseX >= leftPos - 16 && mouseX <= leftPos && mouseY >= topPos + 36 && mouseY <= topPos + 52) {
-            graphics.renderTooltip(font, Component.literal("Error: Shredder blades are broken or missing!"), mouseX, mouseY);
+            graphics.renderTooltip(font, Component.translatable("hbm.text.error_shredder_blades_are_broken_or_missing"), mouseX, mouseY);
         }
     }
 

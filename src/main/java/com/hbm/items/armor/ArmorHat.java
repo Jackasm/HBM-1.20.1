@@ -24,7 +24,7 @@ public class ArmorHat extends ArmorModel implements IAttackHandler, IDamageHandl
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level,
                                 @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
-        tooltip.add(Component.literal("+2 DT").withStyle(ChatFormatting.BLUE));
+        tooltip.add(Component.translatable("hbm.text.2_dt").withStyle(ChatFormatting.BLUE));
     }
 
     @Override

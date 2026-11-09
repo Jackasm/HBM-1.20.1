@@ -143,7 +143,7 @@ public abstract class RadioTorchScreenBase extends AbstractContainerScreen<Conta
         }
         if (isHovering(209, 17, 18, 18, mouseX, mouseY)) {
             graphics.renderTooltip(this.font,
-                    List.of(Component.literal("Save Settings")),
+                    List.of(Component.translatable("hbm.text.save_settings")),
                     Optional.empty(), mouseX, mouseY);
         }
     }

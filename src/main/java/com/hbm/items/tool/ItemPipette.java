@@ -108,8 +108,8 @@ public class ItemPipette extends Item implements IFillableItem {
         if (this == ModItems.PIPETTE.get()) {
             tooltip.add(Component.translatable("desc.item.pipette.noCorrosive"));
         }
-        tooltip.add(Component.literal("Fluid: " + this.getType(stack).getLocalizedName()));
-        tooltip.add(Component.literal("Amount: " + this.getFill(stack) + "/" + this.getCapacity(stack) + "mB (" + this.getMaxFill(stack) + "mB)"));
+        tooltip.add(Component.translatable("hbm.text.fluid", this.getType(stack).getLocalizedName()));
+        tooltip.add(Component.translatable("hbm.text.amount", this.getFill(stack), this.getCapacity(stack), this.getMaxFill(stack)));
     }
 
     @Override

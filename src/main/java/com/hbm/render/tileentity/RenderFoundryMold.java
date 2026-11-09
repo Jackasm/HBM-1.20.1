@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.main.HBMResourceManager;
 import com.hbm.tileentity.network.TileEntityFoundryMold;
+import com.hbm.util.RefStrings;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
@@ -21,8 +22,8 @@ import static com.hbm.util.ResLocation.ResLocation;
 
 public class RenderFoundryMold implements BlockEntityRenderer<TileEntityFoundryMold> {
 
-    private static final ResourceLocation TEXTURE = ResLocation("hbm", "textures/block/network/foundry_mold.png");
-    private static final ResourceLocation LAVA = ResLocation("hbm", "textures/block/network/lava.png");
+    private static final ResourceLocation TEXTURE = ResLocation(RefStrings.MODID, "textures/block/network/foundry_mold.png");
+    private static final ResourceLocation LAVA = ResLocation(RefStrings.MODID, "textures/block/network/lava.png");
 
     public RenderFoundryMold(BlockEntityRendererProvider.Context ignoredContext) {}
 

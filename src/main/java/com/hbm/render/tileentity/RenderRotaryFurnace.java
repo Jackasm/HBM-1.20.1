@@ -4,6 +4,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.HBMResourceManager;
 import com.hbm.tileentity.machine.TileEntityMachineRotaryFurnace;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.RefStrings;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -16,7 +17,7 @@ import static com.hbm.util.ResLocation.ResLocation;
 
 public class RenderRotaryFurnace implements BlockEntityRenderer<TileEntityMachineRotaryFurnace> {
 
-    private static final ResourceLocation TEXTURE = ResLocation("hbm", "textures/block/machines/rotary_furnace.png");
+    private static final ResourceLocation TEXTURE = ResLocation(RefStrings.MODID, "textures/block/machines/rotary_furnace.png");
 
     public RenderRotaryFurnace(BlockEntityRendererProvider.Context context) {}
 

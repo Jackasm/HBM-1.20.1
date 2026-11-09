@@ -157,42 +157,42 @@ public abstract class BlockBarrelBase extends BaseEntityBlock implements ILookOv
         // Добавляем информацию о типе бочки
         switch (getBarrelType()) {
             case IRON:
-                tooltip.add(Component.literal("§aCapacity: " + getCapacity() + "mB"));
-                tooltip.add(Component.literal("§aCan store hot fluids"));
-                tooltip.add(Component.literal("§cCannot store corrosive fluids properly"));
-                tooltip.add(Component.literal("§cCannot store antimatter"));
+                tooltip.add(Component.translatable("hbm.text.capacity", getCapacity()));
+                tooltip.add(Component.translatable("hbm.text.can_store_hot_fluids"));
+                tooltip.add(Component.translatable("hbm.text.cannot_store_corrosive_fluids_properly"));
+                tooltip.add(Component.translatable("hbm.text.cannot_store_antimatter"));
                 break;
             case STEEL:
-                tooltip.add(Component.literal("§aCapacity: " + getCapacity() + "mB"));
-                tooltip.add(Component.literal("§aCan store hot fluids"));
-                tooltip.add(Component.literal("§aCan store corrosive fluids"));
-                tooltip.add(Component.literal("§cCannot store highly corrosive fluids properly"));
-                tooltip.add(Component.literal("§cCannot store antimatter"));
+                tooltip.add(Component.translatable("hbm.text.capacity", getCapacity()));
+                tooltip.add(Component.translatable("hbm.text.can_store_hot_fluids"));
+                tooltip.add(Component.translatable("hbm.text.can_store_corrosive_fluids"));
+                tooltip.add(Component.translatable("hbm.text.cannot_store_highly_corrosive_fluids_properly"));
+                tooltip.add(Component.translatable("hbm.text.cannot_store_antimatter"));
                 break;
             case PLASTIC:
-                tooltip.add(Component.literal("§aCapacity: " + getCapacity() + "mB"));
-                tooltip.add(Component.literal("§cCannot store hot fluids"));
-                tooltip.add(Component.literal("§cCannot store corrosive fluids"));
-                tooltip.add(Component.literal("§cCannot store antimatter"));
+                tooltip.add(Component.translatable("hbm.text.capacity", getCapacity()));
+                tooltip.add(Component.translatable("hbm.text.cannot_store_hot_fluids"));
+                tooltip.add(Component.translatable("hbm.text.cannot_store_corrosive_fluids"));
+                tooltip.add(Component.translatable("hbm.text.cannot_store_antimatter"));
                 break;
             case CORRODED:
-                tooltip.add(Component.literal("§aCapacity: " + getCapacity() + "mB"));
-                tooltip.add(Component.literal("§aCan store hot fluids"));
-                tooltip.add(Component.literal("§aCan store highly corrosive fluids"));
-                tooltip.add(Component.literal("§cCannot store antimatter"));
-                tooltip.add(Component.literal("§cLeaky"));
+                tooltip.add(Component.translatable("hbm.text.capacity", getCapacity()));
+                tooltip.add(Component.translatable("hbm.text.can_store_hot_fluids"));
+                tooltip.add(Component.translatable("hbm.text.can_store_highly_corrosive_fluids"));
+                tooltip.add(Component.translatable("hbm.text.cannot_store_antimatter"));
+                tooltip.add(Component.translatable("hbm.text.leaky"));
                 break;
             case ANTIMATTER:
-                tooltip.add(Component.literal("§aCapacity: " + getCapacity() + "mB"));
-                tooltip.add(Component.literal("§aCan store hot fluids"));
-                tooltip.add(Component.literal("§aCan store highly corrosive fluids"));
-                tooltip.add(Component.literal("§aCan store antimatter"));
+                tooltip.add(Component.translatable("hbm.text.capacity", getCapacity()));
+                tooltip.add(Component.translatable("hbm.text.can_store_hot_fluids"));
+                tooltip.add(Component.translatable("hbm.text.can_store_highly_corrosive_fluids"));
+                tooltip.add(Component.translatable("hbm.text.can_store_antimatter"));
                 break;
             case TCALLOY:
-                tooltip.add(Component.literal("§aCapacity: " + getCapacity() + "mB"));
-                tooltip.add(Component.literal("§aCan store hot fluids"));
-                tooltip.add(Component.literal("§aCan store highly corrosive fluids"));
-                tooltip.add(Component.literal("§cCannot store antimatter"));
+                tooltip.add(Component.translatable("hbm.text.capacity", getCapacity()));
+                tooltip.add(Component.translatable("hbm.text.can_store_hot_fluids"));
+                tooltip.add(Component.translatable("hbm.text.can_store_highly_corrosive_fluids"));
+                tooltip.add(Component.translatable("hbm.text.cannot_store_antimatter"));
                 break;
         }
     }

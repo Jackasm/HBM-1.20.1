@@ -100,7 +100,7 @@ public class GUIMachineArcWelder extends AbstractContainerScreen<ContainerMachin
             }
         }
         if (list.isEmpty()) {
-            list.add(Component.literal("No upgrades installed").withStyle(ChatFormatting.GRAY));
+            list.add(Component.translatable("hbm.text.no_upgrades_installed").withStyle(ChatFormatting.GRAY));
         }
         return list;
     }

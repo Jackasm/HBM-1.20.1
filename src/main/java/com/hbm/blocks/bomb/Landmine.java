@@ -1,12 +1,12 @@
 package com.hbm.blocks.bomb;
 
+import com.hbm.api.block.IToolable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.ServerConfig;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.*;
 import com.hbm.interfaces.IBomb;
-import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.XFactoryCatapult;
 import com.hbm.main.MainRegistry;
 import com.hbm.network.PacketDispatcher;
@@ -17,8 +17,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -41,13 +39,12 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class Landmine extends Block implements EntityBlock, IBomb, LiquidBlockContainer {
+public class Landmine extends Block implements EntityBlock, IBomb, IToolable, LiquidBlockContainer {
 
     public static boolean safeMode = false;
 
@@ -170,7 +167,7 @@ public class Landmine extends Block implements EntityBlock, IBomb, LiquidBlockCo
     }
 
     @Override
-    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+    public void playerWillDestroy(Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player) {
         if (!level.isClientSide) {
             explode(level, pos);
         }
@@ -178,26 +175,22 @@ public class Landmine extends Block implements EntityBlock, IBomb, LiquidBlockCo
     }
 
     @Override
-    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
-                                          @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
-        ItemStack stack = player.getItemInHand(hand);
-        if (stack.getItem() == ModItems.DEFUSER.get()) {
-            safeMode = true;
-            level.removeBlock(pos, false);
+    public boolean onScrew(Level world, Player player, BlockPos pos, Direction side,
+                           float fX, float fY, float fZ, IToolable.ToolType tool) {
+        if (tool != IToolable.ToolType.DEFUSER) return false;
 
-            ItemStack itemstack = new ItemStack(this, 1);
-            ItemEntity entityitem = new ItemEntity(level,
-                    pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                    itemstack);
+        safeMode = true;
+        world.removeBlock(pos, false);
+        safeMode = false;
 
-            if (!level.isClientSide) {
-                level.addFreshEntity(entityitem);
-            }
-
-            safeMode = false;
-            return InteractionResult.SUCCESS;
+        if (!world.isClientSide) {
+            ItemStack drop = new ItemStack(this, 1);
+            ItemEntity entity = new ItemEntity(world,
+                    pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, drop);
+            world.addFreshEntity(entity);
         }
-        return InteractionResult.PASS;
+
+        return true;
     }
 
     private boolean isWaterAbove(Level level, BlockPos pos) {

@@ -6,6 +6,7 @@ import com.hbm.inventory.recipes.common.ComparableStack;
 import com.hbm.inventory.recipes.common.OreDictStack;
 import com.hbm.inventory.recipes.common.TagStack;
 import com.hbm.items.ItemEnumMulti;
+import com.hbm.util.RefStrings;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -95,7 +96,7 @@ public class RecipeDisplayUtil {
 
         // Пробуем hbm:<singularShape>_<matName>
         String singularShape = shape.endsWith("s") ? shape.substring(0, shape.length() - 1) : shape;
-        var itemId = ResLocation("hbm", singularShape + "_" + matName);
+        var itemId = ResLocation(RefStrings.MODID, singularShape + "_" + matName);
         if (ForgeRegistries.ITEMS.containsKey(itemId)) {
             Item item = ForgeRegistries.ITEMS.getValue(itemId);
             return new ItemStack(Objects.requireNonNull(item), quantity);

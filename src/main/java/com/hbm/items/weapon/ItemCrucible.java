@@ -105,7 +105,7 @@ public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver, IA
             return super.hurtEnemy(stack, target, attacker);
         } else {
             if (!attacker.level().isClientSide && attacker instanceof Player player) {
-                player.sendSystemMessage(Component.literal("Not enough energy.").withStyle(ChatFormatting.RED));
+                player.sendSystemMessage(Component.translatable("hbm.text.not_enough_energy").withStyle(ChatFormatting.RED));
             }
             return false;
         }

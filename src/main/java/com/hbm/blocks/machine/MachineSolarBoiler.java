@@ -103,7 +103,7 @@ public class MachineSolarBoiler extends BlockDummyable implements ILookOverlay {
 
         if (boiler.display < 1) {
             int color = BobMathUtil.getBlink() ? 0xff0000 : 0xffff00;
-            text.add(Component.literal("[").append(Component.literal("Too cold!").withStyle(style -> style.withColor(color))).append(Component.literal("]")));
+            text.add(Component.literal("[").append(Component.translatable("hbm.text.too_cold").withStyle(style -> style.withColor(color))).append(Component.literal("]")));
         }
 
         ILookOverlay.printGeneric(event, Component.translatable(this.getDescriptionId() + ".name").getString(), 0xffff00, 0x404000, text);

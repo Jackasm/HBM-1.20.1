@@ -445,9 +445,9 @@ public class GunItem extends Item implements IKeybindReceiver {
 
                     if (min > 1) {
                         if (min != max) {
-                            damageText = damageText.append(Component.literal(" x" + min + "-" + max));
+                            damageText = damageText.append(Component.translatable("hbm.text.x_3", min, max));
                         } else {
-                            damageText = damageText.append(Component.literal(" x" + min));
+                            damageText = damageText.append(Component.translatable("hbm.text.x", min));
                         }
                     }
 

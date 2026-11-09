@@ -56,16 +56,16 @@ public class ItemFluidID extends Item implements IItemFluidIdentifier {
         FluidTypeHBM fluid = getFluidType(stack);
 
         if (fluid.isHot()) {
-            tooltip.add(Component.literal("§6Temperature: " + fluid.getTemperature() + "°C"));
+            tooltip.add(Component.translatable("hbm.text.temperature", fluid.getTemperature()));
         }
         if (fluid.isFlammable()) {
-            tooltip.add(Component.literal("§cFlammable"));
+            tooltip.add(Component.translatable("hbm.text.flammable"));
         }
         if (fluid.isCorrosive()) {
-            tooltip.add(Component.literal("§2Corrosive"));
+            tooltip.add(Component.translatable("hbm.text.corrosive"));
         }
         if (fluid.isRadioactive()) {
-            tooltip.add(Component.literal("§aRadioactive"));
+            tooltip.add(Component.translatable("hbm.text.radioactive"));
         }
 
         // Проверяем зажат ли Shift

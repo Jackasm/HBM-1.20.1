@@ -61,7 +61,7 @@ public class ItemCustomLore extends Item implements ITooltipProvider {
         if (scramblingName) {
             // undefined-специфичный тултип
             if (level != null && level.random.nextInt(10) == 0) {
-                tooltip.add(Component.literal("UNDEFINED").withStyle(ChatFormatting.DARK_RED));
+                tooltip.add(Component.translatable("hbm.text.undefined").withStyle(ChatFormatting.DARK_RED));
             } else {
                 try {
                     Random rand = new Random(System.currentTimeMillis() / 500);
@@ -72,10 +72,10 @@ public class ItemCustomLore extends Item implements ITooltipProvider {
                     if (item != null && item != net.minecraft.world.item.Items.AIR) {
                         tooltip.add(new ItemStack(item).getHoverName());
                     } else {
-                        tooltip.add(Component.literal("ERROR #" + r).withStyle(ChatFormatting.RED));
+                        tooltip.add(Component.translatable("hbm.text.error", r).withStyle(ChatFormatting.RED));
                     }
                 } catch (Exception ex) {
-                    tooltip.add(Component.literal("UNDEFINED").withStyle(ChatFormatting.DARK_RED));
+                    tooltip.add(Component.translatable("hbm.text.undefined").withStyle(ChatFormatting.DARK_RED));
                 }
             }
             return;

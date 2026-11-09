@@ -33,11 +33,11 @@ public class ItemDesignatorRange extends Item implements IDesignatorItem {
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level,
                                 @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         if (stack.getTag() != null) {
-            tooltip.add(Component.literal("Target Coordinates:"));
-            tooltip.add(Component.literal("X: " + stack.getTag().getInt("xCoord")));
-            tooltip.add(Component.literal("Z: " + stack.getTag().getInt("zCoord")));
+            tooltip.add(Component.translatable("hbm.text.target_coordinates"));
+            tooltip.add(Component.translatable("hbm.text.x_2", stack.getTag().getInt("xCoord")));
+            tooltip.add(Component.translatable("hbm.text.z", stack.getTag().getInt("zCoord")));
         } else {
-            tooltip.add(Component.literal("Please select a target."));
+            tooltip.add(Component.translatable("hbm.text.please_select_a_target"));
         }
     }
 
@@ -58,7 +58,7 @@ public class ItemDesignatorRange extends Item implements IDesignatorItem {
             stack.getOrCreateTag().putInt("zCoord", pos.getZ());
 
             if (level.isClientSide) {
-                player.displayClientMessage(Component.literal("Position set to X:" + pos.getX() + ", Z:" + pos.getZ()), true);
+                player.displayClientMessage(Component.translatable("hbm.text.position_set_to_x", pos.getX(), pos.getZ()), true);
             }
 
             level.playSound(null, player.getX(), player.getY(), player.getZ(),

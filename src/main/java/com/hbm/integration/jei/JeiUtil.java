@@ -5,6 +5,7 @@ import com.hbm.inventory.recipes.common.ComparableStack;
 import com.hbm.inventory.recipes.common.OreDictStack;
 import com.hbm.inventory.recipes.common.TagStack;
 import com.hbm.items.ItemEnumMulti;
+import com.hbm.util.RefStrings;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -88,7 +89,7 @@ public class JeiUtil {
         // 2. Пробуем найти по имени <shape>_<matName>
         // Убираем последнюю 's' у shape, если она есть
         String singularShape = shape.endsWith("s") ? shape.substring(0, shape.length() - 1) : shape;
-        ResourceLocation itemId = ResLocation("hbm", singularShape + "_" + matName);
+        ResourceLocation itemId = ResLocation(RefStrings.MODID, singularShape + "_" + matName);
         if (ForgeRegistries.ITEMS.containsKey(itemId)) {
             Item item = ForgeRegistries.ITEMS.getValue(itemId);
             return new ItemStack(Objects.requireNonNull(item), quantity);

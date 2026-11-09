@@ -84,13 +84,13 @@ public abstract class ItemCoordinateBase extends Item {
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         if (stack.hasTag()) {
             CompoundTag tag = stack.getTag();
-            tooltip.add(Component.literal("X: " + Objects.requireNonNull(tag).getInt("posX")));
+            tooltip.add(Component.translatable("hbm.text.x_2", Objects.requireNonNull(tag).getInt("posX")));
             if (includeY()) {
-                tooltip.add(Component.literal("Y: " + tag.getInt("posY")));
+                tooltip.add(Component.translatable("hbm.text.y", tag.getInt("posY")));
             }
-            tooltip.add(Component.literal("Z: " + tag.getInt("posZ")));
+            tooltip.add(Component.translatable("hbm.text.z", tag.getInt("posZ")));
         } else {
-            tooltip.add(Component.literal("No position set!").withStyle(style -> style.withColor(0xFF0000)));
+            tooltip.add(Component.translatable("hbm.text.no_position_set").withStyle(style -> style.withColor(0xFF0000)));
         }
     }
 }

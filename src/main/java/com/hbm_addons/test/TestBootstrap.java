@@ -42,8 +42,14 @@ public class TestBootstrap {
         SCENARIOS.put("armor_damage", ArmorDamageTestRunner::new);
         SCENARIOS.put("armor_classes", ArmorClassesTestRunner::new);
 
+        // Версии: сравнение для уведомления об обновлении
+        SCENARIOS.put("version_check", VersionCheckTestRunner::new);
+
         // Worldgen
         SCENARIOS.put("structures_scan", StructuresScanTestRunner::new);
+        SCENARIOS.put("cleanup_overhang", CleanupOverhangTestRunner::new);
+        SCENARIOS.put("iron_bars", IronBarsTestRunner::new);
+        SCENARIOS.put("structure_doors", StructureDoorsTestRunner::new);
         SCENARIOS.put("silo_scan", SiloScanTestRunner::new);
         SCENARIOS.put("atom_scan", AtomScanTestRunner::new);
         SCENARIOS.put("atom_fit", AtomFitTestRunner::new);
@@ -53,6 +59,10 @@ public class TestBootstrap {
         SCENARIOS.put("atom_radiation", AtomRadiationTestRunner::new);
         SCENARIOS.put("locate_bench", LocateBenchTestRunner::new);
         SCENARIOS.put("reeds_scan", ReedsScanTestRunner::new);
+        // Растения, кроме камыша: грунт, вода, воздух, целостность половин
+        SCENARIOS.put("plants_scan", PlantsScanTestRunner::new);
+        // #204: принудительная загрузка плитки и счёт осиротевших тегов DUMMY
+        SCENARIOS.put("tile_probe", TileProbeTestRunner::new);
 
         // Сеть
         SCENARIOS.put("rtty_place", RttyPlaceTestRunner::new);
@@ -65,6 +75,11 @@ public class TestBootstrap {
 
         // Raw-руды: предмет, лут, плавка (#213)
         SCENARIOS.put("raw_ores", RawOresTestRunner::new);
+        // Bobblehead: ровно один дроп и он с типом (хотфикс 0.1.1)
+        SCENARIOS.put("bobble_loot", BobbleLootTestRunner::new);
+        // Руины: wand_loot заменяется на целевой блок, а не остаётся заглушкой
+        SCENARIOS.put("ruin_loot", RuinLootTestRunner::new);
+        SCENARIOS.put("ruin_shape", RuinShapeTestRunner::new);
         // SCENARIOS.put("radiation_basic", RadiationBasicTestRunner::new);
         // SCENARIOS.put("radiation_nbt", RadiationNbtTestRunner::new);
         // SCENARIOS.put("radiation_player", RadiationPlayerTestRunner::new);

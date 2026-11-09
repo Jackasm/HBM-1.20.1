@@ -1,9 +1,12 @@
 package com.hbm.datagen.worldgen.structure.pieces;
 
 import com.hbm.datagen.worldgen.structure.ModStructurePieceTypes;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.datagen.worldgen.structure.cleanup.CleanablePiece;
 import com.hbm.datagen.worldgen.structure.cleanup.StructureCleanup;
 import com.hbm.datagen.worldgen.structure.cleanup.TemplateLayout;
+import com.hbm.tileentity.block.TileEntityWandLogic;
+import com.hbm.tileentity.block.TileEntityWandLoot;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
@@ -25,6 +28,11 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.hbm.util.ResLocation.ResLocation;
 
@@ -77,6 +85,9 @@ public class ConformingNBTStructurePiece extends StructurePiece implements Clean
         this.placeSettings = makeSettings(rotation).setIgnoreEntities(true);
         this.transformSettings = makeSettings(rotation);
         this.template = manager.getOrCreate(ResLocation(nbtPath));
+        BlockPos pivot = new BlockPos(this.template.getSize().getX() / 2, 0, this.template.getSize().getZ() / 2);
+        this.placeSettings.setRotationPivot(pivot);
+        this.transformSettings.setRotationPivot(pivot);
     }
 
     /** Загрузка из NBT сохранённого мира: границы и высоты уже лежат в теге. */
@@ -92,12 +103,17 @@ public class ConformingNBTStructurePiece extends StructurePiece implements Clean
         this.placeSettings = makeSettings(rotation).setIgnoreEntities(true);
         this.transformSettings = makeSettings(rotation);
         this.template = context.structureTemplateManager().getOrCreate(ResLocation(nbtPath));
+        BlockPos pivot = new BlockPos(this.template.getSize().getX() / 2, 0, this.template.getSize().getZ() / 2);
+        this.placeSettings.setRotationPivot(pivot);
+        this.transformSettings.setRotationPivot(pivot);
     }
 
     private static BoundingBox bounds(StructureTemplateManager manager, String nbtPath, BlockPos pos,
                                       int rotation, int heightOffset, int[] heights) {
         StructureTemplate template = manager.getOrCreate(ResLocation(nbtPath));
-        BoundingBox footprint = template.getBoundingBox(makeSettings(rotation), pos);
+        StructurePlaceSettings settings = makeSettings(rotation);
+        settings.setRotationPivot(new BlockPos(template.getSize().getX() / 2, 0, template.getSize().getZ() / 2));
+        BoundingBox footprint = template.getBoundingBox(settings, pos);
         int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
         for (int h : heights) {
@@ -150,22 +166,39 @@ public class ConformingNBTStructurePiece extends StructurePiece implements Clean
         int anchor = this.templatePosition.getY() - this.heightOffset;
         int originX = this.templatePosition.getX();
         int originZ = this.templatePosition.getZ();
+        List<BlockPos> bars = new ArrayList<>();
 
-        for (int dx = 0; dx < this.gridX; dx++) {
-            for (int dz = 0; dz < this.gridZ; dz++) {
-                int x = originX + dx;
-                int z = originZ + dz;
-                if (!new ChunkPos(x, z).equals(chunkPos)) continue;
+        for (StructureTemplate.StructureBlockInfo info : allBlocks()) {
+            BlockPos world = StructureTemplate.calculateRelativePosition(settings, info.pos())
+                    .offset(this.templatePosition);
+            int idx = (world.getX() - originX) * this.gridZ + (world.getZ() - originZ);
+            if (idx < 0 || idx >= this.heights.length) continue;
+            int delta = this.heights[idx] - anchor;
+            world = world.offset(0, delta, 0);
+            if (!new ChunkPos(world).equals(chunkPos)) continue;
 
-                int idx = dx * this.gridZ + dz;
-                if (idx < 0 || idx >= this.heights.length) continue;
-                int delta = this.heights[idx] - anchor;
-
-                settings.setBoundingBox(new BoundingBox(x, this.boundingBox.minY(), z,
-                        x, this.boundingBox.maxY(), z));
-                BlockPos shifted = this.templatePosition.offset(0, delta, 0);
-                this.template.placeInWorld(level, shifted, shifted, settings, random, 2);
+            BlockState state = info.state().rotate(settings.getRotation());
+            if (state.isAir()) continue;
+            level.setBlock(world, state, 2);
+            if (state.getBlock() instanceof net.minecraft.world.level.block.IronBarsBlock) {
+                bars.add(world);
             }
+
+            net.minecraft.nbt.CompoundTag nbt = info.nbt();
+            if (nbt != null && !nbt.isEmpty()) {
+                if (state.is(ModBlocks.WAND_LOOT.get())) {
+                    StructurePostProcess.processWandBlockAt(level, world, nbt, true);
+                } else if (state.is(ModBlocks.WAND_LOGIC.get())) {
+                    StructurePostProcess.processWandBlockAt(level, world, nbt, false);
+                } else {
+                    var be = level.getBlockEntity(world);
+                    if (be != null) be.load(nbt);
+                }
+            }
+        }
+
+        for (BlockPos bar : bars) {
+            StructurePostProcess.refreshIronBars(level, bar);
         }
 
         // #102: запоминаем кусок для чистки после декорации.
@@ -223,5 +256,29 @@ public class ConformingNBTStructurePiece extends StructurePiece implements Clean
     public int baseYAt(int x, int z) {
         int top = heightAt(x, z);
         return top < 0 ? -1 : top + this.heightOffset;
+    }
+
+    /** Все блоки шаблона: ручная постановка по колонкам, без placeInWorld-рамки. */
+    @SuppressWarnings("unchecked")
+    private List<StructureTemplate.StructureBlockInfo> allBlocks() {
+        try {
+            Field palettesField = StructureTemplate.class.getDeclaredField("palettes");
+            palettesField.setAccessible(true);
+            List<?> palettes = (List<?>) palettesField.get(this.template);
+            List<StructureTemplate.StructureBlockInfo> all = new ArrayList<>();
+            for (Object palette : palettes) {
+                Method blocks;
+                try {
+                    blocks = palette.getClass().getMethod("blocks");
+                } catch (NoSuchMethodException e) {
+                    blocks = palette.getClass().getDeclaredMethod("blocks");
+                    blocks.setAccessible(true);
+                }
+                all.addAll((List<StructureTemplate.StructureBlockInfo>) blocks.invoke(palette));
+            }
+            return all;
+        } catch (Exception e) {
+            throw new IllegalStateException("Не удалось прочитать палитры шаблона", e);
+        }
     }
 }

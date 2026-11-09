@@ -34,7 +34,7 @@ public class ItemFluidIcon extends Item {
             }
             if (getPressure(stack) > 0) {
                 tooltip.add(Component.literal("" + getPressure(stack) + "PU").withStyle(ChatFormatting.RED));
-                tooltip.add(Component.literal("Pressurized, use compressor!")
+                tooltip.add(Component.translatable("hbm.text.pressurized_use_compressor")
                         .withStyle(BobMathUtil.getBlink() ? ChatFormatting.RED : ChatFormatting.DARK_RED));
             }
         }

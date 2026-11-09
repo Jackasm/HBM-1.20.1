@@ -135,9 +135,9 @@ public class BlockGraphiteNeutronDetector extends BlockGraphiteDrilledTE impleme
                     }
                 } else {
                     if (level.getBlockEntity(pos) instanceof TileEntityPileNeutronDetector pile) {
-                        player.sendSystemMessage(Component.literal("CP1 FUEL ASSEMBLY " + pos.getX() + " " + pos.getY() + " " + pos.getZ())
+                        player.sendSystemMessage(Component.translatable("hbm.text.cp1_fuel_assembly", pos.getX(), pos.getY(), pos.getZ())
                                 .withStyle(ChatFormatting.GOLD));
-                        player.sendSystemMessage(Component.literal("FLUX: " + pile.lastNeutrons + "/" + pile.maxNeutrons)
+                        player.sendSystemMessage(Component.translatable("hbm.text.flux_2", pile.lastNeutrons, pile.maxNeutrons)
                                 .withStyle(ChatFormatting.YELLOW));
                     }
                 }

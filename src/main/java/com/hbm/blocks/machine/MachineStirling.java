@@ -179,7 +179,7 @@ public class MachineStirling extends BlockDummyable implements ILookOverlay, ITo
                 main.addLine(Component.literal("§" + (BobMathUtil.getBlink() ? "c" : "e") + "! ! ! OVERSPEED ! ! !"));
             }
             if (!stirling.hasCog) {
-                main.addLine(Component.literal("§cGear missing!"));
+                main.addLine(Component.translatable("hbm.text.gear_missing"));
             }
         } else {
             main.addLine(Component.literal(stirling.heat + " TU/t"));

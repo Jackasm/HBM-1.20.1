@@ -217,7 +217,7 @@ public class MachineSawmill extends BlockDummyable implements ILookOverlay, IToo
         }
 
         if (!sawmill.hasBlade) {
-            text.add(Component.literal("§cBlade missing!"));
+            text.add(Component.translatable("hbm.text.blade_missing"));
         }
 
         ILookOverlay.printGeneric(event, this.getDescriptionId() + ".name", 0xffff00, 0x404000, text);

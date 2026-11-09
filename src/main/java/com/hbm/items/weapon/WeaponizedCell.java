@@ -90,9 +90,9 @@ public class WeaponizedCell extends Item {
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level,
                                 @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("A charged energy cell, rigged to explode")
+        tooltip.add(Component.translatable("hbm.text.a_charged_energy_cell_rigged_to_explode")
                 .withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.literal("when left on the floor for too long.")
+        tooltip.add(Component.translatable("hbm.text.when_left_on_the_floor_for_too_long")
                 .withStyle(ChatFormatting.GRAY));
     }
 }

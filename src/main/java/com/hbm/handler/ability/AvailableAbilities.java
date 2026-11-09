@@ -72,7 +72,7 @@ public class AvailableAbilities {
                 .toList();
 
         if(!toolAbilities.isEmpty()) {
-            tooltip.add(Component.literal("Abilities:").withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.translatable("hbm.text.abilities").withStyle(ChatFormatting.GRAY));
 
             Component noneText = Component.translatable("item.hbm.ability.none");
             if (activePreset != null && activePreset.isNone()) {
@@ -102,8 +102,8 @@ public class AvailableAbilities {
             });
 
             // Обновляем описание
-            tooltip.add(Component.literal("Right click in air to cycle abilities").withStyle(ChatFormatting.BLUE));
-            tooltip.add(Component.literal("Shift + Right click in air to disable").withStyle(ChatFormatting.BLUE));
+            tooltip.add(Component.translatable("hbm.text.right_click_in_air_to_cycle_abilities").withStyle(ChatFormatting.BLUE));
+            tooltip.add(Component.translatable("hbm.text.shift_right_click_in_air_to_disable").withStyle(ChatFormatting.BLUE));
         }
 
         List<Map.Entry<IBaseAbility, Integer>> weaponAbilities = abilities.entrySet().stream()
@@ -113,7 +113,7 @@ public class AvailableAbilities {
                 .toList();
 
         if(!weaponAbilities.isEmpty()) {
-            tooltip.add(Component.literal("Weapon modifiers:").withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.translatable("hbm.text.weapon_modifiers").withStyle(ChatFormatting.GRAY));
 
             weaponAbilities.forEach(entry -> {
                 IBaseAbility ability = entry.getKey();

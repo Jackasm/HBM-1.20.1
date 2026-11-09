@@ -279,7 +279,7 @@ public class SmeltingRecipes {
 
             @Override
             public @NotNull ResourceLocation getId() {
-                return ResLocation("hbm", "smelting/" + inputName + "_to_" + outputName + (count > 1 ? "_x" + count : ""));
+                return ResLocation(RefStrings.MODID, "smelting/" + inputName + "_to_" + outputName + (count > 1 ? "_x" + count : ""));
             }
 
             @Override
@@ -330,7 +330,7 @@ public class SmeltingRecipes {
 
             @Override
             public @NotNull ResourceLocation getId() {
-                return ResLocation("hbm", "smelting/" + input.getDescriptionId().replace("item.hbm.", "") + "_hot");
+                return ResLocation(RefStrings.MODID, "smelting/" + input.getDescriptionId().replace("item.hbm.", "") + "_hot");
             }
 
             @Override
@@ -412,7 +412,7 @@ public class SmeltingRecipes {
             @Override
             public @NotNull ResourceLocation getId() {
                 int variant = input.hasTag() ? Objects.requireNonNull(input.getTag()).getInt("CustomModelData") : 0;
-                return ResLocation("hbm", "smelting/" + inputName + "_hot_" + variant);
+                return ResLocation(RefStrings.MODID, "smelting/" + inputName + "_hot_" + variant);
             }
 
             @Override

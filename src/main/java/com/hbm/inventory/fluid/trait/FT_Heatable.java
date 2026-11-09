@@ -42,7 +42,7 @@ public class FT_Heatable extends FluidTrait {
 
     @Override
     public void addInfoHidden(List<Component> info) {
-        info.add(Component.literal("Heatable"));
+        info.add(Component.translatable("hbm.text.heatable"));
     }
 
     public double getEfficiency(HeatingType type) {

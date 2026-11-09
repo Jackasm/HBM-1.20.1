@@ -36,9 +36,9 @@ public class ItemTemFlakes extends Item {
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         switch (tier) {
-            case 0 -> tooltip.add(Component.literal("Heals 2HP DISCOUNT FOOD OF TEM!!!").withStyle(ChatFormatting.GOLD));
-            case 1 -> tooltip.add(Component.literal("Heals 2HP food of tem"));
-            case 2 -> tooltip.add(Component.literal("Heals food of tem (expensiv)"));
+            case 0 -> tooltip.add(Component.translatable("hbm.text.heals_2hp_discount_food_of_tem").withStyle(ChatFormatting.GOLD));
+            case 1 -> tooltip.add(Component.translatable("hbm.text.heals_2hp_food_of_tem"));
+            case 2 -> tooltip.add(Component.translatable("hbm.text.heals_food_of_tem_expensiv"));
         }
     }
 

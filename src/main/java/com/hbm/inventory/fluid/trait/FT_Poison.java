@@ -29,7 +29,7 @@ public class FT_Poison extends FluidTrait {
 
     @Override
     public void addInfoHidden(List<Component> info) {
-        info.add(Component.literal("[Toxic Fumes]"));
+        info.add(Component.translatable("hbm.text.toxic_fumes"));
     }
 
     @Override public void serializeJSON(JsonWriter writer) throws IOException {

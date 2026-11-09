@@ -7,6 +7,7 @@ import com.hbm.render.model.ModelM65Small;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 
+import com.hbm.util.RefStrings;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -35,8 +36,8 @@ public class ItemModGasmask extends ItemArmorMod implements IGasMask, IRenderabl
 
     @OnlyIn(Dist.CLIENT)
     private ModelM65Small modelGasMask;
-    private final ResourceLocation tex = ResLocation("hbm", "textures/models/armor/model_m65.png");
-    private final ResourceLocation tex_mono = ResLocation("hbm", "textures/models/armor/model_m65_mono.png");
+    private final ResourceLocation tex = ResLocation(RefStrings.MODID, "textures/models/armor/model_m65.png");
+    private final ResourceLocation tex_mono = ResLocation(RefStrings.MODID, "textures/models/armor/model_m65_mono.png");
 
     public ItemModGasmask(Properties properties) {
         super(ArmorModHandler.HELMET_ONLY, true, false, false, false, properties);
@@ -45,7 +46,7 @@ public class ItemModGasmask extends ItemArmorMod implements IGasMask, IRenderabl
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level,
                                 @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("Gas protection").withStyle(ChatFormatting.GREEN));
+        tooltip.add(Component.translatable("hbm.text.gas_protection").withStyle(ChatFormatting.GREEN));
 
         tooltip.add(Component.literal(""));
         super.appendHoverText(stack, level, tooltip, flag);
@@ -53,7 +54,7 @@ public class ItemModGasmask extends ItemArmorMod implements IGasMask, IRenderabl
         List<HazardClass> haz = getBlacklist(stack, null);
 
         if (!haz.isEmpty()) {
-            tooltip.add(Component.literal("Will never protect against:").withStyle(ChatFormatting.RED));
+            tooltip.add(Component.translatable("hbm.text.will_never_protect_against").withStyle(ChatFormatting.RED));
 
             for (HazardClass clazz : haz) {
                 tooltip.add(Component.literal(" -")

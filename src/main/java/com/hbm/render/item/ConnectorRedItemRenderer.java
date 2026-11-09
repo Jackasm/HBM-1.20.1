@@ -1,6 +1,7 @@
 package com.hbm.render.item;
 
 import com.hbm.main.HBMResourceManager;
+import com.hbm.util.RefStrings;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -15,7 +16,7 @@ import static com.hbm.util.ResLocation.ResLocation;
 public class ConnectorRedItemRenderer extends BlockEntityWithoutLevelRenderer {
 
     private static final ResourceLocation CONNECTOR_TEX =
-            ResLocation("hbm", "textures/block/network/red_connector.png");
+            ResLocation(RefStrings.MODID, "textures/block/network/red_connector.png");
 
     public ConnectorRedItemRenderer() {
         super(Minecraft.getInstance().getBlockEntityRenderDispatcher(),

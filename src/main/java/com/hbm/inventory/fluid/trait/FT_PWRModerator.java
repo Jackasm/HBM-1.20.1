@@ -26,7 +26,7 @@ public class FT_PWRModerator extends FluidTrait {
     public void addInfoHidden(List<Component> info) {
         int mult = (int) (multiplier * 100 - 100);
         info.add(Component.literal(ChatFormatting.BLUE + "Core flux " + (mult >= 0 ? "+" : "") + mult + "%"));
-        info.add(Component.literal("PWR Moderator"));
+        info.add(Component.translatable("hbm.text.pwr_moderator"));
     }
 
     public double getMultiplier() {

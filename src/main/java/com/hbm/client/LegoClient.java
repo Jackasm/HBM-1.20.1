@@ -9,6 +9,7 @@ import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.EnumWaveType;
 import com.hbm.render.util.BeamPronter.EnumBeamType;
+import com.hbm.util.RefStrings;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
@@ -40,7 +41,7 @@ public class LegoClient {
     private static final ResourceLocation FLARE_TEXTURE = ResLocation("textures/particles/flare.png");
 
     private static final ResourceLocation WIRE_GREYSCALE_TEX =
-            ResLocation("hbm", "textures/block/network/wire_greyscale.png");
+            ResLocation(RefStrings.MODID, "textures/block/network/wire_greyscale.png");
 
 
     public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_STANDARD_BULLET =

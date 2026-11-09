@@ -162,57 +162,57 @@ public class ItemDrop extends Item {
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         if (this == ModItems.CELL_ANTIMATTER.get()) {
-            tooltip.add(Component.literal("Warning: Exposure to matter will"));
-            tooltip.add(Component.literal("lead to violent annihilation!"));
+            tooltip.add(Component.translatable("hbm.text.warning_exposure_to_matter_will"));
+            tooltip.add(Component.translatable("hbm.text.lead_to_violent_annihilation"));
         }
         if (this == ModItems.PELLET_ANTIMATTER.get()) {
-            tooltip.add(Component.literal("Very heavy antimatter cluster."));
-            tooltip.add(Component.literal("Gets rid of black holes."));
+            tooltip.add(Component.translatable("hbm.text.very_heavy_antimatter_cluster"));
+            tooltip.add(Component.translatable("hbm.text.gets_rid_of_black_holes"));
         }
         if (this == ModItems.CELL_ANTI_SCHRABIDIUM.get()) {
-            tooltip.add(Component.literal("Warning: Exposure to matter will"));
-            tooltip.add(Component.literal("create a fólkvangr field!"));
+            tooltip.add(Component.translatable("hbm.text.warning_exposure_to_matter_will"));
+            tooltip.add(Component.translatable("hbm.text.create_a_f_lkvangr_field"));
         }
         if (this == ModItems.SINGULARITY.get()) {
-            tooltip.add(Component.literal("You may be asking:"));
+            tooltip.add(Component.translatable("hbm.text.you_may_be_asking"));
             tooltip.add(Component.literal("\"But HBM, a manifold with an undefined"));
             tooltip.add(Component.literal("state of spacetime? How is this possible?\""));
-            tooltip.add(Component.literal("Long answer short:"));
+            tooltip.add(Component.translatable("hbm.text.long_answer_short"));
             tooltip.add(Component.literal("\"I have no idea!\""));
         }
         if (this == ModItems.SINGULARITY_COUNTER_RESONANT.get()) {
-            tooltip.add(Component.literal("Nullifies resonance of objects in"));
-            tooltip.add(Component.literal("non-euclidean space, creates variable"));
-            tooltip.add(Component.literal("gravity well. Spontaneously spawns"));
-            tooltip.add(Component.literal("tesseracts. If a tesseract happens to"));
-            tooltip.add(Component.literal("appear near you, do not look directly"));
-            tooltip.add(Component.literal("at it."));
+            tooltip.add(Component.translatable("hbm.text.nullifies_resonance_of_objects_in"));
+            tooltip.add(Component.translatable("hbm.text.non_euclidean_space_creates_variable"));
+            tooltip.add(Component.translatable("hbm.text.gravity_well_spontaneously_spawns"));
+            tooltip.add(Component.translatable("hbm.text.tesseracts_if_a_tesseract_happens_to"));
+            tooltip.add(Component.translatable("hbm.text.appear_near_you_do_not_look_directly"));
+            tooltip.add(Component.translatable("hbm.text.at_it"));
         }
         if (this == ModItems.SINGULARITY_SUPER_HEATED.get()) {
-            tooltip.add(Component.literal("Continuously heats up matter by"));
-            tooltip.add(Component.literal("resonating every planck second."));
-            tooltip.add(Component.literal("Tends to catch fire or to create"));
-            tooltip.add(Component.literal("small plasma arcs. Not edible."));
+            tooltip.add(Component.translatable("hbm.text.continuously_heats_up_matter_by"));
+            tooltip.add(Component.translatable("hbm.text.resonating_every_planck_second"));
+            tooltip.add(Component.translatable("hbm.text.tends_to_catch_fire_or_to_create"));
+            tooltip.add(Component.translatable("hbm.text.small_plasma_arcs_not_edible"));
         }
         if (this == ModItems.BLACK_HOLE.get()) {
-            tooltip.add(Component.literal("Contains a regular singularity"));
-            tooltip.add(Component.literal("in the center. Large enough to"));
-            tooltip.add(Component.literal("stay stable. It's not the end"));
-            tooltip.add(Component.literal("of the world as we know it,"));
-            tooltip.add(Component.literal("and I don't feel fine."));
+            tooltip.add(Component.translatable("hbm.text.contains_a_regular_singularity"));
+            tooltip.add(Component.translatable("hbm.text.in_the_center_large_enough_to"));
+            tooltip.add(Component.translatable("hbm.text.stay_stable_it_s_not_the_end"));
+            tooltip.add(Component.translatable("hbm.text.of_the_world_as_we_know_it"));
+            tooltip.add(Component.translatable("hbm.text.and_i_don_t_feel_fine"));
         }
         if (this == ModItems.DETONATOR_DEADMAN.get()) {
-            tooltip.add(Component.literal("Shift right-click to set position,"));
-            tooltip.add(Component.literal("drop to detonate!"));
+            tooltip.add(Component.translatable("hbm.text.shift_right_click_to_set_position"));
+            tooltip.add(Component.translatable("hbm.text.drop_to_detonate"));
             CompoundTag tag = stack.getTag();
             if (tag == null) {
-                tooltip.add(Component.literal("No position set!"));
+                tooltip.add(Component.translatable("hbm.text.no_position_set"));
             } else {
-                tooltip.add(Component.literal("Set pos to " + tag.getInt("x") + ", " + tag.getInt("y") + ", " + tag.getInt("z")));
+                tooltip.add(Component.translatable("hbm.text.set_pos_to", tag.getInt("x"), tag.getInt("y"), tag.getInt("z")));
             }
         }
         if (this == ModItems.DETONATOR_DE.get()) {
-            tooltip.add(Component.literal("Explodes when dropped!"));
+            tooltip.add(Component.translatable("hbm.text.explodes_when_dropped"));
         }
 
         tooltip.add(Component.literal("[").withStyle(ChatFormatting.RED)
@@ -239,7 +239,7 @@ public class ItemDrop extends Item {
             tag.putInt("z", pos.getZ());
 
             if (level.isClientSide) {
-                player.displayClientMessage(Component.literal("Position set!"), true);
+                player.displayClientMessage(Component.translatable("hbm.text.position_set"), true);
             }
 
             level.playSound(player, player.getX(), player.getY(), player.getZ(),

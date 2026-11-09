@@ -66,7 +66,7 @@ public class SatelliteHorizons extends Satellite {
         if (!level.isClientSide) {
             if (level.getServer() != null) {
                 level.getServer().getPlayerList().broadcastSystemMessage(
-                        Component.literal("Horizons has been activated.").withStyle(ChatFormatting.RED),
+                        Component.translatable("hbm.text.horizons_has_been_activated").withStyle(ChatFormatting.RED),
                         false
                 );
             }

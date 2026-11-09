@@ -41,7 +41,7 @@ public class ItemModHealth extends ItemArmorMod {
 
         if (this == ModItems.BLACK_DIAMOND.get()) {
             tooltip.add(Component.empty());
-            tooltip.add(Component.literal("Nostalgia").withStyle(ChatFormatting.DARK_GRAY));
+            tooltip.add(Component.translatable("hbm.text.nostalgia").withStyle(ChatFormatting.DARK_GRAY));
         }
 
         tooltip.add(Component.empty());

@@ -2,6 +2,7 @@ package com.hbm.render.tileentity;
 
 import com.hbm.config.ClientConfig;
 import com.hbm.tileentity.network.TileEntityPylonBase;
+import com.hbm.util.RefStrings;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
@@ -22,9 +23,9 @@ import static com.hbm.util.ResLocation.ResLocation;
 public abstract class RenderPylonBase<T extends TileEntityPylonBase> implements BlockEntityRenderer<T> {
 
     private static final ResourceLocation WIRE_TEX =
-            ResLocation("hbm", "textures/block/network/wire.png");
+            ResLocation(RefStrings.MODID, "textures/block/network/wire.png");
     private static final ResourceLocation WIRE_GREYSCALE_TEX =
-            ResLocation("hbm", "textures/block/network/wire_greyscale.png");
+            ResLocation(RefStrings.MODID, "textures/block/network/wire_greyscale.png");
 
     public RenderPylonBase(BlockEntityRendererProvider.Context context) {}
 

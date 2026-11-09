@@ -5,6 +5,7 @@ import com.hbm.blocks.network.FoundryOutlet;
 import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.main.HBMResourceManager;
 import com.hbm.tileentity.network.TileEntityFoundryChannel;
+import com.hbm.util.RefStrings;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -26,8 +27,8 @@ import static com.hbm.util.ResLocation.ResLocation;
 
 public class RenderFoundryChannel implements BlockEntityRenderer<TileEntityFoundryChannel> {
 
-    private static final ResourceLocation TEXTURE = ResLocation("hbm", "textures/block/network/foundry_channel.png");
-    private static final ResourceLocation LAVA = ResLocation("hbm", "textures/block/network/lava.png");
+    private static final ResourceLocation TEXTURE = ResLocation(RefStrings.MODID, "textures/block/network/foundry_channel.png");
+    private static final ResourceLocation LAVA = ResLocation(RefStrings.MODID, "textures/block/network/lava.png");
 
     public RenderFoundryChannel(BlockEntityRendererProvider.Context ignoredContext) {}
 

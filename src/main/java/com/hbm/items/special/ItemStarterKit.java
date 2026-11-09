@@ -458,10 +458,10 @@ public class ItemStarterKit extends Item {
                 item == ModItems.HAZMAT_KIT.get();
 
         if (isBigKit) {
-            tooltip.add(Component.literal("Please empty inventory before opening!"));
+            tooltip.add(Component.translatable("hbm.text.please_empty_inventory_before_opening"));
         }
         if (hasHazmat) {
-            tooltip.add(Component.literal("Armor will be displaced by hazmat suit."));
+            tooltip.add(Component.translatable("hbm.text.armor_will_be_displaced_by_hazmat_suit"));
         }
     }
 }

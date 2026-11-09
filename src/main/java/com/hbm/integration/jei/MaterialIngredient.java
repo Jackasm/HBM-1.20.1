@@ -1,6 +1,7 @@
 package com.hbm.integration.jei;
 
 import com.hbm.inventory.material.NTMMaterial;
+import com.hbm.util.RefStrings;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientRenderer;
@@ -40,7 +41,7 @@ public class MaterialIngredient {
     }
 
     public static class Renderer implements IIngredientRenderer<MaterialIngredient> {
-        private static final ResourceLocation TEXTURE = ResLocation("hbm", "textures/block/network/lava_gray.png");
+        private static final ResourceLocation TEXTURE = ResLocation(RefStrings.MODID, "textures/block/network/lava_gray.png");
         @Override
         public void render(@NotNull GuiGraphics graphics, @Nullable MaterialIngredient ingredient) {
             if (ingredient == null) return;
@@ -93,7 +94,7 @@ public class MaterialIngredient {
             return "material_" + ingredient.material.id + "_" + ingredient.amount;
         }
         @Override
-        public @NotNull String getDisplayModId(@NotNull MaterialIngredient ingredient) { return "hbm"; }
+        public @NotNull String getDisplayModId(@NotNull MaterialIngredient ingredient) { return RefStrings.MODID; }
         @Override
         public @NotNull Iterable<Integer> getColors(MaterialIngredient ingredient) { return List.of(ingredient.material.moltenColor); }
         @Override
@@ -103,6 +104,6 @@ public class MaterialIngredient {
         @Override
         public boolean isValidIngredient(@NotNull MaterialIngredient ingredient) { return ingredient != null && ingredient.material != null; }
         @Override
-        public @NotNull ResourceLocation getResourceLocation(MaterialIngredient ingredient) { return ResLocation("hbm", ingredient.material.names[0]); }
+        public @NotNull ResourceLocation getResourceLocation(MaterialIngredient ingredient) { return ResLocation(RefStrings.MODID, ingredient.material.names[0]); }
     }
 }

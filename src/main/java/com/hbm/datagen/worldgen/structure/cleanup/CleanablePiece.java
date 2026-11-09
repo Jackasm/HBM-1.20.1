@@ -68,17 +68,20 @@ public interface CleanablePiece {
 
         Map<BlockPos, BlockState> expected = new HashMap<>();
         Map<Long, Integer> topByColumn = new HashMap<>();
+        Map<Long, Integer> bottomByColumn = new HashMap<>();
         for (Map.Entry<BlockPos, BlockState> entry : layout(level).blocks().entrySet()) {
             BlockPos world = localToWorld(entry.getKey());
             if (world == null) continue;
-            topByColumn.merge(ChunkPos.asLong(world.getX(), world.getZ()), world.getY(), Math::max);
+            long column = ChunkPos.asLong(world.getX(), world.getZ());
+            topByColumn.merge(column, world.getY(), Math::max);
+            bottomByColumn.merge(column, world.getY(), Math::min);
             if (!area.isInside(world)) continue;
             expected.put(world, transformState(entry.getValue()));
         }
 
         clearDecor(level, area, expected);
         restoreExpected(level, expected);
-        clearCovered(level, area, expected, topByColumn);
+        clearCovered(level, area, expected, topByColumn, bottomByColumn);
 
         // Чужой кусок структуры внутри габарита чистим в пределах своего региона.
         // Раньше сюда передавался полный `box`: габарит структуры лежит в десятках
@@ -127,14 +130,19 @@ public interface CleanablePiece {
      * шаблона в этой колонке, кроме самих блоков шаблона.
      */
     private void clearCovered(WorldGenLevel level, BoundingBox area,
-                              Map<BlockPos, BlockState> expected, Map<Long, Integer> topByColumn) {
+                              Map<BlockPos, BlockState> expected, Map<Long, Integer> topByColumn,
+                              Map<Long, Integer> bottomByColumn) {
         for (Map.Entry<Long, Integer> entry : topByColumn.entrySet()) {
             int x = ChunkPos.getX(entry.getKey());
             int z = ChunkPos.getZ(entry.getKey());
             if (x < area.minX() || x > area.maxX() || z < area.minZ() || z > area.maxZ()) continue;
             int base = cleanupBaseY(x, z);
             if (base < 0) continue;
-            int from = Math.max(area.minY(), base + 1);
+            int bottom = bottomByColumn.getOrDefault(entry.getKey(), base);
+            // Начинаем с первого блока шаблона в колонке, а не с подошвы:
+            // у крана под стрелой нет стен, и старый обход выкапывал землю
+            // от подошвы до стрелы — в поверхности появлялась щель.
+            int from = Math.max(area.minY(), Math.max(base + 1, bottom));
             int to = Math.min(area.maxY(), entry.getValue() - 1);
             for (int y = from; y <= to; y++) {
                 BlockPos pos = new BlockPos(x, y, z);

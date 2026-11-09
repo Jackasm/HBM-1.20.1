@@ -314,7 +314,7 @@ public class FluidTankHBM implements IFluidTank, IFluidHandler {
             list.add(Component.literal(fluid + "/" + capacity + "mB"));
 
             if (this.pressure != 0) {
-                list.add(Component.literal("§cPressure: " + this.pressure + " PU"));
+                list.add(Component.translatable("hbm.text.pressure", this.pressure));
                 list.add(Component.literal((BobMathUtil.getBlink() ? "§c" : "§4") + "Pressurized, use compressor!"));
             }
 

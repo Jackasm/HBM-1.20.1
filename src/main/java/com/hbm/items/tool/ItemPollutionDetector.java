@@ -43,15 +43,15 @@ public class ItemPollutionDetector extends Item {
 
         if (player instanceof ServerPlayer serverPlayer) {
             PacketDispatcher.sendTo(new PlayerInformPacket(
-                    Component.literal("Soot: " + soot).withStyle(style -> style.withColor(0xFFFF00)),
+                    Component.translatable("hbm.text.soot", soot).withStyle(style -> style.withColor(0xFFFF00)),
                     100, 4000), serverPlayer);
 
             PacketDispatcher.sendTo(new PlayerInformPacket(
-                    Component.literal("Poison: " + poison).withStyle(style -> style.withColor(0xFFFF00)),
+                    Component.translatable("hbm.text.poison", poison).withStyle(style -> style.withColor(0xFFFF00)),
                     101, 4000), serverPlayer);
 
             PacketDispatcher.sendTo(new PlayerInformPacket(
-                    Component.literal("Heavy metal: " + heavymetal).withStyle(style -> style.withColor(0xFFFF00)),
+                    Component.translatable("hbm.text.heavy_metal", heavymetal).withStyle(style -> style.withColor(0xFFFF00)),
                     102, 4000), serverPlayer);
         }
     }

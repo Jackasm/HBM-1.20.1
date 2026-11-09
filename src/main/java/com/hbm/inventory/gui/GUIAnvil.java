@@ -284,7 +284,7 @@ public class GUIAnvil extends AbstractContainerScreen<ContainerAnvil> {
 
             if (tab == TabType.ALL) {
                 // Для ALL пишем букву A текстом
-                guiGraphics.drawString(this.font, "All", iconX + 8, iconY + 8, 0xFFFFFF, false);
+                guiGraphics.drawString(this.font, Component.translatable("hbm.text.all"), iconX + 8, iconY + 8, 0xFFFFFF, false);
             } else if (tab == TabType.FLUID_ID) {
                 // Иконка воды
                 ItemStack fluidIcon = ItemFluidID.createForFluid(Fluids.WATER.get());

@@ -63,10 +63,10 @@ public class ItemCounterfeitKeys extends Item {
             if (level.isClientSide) return InteractionResult.SUCCESS;
 
             player.displayClientMessage(
-                    Component.literal("This lock is too elaborate for a counterfeit key to be made")
+                    Component.translatable("hbm.text.this_lock_is_too_elaborate_for_a_counterfeit_key")
                             .withStyle(ChatFormatting.LIGHT_PURPLE), false);
             player.displayClientMessage(
-                    Component.literal("Perhaps there is another way around here to unlock it")
+                    Component.translatable("hbm.text.perhaps_there_is_another_way_around_here_to_unlo")
                             .withStyle(ChatFormatting.LIGHT_PURPLE), false);
 
             return InteractionResult.CONSUME;
@@ -78,6 +78,6 @@ public class ItemCounterfeitKeys extends Item {
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level,
                                 @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("Use on a locked container to create two counterfeit keys!"));
+        tooltip.add(Component.translatable("hbm.text.use_on_a_locked_container_to_create_two_counterf"));
     }
 }

@@ -71,7 +71,7 @@ public class MachineTeleporter extends BaseEntityBlock implements ILookOverlay {
         List<Component> text = new ArrayList<>();
 
         if (tele.targetY == -1) {
-            text.add(Component.literal("No destination set!").withStyle(style -> style.withColor(0xFF0000)));
+            text.add(Component.translatable("hbm.text.no_destination_set").withStyle(style -> style.withColor(0xFF0000)));
         } else {
             boolean hasPower = tele.power >= TileEntityMachineTeleporter.CONSUMPTION;
             text.add(Component.literal(
@@ -79,7 +79,7 @@ public class MachineTeleporter extends BaseEntityBlock implements ILookOverlay {
                             String.format(Locale.US, "%,d", tele.power) + " / " +
                             String.format(Locale.US, "%,d", TileEntityMachineTeleporter.MAX_POWER)
             ));
-            text.add(Component.literal("Destination: " + tele.targetX + " / " + tele.targetY + " / " + tele.targetZ + " (D: " + tele.targetDim + ")"));
+            text.add(Component.translatable("hbm.text.destination", tele.targetX, tele.targetY, tele.targetZ, tele.targetDim));
         }
 
         ILookOverlay.printGeneric(event,

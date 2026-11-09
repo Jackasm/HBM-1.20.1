@@ -57,7 +57,7 @@ public class BossSpawnHandler {
                                 (int) player.getX(), (int) player.getZ()) > player.getY() + 3 ||
                                 !MobConfig.maskmanUnderground)) {
 
-                    player.sendSystemMessage(Component.literal("The mask man is about to claim another victim.")
+                    player.sendSystemMessage(Component.translatable("hbm.text.the_mask_man_is_about_to_claim_another_victim")
                             .withStyle(ChatFormatting.RED));
 
                     double spawnX = player.getX() + world.random.nextGaussian() * 20;
@@ -75,7 +75,7 @@ public class BossSpawnHandler {
 
                 long mark = player.getPersistentData().getLong("fbiMark");
                 if (mark < world.getGameTime()) {
-                    player.sendSystemMessage(Component.literal("FBI, OPEN UP!").withStyle(ChatFormatting.RED));
+                    player.sendSystemMessage(Component.translatable("hbm.text.fbi_open_up").withStyle(ChatFormatting.RED));
 
                     Vec3 vec = new Vec3(MobConfig.raidAttackDistance, 0, 0);
                     vec = vec.yRot((float) (Math.PI * 2) * world.random.nextFloat());
@@ -103,7 +103,7 @@ public class BossSpawnHandler {
                 Player player = world.players().get(world.random.nextInt(world.players().size()));
 
                 if (player.getPersistentData().getBoolean("radMark")) {
-                    player.sendSystemMessage(Component.literal("You hear a faint clicking...")
+                    player.sendSystemMessage(Component.translatable("hbm.text.you_hear_a_faint_clicking")
                             .withStyle(ChatFormatting.YELLOW));
                     player.getPersistentData().putBoolean("radMark", false);
 

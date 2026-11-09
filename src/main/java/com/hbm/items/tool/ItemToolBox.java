@@ -40,7 +40,7 @@ public class ItemToolBox extends Item {
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         tooltip.add(Component.literal("Click with the toolbox to swap hotbars in/out of the toolbox."));
-        tooltip.add(Component.literal("Shift-click with the toolbox to open the toolbox."));
+        tooltip.add(Component.translatable("hbm.text.shift_click_with_the_toolbox_to_open_the_toolbox"));
     }
 
     public List<Integer> getActiveRows(ItemStack box) {
@@ -155,7 +155,7 @@ public class ItemToolBox extends Item {
                 byte[] abyte = byteOutput.toByteArray();
 
                 if (abyte.length > 6000) {
-                    player.displayClientMessage(Component.literal("Warning: Container NBT exceeds 6kB, contents will be ejected!").withStyle(ChatFormatting.RED), false);
+                    player.displayClientMessage(Component.translatable("hbm.text.warning_container_nbt_exceeds_6kb_contents_will").withStyle(ChatFormatting.RED), false);
                     ItemStack[] stacks1 = ItemStackUtil.readStacksFromNBT(box, 24);
                     if (stacks1 == null) return;
 

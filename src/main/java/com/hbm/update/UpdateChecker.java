@@ -3,6 +3,7 @@ package com.hbm.update;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.hbm.util.RefStrings;
+import com.hbm.util.VersionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
@@ -42,10 +43,11 @@ public class UpdateChecker {
                 }
 
                 JsonObject json = JsonParser.parseReader(new InputStreamReader(conn.getInputStream())).getAsJsonObject();
-                String latestTag = json.get("tag_name").getAsString().replace("v", "");
+                String latestTag = VersionUtil.stripTagPrefix(json.get("tag_name").getAsString());
 
-                if (!latestTag.equals(currentVersion)) {
-                    // Версии различаются – показываем сообщение
+                // Сравниваем числовую базу: 0.1.1-dev.a88e7fc старше 0.1.0,
+                // поэтому «просто не равно» давало ложное «доступна новая версия».
+                if (VersionUtil.isNewer(latestTag, currentVersion)) {
                     showUpdateMessage(currentVersion, latestTag);
                 }
             } catch (Exception e) {

@@ -27,7 +27,7 @@ public class ItemMS extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("Lost but not forgotten"));
+        tooltip.add(Component.translatable("hbm.text.lost_but_not_forgotten"));
     }
 
     @Override

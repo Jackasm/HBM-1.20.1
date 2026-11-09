@@ -67,7 +67,7 @@ public class ItemKitNBT extends Item {
         ItemStack[] stacks = ItemStackUtil.readStacksFromNBT(stack);
 
         if (stacks != null) {
-            tooltip.add(Component.literal("Contains:"));
+            tooltip.add(Component.translatable("hbm.text.contains"));
 
             for (ItemStack item : stacks) {
                 if (item != null && !item.isEmpty()) {

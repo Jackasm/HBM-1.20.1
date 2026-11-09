@@ -164,7 +164,7 @@ public class MachineRotaryFurnace extends BlockDummyable implements ILookOverlay
         if (isLookingAt(level, pos, core, forward, right, 1, 1, 0)) {
             com.hbm.render.overlay.OverlaySection fuelSection =
                     new com.hbm.render.overlay.OverlaySection(com.hbm.render.overlay.OverlaySection.Type.BLOCK_MAIN);
-            fuelSection.addLine(Component.literal("§e-> §rFuel"));
+            fuelSection.addLine(Component.translatable("hbm.text.fuel"));
             sections.add(fuelSection);
         }
 

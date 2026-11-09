@@ -2,7 +2,6 @@ package com.hbm.datagen.worldgen.structure.pieces;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockBobble;
 import com.hbm.datagen.worldgen.structure.ModStructurePieceTypes;
 import com.hbm.datagen.worldgen.structure.cleanup.CleanablePiece;
 import com.hbm.datagen.worldgen.structure.cleanup.StructureCleanup;
@@ -11,7 +10,6 @@ import com.hbm.itempool.ItemPool;
 import com.hbm.itempool.ItemPoolsLegacy;
 import com.hbm.tileentity.block.TileEntityWandLogic;
 import com.hbm.tileentity.block.TileEntityWandLoot;
-import com.hbm.tileentity.deco.TileEntityBobble;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderGetter;
@@ -24,15 +22,15 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.TemplateStructurePiece;
 import com.hbm.blocks.generic.BarbedWire;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
@@ -143,13 +141,22 @@ public class NBTStructurePiece extends TemplateStructurePiece implements Cleanab
                             @NotNull BoundingBox box, @NotNull ChunkPos chunkPos, @NotNull BlockPos pos) {
         super.postProcess(level, manager, generator, random, box, chunkPos, pos);
 
+        for (StructureTemplate.StructureBlockInfo info
+                : this.template.filterBlocks(this.templatePosition, this.placeSettings, Blocks.IRON_BARS)) {
+            if (new ChunkPos(info.pos()).equals(chunkPos)) {
+                StructurePostProcess.refreshIronBars(level, info.pos());
+            }
+        }
+
         fixBarbedWire(level, chunkPos);
         placeMultiblocks(level);
-        processWandBlock(level, ModBlocks.WAND_LOOT.get(),  TileEntityWandLoot.class,  "wand_loot");
-        processWandBlock(level, ModBlocks.WAND_LOGIC.get(), TileEntityWandLogic.class, "wand_logic");
-        processBobbleheads(level, random);
+        StructurePostProcess.processWandBlock(level, this.template, this.templatePosition, this.placeSettings, chunkPos,
+                ModBlocks.WAND_LOOT.get(), TileEntityWandLoot.class, "wand_loot");
+        StructurePostProcess.processWandBlock(level, this.template, this.templatePosition, this.placeSettings, chunkPos,
+                ModBlocks.WAND_LOGIC.get(), TileEntityWandLogic.class, "wand_logic");
+        StructurePostProcess.processBobbleheads(level, this.template, this.templatePosition, this.placeSettings,
+                chunkPos, random);
         fillChests(level);
-
         // #102: запоминаем кусок, чтобы фича чистки на top_layer_modification
         // убрала декор, который вырастет после нас.
         StructureCleanup.register(level, chunkPos, this);
@@ -300,58 +307,4 @@ public class NBTStructurePiece extends TemplateStructurePiece implements Cleanab
         }
     }
 
-// ==================== wand_loot / wand_logic ====================
-
-    private <T extends BlockEntity> void processWandBlock(WorldGenLevel level, Block block,
-                                                          Class<T> teClass, String name) {
-        List<StructureTemplate.StructureBlockInfo> blocks = this.template.filterBlocks(
-                this.templatePosition, this.placeSettings, block);
-
-        for (StructureTemplate.StructureBlockInfo info : blocks) {
-            CompoundTag nbt = info.nbt();
-            if (nbt == null || nbt.isEmpty()) {
-                System.err.println("[HBM] " + name + " без nbt в структуре: " + info.pos());
-                continue;
-            }
-
-            BlockEntity be = level.getBlockEntity(info.pos());
-            if (!teClass.isInstance(be)) {
-                System.err.println("[HBM] " + name + " без TE на " + info.pos());
-                continue;
-            }
-
-            T te = teClass.cast(be);
-
-            try {
-                // load(CompoundTag) — общий для всех BlockEntity
-                te.load(nbt);
-            } catch (Exception e) {
-                System.err.println("[HBM] Ошибка загрузки NBT " + name + " на " + info.pos() + ": " + e.getMessage());
-                continue;
-            }
-
-            // Запускаем замену
-            if (te instanceof TileEntityWandLoot loot) {
-                loot.setTriggerReplace(true);
-            } else if (te instanceof TileEntityWandLogic logic) {
-                logic.setTriggerReplace(true);
-            }
-        }
-    }
-
-// ==================== Bobblehead ====================
-
-    private void processBobbleheads(WorldGenLevel level, RandomSource random) {
-        List<StructureTemplate.StructureBlockInfo> bobbles = this.template.filterBlocks(
-                this.templatePosition, this.placeSettings, ModBlocks.BOBBLEHEAD.get());
-
-        for (StructureTemplate.StructureBlockInfo info : bobbles) {
-            BlockEntity be = level.getBlockEntity(info.pos());
-            if (be instanceof TileEntityBobble bobble) {
-                BlockBobble.BobbleType[] types = BlockBobble.BobbleType.values();
-                bobble.type = types[random.nextInt(types.length - 1) + 1];
-                bobble.setChanged();
-            }
-        }
-    }
 }

@@ -39,7 +39,7 @@ public class DebugCommands {
                                             int level = IntegerArgumentType.getInteger(ctx, "level");
                                             for (ServerPlayer player : EntityArgument.getPlayers(ctx, "targets")) {
                                                 HbmLivingProps.setBlackLung(player, level);
-                                                player.sendSystemMessage(Component.literal("Black Lung set to " + level));
+                                                player.sendSystemMessage(Component.translatable("hbm.text.black_lung_set_to", level));
                                             }
                                             return 1;
                                         })
@@ -54,7 +54,7 @@ public class DebugCommands {
                                             int level = IntegerArgumentType.getInteger(ctx, "level");
                                             for (ServerPlayer player : EntityArgument.getPlayers(ctx, "targets")) {
                                                 HbmLivingProps.setAsbestos(player, level);
-                                                player.sendSystemMessage(Component.literal("Asbestos set to " + level));
+                                                player.sendSystemMessage(Component.translatable("hbm.text.asbestos_set_to", level));
                                             }
                                             return 1;
                                         })

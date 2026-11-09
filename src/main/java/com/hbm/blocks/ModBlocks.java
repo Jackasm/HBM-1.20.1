@@ -2703,7 +2703,6 @@ public class ModBlocks {
     public static final RegistryObject<Block> BOBBLEHEAD = registerBlock("deco/bobblehead",
             () -> new BlockBobble(BlockBobble.createProperties()),
             BlockModel.STATIC_OBJ,
-            LootInfo.self(),
             ToolInfo.pickaxe(ToolInfo.ToolLevel.IRON),
             "deco/bobble", "deco/vaultboy");
 

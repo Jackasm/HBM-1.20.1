@@ -51,8 +51,7 @@ public class TileEntityOverlayProvider implements IOverlayProvider {
                 int capacity = energy.getMaxEnergyStored();
                 float percentage = capacity > 0 ? (stored * 100f / capacity) : 0;
 
-                section.addLine(Component.literal("⚡ Энергия: " +
-                        formatNumber(stored) + "/" + formatNumber(capacity) + " RF"));
+                section.addLine(Component.translatable("hbm.text.overlay_energy", formatNumber(stored), formatNumber(capacity)));
 
                 String energyBar = createBar(percentage, 20);
                 section.addLine(Component.literal(energyBar)
@@ -67,7 +66,7 @@ public class TileEntityOverlayProvider implements IOverlayProvider {
                     if (!itemHandler.getStackInSlot(i).isEmpty()) filled++;
                 }
 
-                section.addLine(Component.literal("📦 Инвентарь: " + filled + "/" + slots + " слотов"));
+                section.addLine(Component.translatable("hbm.text.text_13", filled, slots));
             }
 
             // Пример для жидкостей

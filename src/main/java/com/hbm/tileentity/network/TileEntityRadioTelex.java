@@ -198,7 +198,7 @@ public class TileEntityRadioTelex extends TileEntityLoadedBase implements IContr
             if (!rxBuffer[i].isEmpty()) text.add(rxBuffer[i]);
         }
         ItemStackUtil.addTooltipToStack(stack, text.toArray(new String[0]));
-        stack.setHoverName(net.minecraft.network.chat.Component.literal("Message"));
+        stack.setHoverName(net.minecraft.network.chat.Component.translatable("hbm.text.message"));
         if (level != null) {
             level.addFreshEntity(new ItemEntity(level,
                     worldPosition.getX() + 0.5, worldPosition.getY() + 1, worldPosition.getZ() + 0.5, stack));

@@ -115,7 +115,7 @@ public class ItemCigarette extends Item {
             };
             int len = 2000;
             int index = (int) (System.currentTimeMillis() % len * colors.length / len);
-            tooltip.add(Component.literal("This can't be good for me, but I feel " + colors[index] + "GREAT"));
+            tooltip.add(Component.translatable("hbm.text.this_can_t_be_good_for_me_but_i_feel", colors[index]));
         }
     }
 }

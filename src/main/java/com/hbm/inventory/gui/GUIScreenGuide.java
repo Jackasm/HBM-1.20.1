@@ -290,7 +290,7 @@ public class GUIScreenGuide extends AbstractContainerScreen<ContainerGuideBook> 
                 int lineHeight = 12;
                 int itemSize = 16;
 
-                guiGraphics.drawString(font, "Required:", startX, startY, 0x888888, false);
+                guiGraphics.drawString(font, Component.translatable("hbm.text.required"), startX, startY, 0x888888, false);
                 startY += lineHeight;
 
                 float textScale = LangScale.getScale(Minecraft.getInstance().getLanguageManager().getSelected());
@@ -349,7 +349,7 @@ public class GUIScreenGuide extends AbstractContainerScreen<ContainerGuideBook> 
 
                 startY += lineHeight;
 
-                guiGraphics.drawString(font, "Result:", startX, startY, 0x888888, false);
+                guiGraphics.drawString(font, Component.translatable("hbm.text.result"), startX, startY, 0x888888, false);
                 startY += lineHeight;
 
                 guiGraphics.renderItem(page.anvilResult, startX, startY);
@@ -388,7 +388,7 @@ public class GUIScreenGuide extends AbstractContainerScreen<ContainerGuideBook> 
                     int textColor = hovering ? 0xFFFFFF : ChatFormatting.GOLD.getColor();
                     int textX = btnX + (btnW - font.width("Accept")) / 2;
                     int textY = btnY + (btnH - font.lineHeight) / 2 + 1;
-                    guiGraphics.drawString(font, "Accept", textX, textY, textColor, false);
+                    guiGraphics.drawString(font, Component.translatable("hbm.text.accept"), textX, textY, textColor, false);
 
                     showingAcceptButton = true;
                     buttonX = btnX;

@@ -51,7 +51,7 @@ public class ItemTeleLink extends Item {
                 level.playSound(null, player.getX(), player.getY(), player.getZ(),
                         ModSounds.TECH_BLEEP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                 player.displayClientMessage(
-                        Component.literal("[TeleLink] Set teleporter exit to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ".")
+                        Component.translatable("hbm.text.telelink_set_teleporter_exit_to", pos.getX(), pos.getY(), pos.getZ())
                                 .withStyle(style -> style.withColor(0x00FFFF)),
                         false
                 );
@@ -64,7 +64,7 @@ public class ItemTeleLink extends Item {
                     level.playSound(null, player.getX(), player.getY(), player.getZ(),
                             ModSounds.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                     player.displayClientMessage(
-                            Component.literal("[TeleLink] No destination set!")
+                            Component.translatable("hbm.text.telelink_no_destination_set")
                                     .withStyle(style -> style.withColor(0xFF0000)),
                             false
                     );
@@ -86,7 +86,7 @@ public class ItemTeleLink extends Item {
                 level.playSound(null, player.getX(), player.getY(), player.getZ(),
                         ModSounds.TECH_BLEEP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                 player.displayClientMessage(
-                        Component.literal("[TeleLink] Teleporters destination has been set!")
+                        Component.translatable("hbm.text.telelink_teleporters_destination_has_been_set")
                                 .withStyle(style -> style.withColor(0x00FFFF)),
                         false
                 );
@@ -102,12 +102,12 @@ public class ItemTeleLink extends Item {
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         if (stack.hasTag()) {
             CompoundTag tag = stack.getTag();
-            tooltip.add(Component.literal("X: " + Objects.requireNonNull(tag).getInt("x")));
-            tooltip.add(Component.literal("Y: " + tag.getInt("y")));
-            tooltip.add(Component.literal("Z: " + tag.getInt("z")));
-            tooltip.add(Component.literal("D: " + tag.getInt("dim")));
+            tooltip.add(Component.translatable("hbm.text.x_2", Objects.requireNonNull(tag).getInt("x")));
+            tooltip.add(Component.translatable("hbm.text.y", tag.getInt("y")));
+            tooltip.add(Component.translatable("hbm.text.z", tag.getInt("z")));
+            tooltip.add(Component.translatable("hbm.text.d", tag.getInt("dim")));
         } else {
-            tooltip.add(Component.literal("Select exit location first!")
+            tooltip.add(Component.translatable("hbm.text.select_exit_location_first")
                     .withStyle(style -> style.withColor(0xFF0000)));
         }
     }

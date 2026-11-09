@@ -44,6 +44,6 @@ public class ItemMuchoMango extends Item {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("The Comically Large Can"));
+        tooltip.add(Component.translatable("hbm.text.the_comically_large_can"));
     }
 }

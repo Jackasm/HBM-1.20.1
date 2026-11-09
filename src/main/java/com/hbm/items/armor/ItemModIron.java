@@ -30,7 +30,7 @@ public class ItemModIron extends ItemArmorMod {
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level,
                                 @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("+0.5 knockback resistance").withStyle(ChatFormatting.WHITE));
+        tooltip.add(Component.translatable("hbm.text.0_5_knockback_resistance").withStyle(ChatFormatting.WHITE));
         tooltip.add(Component.literal(""));
         super.appendHoverText(stack, level, tooltip, flag);
     }

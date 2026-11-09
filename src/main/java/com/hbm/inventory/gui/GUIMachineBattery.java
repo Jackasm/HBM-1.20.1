@@ -111,36 +111,36 @@ public class GUIMachineBattery extends AbstractContainerScreen<ContainerMachineB
         // Тултип для redHigh
         if (isHovering(133, 52, 18, 18, mouseX, mouseY)) {
             List<Component> tooltip = new ArrayList<>();
-            tooltip.add(Component.literal("§eMode with Redstone:"));
+            tooltip.add(Component.translatable("hbm.text.mode_with_redstone"));
             String modeName = getModeName(menu.getRedHigh());
             tooltip.add(Component.literal("§7" + modeName));
-            tooltip.add(Component.literal("§7Click to change"));
+            tooltip.add(Component.translatable("hbm.text.click_to_change"));
             graphics.renderTooltip(font, tooltip, Optional.empty(), mouseX, mouseY);
         }
 
         // Тултип для redLow
         if (isHovering(133, 16, 18, 18, mouseX, mouseY)) {
             List<Component> tooltip = new ArrayList<>();
-            tooltip.add(Component.literal("§eMode without Redstone:"));
+            tooltip.add(Component.translatable("hbm.text.mode_without_redstone"));
             String modeName = getModeName(menu.getRedLow());
             tooltip.add(Component.literal("§7" + modeName));
-            tooltip.add(Component.literal("§7Click to change"));
+            tooltip.add(Component.translatable("hbm.text.click_to_change"));
             graphics.renderTooltip(font, tooltip, Optional.empty(), mouseX, mouseY);
         }
 
         // Тултип для приоритета
         if (isHovering(152, 35, 16, 16, mouseX, mouseY)) {
             List<Component> tooltip = new ArrayList<>();
-            tooltip.add(Component.literal("§ePriority:"));
+            tooltip.add(Component.translatable("hbm.text.priority"));
             String priorityName = getPriorityName(menu.getPriority());
             tooltip.add(Component.literal("§7" + priorityName));
-            tooltip.add(Component.literal("§7Click to change"));
+            tooltip.add(Component.translatable("hbm.text.click_to_change"));
             graphics.renderTooltip(font, tooltip, Optional.empty(), mouseX, mouseY);
         }
 
         if (isHovering(62, 17, 52, 52, mouseX, mouseY)) {
             List<Component> tooltip = new ArrayList<>();
-            tooltip.add(Component.literal("§eEnergy:"));
+            tooltip.add(Component.translatable("hbm.text.energy"));
             tooltip.add(Component.literal("§7" + formatNumber(battery.power) + " / " +
                     formatNumber(battery.getMaxPower()) + " HE"));
 

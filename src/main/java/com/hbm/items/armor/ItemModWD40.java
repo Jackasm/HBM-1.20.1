@@ -35,7 +35,7 @@ public class ItemModWD40 extends ItemArmorMod {
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, List<Component> tooltip, @NotNull TooltipFlag flag) {
         String color = System.currentTimeMillis() % 1000 < 500 ? ChatFormatting.BLUE.getName() : ChatFormatting.YELLOW.getName();
 
-        tooltip.add(Component.literal("Highly reduces damage taken by armor, +2 HP")
+        tooltip.add(Component.translatable("hbm.text.highly_reduces_damage_taken_by_armor_2_hp")
                 .withStyle(Objects.requireNonNull(ChatFormatting.getByName(color))));
         tooltip.add(Component.empty());
         super.appendHoverText(stack, level, tooltip, flag);

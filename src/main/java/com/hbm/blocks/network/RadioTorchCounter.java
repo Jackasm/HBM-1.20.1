@@ -75,8 +75,8 @@ public class RadioTorchCounter extends RadioTorchBase {
 
         for (int i = 0; i < 3; i++) {
             if (counter.channel[i] == null || counter.channel[i].isEmpty()) continue;
-            section.addLine(Component.literal("§bFreq " + (i + 1) + ": " + counter.channel[i]));
-            section.addLine(Component.literal("§cSignal " + (i + 1) + ": " + counter.lastCount[i]));
+            section.addLine(Component.translatable("hbm.text.freq_2", (i + 1), counter.channel[i]));
+            section.addLine(Component.translatable("hbm.text.signal", (i + 1), counter.lastCount[i]));
         }
 
         sections.add(section);

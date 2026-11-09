@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.HBMResourceManager;
 import com.hbm.tileentity.machine.TileEntityFurnaceCombination;
+import com.hbm.util.RefStrings;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -29,7 +30,7 @@ import static com.hbm.util.ResLocation.ResLocation;
 @OnlyIn(Dist.CLIENT)
 public class FurnaceCombinationRenderer implements BlockEntityRenderer<TileEntityFurnaceCombination> {
 
-    public static final ResourceLocation FIRE_TEXTURE = ResLocation("hbm", "textures/particles/rbmk_fire.png");
+    public static final ResourceLocation FIRE_TEXTURE = ResLocation(RefStrings.MODID, "textures/particles/rbmk_fire.png");
 
     public FurnaceCombinationRenderer(BlockEntityRendererProvider.Context context) {
     }

@@ -97,7 +97,7 @@ public class RadioTorchCounterScreen extends AbstractContainerScreen<ContainerRa
 
         if (isHovering(193, 30, 18, 18, mouseX, mouseY)) {
             graphics.renderTooltip(this.font,
-                    List.of(Component.literal("Save Settings")),
+                    List.of(Component.translatable("hbm.text.save_settings")),
                     Optional.empty(), mouseX, mouseY);
         }
 
@@ -106,7 +106,7 @@ public class RadioTorchCounterScreen extends AbstractContainerScreen<ContainerRa
             for (int i = 0; i < 3; i++) {
                 if (isHovering(SLOT_X, SLOT_Y + ROW_STEP * i, 18, 18, mouseX, mouseY)) {
                     graphics.renderTooltip(this.font,
-                            List.of(Component.literal("Правый клик — сменить режим"),
+                            List.of(Component.translatable("hbm.text.text_2"),
                                     Component.literal(ModulePatternMatcher.getLabel(counter.matcher.modes[i]))),
                             Optional.empty(), mouseX, mouseY);
                 }

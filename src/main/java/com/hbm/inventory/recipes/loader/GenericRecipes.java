@@ -327,7 +327,7 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
         @Override
         public List<Component> getLabel() {
             List<Component> label = new ArrayList<>();
-            label.add(Component.literal("One of:"));
+            label.add(Component.translatable("hbm.text.one_of"));
 
             int totalWeight = 0;
             for(ChanceOutput co : pool) totalWeight += co.itemWeight;

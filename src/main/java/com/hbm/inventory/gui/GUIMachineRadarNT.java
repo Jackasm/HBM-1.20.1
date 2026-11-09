@@ -133,7 +133,7 @@ public class GUIMachineRadarNT extends Screen {
                             List.of(
                                     Component.translatable(m.unlocalizedName),
                                     Component.literal(m.posX + " / " + m.posZ),
-                                    Component.literal("Alt.: " + m.posY)
+                                    Component.translatable("hbm.text.alt", m.posY)
                             ),
                             Optional.empty(),
                             x, z);

@@ -278,50 +278,50 @@ public class WeaponSpecial extends SwordItem {
             tooltip.add(Component.literal("damage\", it's actually \"onehit anything\""));
         }
         if (this == ModToolItems.ULLAPOOL_CABER.get()) {
-            tooltip.add(Component.literal("High-yield Scottish face removal."));
-            tooltip.add(Component.literal("A sober person would throw it..."));
+            tooltip.add(Component.translatable("hbm.text.high_yield_scottish_face_removal"));
+            tooltip.add(Component.translatable("hbm.text.a_sober_person_would_throw_it"));
         }
         if (this == ModToolItems.BOTTLE_OPENER.get()) {
-            tooltip.add(Component.literal("My very own bottle opener."));
-            tooltip.add(Component.literal("Use with caution!"));
+            tooltip.add(Component.translatable("hbm.text.my_very_own_bottle_opener"));
+            tooltip.add(Component.translatable("hbm.text.use_with_caution"));
         }
         if (this == ModToolItems.SHIMMER_SLEDGE.get()) {
             if (MainRegistry.polaroidID == 11) {
-                tooltip.add(Component.literal("shimmer no"));
-                tooltip.add(Component.literal("drop that hammer"));
-                tooltip.add(Component.literal("you're going to hurt somebody"));
-                tooltip.add(Component.literal("shimmer no"));
-                tooltip.add(Component.literal("shimmer pls"));
+                tooltip.add(Component.translatable("hbm.text.shimmer_no"));
+                tooltip.add(Component.translatable("hbm.text.drop_that_hammer"));
+                tooltip.add(Component.translatable("hbm.text.you_re_going_to_hurt_somebody"));
+                tooltip.add(Component.translatable("hbm.text.shimmer_no"));
+                tooltip.add(Component.translatable("hbm.text.shimmer_pls"));
             } else {
-                tooltip.add(Component.literal("Breaks everything, even portals."));
+                tooltip.add(Component.translatable("hbm.text.breaks_everything_even_portals"));
             }
         }
         if (this == ModToolItems.SHIMMER_AXE.get()) {
             if (MainRegistry.polaroidID == 11) {
-                tooltip.add(Component.literal("shim's toolbox does an e-x-p-a-n-d"));
+                tooltip.add(Component.translatable("hbm.text.shim_s_toolbox_does_an_e_x_p_a_n_d"));
             } else {
-                tooltip.add(Component.literal("Timber!"));
+                tooltip.add(Component.translatable("hbm.text.timber"));
             }
         }
         if (this == ModToolItems.WRENCH_FLIPPED.get()) {
-            tooltip.add(Component.literal("Wrench 2: The Wrenchening"));
+            tooltip.add(Component.translatable("hbm.text.wrench_2_the_wrenchening"));
         }
         if (this == ModToolItems.MEMESPOON.get()) {
-            tooltip.add(Component.literal("Level 10 Shovel").withStyle(ChatFormatting.DARK_GRAY));
-            tooltip.add(Component.literal("Deals crits while the wielder is rocket jumping").withStyle(ChatFormatting.AQUA));
-            tooltip.add(Component.literal("20% slower firing speed").withStyle(ChatFormatting.RED));
-            tooltip.add(Component.literal("No random critical hits").withStyle(ChatFormatting.RED));
+            tooltip.add(Component.translatable("hbm.text.level_10_shovel").withStyle(ChatFormatting.DARK_GRAY));
+            tooltip.add(Component.translatable("hbm.text.deals_crits_while_the_wielder_is_rocket_jumping").withStyle(ChatFormatting.AQUA));
+            tooltip.add(Component.translatable("hbm.text.20_slower_firing_speed").withStyle(ChatFormatting.RED));
+            tooltip.add(Component.translatable("hbm.text.no_random_critical_hits").withStyle(ChatFormatting.RED));
         }
         if (this == ModToolItems.WOOD_GAVEL.get()) {
-            tooltip.add(Component.literal("Thunk!"));
+            tooltip.add(Component.translatable("hbm.text.thunk"));
         }
         if (this == ModToolItems.LEAD_GAVEL.get()) {
-            tooltip.add(Component.literal("You are hereby sentenced to lead poisoning."));
+            tooltip.add(Component.translatable("hbm.text.you_are_hereby_sentenced_to_lead_poisoning"));
         }
         if (this == ModToolItems.DIAMOND_GAVEL.get()) {
-            tooltip.add(Component.literal("The joke! It makes sense now!!"));
+            tooltip.add(Component.translatable("hbm.text.the_joke_it_makes_sense_now"));
             tooltip.add(Component.literal(""));
-            tooltip.add(Component.literal("Deals as much damage as it needs to.").withStyle(ChatFormatting.BLUE));
+            tooltip.add(Component.translatable("hbm.text.deals_as_much_damage_as_it_needs_to").withStyle(ChatFormatting.BLUE));
         }
     }
 

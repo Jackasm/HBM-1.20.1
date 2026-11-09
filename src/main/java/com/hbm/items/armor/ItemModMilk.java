@@ -24,7 +24,7 @@ public class ItemModMilk extends ItemArmorMod {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("Removes bad potion effects").withStyle(ChatFormatting.WHITE));
+        tooltip.add(Component.translatable("hbm.text.removes_bad_potion_effects").withStyle(ChatFormatting.WHITE));
         tooltip.add(Component.empty());
         super.appendHoverText(stack, level, tooltip, flag);
     }

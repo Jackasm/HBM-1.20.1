@@ -163,6 +163,9 @@ public class BlockBobble extends BaseEntityBlock implements IBlockMulti, IToolti
         return Properties.of()
                 .strength(1.0F)
                 .noOcclusion()
+                // Лут задаётся самим блоком: playerWillDestroy выдаёт предмет с типом из ТЕ.
+                // Стандартная таблица дропала бы второй экземпляр, без типа.
+                .noLootTable()
                 .pushReaction(PushReaction.DESTROY);
     }
 

@@ -1,5 +1,6 @@
 package com.hbm.world.teleporter;
 
+import com.hbm.util.RefStrings;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -13,7 +14,7 @@ import static com.hbm.util.ResLocation.ResLocation;
 
 @OnlyIn(Dist.CLIENT)
 public class TeleportationLoadingScreen extends Screen {
-    private static final ResourceLocation LOADING_BACKGROUND = ResLocation("hbm", "textures/gui/teleport_loading.png");
+    private static final ResourceLocation LOADING_BACKGROUND = ResLocation(RefStrings.MODID, "textures/gui/teleport_loading.png");
 
     public TeleportationLoadingScreen() {
         super(Component.literal(""));

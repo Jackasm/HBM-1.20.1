@@ -413,13 +413,13 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
                     .withStyle(ChatFormatting.RED));
         }
         if (type == UpgradeType.EFFECT) {
-            info.add(Component.literal("x" + level)
+            info.add(Component.translatable("hbm.text.x_4", level)
                     .withStyle(ChatFormatting.GREEN));
             info.add(Component.translatable(IUpgradeInfoProvider.KEY_CONSUMPTION, "+" + (level * 200) + "%")
                     .withStyle(ChatFormatting.RED));
         }
         if (type == UpgradeType.OVERDRIVE) {
-            info.add(Component.literal("YES")
+            info.add(Component.translatable("hbm.text.yes_plain")
                     .withStyle(BobMathUtil.getBlink() ? ChatFormatting.RED : ChatFormatting.DARK_GRAY));
         }
     }

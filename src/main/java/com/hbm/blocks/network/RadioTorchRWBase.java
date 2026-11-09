@@ -33,9 +33,9 @@ public abstract class RadioTorchRWBase extends RadioTorchBase {
                 .withStyle(s -> s.withColor(0xFFFF00)));
 
         if (radio.channel != null && !radio.channel.isEmpty()) {
-            section.addLine(Component.literal("§bFreq: " + radio.channel));
+            section.addLine(Component.translatable("hbm.text.freq", radio.channel));
         }
-        section.addLine(Component.literal("§cSignal: " + radio.lastState));
+        section.addLine(Component.translatable("hbm.text.signal_2", radio.lastState));
 
         sections.add(section);
         return sections;

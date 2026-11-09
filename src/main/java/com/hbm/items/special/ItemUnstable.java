@@ -33,7 +33,7 @@ public class ItemUnstable extends Item {
         if (stack.getDamageValue() != 0) return;
 
         int decay = getTimer(stack) * 100 / timer;
-        tooltip.add(Component.literal("Decay: " + decay + "%").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("hbm.text.decay", decay).withStyle(ChatFormatting.GRAY));
     }
 
     @Override

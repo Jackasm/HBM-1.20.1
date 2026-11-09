@@ -68,11 +68,11 @@ public class ItemGunNI4NI extends GunItem implements ICustomizable {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level world, List<Component> list, @NotNull TooltipFlag ext) {
-        list.add(Component.literal("Now, don't get the wrong idea."));
-        list.add(Component.literal("I ")
-                .append(Component.literal("fucking hate ").withStyle(ChatFormatting.RED))
-                .append(Component.literal("this game.").withStyle(ChatFormatting.GRAY)));
-        list.add(Component.literal("I didn't do this for you, I did it for sea."));
+        list.add(Component.translatable("hbm.text.now_don_t_get_the_wrong_idea"));
+        list.add(Component.translatable("hbm.text.i")
+                .append(Component.translatable("hbm.text.fucking_hate").withStyle(ChatFormatting.RED))
+                .append(Component.translatable("hbm.text.this_game").withStyle(ChatFormatting.GRAY)));
+        list.add(Component.translatable("hbm.text.i_didn_t_do_this_for_you_i_did_it_for_sea"));
         super.appendHoverText(stack, world, list, ext);
     }
 

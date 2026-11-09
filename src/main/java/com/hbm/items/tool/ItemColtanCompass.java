@@ -31,9 +31,9 @@ public class ItemColtanCompass extends Item {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("Points towards the coltan deposit."));
-        tooltip.add(Component.literal("The deposit is a large area where coltan ore spawns like standard ore,"));
-        tooltip.add(Component.literal("it's not one large blob of ore on that exact location."));
+        tooltip.add(Component.translatable("hbm.text.points_towards_the_coltan_deposit"));
+        tooltip.add(Component.translatable("hbm.text.the_deposit_is_a_large_area_where_coltan_ore_spa"));
+        tooltip.add(Component.translatable("hbm.text.it_s_not_one_large_blob_of_ore_on_that_exact_loc"));
     }
 
     @Override

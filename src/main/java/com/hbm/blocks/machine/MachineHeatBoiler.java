@@ -111,7 +111,7 @@ public class MachineHeatBoiler extends BlockDummyable implements ILookOverlay, I
             if (type.hasTrait(FT_Heatable.class) && type.getTrait(FT_Heatable.class).getEfficiency(FT_Heatable.HeatingType.BOILER) > 0) {
                 boiler.tanks[0].setType(type);
                 boiler.setChanged();
-                player.sendSystemMessage(Component.literal("Changed type to ")
+                player.sendSystemMessage(Component.translatable("hbm.text.changed_type_to")
                         .append(Component.translatable(type.getDescriptionId()))
                         .append(Component.literal("!"))
                         .withStyle(Style.EMPTY.withColor(0xFFFF55)));

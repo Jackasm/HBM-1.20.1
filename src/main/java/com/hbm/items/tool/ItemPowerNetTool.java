@@ -127,12 +127,12 @@ public class ItemPowerNetTool extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.literal("Right-click cable to analyze the power net.").withStyle(ChatFormatting.RED));
-        tooltip.add(Component.literal("Links (cables, poles, etc.) are YELLOW").withStyle(ChatFormatting.RED));
-        tooltip.add(Component.literal("Subscribers (any receiver) are BLUE").withStyle(ChatFormatting.RED));
-        tooltip.add(Component.literal("Links with mismatching network info (BUGGED!) are RED").withStyle(ChatFormatting.RED));
-        tooltip.add(Component.literal("Displays stats such as link and subscriber count").withStyle(ChatFormatting.RED));
-        tooltip.add(Component.literal("Proxies are connection points for multiblock links (e.g. 4 for substations)").withStyle(ChatFormatting.RED));
-        tooltip.add(Component.literal("Particles only spawn in a " + radius + " block radius!").withStyle(ChatFormatting.RED));
+        tooltip.add(Component.translatable("hbm.text.right_click_cable_to_analyze_the_power_net").withStyle(ChatFormatting.RED));
+        tooltip.add(Component.translatable("hbm.text.links_cables_poles_etc_are_yellow").withStyle(ChatFormatting.RED));
+        tooltip.add(Component.translatable("hbm.text.subscribers_any_receiver_are_blue").withStyle(ChatFormatting.RED));
+        tooltip.add(Component.translatable("hbm.text.links_with_mismatching_network_info_bugged_are_r").withStyle(ChatFormatting.RED));
+        tooltip.add(Component.translatable("hbm.text.displays_stats_such_as_link_and_subscriber_count").withStyle(ChatFormatting.RED));
+        tooltip.add(Component.translatable("hbm.text.proxies_are_connection_points_for_multiblock_lin").withStyle(ChatFormatting.RED));
+        tooltip.add(Component.translatable("hbm.text.particles_only_spawn_in_a", radius).withStyle(ChatFormatting.RED));
     }
 }

@@ -7,6 +7,7 @@ import com.hbm.tileentity.conduit.ConduitChannel;
 import com.hbm.tileentity.conduit.ConduitTileEntity;
 import com.hbm.tileentity.conduit.EnergyChannel;
 import com.hbm.tileentity.conduit.FluidChannel;
+import com.hbm.util.RefStrings;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -25,13 +26,13 @@ public class ConduitRenderer implements BlockEntityRenderer<ConduitTileEntity> {
     public ConduitRenderer(BlockEntityRendererProvider.Context ignoredCtx) {}
 
     private static final ResourceLocation[] SLOT_OVERLAYS = {
-            ResLocation("hbm", "textures/block/storage/conduit_overlay_0.png"),
-            ResLocation("hbm", "textures/block/storage/conduit_overlay_1.png"),
-            ResLocation("hbm", "textures/block/storage/conduit_overlay_2.png")
+            ResLocation(RefStrings.MODID, "textures/block/storage/conduit_overlay_0.png"),
+            ResLocation(RefStrings.MODID, "textures/block/storage/conduit_overlay_1.png"),
+            ResLocation(RefStrings.MODID, "textures/block/storage/conduit_overlay_2.png")
     };
 
     private static final ResourceLocation CABLE_OVERLAY =
-            ResLocation("hbm", "textures/block/storage/conduit_cable_overlay.png");
+            ResLocation(RefStrings.MODID, "textures/block/storage/conduit_cable_overlay.png");
 
     private static final double[][] OFFSETS = {
             {-0.2, -0.2},
@@ -62,7 +63,7 @@ public class ConduitRenderer implements BlockEntityRenderer<ConduitTileEntity> {
             if (a.getOpposite() == b) straight = true;
         }
 
-        ResourceLocation BOX_TEX = ResLocation("hbm", "textures/block/storage/conduit.png");
+        ResourceLocation BOX_TEX = ResLocation(RefStrings.MODID, "textures/block/storage/conduit.png");
         ResourceLocation CABLE_TEX = HBMResourceManager.red_cable_tex;
 
         stack.pushPose();

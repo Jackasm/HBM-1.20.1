@@ -9,7 +9,7 @@ public class FT_Delicious extends FluidTrait {
 
     @Override
     public void addInfoHidden(List<Component> info) {
-        info.add(Component.literal("[Delicious]"));
+        info.add(Component.translatable("hbm.text.delicious"));
         info.add(Component.literal(ChatFormatting.DARK_GREEN + "[Delicious]"));
     }
 }

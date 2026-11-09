@@ -34,23 +34,23 @@ public class ItemBlockStorageCrate extends BlockItem {
 
         // === ЗАМОК ===
         if (isLocked) {
-            tooltip.add(Component.literal("This container is locked.")
+            tooltip.add(Component.translatable("hbm.text.this_container_is_locked")
                     .withStyle(ChatFormatting.RED));
 
             // Есть ли содержимое?
             CompoundTag items = nbt.getCompound("crate_items");
             if (!items.isEmpty()) {
-                tooltip.add(Component.literal("It feels heavy...")
+                tooltip.add(Component.translatable("hbm.text.it_feels_heavy")
                         .withStyle(ChatFormatting.YELLOW));
             } else {
-                tooltip.add(Component.literal("It feels empty...")
+                tooltip.add(Component.translatable("hbm.text.it_feels_empty")
                         .withStyle(ChatFormatting.YELLOW));
             }
         }
 
         // === ПАУКИ (отдельно от замка) ===
         if (hasSpiders) {
-            tooltip.add(Component.literal("Skittering emanates from within...")
+            tooltip.add(Component.translatable("hbm.text.skittering_emanates_from_within")
                     .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
         }
 
@@ -76,13 +76,13 @@ public class ItemBlockStorageCrate extends BlockItem {
             }
 
             if (!contents.isEmpty()) {
-                tooltip.add(Component.literal("Contains:").withStyle(ChatFormatting.AQUA));
+                tooltip.add(Component.translatable("hbm.text.contains").withStyle(ChatFormatting.AQUA));
                 for (String line : contents) {
                     tooltip.add(Component.literal(line).withStyle(ChatFormatting.AQUA));
                 }
                 int more = amount - contents.size();
                 if (more > 0) {
-                    tooltip.add(Component.literal("...and " + more + " more.")
+                    tooltip.add(Component.translatable("hbm.text.and", more)
                             .withStyle(ChatFormatting.AQUA));
                 }
             }

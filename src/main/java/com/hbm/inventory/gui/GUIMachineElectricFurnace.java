@@ -42,7 +42,7 @@ public class GUIMachineElectricFurnace extends AbstractContainerScreen<Container
         // Upgrade info
         if (mouseX >= leftPos + 151 && mouseX <= leftPos + 159 &&
                 mouseY >= topPos + 19 && mouseY <= topPos + 27) {
-            graphics.renderTooltip(font, Component.literal("Upgrade slot"), mouseX, mouseY);
+            graphics.renderTooltip(font, Component.translatable("hbm.text.upgrade_slot"), mouseX, mouseY);
         }
     }
 

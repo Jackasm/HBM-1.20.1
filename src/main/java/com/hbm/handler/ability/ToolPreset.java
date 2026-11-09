@@ -30,7 +30,7 @@ public class ToolPreset {
 
     public Component getMessage() {
         if(isNone()) {
-            return Component.literal("Ability deactivated")
+            return Component.translatable("hbm.text.ability_deactivated")
                     .withStyle(ChatFormatting.GOLD); // Золотой цвет
         }
 
@@ -38,7 +38,7 @@ public class ToolPreset {
         boolean hasHarvest = harvestAbility != IToolHarvestAbility.NONE;
 
         // Используем MutableComponent вместо Component
-        MutableComponent message = Component.literal("Enabled ");
+        MutableComponent message = Component.translatable("hbm.text.enabled");
 
         if(hasArea) {
             // Добавляем название способности области

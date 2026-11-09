@@ -67,7 +67,7 @@ public class RadioTorchController extends RadioTorchBase {
         section.setIcon(new net.minecraft.world.item.ItemStack(this));
         section.addLine(Component.translatable(this.getDescriptionId())
                 .withStyle(s -> s.withColor(0xFFFF00)));
-        section.addLine(Component.literal("§bFreq: " + controller.channel));
+        section.addLine(Component.translatable("hbm.text.freq", controller.channel));
 
         sections.add(section);
         return sections;

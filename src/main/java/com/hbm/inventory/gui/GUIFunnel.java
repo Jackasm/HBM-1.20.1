@@ -47,7 +47,7 @@ public class GUIFunnel extends AbstractContainerScreen<ContainerFunnel> {
                 case TileEntityMachineFunnel.MODE_2x2 -> "2x2 only";
                 default -> "3x3 then 2x2";
             };
-            graphics.renderTooltip(font, Component.literal("Mode: " + mode), mouseX, mouseY);
+            graphics.renderTooltip(font, Component.translatable("hbm.text.mode", mode), mouseX, mouseY);
         }
     }
 

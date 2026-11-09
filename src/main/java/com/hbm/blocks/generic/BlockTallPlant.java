@@ -80,7 +80,22 @@ public class BlockTallPlant extends Block implements IPlantable, BonemealableBlo
 
     protected boolean canPlaceBlockOn(Block block) {
         return block == Blocks.GRASS_BLOCK || block == Blocks.DIRT || block == Blocks.FARMLAND ||
+                // В 1.7.10 это был Blocks.dirt с метаданными: грубая земля (1) и подзол (2).
+                block == Blocks.COARSE_DIRT || block == Blocks.PODZOL ||
                 block == ModBlocks.DIRT_DEAD.get() || block == ModBlocks.DIRT_OILY.get();
+    }
+
+    /**
+     * Предикат для фичи и постановки. Через него фича проверяла нижнюю половину,
+     * но метод не был переопределён — проверка всегда проходила.
+     */
+    @Override
+    public boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos) {
+        if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
+            BlockState below = level.getBlockState(pos.below());
+            return below.is(this) && below.getValue(HALF) == DoubleBlockHalf.LOWER;
+        }
+        return canPlaceBlockOn(level.getBlockState(pos.below()).getBlock());
     }
 
     @Override

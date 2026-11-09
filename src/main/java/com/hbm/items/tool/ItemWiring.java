@@ -52,7 +52,7 @@ public class ItemWiring extends Item {
             tag.putInt("z", pos.getZ());
             stack.getOrCreateTag().put("wireStart", tag);
             if (!level.isClientSide) {
-                player.displayClientMessage(Component.literal("Wire start"), true);
+                player.displayClientMessage(Component.translatable("hbm.text.wire_start"), true);
             }
             player.swing(context.getHand());
             return InteractionResult.sidedSuccess(level.isClientSide);
@@ -71,16 +71,16 @@ public class ItemWiring extends Item {
                         case 0:
                             firstPylon.addConnection(pos.getX(), pos.getY(), pos.getZ());
                             currentPylon.addConnection(x1, y1, z1);
-                            player.displayClientMessage(Component.literal("Wire end"), true);
+                            player.displayClientMessage(Component.translatable("hbm.text.wire_end"), true);
                             break;
                         case 1:
-                            player.displayClientMessage(Component.literal("Wire error - Pylons are not the same type"), true);
+                            player.displayClientMessage(Component.translatable("hbm.text.wire_error_pylons_are_not_the_same_type"), true);
                             break;
                         case 2:
-                            player.displayClientMessage(Component.literal("Wire error - Cannot connect to the same pylon"), true);
+                            player.displayClientMessage(Component.translatable("hbm.text.wire_error_cannot_connect_to_the_same_pylon"), true);
                             break;
                         case 3:
-                            player.displayClientMessage(Component.literal("Wire error - Pylon is too far away"), true);
+                            player.displayClientMessage(Component.translatable("hbm.text.wire_error_pylon_is_too_far_away"), true);
                             break;
                     }
                 }
@@ -89,7 +89,7 @@ public class ItemWiring extends Item {
                 return InteractionResult.sidedSuccess(level.isClientSide);
             } else {
                 if (!level.isClientSide) {
-                    player.displayClientMessage(Component.literal("Wire error – start pylon missing"), true);
+                    player.displayClientMessage(Component.translatable("hbm.text.wire_error_start_pylon_missing"), true);
                 }
                 stack.removeTagKey("wireStart");
                 return InteractionResult.FAIL;
@@ -102,11 +102,11 @@ public class ItemWiring extends Item {
                                 @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         if (stack.hasTag() && Objects.requireNonNull(stack.getTag()).contains("wireStart")) {
             CompoundTag wireTag = stack.getTag().getCompound("wireStart");
-            tooltip.add(Component.literal("Wire start x: " + wireTag.getInt("x")));
-            tooltip.add(Component.literal("Wire start y: " + wireTag.getInt("y")));
-            tooltip.add(Component.literal("Wire start z: " + wireTag.getInt("z")));
+            tooltip.add(Component.translatable("hbm.text.wire_start_x", wireTag.getInt("x")));
+            tooltip.add(Component.translatable("hbm.text.wire_start_y", wireTag.getInt("y")));
+            tooltip.add(Component.translatable("hbm.text.wire_start_z", wireTag.getInt("z")));
         } else {
-            tooltip.add(Component.literal("Right-click poles to connect"));
+            tooltip.add(Component.translatable("hbm.text.right_click_poles_to_connect"));
         }
     }
 

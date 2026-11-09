@@ -112,7 +112,7 @@ public class ArmorNo9 extends ArmorModel implements IAttackHandler, IDamageHandl
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level,
                                 @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
-        tooltip.add(Component.literal("+0.5 DT").withStyle(ChatFormatting.BLUE));
+        tooltip.add(Component.translatable("hbm.text.0_5_dt").withStyle(ChatFormatting.BLUE));
         tooltip.add(Component.translatable("armor.no9.tooltip").withStyle(ChatFormatting.YELLOW));
     }
 

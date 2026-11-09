@@ -232,7 +232,7 @@ public class QuestDefinition {
         }
 
         // Строим сообщение
-        MutableComponent message = Component.literal("§6[Quest] §r")
+        MutableComponent message = Component.translatable("hbm.text.quest")
                 .append(Component.translatable(titleKey).withStyle(ChatFormatting.YELLOW));
 
         // Добавляем информацию о потраченных предметах, только если они были
@@ -243,10 +243,10 @@ public class QuestDefinition {
                 consumed.append(stack.getCount()).append("x ").append(stack.getHoverName().getString());
                 if (i < requiredItems.size() - 1) consumed.append(", ");
             }
-            message = message.append(Component.literal(" §7- consumed: §c" + consumed));
+            message = message.append(Component.translatable("hbm.text.consumed", consumed));
         }
 
-        message = message.append(Component.literal(" §7- received: §a" + rewarded));
+        message = message.append(Component.translatable("hbm.text.received", rewarded));
 
         player.sendSystemMessage(message);
     }

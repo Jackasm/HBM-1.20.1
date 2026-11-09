@@ -3,6 +3,7 @@ package com.hbm.integration.jei.rotaryfurnace;
 import com.hbm.integration.jei.FluidColorIngredient;
 import com.hbm.integration.jei.HBMRecipeWrapper;
 import com.hbm.inventory.material.Mats;
+import com.hbm.util.RefStrings;
 import com.hbm.util.ResLocation;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.recipe.IFocusGroup;
@@ -16,7 +17,7 @@ import java.util.Locale;
 
 public class RotaryFurnaceRecipeWrapper implements HBMRecipeWrapper {
 
-    private static final ResourceLocation LAVA = ResLocation.ResLocation("hbm", "textures/block/network/lava_gray.png");
+    private static final ResourceLocation LAVA = ResLocation.ResLocation(RefStrings.MODID, "textures/block/network/lava_gray.png");
 
     private final List<List<ItemStack>> inputVariants;
     private final FluidColorIngredient inputFluid;

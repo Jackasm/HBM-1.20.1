@@ -201,7 +201,7 @@ public class ArmorDNT extends ArmorFSBPowered implements IAttackHandler, IDamage
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level,
                                 @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
-        tooltip.add(Component.literal("Charge: " + BobMathUtil.getShortNumber(getCharge(stack)) + " / " +
+        tooltip.add(Component.translatable("hbm.text.charge_amount", BobMathUtil.getShortNumber(getCharge(stack)),
                 BobMathUtil.getShortNumber(getMaxCharge(stack))).withStyle(ChatFormatting.GRAY));
         // Эффекты
         tooltip.add(Component.translatable("armor.rocketBoots").withStyle(ChatFormatting.AQUA));

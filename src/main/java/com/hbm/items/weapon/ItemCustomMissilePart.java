@@ -226,7 +226,7 @@ public class ItemCustomMissilePart extends Item {
                     break;
             }
         } catch (Exception ex) {
-            tooltip.add(Component.literal("Error reading data").withStyle(ChatFormatting.RED));
+            tooltip.add(Component.translatable("hbm.text.error_reading_data").withStyle(ChatFormatting.RED));
         }
 
         if (type != PartType.CHIP) {
@@ -243,7 +243,7 @@ public class ItemCustomMissilePart extends Item {
                     .withStyle(ChatFormatting.BOLD));
         }
         if (author != null) {
-            tooltip.add(Component.literal("   by " + author)
+            tooltip.add(Component.translatable("hbm.text.by", author)
                     .withStyle(ChatFormatting.WHITE));
         }
         if (witty != null) {

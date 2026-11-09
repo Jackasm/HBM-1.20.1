@@ -62,7 +62,7 @@ public class ItemWrench extends ModSword {
                     stack.getOrCreateTag().putInt("z", pos.getZ());
 
                     if (!world.isClientSide) {
-                        player.displayClientMessage(Component.literal("Pipe start"), true);
+                        player.displayClientMessage(Component.translatable("hbm.text.pipe_start"), true);
                     }
                 } else if (!world.isClientSide) {
                     int x1 = stack.getTag().getInt("x");
@@ -76,24 +76,24 @@ public class ItemWrench extends ModSword {
                             case 0:
                                 first.addConnection(pos.getX(), pos.getY(), pos.getZ());
                                 pipeline.addConnection(x1, y1, z1);
-                                player.displayClientMessage(Component.literal("Pipe end"), true);
+                                player.displayClientMessage(Component.translatable("hbm.text.pipe_end"), true);
                                 break;
                             case 1:
-                                player.displayClientMessage(Component.literal("Pipe error - Pipes are not the same type"), true);
+                                player.displayClientMessage(Component.translatable("hbm.text.pipe_error_pipes_are_not_the_same_type"), true);
                                 break;
                             case 2:
-                                player.displayClientMessage(Component.literal("Pipe error - Cannot connect to the same pipe anchor"), true);
+                                player.displayClientMessage(Component.translatable("hbm.text.pipe_error_cannot_connect_to_the_same_pipe_ancho"), true);
                                 break;
                             case 3:
-                                player.displayClientMessage(Component.literal("Pipe error - Pipe anchor is too far away"), true);
+                                player.displayClientMessage(Component.translatable("hbm.text.pipe_error_pipe_anchor_is_too_far_away"), true);
                                 break;
                             case 4:
-                                player.displayClientMessage(Component.literal("Pipe error - Pipe anchor fluid types do not match"), true);
+                                player.displayClientMessage(Component.translatable("hbm.text.pipe_error_pipe_anchor_fluid_types_do_not_match"), true);
                                 break;
                         }
 
                     } else {
-                        player.displayClientMessage(Component.literal("Pipe error"), true);
+                        player.displayClientMessage(Component.translatable("hbm.text.pipe_error"), true);
                     }
                     stack.getTag().remove("x");
                     stack.getTag().remove("y");
@@ -133,11 +133,11 @@ public class ItemWrench extends ModSword {
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level,
                                 @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         if (stack.hasTag() && Objects.requireNonNull(stack.getTag()).contains("x")) {
-            tooltip.add(Component.literal("Pipe start x: " + stack.getTag().getInt("x"))
+            tooltip.add(Component.translatable("hbm.text.pipe_start_x", stack.getTag().getInt("x"))
                     .withStyle(ChatFormatting.GRAY));
-            tooltip.add(Component.literal("Pipe start y: " + stack.getTag().getInt("y"))
+            tooltip.add(Component.translatable("hbm.text.pipe_start_y", stack.getTag().getInt("y"))
                     .withStyle(ChatFormatting.GRAY));
-            tooltip.add(Component.literal("Pipe start z: " + stack.getTag().getInt("z"))
+            tooltip.add(Component.translatable("hbm.text.pipe_start_z", stack.getTag().getInt("z"))
                     .withStyle(ChatFormatting.GRAY));
         } else {
             tooltip.add(Component.translatable("item.wrench.tooltip")

@@ -1,5 +1,6 @@
 package com.hbm.inventory.gui;
 
+import com.hbm.util.RefStrings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -16,7 +17,7 @@ import static com.hbm.util.ResLocation.ResLocation;
 @OnlyIn(Dist.CLIENT)
 public interface IGuiInfoContainer {
 
-    ResourceLocation GUI_UTIL = ResLocation("hbm", "textures/gui/gui_utility.png");
+    ResourceLocation GUI_UTIL = ResLocation(RefStrings.MODID, "textures/gui/gui_utility.png");
 
     default void drawElectricityInfo(GuiGraphics graphics, int mouseX, int mouseY, int x, int y, int width, int height, long power, long maxPower) {
         if (isMouseOver(mouseX, mouseY, x, y, width, height)) {

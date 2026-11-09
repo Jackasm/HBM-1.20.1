@@ -4,6 +4,7 @@ import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.items.machine.ItemMold;
 import com.hbm.main.HBMResourceManager;
 import com.hbm.tileentity.network.TileEntityFoundryBasin;
+import com.hbm.util.RefStrings;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -24,8 +25,8 @@ import static com.hbm.util.ResLocation.ResLocation;
 
 public class RenderFoundryBasin implements BlockEntityRenderer<TileEntityFoundryBasin> {
 
-    private static final ResourceLocation TEXTURE = ResLocation("hbm", "textures/block/network/foundry_basin.png");
-    private static final ResourceLocation LAVA = ResLocation("hbm", "textures/block/network/lava_gray.png");
+    private static final ResourceLocation TEXTURE = ResLocation(RefStrings.MODID, "textures/block/network/foundry_basin.png");
+    private static final ResourceLocation LAVA = ResLocation(RefStrings.MODID, "textures/block/network/lava_gray.png");
 
     public RenderFoundryBasin(BlockEntityRendererProvider.Context ignoredContext) {}
 
