@@ -11,6 +11,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.Tag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelReader;
@@ -29,8 +32,6 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -168,7 +169,8 @@ public class ConformingNBTStructurePiece extends StructurePiece implements Clean
         int originZ = this.templatePosition.getZ();
         List<BlockPos> bars = new ArrayList<>();
 
-        for (StructureTemplate.StructureBlockInfo info : allBlocks()) {
+        for (StructureTemplate.StructureBlockInfo info : allBlocks(
+                level.registryAccess().lookup(Registries.BLOCK).orElseThrow())) {
             BlockPos world = StructureTemplate.calculateRelativePosition(settings, info.pos())
                     .offset(this.templatePosition);
             int idx = (world.getX() - originX) * this.gridZ + (world.getZ() - originZ);
@@ -259,27 +261,47 @@ public class ConformingNBTStructurePiece extends StructurePiece implements Clean
         return top < 0 ? -1 : top + this.heightOffset;
     }
 
-    /** Все блоки шаблона: ручная постановка по колонкам, без placeInWorld-рамки. */
-    @SuppressWarnings("unchecked")
-    private List<StructureTemplate.StructureBlockInfo> allBlocks() {
-        try {
-            Field palettesField = StructureTemplate.class.getDeclaredField("palettes");
-            palettesField.setAccessible(true);
-            List<?> palettes = (List<?>) palettesField.get(this.template);
-            List<StructureTemplate.StructureBlockInfo> all = new ArrayList<>();
-            for (Object palette : palettes) {
-                Method blocks;
-                try {
-                    blocks = palette.getClass().getMethod("blocks");
-                } catch (NoSuchMethodException e) {
-                    blocks = palette.getClass().getDeclaredMethod("blocks");
-                    blocks.setAccessible(true);
-                }
-                all.addAll((List<StructureTemplate.StructureBlockInfo>) blocks.invoke(palette));
-            }
-            return all;
-        } catch (Exception e) {
-            throw new IllegalStateException("Не удалось прочитать палитры шаблона", e);
+    /**
+     * Reads the canonical template palette through Mojang's public NBT API.
+     *
+     * <p>Do not reflect on StructureTemplate's private "palettes" field:
+     * its runtime name is remapped in the installed Forge jar, causing a
+     * NoSuchFieldException during real-world ruin generation (0.1.2 crash).
+     * TemplateLayout already uses the same serialization format.
+     *
+     * <p>Read the first palette as vanilla/template cleanup does; all block
+     * entries index that palette. Preserve each entry's block-entity NBT for
+     * wand loot and other tile entities.
+     */
+    private List<StructureTemplate.StructureBlockInfo> allBlocks(HolderGetter<Block> blockRegistry) {
+        CompoundTag serialized = this.template.save(new CompoundTag());
+        ListTag palettes = serialized.getList("palettes", Tag.TAG_LIST);
+        ListTag palette = palettes.isEmpty()
+                ? serialized.getList("palette", Tag.TAG_COMPOUND)
+                : palettes.getList(0);
+        ListTag entries = serialized.getList("blocks", Tag.TAG_COMPOUND);
+
+        if (!entries.isEmpty() && palette.isEmpty()) {
+            throw new IllegalStateException("Missing block palette in HBM ruin template " + nbtPath);
         }
+
+        List<StructureTemplate.StructureBlockInfo> all = new ArrayList<>(entries.size());
+        for (int i = 0; i < entries.size(); i++) {
+            CompoundTag entry = entries.getCompound(i);
+            ListTag posTag = entry.getList("pos", Tag.TAG_INT);
+            int stateIndex = entry.getInt("state");
+            if (posTag.size() != 3 || stateIndex < 0 || stateIndex >= palette.size()) {
+                throw new IllegalStateException(
+                        "Invalid block entry " + i + " in HBM ruin template " + nbtPath);
+            }
+
+            BlockPos local = new BlockPos(posTag.getInt(0), posTag.getInt(1), posTag.getInt(2));
+            BlockState state = NbtUtils.readBlockState(blockRegistry, palette.getCompound(stateIndex));
+            CompoundTag blockEntityNbt = entry.contains("nbt", Tag.TAG_COMPOUND)
+                    ? entry.getCompound("nbt").copy()
+                    : null;
+            all.add(new StructureTemplate.StructureBlockInfo(local, state, blockEntityNbt));
+        }
+        return all;
     }
 }
