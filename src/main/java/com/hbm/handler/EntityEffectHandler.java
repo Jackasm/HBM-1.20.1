@@ -77,14 +77,22 @@ public class EntityEffectHandler {
         if (entity instanceof Player player && player == MainRegistry.proxy.me()) {
             ResourceKey<Biome> biomeKey = player.level().getBiome(player.blockPosition()).unwrapKey().orElse(null);
 
-            if (biomeKey == ModBiomes.CRATER || biomeKey == ModBiomes.CRATER_INNER) {
+            // Permanent, client-only fallout ash while standing in a crater.
+            // Unlike the original townaura/MYCELIUM, ASH actually drifts down.
+            // Avoid spawning ash through roofs and respect normal particle limits.
+            if (player.level().isClientSide && player.level().canSeeSky(player.blockPosition())) {
+                int count = ModBiomes.CRATER_INNER.equals(biomeKey) ? 4
+                        : ModBiomes.CRATER.equals(biomeKey) ? 3
+                        : ModBiomes.CRATER_OUTER.equals(biomeKey) && player.tickCount % 4 == 0 ? 1 : 0;
                 RandomSource rand = player.getRandom();
-                for (int i = 0; i < 3; i++) {
-                    player.level().addParticle(ParticleTypes.MYCELIUM,
-                            player.getX() + rand.nextGaussian() * 3,
-                            player.getY() + rand.nextGaussian() * 2,
-                            player.getZ() + rand.nextGaussian() * 3,
-                            0, 0, 0);
+                for (int i = 0; i < count; i++) {
+                    player.level().addParticle(ParticleTypes.ASH,
+                            player.getX() + rand.nextGaussian() * 5D,
+                            player.getY() + 4D + rand.nextDouble() * 5D,
+                            player.getZ() + rand.nextGaussian() * 5D,
+                            (rand.nextDouble() - 0.5D) * 0.015D,
+                            -0.04D - rand.nextDouble() * 0.04D,
+                            (rand.nextDouble() - 0.5D) * 0.015D);
                 }
             }
         }
@@ -121,24 +129,8 @@ public class EntityEffectHandler {
                 entity.setRemainingFireTicks(100); // 5 секунд огня
             }
 
-            float radiation = 0;
-            if (!entity.level().isClientSide && entity instanceof Player player) {
-                ResourceKey<Biome> biomeKey = entity.level().getBiome(entity.blockPosition()).unwrapKey().orElse(null);
-
-                if (biomeKey == ModBiomes.CRATER_OUTER) {
-                    radiation = (float) WorldConfig.CRATER_BIOME_OUTER_RAD;
-                } else if (biomeKey == ModBiomes.CRATER) {
-                    radiation = (float) WorldConfig.CRATER_BIOME_RAD;
-                } else if (biomeKey == ModBiomes.CRATER_INNER) {
-                    radiation = (float) WorldConfig.CRATER_BIOME_INNER_RAD;
-                }
-            }
-
-            if (entity.isInWaterRainOrBubble()) radiation *= (float) WorldConfig.CRATER_BIOME_WATER_MULT;
-
-            if (radiation > 0) {
-                ContaminationUtil.contaminate(entity, ContaminationUtil.HazardType.RADIATION, ContaminationUtil.ContaminationType.CREATIVE, radiation / 20F);
-            }
+            // 1.7.10 exposed all EntityLivingBase, not only players.
+            applyCraterBiomeRadiation(entity);
         }
 
         handleContamination(entity);
@@ -158,6 +150,38 @@ public class EntityEffectHandler {
 
         if (!entity.level().isClientSide && entity.tickCount % 20 == 0) {
             PacketDispatcher.syncLivingPropsToTracking(entity);
+        }
+    }
+
+    /**
+     * The crater biome contribution in RAD/s, independent of PRISM/chunk
+     * radiation. Matches original HBM 1.7.10's three-zone formula.
+     */
+    public static float craterBiomeRadiationPerSecond(ResourceKey<Biome> biomeKey) {
+        if (ModBiomes.CRATER_OUTER.equals(biomeKey)) return (float) WorldConfig.CRATER_BIOME_OUTER_RAD;
+        if (ModBiomes.CRATER.equals(biomeKey)) return (float) WorldConfig.CRATER_BIOME_RAD;
+        if (ModBiomes.CRATER_INNER.equals(biomeKey)) return (float) WorldConfig.CRATER_BIOME_INNER_RAD;
+        return 0F;
+    }
+
+    /**
+     * Called once each server tick for every LivingEntity. Keep the existing
+     * water multiplier and route doses through ContaminationUtil so mobs
+     * retain radiation immunity and other established contamination rules.
+     */
+    public static void applyCraterBiomeRadiation(LivingEntity entity) {
+        if (entity.level().isClientSide) return;
+
+        ResourceKey<Biome> biomeKey = entity.level().getBiome(entity.blockPosition())
+                .unwrapKey().orElse(null);
+        float radiation = craterBiomeRadiationPerSecond(biomeKey);
+
+        if (entity.isInWaterRainOrBubble()) {
+            radiation *= (float) WorldConfig.CRATER_BIOME_WATER_MULT;
+        }
+        if (radiation > 0F) {
+            ContaminationUtil.contaminate(entity, ContaminationUtil.HazardType.RADIATION,
+                    ContaminationUtil.ContaminationType.CREATIVE, radiation / 20F);
         }
     }
 

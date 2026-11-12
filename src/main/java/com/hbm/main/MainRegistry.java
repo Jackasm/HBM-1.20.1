@@ -30,7 +30,7 @@ import com.hbm.itempool.ItemPool;
 import com.hbm.items.*;
 import com.hbm.items.tool.ItemTooling;
 import com.hbm.items.weapon.sedna.factory.BulletConfigRegistry;
-import com.hbm.loot.ModLootModifiers;
+
 import com.hbm.network.PacketHandler;
 import com.hbm.particle.ModParticles;
 import com.hbm.potion.HbmPotion;
@@ -75,7 +75,7 @@ public class MainRegistry {
     public MainRegistry(FMLJavaModLoadingContext context) {
 
         logger.info("HBM Nuclear Tech Mod loading...");
-        // Какая именно сборка запущена — одной строкой в логе (#168).
+
         logger.info(BuildInfo.summary());
 
         proxy = ProxyFactory.create();
@@ -143,8 +143,6 @@ public class MainRegistry {
         ModEntities.ENTITIES.register(modEventBus);
 
         ModContainers.MENUS.register(modEventBus);
-
-        ModLootModifiers.register(modEventBus);
 
         HbmCreativeTabs.CREATIVE_TABS.register(modEventBus);
 

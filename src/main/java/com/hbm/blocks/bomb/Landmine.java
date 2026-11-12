@@ -44,7 +44,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class Landmine extends Block implements EntityBlock, IBomb, IToolable, LiquidBlockContainer {
+public class Landmine extends Block implements EntityBlock, IBomb, IToolable, LiquidBlockContainer, IShotDetonatable {
 
     public static boolean safeMode = false;
 
@@ -191,6 +191,21 @@ public class Landmine extends Block implements EntityBlock, IBomb, IToolable, Li
         }
 
         return true;
+    }
+
+    /**
+     * Gunshots use the same mine-specific explosion as redstone, proximity
+     * detection and destruction. Do not prime an EntityTNTPrimedBase:
+     * this mine already owns its fuse and VNT effects.
+     *
+     * The block identity check prevents duplicate detonation from several
+     * projectiles hitting the same position in one server tick.
+     */
+    @Override
+    public void onShot(Level level, BlockPos pos) {
+        if (level.isClientSide || safeMode) return;
+        if (level.getBlockState(pos).getBlock() != this) return;
+        explode(level, pos);
     }
 
     private boolean isWaterAbove(Level level, BlockPos pos) {

@@ -37,6 +37,8 @@ public class IronBarsTestRunner extends TestRunner {
             }
         }
 
+        piece.clean(level, box);
+
         int bars = 0;
         int connected = 0;
         for (int x = box.minX(); x <= box.maxX(); x++) {

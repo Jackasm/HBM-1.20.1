@@ -200,6 +200,7 @@ public class ConformingNBTStructurePiece extends StructurePiece implements Clean
         for (BlockPos bar : bars) {
             StructurePostProcess.refreshIronBars(level, bar);
         }
+        StructurePostProcess.scheduleIronBars(level, bars);
 
         // #102: запоминаем кусок для чистки после декорации.
         StructureCleanup.register(level, chunkPos, this);

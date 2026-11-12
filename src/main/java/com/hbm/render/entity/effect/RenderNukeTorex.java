@@ -2,6 +2,7 @@ package com.hbm.render.entity.effect;
 
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.effect.EntityNukeTorex.Cloudlet;
+import com.hbm.entity.effect.TorexVisualMath;
 
 import com.hbm.handler.ModEventHandlerClient;
 import com.hbm.util.RefStrings;
@@ -23,7 +24,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-import static net.minecraft.client.renderer.RenderStateShard.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -59,6 +59,9 @@ public class RenderNukeTorex extends EntityRenderer<EntityNukeTorex> {
     @Override
     public void render(@NotNull EntityNukeTorex entity, float entityYaw, float partialTicks,
                        @NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight) {
+        // A newly tracked entity can arrive before its synchronized start time.
+        // Never display an erroneous initial flash while waiting for that snapshot.
+        if (entity.getStartGameTime() < 0L) return;
         poseStack.pushPose();
         // Перемещаемся в позицию сущности (рендеринг в локальных координатах)
         poseStack.translate(0, 0, 0);
@@ -72,7 +75,10 @@ public class RenderNukeTorex extends EntityRenderer<EntityNukeTorex> {
         }
 
         // Эффект вспышки и тряски камеры (логика осталась как в оригинале)
-        if (entity.tickCount < 10 && System.currentTimeMillis() - ModEventHandlerClient.flashTimestamp > 1000) {
+        // Late-tracking clients may see the remaining age-correct flare, but
+        // must not publish a *new* initial flash event on reconnect.
+        if (!entity.isLateTrackingClient() && entity.tickCount < 10
+                && System.currentTimeMillis() - ModEventHandlerClient.flashTimestamp > 1000) {
             ModEventHandlerClient.flashTimestamp = System.currentTimeMillis();
         }
         if (entity.didPlaySound && !entity.didShake && System.currentTimeMillis() - ModEventHandlerClient.shakeTimestamp > 1000) {
@@ -105,28 +111,37 @@ public class RenderNukeTorex extends EntityRenderer<EntityNukeTorex> {
         }
     }
 
+    // Use the cloudlets' matching NEW_ENTITY vertex layout and no-cull shader.
+    // Earlier flash rendering used an incompatible attribute layout and could
+    // cull the camera-facing quad. Keep regular depth and alpha-additive blending;
+    // onset relative to sound still requires actual client verification.
     private static final RenderType ADDITIVE_FLASH = RenderType.create(
             "hbm_flash_additive",
-            DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP,
+            DefaultVertexFormat.NEW_ENTITY,
             VertexFormat.Mode.QUADS,
             256,
             false,
             true,
             RenderType.CompositeState.builder()
-                    .setTextureState(new TextureStateShard(FLASH_TEX, false, false))
+                    .setTextureState(new RenderStateShard.TextureStateShard(FLASH_TEX, false, false))
                     .setTransparencyState(new RenderStateShard.TransparencyStateShard(
                             "additive",
                             () -> {
                                 RenderSystem.enableBlend();
-                                RenderSystem.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
+                                // Legacy RenderTorex uses SRC_ALPHA + ONE: alpha must control flare intensity.
+                                RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
                             },
                             () -> {
                                 RenderSystem.disableBlend();
                                 RenderSystem.defaultBlendFunc();
                             }
                     ))
+                    // Vertex writes contain overlay + normals. Match the same
+                    // NEW_ENTITY shader/layout as the working cloudlet render.
                     .setLightmapState(new RenderStateShard.LightmapStateShard(true))
-                    .setShaderState(new RenderStateShard.ShaderStateShard(GameRenderer::getPositionColorTexLightmapShader))
+                    .setOverlayState(new RenderStateShard.OverlayStateShard(true))
+                    .setCullState(new RenderStateShard.CullStateShard(false))
+                    .setShaderState(new RenderStateShard.ShaderStateShard(GameRenderer::getRendertypeEntityTranslucentShader))
                     .setDepthTestState(new RenderStateShard.DepthTestStateShard("<=", 515))
                     .setWriteMaskState(new RenderStateShard.WriteMaskStateShard(true, false))
                     .createCompositeState(false)
@@ -134,9 +149,8 @@ public class RenderNukeTorex extends EntityRenderer<EntityNukeTorex> {
 
     private void renderFlash(EntityNukeTorex cloud, float partialTicks, PoseStack poseStack,
                              MultiBufferSource buffer, Camera camera) {
-        double age = Math.min(cloud.tickCount + partialTicks, 100);
-        float alpha = (float) ((100 - age) / 100.0);
-        if (alpha <= 0) return;
+        float alpha = com.hbm.entity.effect.TorexVisualMath.flashAlpha(cloud.tickCount + partialTicks);
+        if (alpha <= 0F) return;
 
         VertexConsumer builder = buffer.getBuffer(ADDITIVE_FLASH);
         Random rand = new Random(cloud.getId());
@@ -158,10 +172,12 @@ public class RenderNukeTorex extends EntityRenderer<EntityNukeTorex> {
         poseStack.translate(x, y, z);
 
         float brightness = cloudlet.type == EntityNukeTorex.TorexType.CONDENSATION ? 0.9F : 0.75F * cloudlet.colorMod;
-        Vec3 color = cloudlet.getInterpColor(partialTicks);
-        float r = (float) color.x * brightness;
-        float g = (float) color.y * brightness;
-        float b = (float) color.z * brightness;
+        // Legacy order: HDR interpolate -> cloudlet brightness -> packed RGB
+        // clamp. Never clip RGB before multiplication by brightness.
+        Vec3 color = TorexVisualMath.vertexColor(cloudlet.getInterpColor(partialTicks), brightness);
+        float r = (float) color.x;
+        float g = (float) color.y;
+        float b = (float) color.z;
 
         var pose = poseStack.last().pose();
         var normalMat = poseStack.last().normal();

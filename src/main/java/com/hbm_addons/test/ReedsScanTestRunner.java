@@ -40,7 +40,7 @@ public class ReedsScanTestRunner extends TestRunner {
     private static final int BASE_CX = 39000;
     private static final int BASE_CZ = 39000;
 
-    /** Насколько широко смотрим вокруг поверхности колонки: столбик — 3 блока, берём с запасом. */
+    /** Насколько широко смотрим вокруг поверхности колонки: над водой один блок, берём с запасом. */
     private static final int SCAN_BELOW = 4;
     private static final int SCAN_ABOVE = 4;
     /** Радиус поиска биома реки/пляжа вокруг растения (метрика, не проверка). */
@@ -202,7 +202,8 @@ public class ReedsScanTestRunner extends TestRunner {
                 for (int y = surface - SCAN_BELOW; y <= surface + SCAN_ABOVE; y++) {
                     BlockPos pos = new BlockPos(x, y, z);
                     BlockState state = level.getBlockState(pos);
-                    if (state.getBlock() instanceof BlockReeds reeds && reeds.getType() == 0) {
+                    if (state.getBlock() instanceof BlockReeds reeds
+                            && reeds.getType() == BlockReeds.TYPE_TOP) {
                         plants.add(pos);
                     }
                 }

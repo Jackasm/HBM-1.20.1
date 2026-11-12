@@ -1,8 +1,6 @@
 package com.hbm.items.tool;
 
 import com.hbm.inventory.container.ContainerCasingBag;
-import com.hbm.inventory.gui.GUICasingBag;
-import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.ItemStackUtil;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -13,31 +11,16 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.world.SimpleContainer;
 
-public class ItemCasingBag extends Item implements IGUIProvider, MenuProvider {
+public class ItemCasingBag extends Item implements MenuProvider {
 
     public ItemCasingBag() {
         super(new Item.Properties().stacksTo(1));
-    }
-
-    @Override
-    public AbstractContainerMenu provideContainer(int ID, Player player, Level world, net.minecraft.world.phys.BlockHitResult hitResult) {
-        return new ContainerCasingBag(ID, player.getInventory(), new InventoryCasingBag(player.getMainHandItem()));
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public Object provideGUI(int ID, Player player, Level world, net.minecraft.world.phys.BlockHitResult hitResult) {
-        return new GUICasingBag(new ContainerCasingBag(0, player.getInventory(),
-                new InventoryCasingBag(player.getMainHandItem())), player.getInventory(),
-                net.minecraft.network.chat.Component.translatable("container.casingBag"));
     }
 
     @Override
@@ -60,14 +43,6 @@ public class ItemCasingBag extends Item implements IGUIProvider, MenuProvider {
     @NotNull
     public net.minecraft.network.chat.Component getDisplayName() {
         return net.minecraft.network.chat.Component.translatable("container.casingBag");
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public Object provideGUI(int ID, Player player, Level world, int x, int y, int z) {
-        return new GUICasingBag(new ContainerCasingBag(0, player.getInventory(),
-                new InventoryCasingBag(player.getMainHandItem())), player.getInventory(),
-                net.minecraft.network.chat.Component.translatable("container.casingBag"));
     }
 
     /**

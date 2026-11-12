@@ -38,6 +38,7 @@ public class PacketHandler {
         registerPacket(SyncLivingPropsPacket.class, NetworkDirection.PLAY_TO_CLIENT);
         registerPacket(BiomeSyncPacket.class, NetworkDirection.PLAY_TO_CLIENT);
         registerPacket(BufPacket.class, NetworkDirection.PLAY_TO_CLIENT);
+        registerPacket(LaunchPadVisualPacket.class, NetworkDirection.PLAY_TO_CLIENT);
         registerPacket(ExtPropPacket.class, NetworkDirection.PLAY_TO_CLIENT);
         registerPacket(PermaSyncPacket.class, NetworkDirection.PLAY_TO_CLIENT);
         registerPacket(PlayerInformPacket.class, NetworkDirection.PLAY_TO_CLIENT);

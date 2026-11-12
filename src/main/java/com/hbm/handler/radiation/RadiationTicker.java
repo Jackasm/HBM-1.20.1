@@ -95,7 +95,17 @@ public final class RadiationTicker {
         Bucket bucket = BUCKETS.get(level.dimension());
         if (bucket == null) return;
 
-        for (int i = 0; i < CHUNKS_PER_TICK; i++) {
+        // Process only entries that existed at the start of the server tick.
+        // Active chunks requeue themselves during processing. Without this
+        // snapshot, a small queue can consume the entire budget by processing
+        // the same chunk repeatedly within one game tick. Entries added during
+        // this pass are deliberately deferred until the next server tick.
+        final int workThisTick;
+        synchronized (bucket) {
+            workThisTick = Math.min(CHUNKS_PER_TICK, bucket.queue.size());
+        }
+
+        for (int i = 0; i < workThisTick; i++) {
             ChunkPos pos;
             synchronized (bucket) {
                 pos = bucket.queue.poll();

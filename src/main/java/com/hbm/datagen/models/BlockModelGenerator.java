@@ -3,6 +3,7 @@ package com.hbm.datagen.models;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.hbm.util.EnumUtil;
+import com.hbm.blocks.generic.BlockReeds;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
@@ -949,7 +950,11 @@ public class BlockModelGenerator {
 
         // Модель блока
         JsonObject blockModel = new JsonObject();
-        blockModel.addProperty("parent", "minecraft:block/cross");
+        // Reeds follow biome grass colors; the other cross blocks keep
+        // their original un-tinted models and appearance.
+        blockModel.addProperty("parent", block instanceof BlockReeds
+                ? "minecraft:block/tinted_cross"
+                : "minecraft:block/cross");
         blockModel.addProperty("render_type", "cutout");
 
         JsonObject textures = new JsonObject();

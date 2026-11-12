@@ -35,8 +35,19 @@ import java.util.List;
 final class StructurePostProcess {
 
     private static final List<Pending> PENDING = new ArrayList<>();
+    private static final List<BarPending> BAR_PENDING = new ArrayList<>();
 
     private StructurePostProcess() {
+    }
+
+    private static final class BarPending {
+        final ServerLevel level;
+        final BlockPos pos;
+
+        BarPending(ServerLevel level, BlockPos pos) {
+            this.level = level;
+            this.pos = pos;
+        }
     }
 
     private static final class Pending {
@@ -97,6 +108,18 @@ final class StructurePostProcess {
         }
     }
 
+    /**
+     * Решётки на границе чанков нельзя чинить сразу: соседний чанк может быть
+     * ещё протоплазмой, а чистка после декорации вернёт состояние шаблона.
+     * Ждём полный чанк и пересчитываем ещё раз на серверном тике.
+     */
+    static void scheduleIronBars(WorldGenLevel level, List<BlockPos> positions) {
+        ServerLevel serverLevel = level.getLevel();
+        for (BlockPos pos : positions) {
+            BAR_PENDING.add(new BarPending(serverLevel, pos.immutable()));
+        }
+    }
+
     /** Постановка блока вручную: TE может ещё не быть — тогда в очередь. */
     static void processWandBlockAt(WorldGenLevel level, BlockPos pos, CompoundTag nbt, boolean loot) {
         BlockEntity be = level.getBlockEntity(pos);
@@ -118,6 +141,23 @@ final class StructurePostProcess {
      * теряла замену до того, как игрок до неё дойдёт.
      */
     static void drain() {
+        if (!BAR_PENDING.isEmpty()) {
+            List<BarPending> batch = new ArrayList<>(BAR_PENDING);
+            BAR_PENDING.clear();
+            for (BarPending pending : batch) {
+                if (!pending.level.hasChunkAt(pending.pos)) {
+                    BAR_PENDING.add(pending);
+                    continue;
+                }
+                var chunk = pending.level.getChunk(pending.pos);
+                if (!(chunk instanceof net.minecraft.world.level.chunk.LevelChunk)) {
+                    BAR_PENDING.add(pending);
+                    continue;
+                }
+                refreshIronBars(pending.level, pending.pos);
+            }
+        }
+
         if (PENDING.isEmpty()) return;
 
         // Снимок: getBlockEntity/load могут снова вызвать postProcess.

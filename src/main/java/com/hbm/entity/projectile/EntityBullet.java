@@ -1,6 +1,7 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.blocks.bomb.BlockDetonatable;
+import com.hbm.blocks.bomb.IShotDetonatable;
+import com.hbm.blocks.bomb.Landmine;
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.mob.EntityCreeperNuclear;
@@ -245,7 +246,7 @@ public class EntityBullet extends Projectile {
                     this.inGround = true;
                 }
 
-                if (block instanceof BlockDetonatable det) {
+                if (block instanceof IShotDetonatable det) {
                     det.onShot(this.level(), this.tilePos);
                 }
 
@@ -377,6 +378,15 @@ public class EntityBullet extends Projectile {
 
     @Override
     protected void onHitBlock(BlockHitResult result) {
+        // The legacy projectile has a one-tick delayed "inGround" shot
+        // callback for explosive blocks. Mines should detonate at the actual
+        // impact (including critical bullets), exactly once on the server.
+        if (!this.level().isClientSide
+                && this.level().getBlockState(result.getBlockPos()).getBlock() instanceof Landmine mine) {
+            mine.onShot(this.level(), result.getBlockPos());
+            this.discard();
+            return;
+        }
         if (!this.isCritical()) {
             this.tilePos = result.getBlockPos();
             this.tileState = this.level().getBlockState(this.tilePos);

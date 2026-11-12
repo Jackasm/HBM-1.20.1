@@ -92,7 +92,11 @@ minecraft {
             }
         }
 
-        client { }
+        client {
+            if (project.findProperty('hbmHotSwap') == 'true') {
+                jvmArg '-XX:+AllowEnhancedClassRedefinition'
+            }
+        }
         server { args '--nogui' }
         data {
             workingDirectory project.file('run-data')

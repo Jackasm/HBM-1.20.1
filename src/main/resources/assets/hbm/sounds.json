@@ -195,7 +195,7 @@
   "block.horn_far_single": { "sounds": [{ "name": "hbm:block/horn_far_single" }] },
   "block.horn_near_dual": { "sounds": [{ "name": "hbm:block/horn_near_dual" }] },
   "block.horn_far_dual": { "sounds": [{ "name": "hbm:block/horn_far_dual" }] },
-  "block.reactor_start": { "sounds": [{ "name": "hbm:block/reactor_start" }] }
-
+  "block.reactor_start": { "sounds": [{ "name": "hbm:block/reactor_start" }] },
+   "music.crater": { "sounds": [{"name": "hbm:music/crater_01", "stream": true}, {"name": "hbm:music/crater_02", "stream": true}, {"name": "hbm:music/crater_03", "stream": true}] }
 
  }

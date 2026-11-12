@@ -281,4 +281,26 @@ public class ModEventHandlerClient {
 
          */
     }
+    /**
+     * Crater fog is local to the camera biome. Do not change global sunlight,
+     * time of day, shader state or the atmosphere of nearby healthy biomes.
+     */
+    @SubscribeEvent
+    public static void onCraterFogColor(net.minecraftforge.client.event.ViewportEvent.ComputeFogColor event) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.level == null) return;
+        var cameraPos = event.getCamera().getPosition();
+        BlockPos pos = BlockPos.containing(cameraPos.x, cameraPos.y, cameraPos.z);
+        var key = minecraft.level.getBiome(pos).unwrapKey().orElse(null);
+
+        float weight = com.hbm.datagen.worldgen.ModBiomes.CRATER_INNER.equals(key) ? 0.78F
+                : com.hbm.datagen.worldgen.ModBiomes.CRATER.equals(key) ? 0.65F
+                : com.hbm.datagen.worldgen.ModBiomes.CRATER_OUTER.equals(key) ? 0.28F : 0F;
+        if (weight <= 0F) return;
+
+        event.setRed(net.minecraft.util.Mth.lerp(weight, event.getRed(), 0.25F));
+        event.setGreen(net.minecraft.util.Mth.lerp(weight, event.getGreen(), 0.26F));
+        event.setBlue(net.minecraft.util.Mth.lerp(weight, event.getBlue(), 0.25F));
+    }
+
 }

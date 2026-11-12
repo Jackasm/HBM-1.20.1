@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/cross",
+  "parent": "minecraft:block/tinted_cross",
   "render_type": "cutout",
   "textures": {
     "cross": "hbm:block/reeds_mid"

@@ -118,6 +118,10 @@ public interface CleanablePiece {
             if (current.equals(wanted)) continue;
             // Блок-энтити не трогаем: сундук с лутом, табличка, блок с NBT.
             if (current.hasBlockEntity()) continue;
+            // Решётки после пост-обработки соединены с соседями; шаблон хранит
+            // их без соединений, и restoreExpected иначе рвёт связи обратно.
+            if (current.getBlock() == wanted.getBlock()
+                    && current.getBlock() instanceof net.minecraft.world.level.block.IronBarsBlock) continue;
             // Проволока после пост-обработки намеренно смотрит иначе, чем в шаблоне.
             if (current.getBlock() instanceof BarbedWire || wanted.getBlock() instanceof BarbedWire) continue;
             level.setBlock(pos, wanted, 2);

@@ -132,7 +132,7 @@ public class ItemDetonator extends Item {
                                 .color(ChatFormatting.DARK_AQUA)
                                 .next("] ")
                                 .color(ChatFormatting.DARK_AQUA)
-                                .nextTranslation(ret.getTranslationKey()) // <-- ИСПРАВЛЕНО
+                                .nextTranslation(ret.getTranslationKey())
                                 .color(ret.wasSuccessful() ? ChatFormatting.YELLOW : ChatFormatting.RED)
                                 .flush()
                 );
@@ -148,7 +148,7 @@ public class ItemDetonator extends Item {
                                 .color(ChatFormatting.DARK_AQUA)
                                 .next("] ")
                                 .color(ChatFormatting.DARK_AQUA)
-                                .nextTranslation(BombReturnCode.ERROR_NO_BOMB.getTranslationKey()) // <-- ИСПРАВЛЕНО
+                                .nextTranslation(BombReturnCode.ERROR_NO_BOMB.getTranslationKey())
                                 .color(ChatFormatting.RED)
                                 .flush()
                 );

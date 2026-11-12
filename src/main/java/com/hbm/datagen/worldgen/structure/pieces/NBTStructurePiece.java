@@ -141,12 +141,15 @@ public class NBTStructurePiece extends TemplateStructurePiece implements Cleanab
                             @NotNull BoundingBox box, @NotNull ChunkPos chunkPos, @NotNull BlockPos pos) {
         super.postProcess(level, manager, generator, random, box, chunkPos, pos);
 
+        List<BlockPos> irons = new ArrayList<>();
         for (StructureTemplate.StructureBlockInfo info
                 : this.template.filterBlocks(this.templatePosition, this.placeSettings, Blocks.IRON_BARS)) {
             if (new ChunkPos(info.pos()).equals(chunkPos)) {
                 StructurePostProcess.refreshIronBars(level, info.pos());
+                irons.add(info.pos());
             }
         }
+        StructurePostProcess.scheduleIronBars(level, irons);
 
         fixBarbedWire(level, chunkPos);
         placeMultiblocks(level);

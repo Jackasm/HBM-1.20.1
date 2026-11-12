@@ -77,7 +77,9 @@ public class RadiationNbtTestRunner extends TestRunner {
 
         // Ленивый спад: сдвигаем lastTick в прошлое и грузим заново.
         CompoundTag rewound = tag.copy();
-        rewound.putLong("lastTick", level.getGameTime() - GAP_TICKS);
+        long now = level.getGameTime();
+        long lastTick = Math.max(0L, now - GAP_TICKS);
+        rewound.putLong("lastTick", lastTick);
 
         IRadiationData reloaded = new RadiationDataPrism(level, pos,
                 level.getMinBuildHeight(), level.getHeight());
@@ -86,12 +88,19 @@ public class RadiationNbtTestRunner extends TestRunner {
         reloaded.tick(level, pos);
         float afterTick = reloaded.getRawCell(2, 8, 2);
 
+        long actualGap = Math.max(0L, now - lastTick);
+        float factor = (float) Math.pow(0.998F, actualGap);
+        float subtract = (float) (0.005F * (factor - 1.0D) / (0.998F - 1.0D));
+        float expectedAfter = Math.max(0F, beforeTick * factor - subtract);
         float ratio = beforeTick > 0 ? afterTick / beforeTick : 1F;
-        metric("gap_ticks", GAP_TICKS);
+        metric("gap_ticks", actualGap);
         metric("value_before_tick", String.format("%.3f", beforeTick));
         metric("value_after_tick", String.format("%.3f", afterTick));
+        metric("expected_after_tick", String.format("%.3f", expectedAfter));
         metric("decay_ratio", String.format("%.4f", ratio));
-        check("lazy_decay_applied", ratio < 0.5F);
+        check("lazy_decay_applied", actualGap > 0 && afterTick < beforeTick);
+        check("lazy_decay_matches_formula",
+                Math.abs(afterTick - expectedAfter) <= Math.max(1.0E-4F, beforeTick * 1.0E-4F));
         check("lazy_decay_not_zero", afterTick > 0F);
 
         TestChunks.release(level, forcedChunks);

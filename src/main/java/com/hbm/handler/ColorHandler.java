@@ -115,6 +115,19 @@ public class ColorHandler {
                 ModBlocks.PLANT_TALL_WEED.get()
         );
 
+        // Reeds are grasses: use GRASS (not foliage), which has the
+        // original crater's distinct outer/center/inner tint overrides.
+        // BiomeColors also handles natural biome-border blending.
+        event.register((state, level, pos, tintIndex) -> {
+            if (tintIndex != 0) return 0xFFFFFF;
+            if (level == null || pos == null) return 0xFFFFFF;
+            return BiomeColors.getAverageGrassColor(level, pos);
+        },
+                ModBlocks.REEDS_BOTTOM.get(),
+                ModBlocks.REEDS_MID.get(),
+                ModBlocks.REEDS_TOP.get()
+        );
+
         event.register((state, level, pos, tintIndex) -> {
             if (tintIndex == 0 && level != null && pos != null) {
                 if (level.getBlockEntity(pos) instanceof TileEntityBedrockOre ore) {

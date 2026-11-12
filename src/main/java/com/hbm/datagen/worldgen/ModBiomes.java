@@ -2,6 +2,7 @@ package com.hbm.datagen.worldgen;
 
 import com.hbm.sound.ModSounds;
 import com.hbm.util.RefStrings;
+import net.minecraft.sounds.Music;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
@@ -37,24 +38,34 @@ public class ModBiomes {
         int waterColor = 0x505020;
         int waterFogColor = 0x505020;
         int skyColor = 0x525A52;
+        int fogColor = 0x565852; // Crater dust, not vanilla's bright blue fog
         int grassColor = 0x505050;
         int foliageColor = 0x6A7039;
 
         if (inner) {
             grassColor = 0x303030;
             skyColor = 0x424A42;
+            fogColor = 0x383B39;
         } else if (outer) {
             grassColor = 0x6F6752;
             skyColor = 0x6B9189;
+            fogColor = 0x86867F;
         }
 
         BiomeSpecialEffects effects = new BiomeSpecialEffects.Builder()
                 .waterColor(waterColor)
                 .waterFogColor(waterFogColor)
-                .fogColor(0xC0D8FF)
+                .fogColor(fogColor)
                 .skyColor(skyColor)
                 .foliageColorOverride(foliageColor)
                 .grassColorOverride(grassColor)
+                // The three crater zones share a single registered SoundEvent.
+                // Its three streamed OGG tracks are selected by sounds.json.
+                // Keep this in sync with generated worldgen/biome/*.json.
+                .backgroundMusic(new Music(
+                        ModSounds.MUSIC_CRATER.getHolder()
+                                .orElseThrow(() -> new IllegalStateException("Missing HBM crater music SoundEvent")),
+                        200, 1200, true))
                 .build();
 
         // Пустая генерация (без фич) - можно добавить позже

@@ -33,6 +33,8 @@ public class RadiationDecayTestRunner extends TestRunner {
 
     private final List<ChunkPos> forcedChunks = new ArrayList<>();
     private float baseline;
+    private long baselineGameTime;
+    private long baselineLastTick;
     private int ticksSinceDecay = -1;
 
     public RadiationDecayTestRunner(ServerLevel level, String scenario) {
@@ -65,12 +67,15 @@ public class RadiationDecayTestRunner extends TestRunner {
 
         IRadiationData data = RadiationCapability.getChunkData(level, new ChunkPos(CHUNK_X, CHUNK_Z));
         if (data == null) return false;
+        suppressSpread(data);
 
         float value = data.maxRadiation();
 
         if (ticksSinceDecay < 0) {
             if (value < START - 0.0001F) {
                 baseline = value;
+                baselineGameTime = level.getGameTime();
+                baselineLastTick = lastTick(data);
                 ticksSinceDecay = 0;
                 check("decay_started", true);
             }
@@ -80,18 +85,27 @@ public class RadiationDecayTestRunner extends TestRunner {
         ticksSinceDecay++;
 
         if (ticksSinceDecay >= MEASURE_TICKS) {
-            float expected = baseline * (float) Math.pow(DECAY_PER_TICK, ticksSinceDecay);
+            long now = level.getGameTime();
+            long dt = Math.max(0L, lastTick(data) - baselineLastTick);
+            double factor = Math.pow(DECAY_PER_TICK, dt);
+            double subtract = 0.005D * (factor - 1.0D) / (DECAY_PER_TICK - 1.0D);
+            float expected = (float) Math.max(0.0D, baseline * factor - subtract);
             float ratio = value / baseline;
             metric("baseline", fmt(baseline));
             metric("after_measure", fmt(value));
             metric("expected", fmt(expected));
             metric("ratio", fmt(ratio));
             metric("ticks_measured", ticksSinceDecay);
+            metric("game_ticks", now - baselineGameTime);
+            metric("dt_lastTick", dt);
+            metric("baseline_gameTime", baselineGameTime);
+            metric("final_gameTime", now);
+            metric("baseline_lastTick", baselineLastTick);
+            metric("final_lastTick", lastTick(data));
 
             check("decay_monotone", value < baseline);
-            // Допуск 2%: двести умножений float накапливают погрешность.
             check("decay_matches_formula",
-                    Math.abs(ratio - (float) Math.pow(DECAY_PER_TICK, ticksSinceDecay)) < 0.02F);
+                    Math.abs(value - expected) <= Math.max(1.0E-3F, baseline * 1.0E-3F));
             check("decay_not_negative", value >= 0F);
 
             TestChunks.release(level, forcedChunks);
@@ -104,6 +118,20 @@ public class RadiationDecayTestRunner extends TestRunner {
 
     private static String fmt(float v) {
         return String.format(java.util.Locale.ROOT, "%.4f", v);
+    }
+
+    private static long lastTick(IRadiationData data) {
+        return data.serializeNBT().getLong("lastTick");
+    }
+
+    private void suppressSpread(IRadiationData data) {
+        try {
+            java.lang.reflect.Field f = RadiationDataPrism.class.getDeclaredField("lastSpread");
+            f.setAccessible(true);
+            f.setLong(data, level.getGameTime());
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     private int gridY() {

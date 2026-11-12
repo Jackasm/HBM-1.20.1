@@ -76,4 +76,11 @@ public class RenderLaunchPad implements BlockEntityRenderer<TileEntityLaunchPad>
 
         poseStack.popPose();
     }
+
+
+    @Override
+    public int getViewDistance() {
+        return 256;
+    }
+
 }

@@ -1,6 +1,5 @@
 package com.hbm.world;
 
-import com.hbm.network.PacketDispatcher;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
@@ -8,13 +7,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.chunk.LevelChunkSection;
-import net.minecraft.world.level.chunk.PalettedContainer;
-import net.minecraft.world.level.chunk.PalettedContainerRO;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 
-import java.lang.reflect.Field;
 
 
 public class WorldUtil {
@@ -49,40 +44,38 @@ public class WorldUtil {
         }
     }
 
-    public static void setBiomeAndSync(Level level, int x, int z, Holder<Biome> biome) {
-        if (level.isClientSide) return;
+    /**
+     * Apply crater biomes to every vertical biome section of a whole chunk.
+     * MC 1.20.1 stores biomes in 4x4x4 cells; writing only the Y=0 section
+     * leaves the player's surface climate unchanged.
+     *
+     * The vanilla ChunkMap sends the full biome data to tracking clients
+     * once per changed chunk, not 256 no-op per-column custom packets.
+     */
+    public static boolean applyCraterBiomes(ServerLevel server, net.minecraft.world.level.ChunkPos pos,
+                                           double centerX, double centerZ, int scale) {
+        if (scale < 25) return false;
 
-        LevelChunk chunk = level.getChunk(x >> 4, z >> 4);
-        int biomeX = (x & 15) >> 2;
-        int biomeY = 0; // для поверхности
-        int biomeZ = (z & 15) >> 2;
+        LevelChunk chunk = server.getChunk(pos.x, pos.z);
+        var registry = server.registryAccess().registryOrThrow(Registries.BIOME);
+        boolean[] changed = {false};
 
-        try {
-            int sectionIndex = chunk.getSectionIndex(0);
-            LevelChunkSection section = chunk.getSections()[sectionIndex];
+        chunk.fillBiomesFromNoise((quartX, quartY, quartZ, sampler) -> {
+            Holder<Biome> oldBiome = chunk.getNoiseBiome(quartX, quartY, quartZ);
+            double distance = Math.hypot(quartX * 4D + 2D - centerX, quartZ * 4D + 2D - centerZ);
+            var target = com.hbm.explosion.CraterFalloutRules.targetBiome(
+                    distance * 100D / scale, scale, oldBiome.unwrapKey().orElse(null));
+            if (target == null) return oldBiome;
+            Holder<Biome> replacement = registry.getHolder(target).orElse(null);
+            if (replacement == null || replacement.equals(oldBiome)) return oldBiome;
+            changed[0] = true;
+            return replacement;
+        }, server.getChunkSource().randomState().sampler());
 
-            // Получаем текущий (только для чтения) контейнер биомов
-            PalettedContainerRO<Holder<Biome>> oldBiomes = section.getBiomes();
-            // Создаём редактируемую копию
-            PalettedContainer<Holder<Biome>> newBiomes = oldBiomes.recreate();
-            // Устанавливаем биом
-            newBiomes.set(biomeX, biomeY, biomeZ, biome);
-
-            // Заменяем поле через отражение
-            Field biomesField = LevelChunkSection.class.getDeclaredField("biomes");
-            biomesField.setAccessible(true);
-            biomesField.set(section, newBiomes);
-
+        if (changed[0]) {
             chunk.setUnsaved(true);
-
-            if (level instanceof ServerLevel serverLevel) {
-                int biomeId = serverLevel.registryAccess()
-                        .registryOrThrow(Registries.BIOME)
-                        .getId(biome.value());
-                PacketDispatcher.sendBiomeSyncToAllAround(serverLevel, x, z, (short) biomeId);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            server.getChunkSource().chunkMap.resendBiomesForChunks(java.util.List.of(chunk));
         }
+        return changed[0];
     }
 }

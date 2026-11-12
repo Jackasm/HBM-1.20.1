@@ -2,7 +2,7 @@ package com.hbm.items.weapon.sedna;
 
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.bomb.BlockDetonatable;
+import com.hbm.blocks.bomb.IShotDetonatable;
 import com.hbm.blocks.generic.BlockDecoCRT;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityBulletBeamBase;
@@ -474,7 +474,7 @@ public class BulletConfig implements Cloneable {
                 return;
             }
 
-            if (block instanceof BlockDetonatable detonatable) {
+            if (block instanceof IShotDetonatable detonatable) {
                 detonatable.onShot(bullet.level(), blockHit.getBlockPos());
             }
 

@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.Explosion;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class BlockDetonatable extends BlockFlammable implements IFuckingExplode {
+public abstract class BlockDetonatable extends BlockFlammable implements IFuckingExplode, IShotDetonatable {
 
     protected int popFuse; // A shorter fuse for when this explosive is dinked by another
     protected boolean detonateOnCollision;
@@ -67,6 +67,7 @@ public abstract class BlockDetonatable extends BlockFlammable implements IFuckin
         }
     }
 
+    @Override
     public void onShot(Level world, BlockPos pos) {
         if (!detonateOnShot || world.isClientSide()) return;
 

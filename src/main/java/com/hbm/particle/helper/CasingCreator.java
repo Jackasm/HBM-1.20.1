@@ -1,6 +1,7 @@
 package com.hbm.particle.helper;
 
 import com.hbm.particle.ParticleSpentCasing;
+import com.hbm.particle.ParticleCasingSmokeTrail;
 import com.hbm.particle.SpentCasing;
 
 import net.minecraft.client.Minecraft;
@@ -100,11 +101,7 @@ public class CasingCreator implements IParticleCreator {
                 x, y, z,            // Позиция
                 mX, mY, mZ,         // Движение
                 mPitch, mYaw,       // Начальное вращение
-                casingConfig,        // Конфигурация
-                smoking,            // Дым
-                smokeLife,          // Время жизни дыма
-                smokeLift,          // Подъем дыма
-                nodeLife            // Время жизни узла
+                casingConfig        // Конфигурация
         );
 
         // Устанавливаем начальное вращение
@@ -114,5 +111,14 @@ public class CasingCreator implements IParticleCreator {
         casing.rotationPitch = pitch;
 
         Minecraft.getInstance().particleEngine.add(casing);
+
+        // A separate client particle owns the smoke texture, shader and
+        // vertex batch; no smoke RenderType can mutate the OBJ casing batch.
+        if (smoking && smokeLife > 1 && nodeLife > 0) {
+            Minecraft.getInstance().particleEngine.add(
+                    new ParticleCasingSmokeTrail((ClientLevel) world, x, y, z,
+                            casing, smokeLife, smokeLift, nodeLife,
+                            casingConfig.getScaleX()));
+        }
     }
 }

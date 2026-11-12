@@ -22,6 +22,8 @@ import com.hbm.items.weapon.ItemMissile;
 import com.hbm.items.weapon.ItemMissile.MissileFuel;
 import com.hbm.sound.ModSounds;
 import com.hbm.tileentity.IRadarCommandReceiver;
+import com.hbm.network.PacketDispatcher;
+import com.hbm.network.client.LaunchPadVisualPacket;
 import com.hbm.tileentity.ModTileEntity;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Library;
@@ -30,6 +32,8 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -115,6 +119,21 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
+
+            // The missile is also rendered as part of the launch pad.
+            // Notify clients tracking this chunk immediately when slot 0 changes.
+            // This is independent of the legacy 50-block machine-state sync.
+            if (slot == 0 && level != null && !level.isClientSide) {
+                BlockState blockState = getBlockState();
+                level.sendBlockUpdated(worldPosition, blockState, blockState, 2);
+                // Vanilla block updates only reach clients subscribed to the
+                // chunk. Explicitly tell *nearby distant* observers about the
+                // visible model transition without broadcasting tank telemetry.
+                // This fires on slot-0 changes only; never every tick.
+                PacketDispatcher.sendToAllAround(
+                        new LaunchPadVisualPacket(worldPosition, inventory.getStackInSlot(0)),
+                        level, worldPosition, 256);
+            }
         }
 
         @Override
@@ -447,6 +466,51 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
         power = nbt.getLong("power");
         tanks[0].readFromNBT(nbt, "t0");
         tanks[1].readFromNBT(nbt, "t1");
+    }
+
+    // ------ Client render state for chunk tracking / distant observers ------
+
+    private static final String RENDER_MISSILE_KEY = "hbmRenderMissile";
+
+    /**
+     * The vanilla chunk and block-entity update paths deliver this compact
+     * state to every client tracking the launch pad's chunk. Do not send the
+     * full machine inventory, designator or fluid tank data to distant players.
+     */
+    @Override
+    public CompoundTag getUpdateTag() {
+        CompoundTag tag = new CompoundTag();
+        ItemStack missile = inventory.getStackInSlot(0);
+        if (!missile.isEmpty()) {
+            ItemStack visual = missile.copy();
+            visual.setCount(1);
+            tag.put(RENDER_MISSILE_KEY, visual.save(new CompoundTag()));
+        }
+        return tag;
+    }
+
+    /**
+     * Initial chunk tracking and live block updates both update only the
+     * client-side model. Menu inventory sync remains independent.
+     */
+    @Override
+    public void handleUpdateTag(CompoundTag tag) {
+        ItemStack missile = tag.contains(RENDER_MISSILE_KEY, 10)
+                ? ItemStack.of(tag.getCompound(RENDER_MISSILE_KEY))
+                : ItemStack.EMPTY;
+        if (missile.isEmpty()) {
+            toRender = null;
+        } else {
+            toRender = missile.copy();
+            toRender.setCount(1);
+        }
+    }
+
+    @Override
+    public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket packet) {
+        if (packet.getTag() != null) {
+            handleUpdateTag(packet.getTag());
+        }
     }
 
     // ------ Сеть (serialize/deserialize) ------

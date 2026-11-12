@@ -93,6 +93,17 @@ public class RadiationCapability {
 
         public RadiationChunkProvider(LevelChunk chunk) {
             this.data = createRadiationData(chunk);
+            if (data instanceof RadiationDataPrism prism) {
+                // ChunkEvent.Unload can fire after Minecraft has decided not to
+                // write an unchanged chunk. Mark it unsaved when radiation is
+                // actually mutated, without loading any additional chunk.
+                // The save flag is already sticky until a successful save.
+                // Reassert after a save (flag becomes false), not on every
+                // active radiation tick or individual diffusion transfer.
+                prism.bindChunkSaveMarker(() -> {
+                    if (!chunk.isUnsaved()) chunk.setUnsaved(true);
+                });
+            }
             this.optional = LazyOptional.of(() -> data);
         }
 

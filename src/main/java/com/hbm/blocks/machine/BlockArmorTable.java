@@ -1,8 +1,6 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.inventory.container.ContainerArmorTable;
-import com.hbm.inventory.gui.GUIArmorTable;
-import com.hbm.tileentity.IGUIProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -16,9 +14,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public class BlockArmorTable extends Block implements IGUIProvider {
+public class BlockArmorTable extends Block {
 
     public BlockArmorTable(Properties properties) {
         super(properties);
@@ -37,22 +34,12 @@ public class BlockArmorTable extends Block implements IGUIProvider {
                 }
 
                 @Override
-                public @Nullable AbstractContainerMenu createMenu(int windowId, @NotNull Inventory inventory, @NotNull Player player) {
+                public @NotNull AbstractContainerMenu createMenu(int windowId, @NotNull Inventory inventory, @NotNull Player player) {
                     return new ContainerArmorTable(windowId, inventory);
                 }
             });
             return InteractionResult.CONSUME;
         }
         return InteractionResult.PASS;
-    }
-
-    @Override
-    public AbstractContainerMenu provideContainer(int ID, Player player, Level world, BlockHitResult hitResult) {
-        return new ContainerArmorTable(ID, player.getInventory());
-    }
-
-    @Override
-    public Object provideGUI(int ID, Player player, Level world, BlockHitResult hitResult) {
-        return new GUIArmorTable(new ContainerArmorTable(ID, player.getInventory()), player.getInventory(), Component.translatable("container.armorTable"));
     }
 }

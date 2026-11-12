@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <a href="./releases"><img src="https://img.shields.io/badge/release-0.1.1-c8a800?style=flat-square" alt="Release 0.1.1"></a>
+  <a href="./releases"><img src="https://img.shields.io/badge/release-0.1.2-c8a800?style=flat-square" alt="Release 0.1.2"></a>
   <img src="https://img.shields.io/badge/Minecraft-1.20.1-3fb950?style=flat-square" alt="Minecraft 1.20.1">
   <img src="https://img.shields.io/badge/Forge-47.4.10-e08c3a?style=flat-square" alt="Forge 47.4.10">
   <img src="https://img.shields.io/badge/Java-17-4a7fd4?style=flat-square" alt="Java 17">

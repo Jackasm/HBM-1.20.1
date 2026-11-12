@@ -1,9 +1,7 @@
 package com.hbm.items.tool;
 
 import com.hbm.inventory.container.ContainerAmmoBag;
-import com.hbm.inventory.gui.GUIAmmoBag;
 import com.hbm.items.ModItems;
-import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.ItemStackUtil;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -14,27 +12,16 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.world.SimpleContainer;
 
-public class ItemAmmoBag extends Item implements IGUIProvider, MenuProvider {
+public class ItemAmmoBag extends Item implements MenuProvider {
 
     public ItemAmmoBag() {
         super(new Item.Properties().stacksTo(1));
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public Object provideGUI(int ID, Player player, Level world, BlockHitResult hitResult) {
-        return new GUIAmmoBag(new ContainerAmmoBag(0, player.getInventory(),
-                new InventoryAmmoBag(player.getMainHandItem())), player.getInventory(),
-                net.minecraft.network.chat.Component.translatable("container.ammoBag"));
     }
 
     @Override
@@ -49,11 +36,6 @@ public class ItemAmmoBag extends Item implements IGUIProvider, MenuProvider {
     }
 
     @Override
-    public AbstractContainerMenu provideContainer(int ID, Player player, Level world, BlockHitResult hitResult) {
-        return new ContainerAmmoBag(ID, player.getInventory(), new InventoryAmmoBag(player.getMainHandItem()));
-    }
-
-    @Override
     public AbstractContainerMenu createMenu(int id, net.minecraft.world.entity.player.@NotNull Inventory playerInv, Player player) {
         return new ContainerAmmoBag(id, playerInv, new InventoryAmmoBag(player.getMainHandItem()));
     }
@@ -62,14 +44,6 @@ public class ItemAmmoBag extends Item implements IGUIProvider, MenuProvider {
     @NotNull
     public net.minecraft.network.chat.Component getDisplayName() {
         return net.minecraft.network.chat.Component.translatable("container.ammoBag");
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public Object provideGUI(int ID, Player player, Level world, int x, int y, int z) {
-        return new GUIAmmoBag(new ContainerAmmoBag(0, player.getInventory(),
-                new InventoryAmmoBag(player.getMainHandItem())), player.getInventory(),
-                net.minecraft.network.chat.Component.translatable("container.ammoBag"));
     }
 
     @Override

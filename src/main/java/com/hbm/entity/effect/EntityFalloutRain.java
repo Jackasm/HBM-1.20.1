@@ -7,6 +7,10 @@ import com.hbm.config.FalloutConfigJSON.FalloutEntry;
 import com.hbm.config.WorldConfig;
 import com.hbm.datagen.worldgen.ModBiomes;
 import com.hbm.entity.ModEntities;
+import com.hbm.explosion.CraterFalloutRules;
+import com.hbm.handler.radiation.RadiationEvents;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.levelgen.Heightmap;
 import com.hbm.entity.item.EntityFallingBlockNT;
 import com.hbm.entity.logic.EntityExplosionChunkloading;
 
@@ -63,6 +67,7 @@ public class EntityFalloutRain extends EntityExplosionChunkloading {
 
     @Override
     public void tick() {
+        super.tick();
         if (!level().isClientSide) {
             long start = System.currentTimeMillis();
 
@@ -77,54 +82,30 @@ public class EntityFalloutRain extends EntityExplosionChunkloading {
                 tickDelay = BombConfig.F_DELAY;
 
                 while (System.currentTimeMillis() < start + BombConfig.MK5) {
-                    if (!chunksToProcess.isEmpty()) {
-                        long chunkPos = chunksToProcess.remove(chunksToProcess.size() - 1);
-                        int chunkPosX = (int) (chunkPos & Integer.MAX_VALUE);
-                        int chunkPosZ = (int) ((chunkPos >> 32) & Integer.MAX_VALUE);
+                    if (!chunksToProcess.isEmpty() || !outerChunksToProcess.isEmpty()) {
+                        boolean outer = chunksToProcess.isEmpty();
+                        List<Long> queue = outer ? outerChunksToProcess : chunksToProcess;
+                        long packedChunk = queue.remove(queue.size() - 1);
+                        int chunkX = CraterFalloutRules.chunkX(packedChunk);
+                        int chunkZ = CraterFalloutRules.chunkZ(packedChunk);
 
-                        for (int x = chunkPosX << 4; x < (chunkPosX << 4) + 16; x++) {
-                            for (int z = chunkPosZ << 4; z < (chunkPosZ << 4) + 16; z++) {
-                                double percent = Math.hypot(x - getX(), z - getZ()) * 100 / getScale();
+                        for (int x = chunkX << 4; x < (chunkX << 4) + 16; x++) {
+                            for (int z = chunkZ << 4; z < (chunkZ << 4) + 16; z++) {
+                                double distance = Math.hypot(x - getX(), z - getZ());
+                                // Do not paint outside the blast radius in the outer ring.
+                                if (outer && distance > getScale()) continue;
+                                double percent = distance * 100D / getScale();
                                 stomp(x, z, percent);
-
-                                Biome biome = getBiomeChange(percent, getScale(),
-                                        level().getBiome(new BlockPos(x, 0, z)).value());
-
-                                if (biome != null) {
-                                    Registry<Biome> registry = level().registryAccess().registryOrThrow(Registries.BIOME);
-                                    Optional<ResourceKey<Biome>> key = registry.getResourceKey(biome);
-
-                                    int finalX = x;
-                                    int finalZ = z;
-                                    key.flatMap(registry::getHolder).ifPresent(biomeHolder -> WorldUtil.setBiomeAndSync(level(), finalX, finalZ, biomeHolder));
+                                if ((x & 3) == 2 && (z & 3) == 2) {
+                                    depositSurfaceRadiation(x, z, percent);
                                 }
                             }
                         }
 
-                    } else if (!outerChunksToProcess.isEmpty()) {
-                        long chunkPos = outerChunksToProcess.remove(outerChunksToProcess.size() - 1);
-                        int chunkPosX = (int) (chunkPos & Integer.MAX_VALUE);
-                        int chunkPosZ = (int) ((chunkPos >> 32) & Integer.MAX_VALUE);
-
-                        for (int x = chunkPosX << 4; x < (chunkPosX << 4) + 16; x++) {
-                            for (int z = chunkPosZ << 4; z < (chunkPosZ << 4) + 16; z++) {
-                                double percent = Math.hypot(x - getX(), z - getZ()) * 100 / getScale();
-                                stomp(x, z, percent);
-
-                                Biome biome = getBiomeChange(percent, getScale(),
-                                        level().getBiome(new BlockPos(x, 0, z)).value());
-
-                                if (biome != null) {
-                                    Registry<Biome> registry = level().registryAccess().registryOrThrow(Registries.BIOME);
-                                    Optional<ResourceKey<Biome>> key = registry.getResourceKey(biome);
-
-                                    int finalX = x;
-                                    int finalZ = z;
-                                    key.flatMap(registry::getHolder).ifPresent(biomeHolder -> WorldUtil.setBiomeAndSync(level(), finalX, finalZ, biomeHolder));
-                                }
-                            }
+                        if (WorldConfig.ENABLE_CRATER_BIOMES && level() instanceof ServerLevel server) {
+                            WorldUtil.applyCraterBiomes(server, new ChunkPos(chunkX, chunkZ),
+                                    getX(), getZ(), getScale());
                         }
-
                     } else {
                         this.clearChunkLoader();
                         this.discard();
@@ -137,33 +118,24 @@ public class EntityFalloutRain extends EntityExplosionChunkloading {
         }
     }
 
-    public Biome getBiomeChange(double dist, int scale, Biome original) {
-        if (!WorldConfig.ENABLE_CRATER_BIOMES) return null;
-
-        ResourceKey<Biome> originalKey = level().registryAccess()
-                .registryOrThrow(Registries.BIOME)
-                .getResourceKey(original)
-                .orElse(null);
-
-        var biomeRegistry = level().registryAccess().registryOrThrow(Registries.BIOME);
-
-        if (scale >= 150 && dist < 15) {
-            return biomeRegistry.get(ModBiomes.CRATER_INNER.location());
-        }
-        if (scale >= 100 && dist < 55 && originalKey != ModBiomes.CRATER_INNER) {
-            return biomeRegistry.get(ModBiomes.CRATER.location());
-        }
-        if (scale >= 25 && originalKey != ModBiomes.CRATER_INNER && originalKey != ModBiomes.CRATER) {
-            return biomeRegistry.get(ModBiomes.CRATER_OUTER.location());
-        }
-        return null;
+    /**
+     * Deposit the first radiation pulse near the exposed surface at PRISM's
+     * 4-block horizontal cell resolution, avoiding 256 redundant updates
+     * per chunk. The biome's long-lived RAD/s dose is handled separately.
+     */
+    private void depositSurfaceRadiation(int x, int z, double percent) {
+        float amount = CraterFalloutRules.initialSurfaceRadiation(percent, getScale());
+        if (amount <= 0F) return;
+        int y = level().getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z) - 1;
+        y = Math.max(level().getMinBuildHeight(), Math.min(level().getMaxBuildHeight() - 1, y));
+        RadiationEvents.incrementRadiation(level(), x, y, z, amount);
     }
 
     private void gatherChunks() {
         Set<Long> chunks = new LinkedHashSet<>();
         Set<Long> outerChunks = new LinkedHashSet<>();
         int outerRange = getScale();
-        int adjustedMaxAngle = 20 * outerRange / 32;
+        int adjustedMaxAngle = Math.max(1, 20 * outerRange / 32);
 
         for (int angle = 0; angle <= adjustedMaxAngle; angle++) {
             Vec3 vector = new Vec3(outerRange, 0, 0);
@@ -190,9 +162,9 @@ public class EntityFalloutRain extends EntityExplosionChunkloading {
 
     private void stomp(int x, int z, double dist) {
         int depth = 0;
-        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(x, 255, z);
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(x, level().getMaxBuildHeight() - 1, z);
 
-        for (int y = 255; y >= 0; y--) {
+        for (int y = level().getMaxBuildHeight() - 1; y >= level().getMinBuildHeight(); y--) {
             pos.setY(y);
             if (depth >= 3) return;
 

@@ -765,6 +765,14 @@ public class ModSounds {
             SOUNDS.register("music.transmission",
                     () -> SoundEvent.createVariableRangeEvent(ResLocation(RefStrings.MODID, "music.transmission")));
 
+    /**
+     * One registered biome background-music event with three OGG variants.
+     * The actual file selection lives in assets/hbm/sounds.json.
+     */
+    public static final RegistryObject<SoundEvent> MUSIC_CRATER =
+            SOUNDS.register("music.crater",
+                    () -> SoundEvent.createVariableRangeEvent(ResLocation(RefStrings.MODID, "music.crater")));
+
     public static final RegistryObject<SoundEvent> BLOCK_HORN_NEAR_SINGLE =
             SOUNDS.register("block.horn_near_single",
                     () -> SoundEvent.createVariableRangeEvent(ResLocation(RefStrings.MODID, "block.horn_near_single")));

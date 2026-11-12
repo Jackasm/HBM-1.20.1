@@ -70,6 +70,14 @@ public class RadiationDataPrism implements IRadiationData {
     private long lastSpread = -1;
     private boolean dirty;
 
+    // Bound only for the real chunk capability. Standalone PRISM instances
+    // used by deterministic tests do not affect an unrelated loaded chunk.
+    private Runnable markChunkUnsaved = () -> {};
+
+    void bindChunkSaveMarker(Runnable marker) {
+        this.markChunkUnsaved = java.util.Objects.requireNonNull(marker);
+    }
+
     public RadiationDataPrism(Level level, ChunkPos pos, int minY, int height) {
         this.level = level;
         this.chunkPos = pos;
@@ -201,9 +209,16 @@ public class RadiationDataPrism implements IRadiationData {
         long now = level.getGameTime();
         if (lastTick < 0) {
             lastTick = now;
+            // Empty halo chunks do not need a disk write just to persist a clock.
+            if (maxRadiation() > 0F) markDirty();
         } else if (now > lastTick) {
-            decay((int) Math.min(now - lastTick, 1_000_000L));
+            // Decay already visits every cell. Reuse that pass to detect
+            // radiating chunks instead of scanning the entire grid a second
+            // time on every tick of every active chunk.
+            // Preserve field and lastTick together for save/unload/reload.
+            boolean hadRadiation = decay((int) Math.min(now - lastTick, 1_000_000L));
             lastTick = now;
+            if (hadRadiation) markDirty();
         }
 
         if (lastSpread < 0) lastSpread = now;
@@ -216,16 +231,19 @@ public class RadiationDataPrism implements IRadiationData {
     }
 
     /** Затухание за dt тиков: r' = a^dt·r − b·(a^dt − 1)/(a − 1). */
-    private void decay(int dt) {
-        if (dt <= 0) return;
+    private boolean decay(int dt) {
+        if (dt <= 0) return false;
         double factor = Math.pow(DECAY_PER_TICK, dt);
         double subtract = DECAY_SUBTRACT * (factor - 1.0D) / (DECAY_PER_TICK - 1.0D);
+        boolean hadRadiation = false;
 
         for (int i = 0; i < radiation.length; i++) {
             float value = radiation[i];
             if (value <= 0) continue;
+            hadRadiation = true;
             radiation[i] = Mth.clamp((float) (value * factor - subtract), 0, MAX_RADIATION);
         }
+        return hadRadiation;
     }
 
     private void spread(Level level, ChunkPos pos) {
@@ -404,7 +422,12 @@ public class RadiationDataPrism implements IRadiationData {
 
     // ======== NBT ========
 
-    @Override public void markDirty() { dirty = true; }
+    @Override public void markDirty() {
+        dirty = true;
+        // Mark BEFORE chunk save/unload eligibility is evaluated. Waiting
+        // until ChunkEvent.Unload is not sufficient to guarantee persistence.
+        markChunkUnsaved.run();
+    }
     @Override public boolean isDirty() { return dirty; }
     @Override public void clearDirty() { dirty = false; }
 

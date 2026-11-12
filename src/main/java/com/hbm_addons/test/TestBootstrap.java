@@ -29,6 +29,8 @@ public class TestBootstrap {
 
         // Radiation
         SCENARIOS.put("radiation_spread", RadiationSpreadTestRunner::new);
+        // P3: active chunks may be served only once per server tick.
+        SCENARIOS.put("radiation_scheduler_once", RadiationSchedulerOnceRunner::new);
         SCENARIOS.put("radiation_mass", RadiationMassTestRunner::new);
         SCENARIOS.put("radiation_decay", RadiationDecayTestRunner::new);
         SCENARIOS.put("radiation_nbt", RadiationNbtTestRunner::new);
@@ -59,6 +61,8 @@ public class TestBootstrap {
         SCENARIOS.put("atom_radiation", AtomRadiationTestRunner::new);
         SCENARIOS.put("locate_bench", LocateBenchTestRunner::new);
         SCENARIOS.put("reeds_scan", ReedsScanTestRunner::new);
+        // 0.1.2: keep reed color variation aligned with crater grass biomes.
+        SCENARIOS.put("reeds_biome_tint", ReedsBiomeTintTestRunner::new);
         // Растения, кроме камыша: грунт, вода, воздух, целостность половин
         SCENARIOS.put("plants_scan", PlantsScanTestRunner::new);
         // #204: принудительная загрузка плитки и счёт осиротевших тегов DUMMY
@@ -77,6 +81,18 @@ public class TestBootstrap {
         SCENARIOS.put("raw_ores", RawOresTestRunner::new);
         // Bobblehead: ровно один дроп и он с типом (хотфикс 0.1.1)
         SCENARIOS.put("bobble_loot", BobbleLootTestRunner::new);
+        // release-0.1.2: bullets detonate landmines without changing TNT inheritance
+        SCENARIOS.put("mine_shot", MineShotTestRunner::new);
+        // 0.1.2: TorEx colour/rotation parity with the original 1.7.10 effect.
+        SCENARIOS.put("torex_visual", TorexVisualTestRunner::new);
+        // 0.1.2: persistent crater biome, signed fallout chunks, surface RADs.
+        SCENARIOS.put("crater_fallout", CraterFalloutTestRunner::new);
+        // 0.1.2: three streamed OGG variants of the crater biome music.
+        SCENARIOS.put("crater_music", CraterMusicTestRunner::new);
+        // Crater RAD/s also affects mobs (original 1.7.10 behavior).
+        SCENARIOS.put("crater_mob_radiation", CraterBiomeMobRadiationTestRunner::new);
+        // 0.1.2 launch pad: distant observers receive visual slot state on chunk tracking.
+        SCENARIOS.put("launchpad_visual_sync", LaunchPadVisualSyncTestRunner::new);
         // Руины: wand_loot заменяется на целевой блок, а не остаётся заглушкой
         SCENARIOS.put("ruin_loot", RuinLootTestRunner::new);
         SCENARIOS.put("ruin_shape", RuinShapeTestRunner::new);

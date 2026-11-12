@@ -78,7 +78,7 @@ public class CasingEjector implements Cloneable {
         ParticleSpentCasing casing = new ParticleSpentCasing(clientLevel, x, y, z,
                 rotatedMotionVec.x, rotatedMotionVec.y, rotatedMotionVec.z,
                 (float) (world.random.nextGaussian() * 5F), (float) (world.random.nextGaussian() * 10F),
-                config, false, 0, 0, 0);
+                config);
 
         offsetCasing(casing, getOffset(), pitch, yaw, crouched);
 
